@@ -30,7 +30,6 @@ const createPresignedUrlWithoutClient = async (params: {
     );
 
     signedUrlObject.headers["Content-Type"] = "application/pdf";
-    console.log(signedUrlObject);
 
     return formatUrl(signedUrlObject);
 };
@@ -69,3 +68,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 };
+
