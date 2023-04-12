@@ -78,7 +78,7 @@ export default function ResumeUploader() {
     };
 
     return (
-        <form className="text-amber-700 flex flex-col justify-center items-center" onSubmit={(e) => uploadFile(e)}>
+        <form className="dark:text-amber-700 text-amber-300 flex flex-col justify-center items-center" onSubmit={(e) => uploadFile(e)}>
             <input
             type="file"
             accept=".pdf"

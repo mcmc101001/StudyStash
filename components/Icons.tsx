@@ -2,8 +2,8 @@ import { LucideProps, Files, FilePlus } from "lucide-react";
 
 export const Icons = {
     Logo: (props: LucideProps) => (
-        <svg
-            fill="#eeeeee"
+        <svg className='dark:text-slate-200 text-slate-800 fill-current'
+            // fill="#eeeeee"
             width="64px"
             height="64px"
             viewBox="0 0 512 512"

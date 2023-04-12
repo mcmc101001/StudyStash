@@ -5,6 +5,7 @@ import { Icons } from "./Icons";
 import NavOptions from "./NavOptions";
 import UserProfilePic from "./UserProfilePic";
 import { Loader2 } from "lucide-react";
+import DarkModeToggler from "./DarkModeToggler";
 
 const navOptions: NavOptionsProps[] = [
     {
@@ -21,9 +22,9 @@ const navOptions: NavOptionsProps[] = [
  
 const NavBar: FC = () => {
     return (
-        <div className='flex h-full flex-col gap-y-5 overflow-y-auto border-r border-gray-300 px-6 pt-4'>
-            <Link href='/' className='flex h-16 shrink-0 items-center'>
-                <Icons.Logo className='h-8 w-8 text-slate-200' />
+        <div className='flex h-full flex-col gap-y-5 overflow-y-auto border-r dark:border-gray-300 border-gray-600 px-6 pt-4'>
+            <Link href='/' className='flex h-16 shrink-0 items-center justify-center'>
+                <Icons.Logo className='h-8 w-8 dark:text-slate-200 text-slate-800 fill-current' />
             </Link>
 
             <nav className='flex flex-1 flex-col'>
@@ -34,7 +35,9 @@ const NavBar: FC = () => {
                         )
                     })}
 
-                    <Suspense fallback={<Loader2 className='text-slate-200 h-6 w-6 animate-spin' />}>
+                    <DarkModeToggler />
+
+                    <Suspense fallback={<Loader2 className='dark:text-slate-200 text-slate-800 h-6 w-6 animate-spin' />}>
                         {/* @ts-expect-error Server Component */}
                         <UserProfilePic />
                     </Suspense>

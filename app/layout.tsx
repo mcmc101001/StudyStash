@@ -19,7 +19,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ToasterClient />
-        <main className="bg-slate-950 w-full h-screen flex flex-row">
+        <main className="dark:bg-slate-950 bg-white w-full h-screen flex flex-row">
           <NavBar />
           <div className="w-full h-screen">{children}</div>
         </main>
