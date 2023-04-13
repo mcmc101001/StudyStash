@@ -5,41 +5,37 @@ import Button from "./ui/Button";
 import { Sun } from "lucide-react";
 
 export default function DarkModeToggler() {
-  const [darkMode, setDarkMode] = useState<string>(() => {
+  const [theme, setTheme] = useState<string>(() => {
     // Ensure code only runs on client\
     // Dark mode by default
-    if (typeof window !== "undefined"){
-      try {
-        const darkModeLocalStorage = window.localStorage.getItem("darkmode");
-        return darkModeLocalStorage ? JSON.parse(darkModeLocalStorage) : "true";
-      } catch (error) {
-        console.log(error);
-        return "true";
-      }
+    try {
+      const themeLocalStorage = window.localStorage.getItem("theme");
+      return themeLocalStorage || 'dark';
+    } catch (error) {
+      console.log(error);
+      return "true";
     }
   });
 
   useEffect(() => {
-    if (darkMode === "true") {
+    if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [darkMode])
+  }, [theme])
 
   const handleDarkModeChange = () => {
-    if (typeof window !== "undefined"){
-      try {
-        if (darkMode == "true") {
-          window.localStorage.setItem("darkmode", "false");
-          setDarkMode("false");
-        } else {
-          window.localStorage.setItem("darkmode", "true");
-          setDarkMode("true");
-        }
-      } catch (error) {
-        console.log(error);
+    try {
+      if (theme === "dark") {
+        window.localStorage.setItem("theme", "light");
+        setTheme("light");
+      } else {
+        window.localStorage.setItem("theme", "dark");
+        setTheme("dark");
       }
+    } catch (error) {
+      console.log(error);
     }
   }
 

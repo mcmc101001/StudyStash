@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import ToasterClient from "@/components/ui/ToasterClient";
 import NavBar from "@/components/NavBar";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +17,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark hidden">
       <body className={inter.className}>
+        {/* show DOM content after loaded to prevent dark mode flickering */}
+        <Script src='/theme.js' strategy='afterInteractive' />
         <ToasterClient />
         <main className="dark:bg-slate-950 bg-white w-full h-screen flex flex-row">
           <NavBar />
