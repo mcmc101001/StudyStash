@@ -1,0 +1,47 @@
+'use client'
+
+import { useEffect, useState } from "react";
+import Button from "./ui/Button";
+import { Sun } from "lucide-react";
+
+export default function DarkModeToggler() {
+  const [theme, setTheme] = useState<string>(() => {
+    // Ensure code only runs on client\
+    // Dark mode by default
+    try {
+      const themeLocalStorage = window.localStorage.getItem("theme");
+      return themeLocalStorage || 'dark';
+    } catch (error) {
+      console.log(error);
+      return "true";
+    }
+  });
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme])
+
+  const handleDarkModeChange = () => {
+    try {
+      if (theme === "dark") {
+        window.localStorage.setItem("theme", "light");
+        setTheme("light");
+      } else {
+        window.localStorage.setItem("theme", "dark");
+        setTheme("dark");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return (
+    <li className='mt-auto mb-2 flex flex-col items-center justify-center gap-y-4'>
+      <Button onClick={() => handleDarkModeChange()}> <Sun className='h-6 w-6' /> </Button>
+    </li>
+  );
+}
