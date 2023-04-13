@@ -10,7 +10,7 @@ async function UserProfilePic() {
     <li className='mt-2 mb-2 flex flex-col items-center justify-center gap-y-4'>
       { user ? (
         <>
-          <Image priority={true} src={user.image!} alt={user.name ?? 'profile image'} width={ 50 } height={ 50 }/>
+          <Image loading="lazy" src={user.image!} alt={user.name ?? 'profile image'} referrerPolicy='no-referrer' width={ 50 } height={ 50 }/>
           <LogoutButton />
         </>
       ) : (

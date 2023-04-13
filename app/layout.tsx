@@ -17,12 +17,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark hidden">
+    <html lang="en" className="dark">
       <body className={inter.className}>
         {/* show DOM content after loaded to prevent dark mode flickering */}
-        <Script src='/theme.js' strategy='afterInteractive' />
+        {/* <Script src='/theme.js' strategy='afterInteractive' /> */}
         <ToasterClient />
-        <main className="dark:bg-slate-950 bg-white w-full h-screen flex flex-row">
+        <main className="dark:bg-slate-950 bg-white w-full flex flex-row">
           <NavBar />
           <div className="w-full h-screen">{children}</div>
         </main>

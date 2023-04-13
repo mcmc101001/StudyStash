@@ -22,7 +22,7 @@ const navOptions: NavOptionsProps[] = [
  
 const NavBar: FC = () => {
     return (
-        <div className='flex h-full flex-col gap-y-5 overflow-y-auto border-r dark:border-gray-300 border-gray-600 px-6 pt-4'>
+        <div className='flex h-screen flex-col gap-y-5 overflow-y-auto border-r dark:border-gray-300 border-gray-700 px-6 pt-4'>
             <Link href='/' className='flex h-16 shrink-0 items-center justify-center'>
                 <Icons.Logo className='h-8 w-8 dark:text-slate-200 text-slate-800 fill-current' />
             </Link>
