@@ -10,8 +10,6 @@ export default async function Home() {
     }
 
     return (
-        <>
-            <h1>You are {user.name}!</h1>
-        </>
+        <h1 className="text-slate-800 dark:text-slate-200 text-4xl font-bold">Choose a module!</h1>
     )
 }

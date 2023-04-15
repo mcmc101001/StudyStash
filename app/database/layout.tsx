@@ -1,18 +1,5 @@
 import ModuleSearcher from "@/components/ModuleSearcher";
-
-export type Module = {
-  moduleCode: string;
-  title: string;
-  semester: Array<number>;
-}
-
-async function getModuleList() {
-  const res = await fetch('https://api.nusmods.com/v2/2022-2023/moduleList.json', {
-    method: 'GET',
-  })
-  const data = await res.json()
-  return data as Array<Module>;
-}
+import { getModuleList } from "@/lib/nusmods";
 
 export default async function DataBaseLayout({
   children,
@@ -25,7 +12,9 @@ export default async function DataBaseLayout({
   return (
     <div className="flex flex-row">
         <ModuleSearcher module_codes={module_codes} />
-        {children}
+        <main className="m-8 flex flex-col">
+          {children}  
+        </main>    
     </div>
   );
 }
