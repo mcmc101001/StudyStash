@@ -15,6 +15,7 @@ const buttonVariants = cva(
                 default: 'h-10 py-2 px-4',
                 sm: 'h-9 px-2',
                 lg: 'h-11 px-8',
+                huge: 'h-56 w-96 px-10'
             },
         },
         defaultVariants: {
@@ -43,4 +44,4 @@ const Button: FC<ButtonProps> = ({
     </button>;
 }
  
-export default Button;
+export { Button };

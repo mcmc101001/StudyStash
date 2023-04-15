@@ -1,22 +1,32 @@
 import { FC, Suspense } from "react";
 import { NavOptionsProps } from "./NavOptions";
 import Link from "next/link";
-import { Icons } from "./Icons";
+import { Icons } from "@/components/Icons";
 import NavOptions from "./NavOptions";
-import UserProfilePic from "./UserProfilePic";
+import UserProfilePic from "@/components/UserProfilePic";
 import { Loader2 } from "lucide-react";
-import DarkModeToggler from "./DarkModeToggler";
+import DarkModeToggler from "@/components/DarkModeToggler";
 
 const navOptions: NavOptionsProps[] = [
+    {
+        name: 'Dashboard',
+        href: '/dashboard',
+        icon: 'LayoutDashboard'
+    },
     {
         name: 'Cheatsheets and papers',
         href: '/database',
         icon: 'Files'
     },
     {
-        name: 'PDF',
-        href: '/pdf',
+        name: 'Contribute!',
+        href: '/addPDF',
         icon: 'FilePlus'
+    },
+    {
+        name: 'Under development',
+        href: '/pdf',
+        icon: 'Construction'
     }
 ]
  

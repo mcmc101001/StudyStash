@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import Button from "./ui/Button";
+import { Button } from "@/components/ui/Button";
 import { Sun } from "lucide-react";
 
 export default function DarkModeToggler() {

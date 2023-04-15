@@ -1,5 +1,16 @@
 import { getSpecificModuleInfo } from "@/lib/nusmods";
-import { FC } from "react";
+
+// export const generateStaticParams = async () => {
+//   const moduleList = await getModuleList();
+//   const paths = moduleList.map((module) => {
+//     moduleCode: module.moduleCode
+//   })
+
+//   return {
+//     paths,
+//     fallback: false,
+//   }
+// };
 
 export default async function Page ({ params }: { params: { moduleCode: string } }) {
   const moduleInfo = await getSpecificModuleInfo(params.moduleCode);

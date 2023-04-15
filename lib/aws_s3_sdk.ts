@@ -4,7 +4,7 @@ import { HttpRequest } from "@aws-sdk/protocol-http";
 import { parseUrl } from "@aws-sdk/url-parser";
 import { formatUrl } from "@aws-sdk/util-format-url";
 
-
+// Generate presigned URL where a PUT request can be used to insert a file into S3
 export const createPresignedUrlWithoutClient = async (params: {
     region: string;
     bucket: string;

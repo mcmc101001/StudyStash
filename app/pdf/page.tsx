@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import PDFUploader from "@/components/PDFUploader";
 import PDFViewer from "@/components/PDFViewer";
 
-export default async function Home() {
+export default async function PDFPage() {
 
     const user = await getCurrentUser();
     if (!user) {
