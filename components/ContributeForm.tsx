@@ -1,6 +1,7 @@
 'use client'
 
 import { getAcadYearOptions } from "@/lib/nusmods"
+import { containsOnlyNumbers } from "@/lib/utils";
 import { FC, useEffect, useState } from "react";
 import Select from "react-select"
 
@@ -38,11 +39,17 @@ const ContributeForm:FC<ContributeFormProps> = (props) => {
       <Select
         // isSearchable={true}
         filterOption={(option: {value: string, label: string}, query: string) => {
-          if (query.length < 2) {
+          if (query.trimStart().length < 2) {
             return false;
           }
-          if (option.value.toLowerCase().startsWith(query.toLowerCase())) {
+          // If matches prefix
+          if (option.value.toLowerCase().startsWith(query.trimStart().toLowerCase())) {
             return true;
+          } else if (containsOnlyNumbers(query.trimStart())) {
+            // If matches number
+            if (option.value.includes(query.trimStart())) {
+              return true;
+            }
           }
           return false;
         }}

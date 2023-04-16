@@ -3,6 +3,7 @@
 import { Input } from "@/components/ui/Input";
 import { FC, useEffect, useState } from "react";
 import ModuleList from "./ModuleList";
+import { containsOnlyNumbers } from "@/lib/utils";
 
 interface ModuleSearcherProps {
   module_codes: Array<string>;
@@ -19,20 +20,24 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
   };
 
   useEffect(() => {
-    let queryModified = query.toLowerCase();
+    let queryModified = query.toLowerCase().trimStart();
     let filteredModules: Array<string> = [];
     for (const mod of modules) {
       if (mod.toLowerCase().startsWith(queryModified)) {
         filteredModules.push(mod);
+      } else if (containsOnlyNumbers(queryModified)) {
+        if (mod.includes(queryModified)) {
+          filteredModules.push(mod);
+        }
       }
       if (filteredModules.length === 10) {
         break;
       }
     }
-    if (query.length > 1) {
+    if (query.trimStart().length > 1) {
       setFilterMods(filteredModules);
     }
-    if (query.length < 2) {
+    if (query.trimStart().length < 2) {
       setFilterMods([""]);
     }
   }, [query]);
