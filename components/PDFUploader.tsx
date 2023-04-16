@@ -44,6 +44,7 @@ export default function PDFUploader() {
   };
 
   const uploadFile = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsDisabled(true);
     e.preventDefault();
     if (!file || file.type != "application/pdf") {
       toast.error("Please upload a PDF file");
@@ -114,6 +115,7 @@ export default function PDFUploader() {
           onClick={() => {
             setFileName(null);
             setFile(null);
+            setIsDisabled(false);
             if (inputRef.current) {
               inputRef.current.value = "";
             }
