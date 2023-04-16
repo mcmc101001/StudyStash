@@ -23,9 +23,11 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
     let queryModified = query.toLowerCase().trimStart();
     let filteredModules: Array<string> = [];
     for (const mod of modules) {
+      // if module name shares prefix with query
       if (mod.toLowerCase().startsWith(queryModified)) {
         filteredModules.push(mod);
       } else if (containsOnlyNumbers(queryModified)) {
+        // if module name contains query as number
         if (mod.includes(queryModified)) {
           filteredModules.push(mod);
         }

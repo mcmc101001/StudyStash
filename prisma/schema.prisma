@@ -67,4 +67,14 @@ model QuestionPaper {
   moduleCode    String
   acadYear      String
   semester      String
+  type          PaperType
+}
+
+enum PaperType {
+  MIDTERM
+  FINAL
+  QUIZ
+  ASSIGNMENT
+  PE
+  OTHER
 }

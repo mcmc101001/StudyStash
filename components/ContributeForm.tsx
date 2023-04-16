@@ -1,8 +1,7 @@
 'use client'
 
-import { getAcadYearOptions } from "@/lib/nusmods"
 import { containsOnlyNumbers } from "@/lib/utils";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Select from "react-select"
 
 interface Option {
@@ -14,6 +13,11 @@ interface ContributeFormProps {
   acadYearOptions: Array<Option>;
   moduleCodeList: Array<Option>;
 }
+
+const semesterOptions = [
+  {value: "1", label: "Semester 1"},
+  {value: "2", label: "Semester 2"},
+]
 
 const ContributeForm:FC<ContributeFormProps> = (props) => {
   
@@ -64,7 +68,21 @@ const ContributeForm:FC<ContributeFormProps> = (props) => {
         closeMenuOnSelect={true}
         options={moduleCodeOptions}
       />
-    </form>
+
+      <label htmlFor="semester" className="text-slate-800 dark:text-slate-200">Semester</label>
+        <Select
+          styles={{
+            option: (baseStyles, state) => {
+              return {
+                ...baseStyles,
+                backgroundColor: state.isFocused ? '#AAAAAA' : 'var(--color-slate-800)',
+              }            
+            },
+          }}
+          closeMenuOnSelect={true}
+          options={semesterOptions}
+        />
+      </form>
   )
 }
 
