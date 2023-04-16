@@ -6,15 +6,19 @@ import { Sun } from "lucide-react";
 
 export default function DarkModeToggler() {
   const [theme, setTheme] = useState<string>(() => {
-    // Ensure code only runs on client\
+    // Ensure code only runs on client
     // Dark mode by default
-    try {
-      const themeLocalStorage = window.localStorage.getItem("theme");
-      return themeLocalStorage || 'dark';
-    } catch (error) {
-      console.log(error);
-      return "true";
+    if (typeof window !== "undefined") {
+      try {
+        const themeLocalStorage = window.localStorage.getItem("theme");
+        return themeLocalStorage || 'dark';
+      }
+      catch (error) {
+        console.log(error);
+        return "dark";
+      }
     }
+    return "dark";
   });
 
   useEffect(() => {
@@ -27,13 +31,15 @@ export default function DarkModeToggler() {
 
   const handleDarkModeChange = () => {
     try {
-      if (theme === "dark") {
-        window.localStorage.setItem("theme", "light");
-        setTheme("light");
-      } else {
-        window.localStorage.setItem("theme", "dark");
-        setTheme("dark");
-      }
+      if (typeof window !== "undefined") {
+        if (theme === "dark") {
+          window.localStorage.setItem("theme", "light");
+          setTheme("light");
+        } else {
+          window.localStorage.setItem("theme", "dark");
+          setTheme("dark");
+        }
+      }      
     } catch (error) {
       console.log(error);
     }

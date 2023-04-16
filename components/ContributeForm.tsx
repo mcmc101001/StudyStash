@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
 import { containsOnlyNumbers } from "@/lib/utils";
 import { FC } from "react";
-import Select from "react-select"
+import Select from "react-select";
 
 interface Option {
   value: string;
@@ -11,43 +11,78 @@ interface Option {
 
 interface ContributeFormProps {
   acadYearOptions: Array<Option>;
-  moduleCodeList: Array<Option>;
+  moduleCodeOptions: Array<Option>;
+  semesterOptions: Array<Option>;
+  examTypeOptions: Array<Option>;
+  submitType: string;
 }
 
-const semesterOptions = [
-  {value: "1", label: "Semester 1"},
-  {value: "2", label: "Semester 2"},
-]
+interface SelectProps {
+  options: Array<Option>;
+}
 
-const ContributeForm:FC<ContributeFormProps> = (props) => {
-  
-  let moduleCodeOptions = props.moduleCodeList;
-
+const ContributeForm: FC<ContributeFormProps> = (props) => {
   return (
-    <form className="w-80">
-      <label htmlFor="acadYear" className="text-slate-800 dark:text-slate-200">Acad Year</label>
+    <form className="w-80 flex flex-col gap-y-4">
+      <AcadYearSelect options={props.acadYearOptions} />
+      <SemesterSelect options={props.semesterOptions} />
+      <ModuleCodeSelect options={props.moduleCodeOptions} />
+      <ExamTypeSelect options={props.examTypeOptions} />      
+    </form>
+  );
+};
+
+export default ContributeForm;
+
+const AcadYearSelect: FC<SelectProps> = ({ options }) => {
+  return (
+    <div >
+      <label htmlFor="acadYear" className="text-slate-800 dark:text-slate-200">
+        Acad Year
+      </label>
       <Select
+        id = "acadYear"
         styles={{
           option: (baseStyles, state) => {
             return {
               ...baseStyles,
-              backgroundColor: state.isFocused ? '#AAAAAA' : 'var(--color-slate-800)',
-            }            
+              backgroundColor: state.isFocused
+                ? "#AAAAAA"
+                : "var(--color-slate-800)",
+            };
           },
         }}
         closeMenuOnSelect={true}
-        options={props.acadYearOptions}
+        options={options}
       />
-      
-      <label htmlFor="moduleCode" className="text-slate-800 dark:text-slate-200">Module Code</label>
+    </div>
+  );
+};
+
+const ModuleCodeSelect: FC<SelectProps> = ({ options }) => {
+  return (
+    <div>
+      <label
+        htmlFor="moduleCode"
+        className="text-slate-800 dark:text-slate-200"
+      >
+        Module Code
+      </label>
       <Select
-        // isSearchable={true}
-        filterOption={(option: {value: string, label: string}, query: string) => {
+        id = "moduleCode"
+        filterOption={(
+          option: { value: string; label: string },
+          query: string
+        ) => {
           if (query.trimStart().length < 2) {
             return false;
           }
           // If matches prefix
-          if (option.value.toLowerCase().startsWith(query.trimStart().toLowerCase())) {
+          if (
+            option.value
+              .toLowerCase()
+              .startsWith(query.trimStart().toLowerCase())
+          ) {
             return true;
           } else if (containsOnlyNumbers(query.trimStart())) {
             // If matches number
@@ -61,29 +96,65 @@ const ContributeForm:FC<ContributeFormProps> = (props) => {
           option: (baseStyles, state) => {
             return {
               ...baseStyles,
-              backgroundColor: state.isFocused ? '#AAAAAA' : 'var(--color-slate-800)',
-            }            
+              backgroundColor: state.isFocused
+                ? "#AAAAAA"
+                : "var(--color-slate-800)",
+            };
           },
         }}
         closeMenuOnSelect={true}
-        options={moduleCodeOptions}
+        options={options}
       />
-
-      <label htmlFor="semester" className="text-slate-800 dark:text-slate-200">Semester</label>
-        <Select
-          styles={{
-            option: (baseStyles, state) => {
-              return {
-                ...baseStyles,
-                backgroundColor: state.isFocused ? '#AAAAAA' : 'var(--color-slate-800)',
-              }            
-            },
-          }}
-          closeMenuOnSelect={true}
-          options={semesterOptions}
-        />
-      </form>
+    </div>
   )
 }
 
-export default ContributeForm
+const SemesterSelect: FC<SelectProps> = ({ options }) => {
+  return (
+    <div>
+      <label htmlFor="semester" className="text-slate-800 dark:text-slate-200">
+        Semester
+      </label>
+      <Select
+        id = "semester"
+        styles={{
+          option: (baseStyles, state) => {
+            return {
+              ...baseStyles,
+              backgroundColor: state.isFocused
+                ? "#AAAAAA"
+                : "var(--color-slate-800)",
+            };
+          },
+        }}
+        closeMenuOnSelect={true}
+        options={options}
+      />
+    </div>
+  )
+}
+
+const ExamTypeSelect: FC<SelectProps> = ({ options }) => {
+  return (
+    <div>
+      <label htmlFor="examType" className="text-slate-800 dark:text-slate-200">
+        Exam Type
+      </label>
+      <Select
+        id = "examType"
+        styles={{
+          option: (baseStyles, state) => {
+            return {
+              ...baseStyles,
+              backgroundColor: state.isFocused
+                ? "#AAAAAA"
+                : "var(--color-slate-800)",
+            };
+          },
+        }}
+        closeMenuOnSelect={true}
+        options={options}
+      />
+    </div>
+  )
+}

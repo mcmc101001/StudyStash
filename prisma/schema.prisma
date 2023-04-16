@@ -67,14 +67,15 @@ model QuestionPaper {
   moduleCode    String
   acadYear      String
   semester      String
-  type          PaperType
+  type          ExamType
 }
 
-enum PaperType {
-  MIDTERM
-  FINAL
-  QUIZ
-  ASSIGNMENT
+// WARNING: CHANGE ADD PDF FUNCTION IF CHANGING THIS
+enum ExamType {
+  Midterm
+  Final
+  Quiz
+  Assignment
   PE
-  OTHER
+  Other
 }
