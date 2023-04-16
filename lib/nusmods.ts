@@ -33,11 +33,11 @@ export function getAcadYearOptions() {
   }
   let acadYearArray:Array<string> = [];
   for (let i = 0; i < 8; i++) {
-    let currentAcadYear = acadYear - 1;
+    let currentAcadYear = acadYear - i;
     let currentAcadYearString = `${currentAcadYear-1}-${currentAcadYear}`;
     acadYearArray.push(currentAcadYearString);
   }
-  return acadYear;
+  return acadYearArray;
 }
 
 // Extract academic year in form "YYYY-YYYY" based on whether month is before June.
