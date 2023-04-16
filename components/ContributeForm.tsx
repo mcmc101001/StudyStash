@@ -23,12 +23,6 @@ const ContributeForm:FC<ContributeFormProps> = (props) => {
       <label htmlFor="acadYear" className="text-slate-800 dark:text-slate-200">Acad Year</label>
       <Select
         styles={{
-          control: (baseStyles, state) => {
-            return {
-              ...baseStyles,
-              backgroundColor: 'var(--color-slate-800)',
-            }            
-          },
           option: (baseStyles, state) => {
             return {
               ...baseStyles,
@@ -53,12 +47,6 @@ const ContributeForm:FC<ContributeFormProps> = (props) => {
           return false;
         }}
         styles={{
-          // control: (baseStyles, state) => {
-          //   return {
-          //     ...baseStyles,
-          //     backgroundColor: 'var(--color-slate-800)',
-          //   }            
-          // },
           option: (baseStyles, state) => {
             return {
               ...baseStyles,
