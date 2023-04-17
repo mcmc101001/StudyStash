@@ -1,6 +1,16 @@
+/* NOTE: 
+* add tooltip on top? maybe like 
+* large files will take a while to upload, 
+* if cannot see module code means ... 
+*/
+
+
 import { Icon, Icons } from '@/components/Icons'
 import { Button } from '@/components/ui/Button'
+import { authOptions } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/session'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export interface addPDFOptionsProps {
   name: string
@@ -19,9 +29,20 @@ const addPDFOptions: addPDFOptionsProps[] = [
       href: '/addPDF/past_papers',
       icon: 'Files'
   },
+  {
+      name: 'Notes',
+      href: '/addPDF/notes',
+      icon: 'FileSignature'
+  },
 ]
 
 export default async function addPDFPage() {
+
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
+  }
+
   return (
     <main className="p-20 h-screen flex flex-1 flex-row gap-20 items-center justify-center">
       {addPDFOptions.map((option) => {

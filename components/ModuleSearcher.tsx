@@ -15,7 +15,7 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
   const modules = props.module_codes;
   const [filterMods, setFilterMods] = useState([""]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
 
@@ -48,7 +48,7 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
     <div className="flex h-screen flex-col gap-y-5 overflow-y-auto border-r dark:border-gray-300 border-gray-700 px-6 pt-4">
       <Input
         type="text"
-        onChange={(e) => handleChange(e)}
+        onChange={(e) => handleQueryChange(e)}
         value={query}
         placeholder="Search modules..."
         className="my-2 border-none rounded-sm ring-0 focus:ring-0 dark:enabled:bg-slate-800 enabled:bg-slate-200"
