@@ -11,7 +11,7 @@ export default async function DataBaseLayout({
 
   return (
     <div className="flex flex-row">
-        <ModuleSearcher module_codes={module_codes} />
+        <ModuleSearcher module_codes={module_codes} selectedResourceType={null} />
         <main className="m-8 w-full flex flex-col">
           {children}  
         </main>    

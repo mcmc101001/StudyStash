@@ -13,7 +13,7 @@ import { getSpecificModuleInfo } from "@/lib/nusmods";
 //   }
 // };
 
-export default async function Layout ({ params, children }: { params: { moduleCode: string, category: string }, children: React.ReactNode }) {
+export default async function Layout ({ params, children }: { params: { moduleCode: string }, children: React.ReactNode }) {
   const moduleInfo = await getSpecificModuleInfo(params.moduleCode);
 
   return (
