@@ -13,7 +13,6 @@ export default async function PDFPage() {
 
     return (
         <>
-            < PDFUploader />
             < PDFViewer url="https://orbital2023.s3.ap-southeast-1.amazonaws.com/Verilog_Tutorial.pdf" />
         </>
     )

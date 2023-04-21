@@ -2,16 +2,31 @@
 
 import { Input } from "@/components/ui/Input";
 import { FC, useEffect, useState } from "react";
-import ModuleList from "./ModuleList";
+import ModuleList, { ResourceTypeURL } from "./ModuleList";
 import { containsOnlyNumbers } from "@/lib/utils";
-import { ResourceType } from "./ContributeForm";
+import { ResourceType } from "@/components/ContributeForm";
+import { useSelectedLayoutSegments } from "next/navigation";
 
 interface ModuleSearcherProps {
   module_codes: Array<string>;
-  selectedResourceType: ResourceType | null;
 }
 
 const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
+  let selectedResourceType: ResourceType | null = null;
+  let segments = useSelectedLayoutSegments();
+  if (segments.length > 1 && segments[1]) {
+    let resourceTypeURL = segments[1] as ResourceTypeURL;
+    if (resourceTypeURL === "notes") {
+      selectedResourceType = "Notes";
+    }
+    else if (resourceTypeURL === "cheatsheets") {
+      selectedResourceType = "Cheatsheets";
+    }
+    else if (resourceTypeURL === "past_papers") {
+      selectedResourceType = "Past Papers";
+    }
+  }
+
   const [query, setQuery] = useState("");
 
   const modules = props.module_codes;
@@ -56,7 +71,7 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
         className="my-2 border-none rounded-sm ring-0 focus:ring-0 dark:enabled:bg-slate-800 enabled:bg-slate-200"
       ></Input>
       <hr className="bg-slate-700 dark:bg-slate-300 border"></hr>
-      <ModuleList module_codes={filterMods} selectedResourceType={props.selectedResourceType} />
+      <ModuleList module_codes={filterMods} selectedResourceType={selectedResourceType} />
     </div>
   );
 };

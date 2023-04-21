@@ -21,7 +21,7 @@ interface Option {
   label: string;
 }
 
-export type ResourceType = "Cheatsheet" | "Past Papers" | "Notes";
+export type ResourceType = "Cheatsheets" | "Past Papers" | "Notes";
 
 interface ContributeFormProps {
   acadYearOptions: Array<Option>;

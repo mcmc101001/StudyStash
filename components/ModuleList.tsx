@@ -2,7 +2,7 @@ import { FC } from "react";
 import Link from "next/link";
 import { ResourceType } from "./ContributeForm";
 
-export type ResourceTypeURL = "cheatsheet" | "past_papers" | "notes";
+export type ResourceTypeURL = "cheatsheets" | "past_papers" | "notes";
 
 interface ModuleListProps {
     module_codes: Array<string>;
@@ -11,8 +11,8 @@ interface ModuleListProps {
 
 const ModuleList:FC<ModuleListProps> = (props) => {
     let link_extension:ResourceTypeURL;
-    if (props.selectedResourceType === "Cheatsheet") {
-        link_extension = "cheatsheet";
+    if (props.selectedResourceType === "Cheatsheets") {
+        link_extension = "cheatsheets";
     }
     else if (props.selectedResourceType === "Past Papers") {
         link_extension = "past_papers";
@@ -21,7 +21,8 @@ const ModuleList:FC<ModuleListProps> = (props) => {
         link_extension = "notes";
     }
     else {
-        link_extension = "cheatsheet";
+        // cheatsheets by default
+        link_extension = "cheatsheets";
     }
 
     return (

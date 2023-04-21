@@ -1,5 +1,6 @@
+import ResourceTab from "@/components/ResourceTab";
 import { getSpecificModuleInfo } from "@/lib/nusmods";
-
+import { ResourceOptions } from "@/app/addPDF/page";
 
 // export const generateStaticParams = async () => {
 //   const moduleList = await getModuleList();
@@ -20,6 +21,7 @@ export default async function Layout ({ params, children }: { params: { moduleCo
     <>
       <h1 className="text-slate-800 dark:text-slate-200 text-4xl font-bold">{moduleInfo.moduleCode}</h1>
       <h2 className="text-slate-700 dark:text-slate-300 text-2xl font-semibold">{moduleInfo.title}</h2>
+      <ResourceTab moduleCode={params.moduleCode} resourceOptions={ResourceOptions}/>
       {children}
     </>
   );

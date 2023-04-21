@@ -4,6 +4,7 @@ import { getAcadYearOptions, getModuleList } from "@/lib/nusmods";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { ResourceType } from "@/components/ContributeForm";
+import { ResourceTypeURL } from "@/components/ModuleList";
 
 /* from prisma schema
 enum ExamType {
@@ -17,8 +18,8 @@ enum ExamType {
 */
 
 export async function generateStaticParams() {
-  const paths = [
-    {resourceType: "cheatsheet"},
+  const paths:Array<{resourceType: ResourceTypeURL}> = [
+    {resourceType: "cheatsheets"},
     {resourceType: "past_papers"},
     {resourceType: "notes"},
   ]
@@ -43,11 +44,11 @@ const semesterOptions = [
   {value: "2", label: "Semester 2"},
 ]
 
-export default async function Page({ params }: { params: { resourceType: string } }) {
+export default async function Page({ params }: { params: { resourceType: ResourceTypeURL } }) {
   let resourceType:ResourceType;
   let header: string;
-  if (params.resourceType === "cheatsheet") {
-    resourceType = "Cheatsheet";
+  if (params.resourceType === "cheatsheets") {
+    resourceType = "Cheatsheets";
     header = "Submit cheatsheet";
   }
   else if (params.resourceType === "past_papers") {

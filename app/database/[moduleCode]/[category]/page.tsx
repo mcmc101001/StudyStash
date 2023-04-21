@@ -1,12 +1,12 @@
 import { ResourceType } from "@/components/ContributeForm";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { Cheatsheet } from "@prisma/client";
 import { ResourceTypeURL } from "@/components/ModuleList";
+import ResourceItem from "@/components/ResourceItem";
 
 export async function generateStaticParams() {
   const paths = [
-    {resourceType: "cheatsheet"},
+    {resourceType: "cheatsheets"},
     {resourceType: "past_papers"},
     {resourceType: "notes"},
   ]
@@ -21,8 +21,8 @@ export default async function Page ({ params }: { params: { moduleCode: string, 
   
   let resources;
   let category:ResourceType;
-  if (params.category === "cheatsheet") {
-    category = "Cheatsheet";
+  if (params.category === "cheatsheets") {
+    category = "Cheatsheets";
     resources = await prisma.cheatsheet.findMany({
       where: {
         moduleCode: params.moduleCode
@@ -52,8 +52,24 @@ export default async function Page ({ params }: { params: { moduleCode: string, 
 
   return (
     <>
-      { resources.length !== 0 ? 
-        resources.map((resource) => <h1>{resource.id}</h1>) : 
+      { resources.length !== 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>User</th>
+                <th>Uploaded at</th>
+                <th>Semester</th>
+                { category !== "Notes" ? <th>Exam Type</th> : <></>}
+              </tr>
+            </thead>
+            <tbody>
+              { resources.map((resource) => {
+                return <ResourceItem key={resource.id} name={resource.name} userId={resource.userId} createdAt={resource.createdAt} acadYear={resource.acadYear} semester={resource.semester} category={category} />
+              }) }
+            </tbody>
+          </table>
+        ) : 
         <h1> No resources found </h1> 
       }
     </>

@@ -5,33 +5,35 @@
 */
 
 
+import { ResourceType } from '@/components/ContributeForm'
 import { Icon, Icons } from '@/components/Icons'
+import { ResourceTypeURL } from '@/components/ModuleList'
 import { Button } from '@/components/ui/Button'
 import { authOptions } from '@/lib/auth'
 import { getCurrentUser } from '@/lib/session'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
-export interface addPDFOptionsProps {
-  name: string
-  href: string
+export interface ResourceOptionsProps {
+  name: ResourceType
+  href: ResourceTypeURL
   icon: Icon
 }
 
-const addPDFOptions: addPDFOptionsProps[] = [
+export const ResourceOptions: ResourceOptionsProps[] = [
   {
       name: 'Cheatsheets',
-      href: '/addPDF/cheatsheet',
+      href: 'cheatsheets',
       icon: 'LayoutDashboard'
   },
   {
       name: 'Past Papers',
-      href: '/addPDF/past_papers',
+      href: 'past_papers',
       icon: 'Files'
   },
   {
       name: 'Notes',
-      href: '/addPDF/notes',
+      href: 'notes',
       icon: 'FileSignature'
   },
 ]
@@ -45,11 +47,11 @@ export default async function addPDFPage() {
 
   return (
     <main className="p-20 h-screen flex flex-1 flex-row gap-20 items-center justify-center">
-      {addPDFOptions.map((option) => {
+      {ResourceOptions.map((option) => {
           const Icon = Icons[option.icon]
           return (
-            <Link href={option.href} className='w-full group'>
-              <Button key={option.name} size="huge" variant="ghost" className='p-0 w-full flex flex-row gap-4 items-center justify-center'>
+            <Link key={option.name} href={`/addPDF/${option.href}`} className='w-full group'>
+              <Button size="huge" variant="ghost" className='p-0 w-full flex flex-row gap-4 items-center justify-center'>
                 <Icon className="group-hover:h-12 group-hover:w-12 h-10 w-10 transition-all duration-300"/>
                 <span className='text-2xl group-hover:text-3xl transition-all duration-300'>{option.name}</ span>
               </Button>
