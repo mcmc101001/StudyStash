@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import PDFUploader from "@/components/PDFUploader";
 import PDFViewer from "@/components/PDFViewer";
 
-export default async function Home() {
+export default async function PDFPage() {
 
     const user = await getCurrentUser();
     if (!user) {
@@ -13,7 +13,6 @@ export default async function Home() {
 
     return (
         <>
-            < PDFUploader />
             < PDFViewer url="https://orbital2023.s3.ap-southeast-1.amazonaws.com/Verilog_Tutorial.pdf" />
         </>
     )

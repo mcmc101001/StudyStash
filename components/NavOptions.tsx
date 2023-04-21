@@ -3,7 +3,7 @@
 import { FC } from "react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Icon, Icons } from "./Icons";
+import { Icon, Icons } from "@/components/Icons";
 import {
     Tooltip,
     TooltipContent,

@@ -15,6 +15,7 @@ const buttonVariants = cva(
                 default: 'h-10 py-2 px-4',
                 sm: 'h-9 px-2',
                 lg: 'h-11 px-8',
+                huge: 'h-56 w-96 px-10'
             },
         },
         defaultVariants: {
@@ -38,9 +39,9 @@ const Button: FC<ButtonProps> = ({
     ...props
 }) => {
     return <button className={cn(buttonVariants({ variant, size, className }))} disabled={isLoading} {...props}>
-        {isLoading ? <Loader2 className='text-slate-200 mr-2 h-4 w-4 animate-spin'/> : null}
         {children}
+        {isLoading ? <Loader2 className='text-slate-200 dark:text-slate-800 mr-2 h-4 w-4 animate-spin'/> : null}
     </button>;
 }
  
-export default Button;
+export { Button };
