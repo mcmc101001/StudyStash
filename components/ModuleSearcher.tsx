@@ -13,6 +13,7 @@ interface ModuleSearcherProps {
 
 const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
   let selectedResourceType: ResourceType | null = null;
+  let selectedModule: string | null = null;
   let segments = useSelectedLayoutSegments();
   if (segments.length > 1 && segments[1]) {
     let resourceTypeURL = segments[1] as ResourceTypeURL;
@@ -25,6 +26,9 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
     else if (resourceTypeURL === "past_papers") {
       selectedResourceType = "Past Papers";
     }
+  }
+  if (segments.length > 0 && segments[0]) {
+    selectedModule = segments[0];
   }
 
   const [query, setQuery] = useState("");
@@ -71,7 +75,7 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
         className="my-2 border-none rounded-sm ring-0 focus:ring-0 dark:enabled:bg-slate-800 enabled:bg-slate-200"
       ></Input>
       <hr className="bg-slate-700 dark:bg-slate-300 border"></hr>
-      <ModuleList module_codes={filterMods} selectedResourceType={selectedResourceType} />
+      <ModuleList module_codes={filterMods} selectedModule={selectedModule} selectedResourceType={selectedResourceType} />
     </div>
   );
 };

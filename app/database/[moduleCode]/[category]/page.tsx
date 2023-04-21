@@ -3,12 +3,13 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ResourceTypeURL } from "@/components/ModuleList";
 import ResourceItem from "@/components/ResourceItem";
+import { Cheatsheet } from "@prisma/client";
 
 export async function generateStaticParams() {
   const paths = [
     {resourceType: "cheatsheets"},
-    {resourceType: "past_papers"},
     {resourceType: "notes"},
+    {resourceType: "past_papers"},
   ]
   return {
     paths,
@@ -29,17 +30,17 @@ export default async function Page ({ params }: { params: { moduleCode: string, 
       }
     })
   }
-  else if (params.category === "past_papers") {
-    category = "Past Papers";
-    resources = await prisma.questionPaper.findMany({
+  else if (params.category === "notes") {
+    category = "Notes";
+    resources = await prisma.notes.findMany({
       where: {
         moduleCode: params.moduleCode
       }
     })
   }
-  else if (params.category === "notes") {
-    category = "Notes";
-    resources = await prisma.notes.findMany({
+  else if (params.category === "past_papers") {
+    category = "Past Papers";
+    resources = await prisma.questionPaper.findMany({
       where: {
         moduleCode: params.moduleCode
       }
@@ -53,7 +54,7 @@ export default async function Page ({ params }: { params: { moduleCode: string, 
   return (
     <>
       { resources.length !== 0 ? (
-          <table>
+          <table className="text-slate-200">
             <thead>
               <tr>
                 <th>Name</th>
@@ -65,8 +66,20 @@ export default async function Page ({ params }: { params: { moduleCode: string, 
             </thead>
             <tbody>
               { resources.map((resource) => {
-                return <ResourceItem key={resource.id} name={resource.name} userId={resource.userId} createdAt={resource.createdAt} acadYear={resource.acadYear} semester={resource.semester} category={category} />
-              }) }
+                return (
+                  <ResourceItem 
+                    key={resource.id} 
+                    name={resource.name} 
+                    userId={resource.userId} 
+                    createdAt={resource.createdAt} 
+                    acadYear={resource.acadYear} 
+                    semester={resource.semester}
+                    // @ts-expect-error Wrong type inference
+                    examType={ (category !== "Notes") ? resource.type : null}
+                    category={category}
+                  />
+                )
+              })}
             </tbody>
           </table>
         ) : 

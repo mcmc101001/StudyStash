@@ -7,6 +7,7 @@ export type ResourceTypeURL = "cheatsheets" | "past_papers" | "notes";
 interface ModuleListProps {
     module_codes: Array<string>;
     selectedResourceType: ResourceType | null;
+    selectedModule: string | null;
 }
 
 const ModuleList:FC<ModuleListProps> = (props) => {
@@ -30,7 +31,7 @@ const ModuleList:FC<ModuleListProps> = (props) => {
             {props.module_codes.map((mod) => {
                     return (
                         <li key={mod}>
-                            <Link className="text-slate-800 dark:text-slate-200" href={`/database/${mod}/${link_extension}`}>{mod}</Link>
+                            <Link className={`text-slate-800 dark:text-slate-200 p-2 ` + ((mod === props.selectedModule) ? `border ` : "")} href={`/database/${mod}/${link_extension}`}>{mod}</Link>
                         </li>
                     )
                 })
