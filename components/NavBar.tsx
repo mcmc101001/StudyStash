@@ -7,7 +7,7 @@ import UserProfilePic from "@/components/UserProfilePic";
 import { Loader2 } from "lucide-react";
 import DarkModeToggler from "@/components/DarkModeToggler";
 
-const navOptions: NavOptionsProps[] = [
+export const navOptions: NavOptionsProps[] = [
     {
         name: 'Dashboard',
         href: '/dashboard',
