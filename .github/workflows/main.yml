@@ -1,0 +1,15 @@
+name: Run Unit Tests and Lint Files
+"on": push
+jobs:
+  unit_test-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node_version: 'latest'
+      - run: |
+              npm ci
+              npm run build
+              npm run test
+              npm run lint
