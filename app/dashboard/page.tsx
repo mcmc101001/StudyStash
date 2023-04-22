@@ -4,4 +4,4 @@ export default async function DashboardPage() {
       <h1>Dashboard</h1>
     </div>
   );
-};
+}

@@ -1,9 +1,10 @@
-'use client'
+"use client";
 
 import { FC } from "react";
 import Link from "next/link";
-import { ResourceOptionsProps } from "@/app/addPDF/page";
+import { ResourceOptionsProps } from "@/lib/content";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { motion } from "framer-motion";
 
 interface ResourceTabProps {
   moduleCode: string;
@@ -13,20 +14,34 @@ interface ResourceTabProps {
 const ResourceTab: FC<ResourceTabProps> = ({ moduleCode, resourceOptions }) => {
   let segment = useSelectedLayoutSegment();
   return (
-    <div className="flex flex-row justify-center items-center p-2 bg-slate-200 dark:bg-slate-900 my-4">
+    <div className="my-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
       {resourceOptions.map((option) => {
         return (
-          <Link 
-            key={option.name} 
-            href={`/database/${moduleCode}/${option.href}`} 
-            className={"text-xl font-medium p-3 rounded-md w-1/3 flex justify-center items-center " + (segment === option.href ? "bg-white dark:bg-slate-950 text-slate-950 dark:text-white" : "bg-inherit text-slate-600 dark:text-slate-400")}
+          <Link
+            key={option.name}
+            href={`/database/${moduleCode}/${option.href}`}
+            className={
+              "relative w-1/3 rounded-md bg-inherit p-3 text-center text-xl font-medium transition duration-300 " +
+              (segment === option.href
+                ? "text-black dark:text-white"
+                : "text-slate-600 dark:text-slate-400")
+            }
           >
-            {option.name}
+            {segment === option.href && (
+              <motion.div
+                layout
+                layoutId="active-pill"
+                className="absolute inset-0 z-10 bg-slate-950"
+                transition={{ type: "spring", duration: 0.5 }}
+                initial={false}
+              />
+            )}
+            <span className="relative z-20">{option.name}</span>
           </Link>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
 export default ResourceTab;

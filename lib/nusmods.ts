@@ -2,7 +2,7 @@ export type Module = {
   moduleCode: string;
   title: string;
   semester: Array<number>;
-}
+};
 
 export type ModuleInformation = Readonly<{
   // Basic info
@@ -24,17 +24,16 @@ export type ModuleInformation = Readonly<{
 // Return array of past 8 academic years for form selection.
 export function getAcadYearOptions() {
   const currentDate = new Date();
-  let acadYear:number;
+  let acadYear: number;
   if (currentDate.getMonth() < 6) {
     acadYear = currentDate.getFullYear();
+  } else {
+    acadYear = currentDate.getFullYear() + 1;
   }
-  else {
-    acadYear = currentDate.getFullYear() + 1 ;
-  }
-  let acadYearArray:Array<string> = [];
+  let acadYearArray: Array<string> = [];
   for (let i = 0; i < 8; i++) {
     let currentAcadYear = acadYear - i;
-    let currentAcadYearString = `${currentAcadYear-1}-${currentAcadYear}`;
+    let currentAcadYearString = `${currentAcadYear - 1}-${currentAcadYear}`;
     acadYearArray.push(currentAcadYearString);
   }
   return acadYearArray;
@@ -43,11 +42,10 @@ export function getAcadYearOptions() {
 // Extract academic year in form "YYYY-YYYY" based on whether month is before June.
 export function getAcadYear() {
   const currentDate = new Date();
-  let acadYear:string;
+  let acadYear: string;
   if (currentDate.getMonth() < 6) {
     acadYear = `${currentDate.getFullYear() - 1}-${currentDate.getFullYear()}`;
-  }
-  else {
+  } else {
     acadYear = `${currentDate.getFullYear()}-${currentDate.getFullYear() + 1}`;
   }
   return acadYear;
@@ -56,19 +54,25 @@ export function getAcadYear() {
 // Fetch module list from NUSMods API
 export async function getModuleList() {
   let acadYear = getAcadYear();
-  const res = await fetch(`https://api.nusmods.com/v2/${acadYear}/moduleList.json`, {
-    method: 'GET',
-  })
-  const data = await res.json()
+  const res = await fetch(
+    `https://api.nusmods.com/v2/${acadYear}/moduleList.json`,
+    {
+      method: "GET",
+    }
+  );
+  const data = await res.json();
   return data as Array<Module>;
 }
 
 // Fetch specific module information from NUSMods API based on module code
 export async function getSpecificModuleInfo(moduleCode: string) {
   let acadYear = getAcadYear();
-  const res = await fetch(`https://api.nusmods.com/v2/${acadYear}/modules/${moduleCode}.json`, {
-    method: 'GET',
-  })
-  const data = await res.json()
+  const res = await fetch(
+    `https://api.nusmods.com/v2/${acadYear}/modules/${moduleCode}.json`,
+    {
+      method: "GET",
+    }
+  );
+  const data = await res.json();
   return data as ModuleInformation;
 }

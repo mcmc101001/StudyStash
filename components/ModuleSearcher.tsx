@@ -2,9 +2,9 @@
 
 import { Input } from "@/components/ui/Input";
 import { FC, useEffect, useState } from "react";
-import ModuleList, { ResourceTypeURL } from "./ModuleList";
+import ModuleList from "@/components/ModuleList";
 import { containsOnlyNumbers } from "@/lib/utils";
-import { ResourceType } from "@/components/ContributeForm";
+import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { useSelectedLayoutSegments } from "next/navigation";
 
 interface ModuleSearcherProps {
@@ -19,11 +19,9 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
     let resourceTypeURL = segments[1] as ResourceTypeURL;
     if (resourceTypeURL === "notes") {
       selectedResourceType = "Notes";
-    }
-    else if (resourceTypeURL === "cheatsheets") {
+    } else if (resourceTypeURL === "cheatsheets") {
       selectedResourceType = "Cheatsheets";
-    }
-    else if (resourceTypeURL === "past_papers") {
+    } else if (resourceTypeURL === "past_papers") {
       selectedResourceType = "Past Papers";
     }
   }
@@ -63,19 +61,23 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
     if (query.trimStart().length < 2) {
       setFilterMods([""]);
     }
-  }, [query]);
+  }, [query, modules]);
 
   return (
-    <div className="flex h-screen flex-col gap-y-5 overflow-y-auto border-r dark:border-gray-300 border-gray-700 px-6 pt-4">
+    <div className="flex h-screen flex-col gap-y-5 overflow-y-auto border-r border-gray-700 px-6 pt-4 dark:border-gray-300">
       <Input
         type="text"
         onChange={(e) => handleQueryChange(e)}
         value={query}
         placeholder="Search modules..."
-        className="my-2 border-none rounded-sm ring-0 focus:ring-0 dark:enabled:bg-slate-800 enabled:bg-slate-200"
+        className="my-2 rounded-sm border-none ring-0 focus:ring-0 enabled:bg-slate-200 dark:enabled:bg-slate-800"
       ></Input>
-      <hr className="bg-slate-700 dark:bg-slate-300 border"></hr>
-      <ModuleList module_codes={filterMods} selectedModule={selectedModule} selectedResourceType={selectedResourceType} />
+      <hr className="border bg-slate-700 dark:bg-slate-300"></hr>
+      <ModuleList
+        module_codes={filterMods}
+        selectedModule={selectedModule}
+        selectedResourceType={selectedResourceType}
+      />
     </div>
   );
 };

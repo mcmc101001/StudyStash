@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ResourceType } from "@/components/ContributeForm";
+import { ResourceType } from "@/lib/content";
 
 interface ResourceItemProps {
   name: string;
@@ -10,17 +10,25 @@ interface ResourceItemProps {
   category: ResourceType;
   examType?: string;
 }
- 
-const ResourceItem: FC<ResourceItemProps> = ({ name, userId, createdAt, acadYear, semester, examType, category }) => {
-  return ( 
+
+const ResourceItem: FC<ResourceItemProps> = ({
+  name,
+  userId,
+  createdAt,
+  acadYear,
+  semester,
+  examType,
+  category,
+}) => {
+  return (
     <tr>
       <td>{name}</td>
       <td>{userId}</td>
       <td>{createdAt.toISOString()}</td>
       <td>{`${acadYear} S${semester}`}</td>
-      {( category !== "Notes") ? <td>{examType}</td> : <></> }
+      {category !== "Notes" ? <td>{examType}</td> : <></>}
     </tr>
-   );
-}
- 
+  );
+};
+
 export default ResourceItem;

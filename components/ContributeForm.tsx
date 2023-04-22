@@ -4,11 +4,12 @@ import { containsOnlyNumbers } from "@/lib/utils";
 import axios from "axios";
 import { FC, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import Select, { SingleValue } from "react-select";
+import Select from "react-select";
 import PDFUploader from "./PDFUploader";
 import { Button } from "./ui/Button";
 import { Trash2 } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
+import { ResourceType } from "@/lib/content";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -21,8 +22,6 @@ interface Option {
   label: string;
 }
 
-export type ResourceType = "Cheatsheets" | "Past Papers" | "Notes";
-
 interface ContributeFormProps {
   acadYearOptions: Array<Option>;
   moduleCodeOptions: Array<Option>;
@@ -33,7 +32,7 @@ interface ContributeFormProps {
 }
 
 interface SelectProps {
-  onChange: (option: Option|null) => void;
+  onChange: (option: Option | null) => void;
   options: Array<Option>;
 }
 
@@ -87,9 +86,9 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
           moduleCode: moduleCode,
           examType: examType,
           userID: props.userID,
-          submitType: props.resourceType,
+          resourceType: props.resourceType,
         } as addPDFType);
-        
+
         const pdfEntryPrismaId = data.PDFentry.id;
 
         // If prisma does not return ID for some reason
@@ -103,9 +102,9 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
             name: pdfEntryPrismaId,
             type: file.type,
           });
-  
+
           const url = data.url;
-  
+
           await axios.put(url, file, {
             headers: {
               "Content-Type": "application/pdf",
@@ -113,7 +112,7 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
               "Access-Control-Allow-Origin": "*",
             },
           });
-  
+
           toast.success("PDF uploaded successfully");
         } catch (error) {
           console.log(error);
@@ -140,32 +139,32 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
     }
   };
 
-  const acadYearSelectHandler = (option: Option|null) => {
-    if (option){
+  const acadYearSelectHandler = (option: Option | null) => {
+    if (option) {
       setAcadYear(option.value);
     } else {
       setAcadYear(null);
     }
   };
 
-  const semesterSelectHandler = (option: Option|null) => {
-    if (option){
+  const semesterSelectHandler = (option: Option | null) => {
+    if (option) {
       setSemester(option.value);
     } else {
       setSemester(null);
     }
   };
 
-  const moduleCodeSelectHandler = (option: Option|null) => {
-    if (option){
+  const moduleCodeSelectHandler = (option: Option | null) => {
+    if (option) {
       setModuleCode(option.value);
     } else {
       setModuleCode(null);
     }
   };
 
-  const examTypeSelectHandler = (option: Option|null) => {
-    if (option){
+  const examTypeSelectHandler = (option: Option | null) => {
+    if (option) {
       setExamType(option.value);
     } else {
       setExamType(null);
@@ -173,22 +172,38 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
   };
 
   return (
-    <form id="contributeForm" onSubmit={(e) => uploadFile(e)} className="w-full h-full flex flex-row gap-x-16 items-center justify-center">
-      <div className="w-1/3 flex flex-col gap-y-4">
-        <AcadYearSelect onChange={acadYearSelectHandler} options={props.acadYearOptions} />
-        <SemesterSelect onChange={semesterSelectHandler} options={props.semesterOptions} />
-        <ModuleCodeSelect onChange={moduleCodeSelectHandler} options={props.moduleCodeOptions} />
-        { props.examTypeOptions !== null &&
-          <ExamTypeSelect onChange={examTypeSelectHandler} options={props.examTypeOptions} />
-        }
+    <form
+      id="contributeForm"
+      onSubmit={(e) => uploadFile(e)}
+      className="flex h-full w-full flex-row items-center justify-center gap-x-16"
+    >
+      <div className="flex w-1/3 flex-col gap-y-4">
+        <AcadYearSelect
+          onChange={acadYearSelectHandler}
+          options={props.acadYearOptions}
+        />
+        <SemesterSelect
+          onChange={semesterSelectHandler}
+          options={props.semesterOptions}
+        />
+        <ModuleCodeSelect
+          onChange={moduleCodeSelectHandler}
+          options={props.moduleCodeOptions}
+        />
+        {props.examTypeOptions !== null && (
+          <ExamTypeSelect
+            onChange={examTypeSelectHandler}
+            options={props.examTypeOptions}
+          />
+        )}
       </div>
       <div className="w-1/3">
-        <PDFUploader 
+        <PDFUploader
           fileSelectedHandler={fileSelectedHandler}
           fileName={fileName}
           inputRef={inputRef}
         />
-        <section className="w-full mt-4 flex flex-row justify-between items-center">
+        <section className="mt-4 flex w-full flex-row items-center justify-between">
           <Button
             size="sm"
             variant="default"
@@ -199,7 +214,7 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
             Upload
           </Button>
           <Trash2
-            className="text-slate-800 dark:text-slate-200 cursor-pointer"
+            className="cursor-pointer text-slate-800 dark:text-slate-200"
             size={20}
             onClick={() => {
               setFileName(null);
@@ -207,13 +222,12 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
               setIsDisabled(false);
               if (inputRef.current) {
                 inputRef.current.value = "";
-                }
-              }}
-            />
-          </section>
+              }
+            }}
+          />
+        </section>
       </div>
-      
-    </form>    
+    </form>
   );
 };
 
@@ -221,12 +235,12 @@ export default ContributeForm;
 
 const AcadYearSelect: FC<SelectProps> = ({ options, onChange }) => {
   return (
-    <div >
+    <div>
       <label htmlFor="acadYear" className="text-slate-800 dark:text-slate-200">
         Acad Year
       </label>
       <Select
-        id = "acadYear"
+        id="acadYear"
         styles={{
           option: (baseStyles, state) => {
             return {
@@ -256,7 +270,7 @@ const ModuleCodeSelect: FC<SelectProps> = ({ options, onChange }) => {
         Module Code
       </label>
       <Select
-        id = "moduleCode"
+        id="moduleCode"
         filterOption={(
           option: { value: string; label: string },
           query: string
@@ -295,8 +309,8 @@ const ModuleCodeSelect: FC<SelectProps> = ({ options, onChange }) => {
         isClearable={true}
       />
     </div>
-  )
-}
+  );
+};
 
 const SemesterSelect: FC<SelectProps> = ({ options, onChange }) => {
   return (
@@ -305,7 +319,7 @@ const SemesterSelect: FC<SelectProps> = ({ options, onChange }) => {
         Semester
       </label>
       <Select
-        id = "semester"
+        id="semester"
         styles={{
           option: (baseStyles, state) => {
             return {
@@ -322,8 +336,8 @@ const SemesterSelect: FC<SelectProps> = ({ options, onChange }) => {
         isClearable={true}
       />
     </div>
-  )
-}
+  );
+};
 
 const ExamTypeSelect: FC<SelectProps> = ({ options, onChange }) => {
   return (
@@ -332,7 +346,7 @@ const ExamTypeSelect: FC<SelectProps> = ({ options, onChange }) => {
         Exam Type
       </label>
       <Select
-        id = "examType"
+        id="examType"
         styles={{
           option: (baseStyles, state) => {
             return {
@@ -349,5 +363,5 @@ const ExamTypeSelect: FC<SelectProps> = ({ options, onChange }) => {
         isClearable={true}
       />
     </div>
-  )
-}
+  );
+};
