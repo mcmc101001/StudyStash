@@ -19,11 +19,9 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
     let resourceTypeURL = segments[1] as ResourceTypeURL;
     if (resourceTypeURL === "notes") {
       selectedResourceType = "Notes";
-    }
-    else if (resourceTypeURL === "cheatsheets") {
+    } else if (resourceTypeURL === "cheatsheets") {
       selectedResourceType = "Cheatsheets";
-    }
-    else if (resourceTypeURL === "past_papers") {
+    } else if (resourceTypeURL === "past_papers") {
       selectedResourceType = "Past Papers";
     }
   }
@@ -75,7 +73,11 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
         className="my-2 border-none rounded-sm ring-0 focus:ring-0 dark:enabled:bg-slate-800 enabled:bg-slate-200"
       ></Input>
       <hr className="bg-slate-700 dark:bg-slate-300 border"></hr>
-      <ModuleList module_codes={filterMods} selectedModule={selectedModule} selectedResourceType={selectedResourceType} />
+      <ModuleList
+        module_codes={filterMods}
+        selectedModule={selectedModule}
+        selectedResourceType={selectedResourceType}
+      />
     </div>
   );
 };

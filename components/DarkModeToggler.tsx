@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -11,9 +11,8 @@ export default function DarkModeToggler() {
     if (typeof window !== "undefined") {
       try {
         const themeLocalStorage = window.localStorage.getItem("theme");
-        return themeLocalStorage || 'dark';
-      }
-      catch (error) {
+        return themeLocalStorage || "dark";
+      } catch (error) {
         console.log(error);
         return "dark";
       }
@@ -27,7 +26,7 @@ export default function DarkModeToggler() {
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [theme])
+  }, [theme]);
 
   const handleDarkModeChange = () => {
     try {
@@ -39,15 +38,18 @@ export default function DarkModeToggler() {
           window.localStorage.setItem("theme", "dark");
           setTheme("dark");
         }
-      }      
+      }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
-    <li className='mt-auto mb-2 flex flex-col items-center justify-center gap-y-4'>
-      <Button onClick={() => handleDarkModeChange()}> <Sun className='h-6 w-6' /> </Button>
+    <li className="mt-auto mb-2 flex flex-col items-center justify-center gap-y-4">
+      <Button onClick={() => handleDarkModeChange()}>
+        {" "}
+        <Sun className="h-6 w-6" />{" "}
+      </Button>
     </li>
   );
 }
