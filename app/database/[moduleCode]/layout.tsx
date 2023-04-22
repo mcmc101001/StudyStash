@@ -24,7 +24,8 @@ export default async function Layout({
   const moduleInfo = await getSpecificModuleInfo(params.moduleCode);
 
   return (
-    <>
+    // set to be div for framer motion to work
+    <div>
       <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-200">
         {moduleInfo.moduleCode}
       </h1>
@@ -36,6 +37,6 @@ export default async function Layout({
         resourceOptions={ResourceOptions}
       />
       {children}
-    </>
+    </div>
   );
 }
