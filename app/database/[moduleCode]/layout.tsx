@@ -25,10 +25,10 @@ export default async function Layout({
 
   return (
     <>
-      <h1 className="text-slate-800 dark:text-slate-200 text-4xl font-bold">
+      <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-200">
         {moduleInfo.moduleCode}
       </h1>
-      <h2 className="text-slate-700 dark:text-slate-300 text-2xl font-semibold">
+      <h2 className="text-2xl font-semibold text-slate-700 dark:text-slate-300">
         {moduleInfo.title}
       </h2>
       <ResourceTab

@@ -11,10 +11,10 @@ function PDFViewer(props: { url: string }) {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col items-center justify-center">
       <button
         onClick={(e) => togglePDF(e)}
-        className="dark:bg-amber-700 bg-amber-300 dark:text-white text-black font-bold py-2 px-4 rounded"
+        className="rounded bg-amber-300 px-4 py-2 font-bold text-black dark:bg-amber-700 dark:text-white"
       >
         {" "}
         Show resume{" "}

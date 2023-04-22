@@ -79,11 +79,11 @@ export default async function Page({
   });
 
   return (
-    <main className="p-20 h-screen w-full flex flex-1 flex-col">
-      <h1 className="text-slate-800 dark:text-slate-200 text-4xl font-bold">
+    <main className="flex h-screen w-full flex-1 flex-col p-20">
+      <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-200">
         {header}
       </h1>
-      <div className="flex flex-row h-full items-center justify-around">
+      <div className="flex h-full flex-row items-center justify-around">
         <ContributeForm
           acadYearOptions={acadYearOptions}
           moduleCodeOptions={moduleCodeOptions}

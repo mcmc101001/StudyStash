@@ -64,15 +64,15 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
   }, [query, modules]);
 
   return (
-    <div className="flex h-screen flex-col gap-y-5 overflow-y-auto border-r dark:border-gray-300 border-gray-700 px-6 pt-4">
+    <div className="flex h-screen flex-col gap-y-5 overflow-y-auto border-r border-gray-700 px-6 pt-4 dark:border-gray-300">
       <Input
         type="text"
         onChange={(e) => handleQueryChange(e)}
         value={query}
         placeholder="Search modules..."
-        className="my-2 border-none rounded-sm ring-0 focus:ring-0 dark:enabled:bg-slate-800 enabled:bg-slate-200"
+        className="my-2 rounded-sm border-none ring-0 focus:ring-0 enabled:bg-slate-200 dark:enabled:bg-slate-800"
       ></Input>
-      <hr className="bg-slate-700 dark:bg-slate-300 border"></hr>
+      <hr className="border bg-slate-700 dark:bg-slate-300"></hr>
       <ModuleList
         module_codes={filterMods}
         selectedModule={selectedModule}

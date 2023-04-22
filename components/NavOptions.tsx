@@ -34,10 +34,10 @@ const NavOptions: FC<NavOptionsProps> = ({ name, href, icon }) => {
             <Link
               href={href}
               className={
-                "dark:text-gray-300 text-gray-700 flex gap-3 rounded-md p-2 text-lg leading-6 font-semibold " +
+                "flex gap-3 rounded-md p-2 text-lg font-semibold leading-6 text-gray-700 dark:text-gray-300 " +
                 (isActive
-                  ? "outline outline-2 -outline-offset-2 dark:outline-slate-200 outline-slate-800"
-                  : "dark:hover:text-indigo-900 hover:text-indigo-100 dark:hover:bg-slate-200 hover:bg-slate-800")
+                  ? "outline outline-2 -outline-offset-2 outline-slate-800 dark:outline-slate-200"
+                  : "hover:bg-slate-800 hover:text-indigo-100 dark:hover:bg-slate-200 dark:hover:text-indigo-900")
               }
             >
               <Icon className="h-7 w-7" />

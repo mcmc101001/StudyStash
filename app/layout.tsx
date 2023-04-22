@@ -22,9 +22,9 @@ export default async function RootLayout({
         {/* show DOM content after loaded to prevent dark mode flickering */}
         {/* <Script src='/theme.js' strategy='afterInteractive' /> */}
         <ToasterClient />
-        <main className="dark:bg-slate-950 bg-white w-full flex flex-row transition-colors duration-500">
+        <main className="flex w-full flex-row bg-white transition-colors duration-500 dark:bg-slate-950">
           <NavBar />
-          <div className="w-full h-screen">{children}</div>
+          <div className="h-screen w-full">{children}</div>
         </main>
       </body>
     </html>

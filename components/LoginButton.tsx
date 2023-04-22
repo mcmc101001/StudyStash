@@ -24,7 +24,7 @@ const LoginButton = () => {
     >
       Login
       {isSigningIn ? (
-        <Loader2 className="animate-spin h-4 w-4" />
+        <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
         <LogIn className="h-6 w-6" />
       )}

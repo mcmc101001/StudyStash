@@ -10,7 +10,7 @@ import {
 export const Icons = {
   Logo: (props: LucideProps) => (
     <svg
-      className="dark:text-slate-200 text-slate-800 fill-current"
+      className="fill-current text-slate-800 dark:text-slate-200"
       // fill="#eeeeee"
       width="64px"
       height="64px"

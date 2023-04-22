@@ -19,22 +19,22 @@ export default async function addPDFPage() {
   }
 
   return (
-    <main className="p-20 h-screen flex flex-1 flex-row gap-20 items-center justify-center">
+    <main className="flex h-screen flex-1 flex-row items-center justify-center gap-20 p-20">
       {ResourceOptions.map((option) => {
         const Icon = Icons[option.icon];
         return (
           <Link
             key={option.name}
             href={`/addPDF/${option.href}`}
-            className="w-full group"
+            className="group w-full"
           >
             <Button
               size="huge"
               variant="ghost"
-              className="p-0 w-full flex flex-row gap-4 items-center justify-center"
+              className="flex w-full flex-row items-center justify-center gap-4 p-0"
             >
-              <Icon className="group-hover:h-12 group-hover:w-12 h-10 w-10 transition-all duration-300" />
-              <span className="text-2xl group-hover:text-3xl transition-all duration-300">
+              <Icon className="h-10 w-10 transition-all duration-300 group-hover:h-12 group-hover:w-12" />
+              <span className="text-2xl transition-all duration-300 group-hover:text-3xl">
                 {option.name}
               </span>
             </Button>
