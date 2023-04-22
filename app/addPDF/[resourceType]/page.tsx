@@ -16,18 +16,6 @@ enum ExamType {
 }
 */
 
-export async function generateStaticParams() {
-  const paths: Array<{ resourceType: ResourceTypeURL }> = [
-    { resourceType: "cheatsheets" },
-    { resourceType: "past_papers" },
-    { resourceType: "notes" },
-  ];
-  return {
-    paths,
-    fallback: false, // Paths not returned will result in 404
-  };
-}
-
 // Bad implementation, copy from prisma schema, but I can't seem to import it
 const examTypeOptions = [
   { value: "Midterm", label: "Midterm" },

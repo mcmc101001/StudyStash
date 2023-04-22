@@ -3,18 +3,6 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import ResourceItem from "@/components/ResourceItem";
 
-export async function generateStaticParams() {
-  const paths = [
-    { resourceType: "cheatsheets" },
-    { resourceType: "notes" },
-    { resourceType: "past_papers" },
-  ];
-  return {
-    paths,
-    fallback: false, // Paths not returned will result in 404
-  };
-}
-
 export default async function Page({
   params,
 }: {
