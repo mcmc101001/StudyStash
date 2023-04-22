@@ -9,6 +9,7 @@ import PDFUploader from "./PDFUploader";
 import { Button } from "./ui/Button";
 import { Trash2 } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
+import { ResourceType } from "@/lib/content";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -20,8 +21,6 @@ interface Option {
   value: string;
   label: string;
 }
-
-export type ResourceType = "Cheatsheets" | "Past Papers" | "Notes";
 
 interface ContributeFormProps {
   acadYearOptions: Array<Option>;

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ResourceType } from "@/components/ContributeForm";
+import { ResourceType } from "@/lib/content";
 
 interface ResourceItemProps {
   name: string;

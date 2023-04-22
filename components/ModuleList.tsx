@@ -1,8 +1,6 @@
 import { FC } from "react";
 import Link from "next/link";
-import { ResourceType } from "./ContributeForm";
-
-export type ResourceTypeURL = "cheatsheets" | "past_papers" | "notes";
+import { ResourceType, ResourceTypeURL } from "@/lib/content";
 
 interface ModuleListProps {
     module_codes: Array<string>;

@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import Link from "next/link";
-import { ResourceOptionsProps } from "@/app/addPDF/page";
+import { ResourceOptionsProps } from "@/lib/content";
 import { useSelectedLayoutSegment } from "next/navigation";
 
 interface ResourceTabProps {

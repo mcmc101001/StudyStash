@@ -1,6 +1,6 @@
 import ResourceTab from "@/components/ResourceTab";
 import { getSpecificModuleInfo } from "@/lib/nusmods";
-import { ResourceOptions } from "@/app/addPDF/page";
+import { ResourceOptions } from "@/lib/content";
 
 // export const generateStaticParams = async () => {
 //   const moduleList = await getModuleList();

@@ -1,9 +1,7 @@
-import { ResourceType } from "@/components/ContributeForm";
+import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { ResourceTypeURL } from "@/components/ModuleList";
 import ResourceItem from "@/components/ResourceItem";
-import { Cheatsheet } from "@prisma/client";
 
 export async function generateStaticParams() {
   const paths = [

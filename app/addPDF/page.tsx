@@ -5,38 +5,14 @@
 */
 
 
-import { ResourceType } from '@/components/ContributeForm'
-import { Icon, Icons } from '@/components/Icons'
-import { ResourceTypeURL } from '@/components/ModuleList'
+import { ResourceOptions } from '@/lib/content'
+import { Icons } from '@/components/Icons'
 import { Button } from '@/components/ui/Button'
 import { authOptions } from '@/lib/auth'
 import { getCurrentUser } from '@/lib/session'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
-export interface ResourceOptionsProps {
-  name: ResourceType
-  href: ResourceTypeURL
-  icon: Icon
-}
-
-export const ResourceOptions: ResourceOptionsProps[] = [
-  {
-      name: 'Cheatsheets',
-      href: 'cheatsheets',
-      icon: 'LayoutDashboard'
-  },
-  {
-      name: 'Past Papers',
-      href: 'past_papers',
-      icon: 'Files'
-  },
-  {
-      name: 'Notes',
-      href: 'notes',
-      icon: 'FileSignature'
-  },
-]
 
 export default async function addPDFPage() {
 

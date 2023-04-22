@@ -2,9 +2,9 @@
 
 import { Input } from "@/components/ui/Input";
 import { FC, useEffect, useState } from "react";
-import ModuleList, { ResourceTypeURL } from "./ModuleList";
+import ModuleList from "@/components/ModuleList";
 import { containsOnlyNumbers } from "@/lib/utils";
-import { ResourceType } from "@/components/ContributeForm";
+import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { useSelectedLayoutSegments } from "next/navigation";
 
 interface ModuleSearcherProps {
