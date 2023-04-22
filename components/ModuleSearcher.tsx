@@ -63,7 +63,7 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
     if (query.trimStart().length < 2) {
       setFilterMods([""]);
     }
-  }, [query]);
+  }, [query, modules]);
 
   return (
     <div className="flex h-screen flex-col gap-y-5 overflow-y-auto border-r dark:border-gray-300 border-gray-700 px-6 pt-4">

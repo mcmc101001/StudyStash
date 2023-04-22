@@ -4,7 +4,7 @@ import { containsOnlyNumbers } from "@/lib/utils";
 import axios from "axios";
 import { FC, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import Select, { SingleValue } from "react-select";
+import Select from "react-select";
 import PDFUploader from "./PDFUploader";
 import { Button } from "./ui/Button";
 import { Trash2 } from "lucide-react";
@@ -86,7 +86,7 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
           moduleCode: moduleCode,
           examType: examType,
           userID: props.userID,
-          submitType: props.resourceType,
+          resourceType: props.resourceType,
         } as addPDFType);
         
         const pdfEntryPrismaId = data.PDFentry.id;
