@@ -1,4 +1,3 @@
-import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import ModuleSearcher from "@/components/ModuleSearcher";
 import { useSelectedLayoutSegments } from "next/navigation";
