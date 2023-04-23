@@ -1,4 +1,3 @@
-import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import ModuleSearcher from "@/components/ModuleSearcher";
 import { useSelectedLayoutSegments } from "next/navigation";
@@ -25,7 +24,6 @@ describe("Module Searcher", () => {
     fireEvent.change(input, { target: { value: "CS" } });
     const list = screen.getByRole("list");
     expect(list.childElementCount).toBe(4);
-    expect(list).toBeInTheDocument();
   });
   it("should show module list with correct number on user input MA", async () => {
     (useSelectedLayoutSegments as jest.Mock).mockReturnValue([]);
@@ -35,7 +33,6 @@ describe("Module Searcher", () => {
     fireEvent.change(input, { target: { value: "MA" } });
     const list = screen.getByRole("list");
     expect(list.childElementCount).toBe(0);
-    expect(list).toBeInTheDocument();
   });
   it("should show highlighted module", async () => {
     (useSelectedLayoutSegments as jest.Mock).mockReturnValue([
