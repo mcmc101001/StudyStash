@@ -54,6 +54,7 @@ export default async function Page({
                 // @ts-expect-error Server component
                 <ResourceItem
                   key={resource.id}
+                  id={resource.id}
                   name={resource.name}
                   userId={resource.userId}
                   createdAt={resource.createdAt}
@@ -68,7 +69,9 @@ export default async function Page({
           </tbody>
         </table>
       ) : (
-        <h1> No resources found </h1>
+        <h1 className="text-slate-800 dark:text-slate-200">
+          No resources found
+        </h1>
       )}
     </>
   );

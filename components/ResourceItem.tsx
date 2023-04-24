@@ -1,9 +1,11 @@
 import { FC } from "react";
 import { ResourceType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
+import PDFSheetLauncher from "./PDFSheetLauncher";
 
 interface ResourceItemProps {
   name: string;
+  id: string;
   userId: string;
   createdAt: Date;
   acadYear: string;
@@ -14,6 +16,7 @@ interface ResourceItemProps {
 
 export default async function ResourceItem({
   name,
+  id,
   userId,
   createdAt,
   acadYear,
@@ -29,7 +32,9 @@ export default async function ResourceItem({
 
   return (
     <tr>
-      <td>{name}</td>
+      <td>
+        <PDFSheetLauncher id={id}>{name}</PDFSheetLauncher>
+      </td>
       <td>{user?.name}</td>
       <td>{createdAt.toISOString()}</td>
       <td>{`${acadYear} S${semester}`}</td>
