@@ -29,7 +29,9 @@ const ModuleList: FC<ModuleListProps> = (props) => {
             <Link
               className={
                 `p-2 text-slate-800 dark:text-slate-200 ` +
-                (mod === props.selectedModule ? `border ` : "")
+                (mod === props.selectedModule
+                  ? `border border-slate-800 dark:border-slate-200`
+                  : "")
               }
               href={`/database/${mod}/${link_extension}`}
             >
