@@ -38,7 +38,7 @@ export default async function Page({
   return (
     <>
       {resources.length !== 0 ? (
-        <table className="text-sate-800 dark:text-slate-200">
+        <table className="text-sate-800 w-full dark:text-slate-200">
           <thead>
             <tr>
               <th>Name</th>
@@ -51,6 +51,7 @@ export default async function Page({
           <tbody>
             {resources.map((resource) => {
               return (
+                // @ts-expect-error Server component
                 <ResourceItem
                   key={resource.id}
                   name={resource.name}

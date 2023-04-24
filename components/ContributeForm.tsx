@@ -45,7 +45,6 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const acadYearSelectorRef = useRef<HTMLSelectElement | null>(null);
 
   const fileSelectedHandler = (e: React.FormEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {

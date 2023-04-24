@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { ResourceType } from "@/lib/content";
+import { prisma } from "@/lib/prisma";
 
 interface ResourceItemProps {
   name: string;
@@ -11,7 +12,7 @@ interface ResourceItemProps {
   examType?: string;
 }
 
-const ResourceItem: FC<ResourceItemProps> = ({
+export default async function ResourceItem({
   name,
   userId,
   createdAt,
@@ -19,16 +20,20 @@ const ResourceItem: FC<ResourceItemProps> = ({
   semester,
   examType,
   category,
-}) => {
+}: ResourceItemProps) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
   return (
     <tr>
       <td>{name}</td>
-      <td>{userId}</td>
+      <td>{user?.name}</td>
       <td>{createdAt.toISOString()}</td>
       <td>{`${acadYear} S${semester}`}</td>
       {category !== "Notes" ? <td>{examType}</td> : <></>}
     </tr>
   );
-};
-
-export default ResourceItem;
+}

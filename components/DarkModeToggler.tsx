@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function DarkModeToggler() {
   const [theme, setTheme] = useState<string>(() => {
@@ -45,10 +46,13 @@ export default function DarkModeToggler() {
   };
 
   return (
-    <li className="mt-auto mb-2 flex flex-col items-center justify-center gap-y-4">
+    <li className="mb-2 mt-auto flex flex-col items-center justify-center gap-y-4">
       <Button onClick={() => handleDarkModeChange()}>
-        {" "}
-        <Sun className="h-6 w-6" />{" "}
+        {theme === "dark" ? (
+          <Sun className="h-6 w-6" />
+        ) : (
+          <Moon className="h-6 w-6" />
+        )}
       </Button>
     </li>
   );
