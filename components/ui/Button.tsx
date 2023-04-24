@@ -49,7 +49,7 @@ const Button: FC<ButtonProps> = ({
     >
       {children}
       {isLoading ? (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin text-slate-200 dark:text-slate-800" />
+        <Loader2 className="ml-1 h-4 w-4 animate-spin text-slate-200 dark:text-slate-800" />
       ) : null}
     </button>
   );

@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { RouteHandlerManager } from "next/dist/server/future/route-handler-managers/route-handler-manager";
+import { X } from "lucide-react";
 
 interface PDFSheetLauncherProps {
   children: React.ReactNode;
@@ -23,9 +24,11 @@ const PDFSheetLauncher: FC<PDFSheetLauncherProps> = ({ children, id }) => {
   const searchParams = useSearchParams()!;
   const searchParamsID = searchParams.get("id");
   const url = `${pathnames}/?id=${id}`;
+  const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${id}`;
 
   return (
     <Sheet
+      open={searchParamsID === id}
       onOpenChange={() => {
         router.push(url);
       }}
@@ -34,7 +37,7 @@ const PDFSheetLauncher: FC<PDFSheetLauncherProps> = ({ children, id }) => {
       <SheetContent
         size={"xl"}
         onEscapeKeyDown={router.back}
-        // onPointerDownOutside={router.back}
+        onPointerDownOutside={router.back}
       >
         <SheetHeader>
           <SheetTitle>Are you sure absolutely sure?</SheetTitle>
@@ -43,6 +46,14 @@ const PDFSheetLauncher: FC<PDFSheetLauncherProps> = ({ children, id }) => {
             account and remove your data from our servers.
           </SheetDescription>
         </SheetHeader>
+        <div
+          className="pointer-events-auto absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+          onClick={router.back}
+        >
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </div>
+        <iframe src={PDFURL} width="100%" height="500px"></iframe>
       </SheetContent>
     </Sheet>
   );
