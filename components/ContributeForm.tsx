@@ -232,7 +232,7 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
 
 export default ContributeForm;
 
-const AcadYearSelect: FC<SelectProps> = ({ options, onChange }) => {
+export const AcadYearSelect: FC<SelectProps> = ({ options, onChange }) => {
   return (
     <div>
       <label htmlFor="acadYear" className="text-slate-800 dark:text-slate-200">
@@ -311,7 +311,7 @@ const ModuleCodeSelect: FC<SelectProps> = ({ options, onChange }) => {
   );
 };
 
-const SemesterSelect: FC<SelectProps> = ({ options, onChange }) => {
+export const SemesterSelect: FC<SelectProps> = ({ options, onChange }) => {
   return (
     <div>
       <label htmlFor="semester" className="text-slate-800 dark:text-slate-200">
@@ -338,7 +338,7 @@ const SemesterSelect: FC<SelectProps> = ({ options, onChange }) => {
   );
 };
 
-const ExamTypeSelect: FC<SelectProps> = ({ options, onChange }) => {
+export const ExamTypeSelect: FC<SelectProps> = ({ options, onChange }) => {
   return (
     <div>
       <label htmlFor="examType" className="text-slate-800 dark:text-slate-200">

@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { ResourceType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import PDFSheetLauncher from "./PDFSheetLauncher";

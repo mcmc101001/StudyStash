@@ -8,9 +8,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/Sheet";
-import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { RouteHandlerManager } from "next/dist/server/future/route-handler-managers/route-handler-manager";
 import { X } from "lucide-react";
 
 interface PDFSheetLauncherProps {
@@ -47,7 +45,7 @@ const PDFSheetLauncher: FC<PDFSheetLauncherProps> = ({ children, id }) => {
           </SheetDescription>
         </SheetHeader>
         <div
-          className="pointer-events-auto absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+          className="absolute right-4 top-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
           onClick={router.back}
         >
           <X className="h-4 w-4" />
