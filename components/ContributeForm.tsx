@@ -13,11 +13,7 @@ import { ResourceType } from "@/lib/content";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
-const cleanup = function (str: string) {
-  return str.replace(/[^a-zA-Z0-9_.{}\- ]/g, "-");
-};
-
-interface Option {
+export interface Option {
   value: string;
   label: string;
 }
@@ -34,6 +30,7 @@ interface ContributeFormProps {
 interface SelectProps {
   onChange: (option: Option | null) => void;
   options: Array<Option>;
+  placeholder?: boolean;
 }
 
 const ContributeForm: FC<ContributeFormProps> = (props) => {
@@ -232,12 +229,21 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
 
 export default ContributeForm;
 
-export const AcadYearSelect: FC<SelectProps> = ({ options, onChange }) => {
+export const AcadYearSelect: FC<SelectProps> = ({
+  options,
+  onChange,
+  placeholder = false,
+}) => {
   return (
     <div>
-      <label htmlFor="acadYear" className="text-slate-800 dark:text-slate-200">
-        Acad Year
-      </label>
+      {!placeholder ? (
+        <label
+          htmlFor="acadYear"
+          className="text-slate-800 dark:text-slate-200"
+        >
+          Acad Year
+        </label>
+      ) : null}
       <Select
         id="acadYear"
         styles={{
@@ -250,6 +256,7 @@ export const AcadYearSelect: FC<SelectProps> = ({ options, onChange }) => {
             };
           },
         }}
+        placeholder={"Select Acad Year"}
         closeMenuOnSelect={true}
         options={options}
         onChange={(e) => onChange(e)}
@@ -259,15 +266,21 @@ export const AcadYearSelect: FC<SelectProps> = ({ options, onChange }) => {
   );
 };
 
-const ModuleCodeSelect: FC<SelectProps> = ({ options, onChange }) => {
+const ModuleCodeSelect: FC<SelectProps> = ({
+  options,
+  onChange,
+  placeholder = false,
+}) => {
   return (
     <div>
-      <label
-        htmlFor="moduleCode"
-        className="text-slate-800 dark:text-slate-200"
-      >
-        Module Code
-      </label>
+      {!placeholder ? (
+        <label
+          htmlFor="moduleCode"
+          className="text-slate-800 dark:text-slate-200"
+        >
+          Module Code
+        </label>
+      ) : null}
       <Select
         id="moduleCode"
         filterOption={(
@@ -305,18 +318,28 @@ const ModuleCodeSelect: FC<SelectProps> = ({ options, onChange }) => {
         closeMenuOnSelect={true}
         options={options}
         onChange={(e) => onChange(e)}
+        placeholder={"Select Module Code"}
         isClearable={true}
       />
     </div>
   );
 };
 
-export const SemesterSelect: FC<SelectProps> = ({ options, onChange }) => {
+export const SemesterSelect: FC<SelectProps> = ({
+  options,
+  onChange,
+  placeholder = false,
+}) => {
   return (
     <div>
-      <label htmlFor="semester" className="text-slate-800 dark:text-slate-200">
-        Semester
-      </label>
+      {!placeholder ? (
+        <label
+          htmlFor="semester"
+          className="text-slate-800 dark:text-slate-200"
+        >
+          Semester
+        </label>
+      ) : null}
       <Select
         id="semester"
         styles={{
@@ -332,18 +355,28 @@ export const SemesterSelect: FC<SelectProps> = ({ options, onChange }) => {
         closeMenuOnSelect={true}
         options={options}
         onChange={(e) => onChange(e)}
+        placeholder={"Select Semester"}
         isClearable={true}
       />
     </div>
   );
 };
 
-export const ExamTypeSelect: FC<SelectProps> = ({ options, onChange }) => {
+export const ExamTypeSelect: FC<SelectProps> = ({
+  options,
+  onChange,
+  placeholder = false,
+}) => {
   return (
     <div>
-      <label htmlFor="examType" className="text-slate-800 dark:text-slate-200">
-        Exam Type
-      </label>
+      {!placeholder ? (
+        <label
+          htmlFor="examType"
+          className="text-slate-800 dark:text-slate-200"
+        >
+          Exam Type
+        </label>
+      ) : null}
       <Select
         id="examType"
         styles={{
@@ -359,6 +392,7 @@ export const ExamTypeSelect: FC<SelectProps> = ({ options, onChange }) => {
         closeMenuOnSelect={true}
         options={options}
         onChange={(e) => onChange(e)}
+        placeholder={"Select Exam Type"}
         isClearable={true}
       />
     </div>

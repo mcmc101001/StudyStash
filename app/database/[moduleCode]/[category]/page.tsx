@@ -1,21 +1,28 @@
-import { ResourceType, ResourceTypeURL } from "@/lib/content";
+import {
+  ResourceFiltersSorts,
+  ResourceType,
+  ResourceTypeURL,
+} from "@/lib/content";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ExamType } from "@prisma/client";
 import ResourceItem from "@/components/ResourceItem";
+import { getAcadYearOptions } from "@/lib/nusmods";
+import ResourceFilters from "@/components/ResourceFilters";
 
 export default async function Page({
   params,
   searchParams,
 }: {
   params: { moduleCode: string; category: ResourceTypeURL };
-  searchParams: {
-    filterSemester: string | undefined;
-    filterAcadYear: string | undefined;
-    filterExamType: ExamType | undefined;
-    sort: string | undefined;
-  };
+  searchParams: ResourceFiltersSorts;
 }) {
+  /************  FETCH OPTIONS FOR SELECT ************/
+  const acadYearList = getAcadYearOptions();
+  const acadYearOptions = acadYearList.map((acadYear) => {
+    return { value: acadYear, label: acadYear };
+  });
+  /************  DATA FETCHING ************/
   const FilterSemester = searchParams.filterSemester ?? null;
   const FilterAcadYear = searchParams.filterAcadYear ?? null;
   const FilterExamType = searchParams.filterExamType ?? null;
@@ -51,7 +58,8 @@ export default async function Page({
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-y-6">
+      <ResourceFilters acadYearOptions={acadYearOptions} />
       {parsed_resources.length !== 0 ? (
         <table className="text-sate-800 w-full dark:text-slate-200">
           <thead>
@@ -88,6 +96,6 @@ export default async function Page({
           No resources found
         </h1>
       )}
-    </>
+    </div>
   );
 }

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/Sheet";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { X } from "lucide-react";
+import useQueryParams from "@/hooks/useQueryParams";
 
 interface PDFSheetLauncherProps {
   children: React.ReactNode;
@@ -17,20 +18,15 @@ interface PDFSheetLauncherProps {
 }
 
 const PDFSheetLauncher: FC<PDFSheetLauncherProps> = ({ children, id }) => {
+  const { queryParams, setQueryParams } = useQueryParams();
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams()!;
-  const searchParamsID = searchParams.get("id");
-  const params = new URLSearchParams(searchParams.toString());
-  params.set("id", id);
-  const url = `${pathname}?${params}`;
   const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${id}`;
 
   return (
     <Sheet
-      open={searchParamsID === id}
+      open={queryParams?.get("id") === id}
       onOpenChange={() => {
-        router.push(url);
+        setQueryParams({ id: id });
       }}
     >
       <SheetTrigger>{children}</SheetTrigger>
