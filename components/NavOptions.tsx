@@ -28,9 +28,9 @@ const NavOptions: FC<NavOptionsProps> = ({ name, href, icon }) => {
   const Icon = Icons[icon];
   return (
     <li className="inline-flex items-center justify-center">
-      <TooltipProvider delayDuration={0}>
+      <TooltipProvider delayDuration={100}>
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger asChild>
             <Link
               href={href}
               className={
@@ -43,7 +43,7 @@ const NavOptions: FC<NavOptionsProps> = ({ name, href, icon }) => {
               <Icon className="h-7 w-7" />
             </Link>
           </TooltipTrigger>
-          <TooltipContent side="right">
+          <TooltipContent side="right" asChild>
             <p>{name}</p>
           </TooltipContent>
         </Tooltip>

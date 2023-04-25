@@ -3,33 +3,12 @@ import { authOptions } from "@/lib/auth";
 import { getAcadYearOptions, getModuleList } from "@/lib/nusmods";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
-import { ResourceType, ResourceTypeURL } from "@/lib/content";
-
-/* from prisma schema
-enum ExamType {
-  Midterm
-  Final
-  Quiz
-  Assignment
-  PE
-  Other
-}
-*/
-
-// Bad implementation, copy from prisma schema, but I can't seem to import it
-const examTypeOptions = [
-  { value: "Midterm", label: "Midterm" },
-  { value: "Final", label: "Final" },
-  { value: "Quiz", label: "Quiz" },
-  { value: "Assignment", label: "Assignment" },
-  { value: "PE", label: "PE" },
-  { value: "Other", label: "Other" },
-];
-
-const semesterOptions = [
-  { value: "1", label: "Semester 1" },
-  { value: "2", label: "Semester 2" },
-];
+import {
+  examTypeOptions,
+  semesterOptions,
+  ResourceType,
+  ResourceTypeURL,
+} from "@/lib/content";
 
 export default async function Page({
   params,
@@ -61,6 +40,7 @@ export default async function Page({
   const acadYearOptions = acadYearList.map((acadYear) => {
     return { value: acadYear, label: acadYear };
   });
+
   const moduleList = await getModuleList();
   const moduleCodeOptions = moduleList.map((module) => {
     return { value: module.moduleCode, label: module.moduleCode };
