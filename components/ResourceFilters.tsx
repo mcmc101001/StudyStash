@@ -1,14 +1,9 @@
 "use client";
 
 import { FC } from "react";
-import {
-  AcadYearSelect,
-  ExamTypeSelect,
-  Option,
-  SemesterSelect,
-} from "@/components/ContributeForm";
 import useQueryParams from "@/hooks/useQueryParams";
 import { semesterOptions, examTypeOptions } from "@/lib/content";
+import { Option, StyledSelect } from "@/components/ui/StyledSelect";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
@@ -43,17 +38,20 @@ const ResourceFilters: FC<ResourceFiltersProps> = ({ acadYearOptions }) => {
 
   return (
     <div className="flex flex-row items-center justify-between gap-x-4">
-      <AcadYearSelect
+      <StyledSelect
+        label="Acad Year"
         options={acadYearOptions}
         onChange={handleAcadYearChange}
         placeholder={true}
       />
-      <SemesterSelect
+      <StyledSelect
+        label="Semester"
         options={semesterOptions}
         onChange={handleSemesterChange}
         placeholder={true}
       />
-      <ExamTypeSelect
+      <StyledSelect
+        label="Exam Type"
         options={examTypeOptions}
         onChange={handleExamTypeChange}
         placeholder={true}

@@ -21,7 +21,7 @@ export type ModuleInformation = Readonly<{
   preclusion?: string;
 }>;
 
-// Return array of past 8 academic years for form selection.
+// Return array of past 7 academic years for form selection.
 export function getAcadYearOptions() {
   const currentDate = new Date();
   let acadYear: number;
@@ -31,7 +31,7 @@ export function getAcadYearOptions() {
     acadYear = currentDate.getFullYear() + 1;
   }
   let acadYearArray: Array<string> = [];
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 7; i++) {
     let currentAcadYear = acadYear - i;
     let currentAcadYearString = `${currentAcadYear - 1}-${currentAcadYear}`;
     acadYearArray.push(currentAcadYearString);

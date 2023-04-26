@@ -31,7 +31,7 @@ const ResourceTab: FC<ResourceTabProps> = ({ moduleCode, resourceOptions }) => {
               <motion.div
                 layout
                 layoutId="active-pill"
-                className="absolute inset-0 z-10 bg-white dark:bg-slate-950"
+                className="absolute inset-0 z-10 rounded-lg bg-white dark:bg-slate-950"
                 transition={{ type: "spring", duration: 0.5 }}
                 initial={false}
               />
