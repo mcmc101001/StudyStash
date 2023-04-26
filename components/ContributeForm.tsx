@@ -10,13 +10,9 @@ import { Button } from "./ui/Button";
 import { Trash2 } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
 import { ResourceType } from "@/lib/content";
+import { Option, StyledSelect } from "@/components/ui/StyledSelect";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
-
-export interface Option {
-  value: string;
-  label: string;
-}
 
 interface ContributeFormProps {
   acadYearOptions: Array<Option>;
@@ -25,12 +21,6 @@ interface ContributeFormProps {
   examTypeOptions: Array<Option> | null;
   resourceType: ResourceType;
   userID: string;
-}
-
-interface SelectProps {
-  onChange: (option: Option | null) => void;
-  options: Array<Option>;
-  placeholder?: boolean;
 }
 
 const ContributeForm: FC<ContributeFormProps> = (props) => {
@@ -174,20 +164,24 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
       className="flex h-full w-full flex-row items-center justify-center gap-x-16"
     >
       <div className="flex w-1/3 flex-col gap-y-4">
-        <AcadYearSelect
+        <StyledSelect
+          label="Acad Year"
           onChange={acadYearSelectHandler}
           options={props.acadYearOptions}
         />
-        <SemesterSelect
+        <StyledSelect
+          label="Semester"
           onChange={semesterSelectHandler}
           options={props.semesterOptions}
         />
-        <ModuleCodeSelect
+        <StyledSelect
+          label="Module Code"
           onChange={moduleCodeSelectHandler}
           options={props.moduleCodeOptions}
         />
         {props.examTypeOptions !== null && (
-          <ExamTypeSelect
+          <StyledSelect
+            label="Exam Type"
             onChange={examTypeSelectHandler}
             options={props.examTypeOptions}
           />
@@ -228,173 +222,3 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
 };
 
 export default ContributeForm;
-
-export const AcadYearSelect: FC<SelectProps> = ({
-  options,
-  onChange,
-  placeholder = false,
-}) => {
-  return (
-    <div>
-      {!placeholder ? (
-        <label
-          htmlFor="acadYear"
-          className="text-slate-800 dark:text-slate-200"
-        >
-          Acad Year
-        </label>
-      ) : null}
-      <Select
-        id="acadYear"
-        styles={{
-          option: (baseStyles, state) => {
-            return {
-              ...baseStyles,
-              backgroundColor: state.isFocused
-                ? "#AAAAAA"
-                : "var(--color-slate-800)",
-            };
-          },
-        }}
-        placeholder={"Select Acad Year"}
-        closeMenuOnSelect={true}
-        options={options}
-        onChange={(e) => onChange(e)}
-        isClearable={true}
-      />
-    </div>
-  );
-};
-
-const ModuleCodeSelect: FC<SelectProps> = ({
-  options,
-  onChange,
-  placeholder = false,
-}) => {
-  return (
-    <div>
-      {!placeholder ? (
-        <label
-          htmlFor="moduleCode"
-          className="text-slate-800 dark:text-slate-200"
-        >
-          Module Code
-        </label>
-      ) : null}
-      <Select
-        id="moduleCode"
-        filterOption={(
-          option: { value: string; label: string },
-          query: string
-        ) => {
-          if (query.trimStart().length < 2) {
-            return false;
-          }
-          // If matches prefix
-          if (
-            option.value
-              .toLowerCase()
-              .startsWith(query.trimStart().toLowerCase())
-          ) {
-            return true;
-          } else if (containsOnlyNumbers(query.trimStart())) {
-            // If matches number
-            if (option.value.includes(query.trimStart())) {
-              return true;
-            }
-          }
-          return false;
-        }}
-        styles={{
-          option: (baseStyles, state) => {
-            return {
-              ...baseStyles,
-              backgroundColor: state.isFocused
-                ? "#AAAAAA"
-                : "var(--color-slate-800)",
-            };
-          },
-        }}
-        closeMenuOnSelect={true}
-        options={options}
-        onChange={(e) => onChange(e)}
-        placeholder={"Select Module Code"}
-        isClearable={true}
-      />
-    </div>
-  );
-};
-
-export const SemesterSelect: FC<SelectProps> = ({
-  options,
-  onChange,
-  placeholder = false,
-}) => {
-  return (
-    <div>
-      {!placeholder ? (
-        <label
-          htmlFor="semester"
-          className="text-slate-800 dark:text-slate-200"
-        >
-          Semester
-        </label>
-      ) : null}
-      <Select
-        id="semester"
-        styles={{
-          option: (baseStyles, state) => {
-            return {
-              ...baseStyles,
-              backgroundColor: state.isFocused
-                ? "#AAAAAA"
-                : "var(--color-slate-800)",
-            };
-          },
-        }}
-        closeMenuOnSelect={true}
-        options={options}
-        onChange={(e) => onChange(e)}
-        placeholder={"Select Semester"}
-        isClearable={true}
-      />
-    </div>
-  );
-};
-
-export const ExamTypeSelect: FC<SelectProps> = ({
-  options,
-  onChange,
-  placeholder = false,
-}) => {
-  return (
-    <div>
-      {!placeholder ? (
-        <label
-          htmlFor="examType"
-          className="text-slate-800 dark:text-slate-200"
-        >
-          Exam Type
-        </label>
-      ) : null}
-      <Select
-        id="examType"
-        styles={{
-          option: (baseStyles, state) => {
-            return {
-              ...baseStyles,
-              backgroundColor: state.isFocused
-                ? "#AAAAAA"
-                : "var(--color-slate-800)",
-            };
-          },
-        }}
-        closeMenuOnSelect={true}
-        options={options}
-        onChange={(e) => onChange(e)}
-        placeholder={"Select Exam Type"}
-        isClearable={true}
-      />
-    </div>
-  );
-};
