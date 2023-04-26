@@ -178,6 +178,28 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
           label="Module Code"
           onChange={moduleCodeSelectHandler}
           options={props.moduleCodeOptions}
+          filterOption={(
+            option: { value: string; label: string },
+            query: string
+          ) => {
+            if (query.trimStart().length < 2) {
+              return false;
+            }
+            // If matches prefix
+            if (
+              option.value
+                .toLowerCase()
+                .startsWith(query.trimStart().toLowerCase())
+            ) {
+              return true;
+            } else if (containsOnlyNumbers(query.trimStart())) {
+              // If matches number
+              if (option.value.includes(query.trimStart())) {
+                return true;
+              }
+            }
+            return false;
+          }}
         />
         {props.examTypeOptions !== null && (
           <StyledSelect
