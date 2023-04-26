@@ -11,6 +11,7 @@ interface SelectProps {
   onChange: (option: Option | null) => void;
   options: Array<Option>;
   placeholder?: boolean;
+  filterOption?: (option: Option, query: string) => boolean;
 }
 
 export const StyledSelect: FC<SelectProps> = ({
@@ -18,7 +19,7 @@ export const StyledSelect: FC<SelectProps> = ({
   options,
   onChange,
   placeholder = false,
-  ...props
+  filterOption,
 }) => {
   return (
     <div className="flex flex-col gap-y-1">
@@ -65,7 +66,7 @@ export const StyledSelect: FC<SelectProps> = ({
         options={options}
         onChange={(e) => onChange(e)}
         isClearable={true}
-        {...props}
+        filterOption={filterOption}
       />
     </div>
   );
