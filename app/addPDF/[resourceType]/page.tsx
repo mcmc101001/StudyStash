@@ -47,20 +47,18 @@ export default async function Page({
   });
 
   return (
-    <main className="flex h-screen w-full flex-1 flex-col p-20">
+    <main className="flex h-screen w-full flex-1 flex-col gap-y-24 p-20">
       <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-200">
         {header}
       </h1>
-      <div className="flex h-full flex-row items-center justify-around">
-        <ContributeForm
-          acadYearOptions={acadYearOptions}
-          moduleCodeOptions={moduleCodeOptions}
-          semesterOptions={semesterOptions}
-          examTypeOptions={resourceType !== "Notes" ? examTypeOptions : null}
-          resourceType={resourceType}
-          userID={user.id}
-        />
-      </div>
+      <ContributeForm
+        acadYearOptions={acadYearOptions}
+        moduleCodeOptions={moduleCodeOptions}
+        semesterOptions={semesterOptions}
+        examTypeOptions={resourceType !== "Notes" ? examTypeOptions : null}
+        resourceType={resourceType}
+        userID={user.id}
+      />
     </main>
   );
 }
