@@ -161,7 +161,7 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
     <form
       id="contributeForm"
       onSubmit={(e) => uploadFile(e)}
-      className="flex h-full w-full flex-row items-center justify-center gap-x-16"
+      className="flex w-full flex-row items-center justify-center gap-x-16"
     >
       <div className="flex w-1/3 flex-col gap-y-4">
         <StyledSelect
@@ -209,13 +209,13 @@ const ContributeForm: FC<ContributeFormProps> = (props) => {
           />
         )}
       </div>
-      <div className="w-1/3">
+      <div className="flex w-1/3 flex-col items-center justify-center gap-y-6">
         <PDFUploader
           fileSelectedHandler={fileSelectedHandler}
           fileName={fileName}
           inputRef={inputRef}
         />
-        <section className="mt-4 flex w-full flex-row items-center justify-between">
+        <section className="flex w-full flex-row items-center justify-between">
           <Button
             size="sm"
             variant="default"
