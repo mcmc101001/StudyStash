@@ -54,12 +54,30 @@ export const StyledSelect: FC<SelectProps> = ({
           menuList: () =>
             "p-0 border dark:border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950",
           control: () => "bg-white dark:bg-slate-950",
-          placeholder: () => "text-slate-500 dark:text-slate-300",
+          placeholder: () => "text-slate-500 dark:text-slate-400",
           input: () => "text-slate-800 dark:text-slate-200",
           singleValue: () => "text-slate-800 dark:text-slate-200",
           dropdownIndicator: () => "text-slate-800 dark:text-slate-200",
           clearIndicator: () =>
             "text-slate-800 dark:text-slate-200 hover:text-slate-500 dark:hover:text-slate-400",
+        }}
+        styles={{
+          menuList: (base) => ({
+            ...base,
+
+            "::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "::-webkit-scrollbar-track": {
+              background: "#52525b", // zinc-600
+            },
+            "::-webkit-scrollbar-thumb": {
+              background: "#94a3b8", // slate-400
+            },
+            "::-webkit-scrollbar-thumb:hover": {
+              background: "#64748b", // slate-500
+            },
+          }),
         }}
         placeholder={`Select ${label}`}
         closeMenuOnSelect={true}
