@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { Icon, Icons } from "@/components/Icons";
@@ -17,7 +16,7 @@ export interface NavOptionsProps {
   icon: Icon;
 }
 
-const NavOptions: FC<NavOptionsProps> = ({ name, href, icon }) => {
+export default function NavOptions({ name, href, icon }: NavOptionsProps) {
   let segment = useSelectedLayoutSegment();
   let isActive = false;
   if (!segment && href === "/") {
@@ -50,6 +49,4 @@ const NavOptions: FC<NavOptionsProps> = ({ name, href, icon }) => {
       </TooltipProvider>
     </li>
   );
-};
-
-export default NavOptions;
+}

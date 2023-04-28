@@ -5,7 +5,6 @@ import {
 } from "@/lib/content";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { ExamType } from "@prisma/client";
 import ResourceItem from "@/components/ResourceItem";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/ResourceFilters";

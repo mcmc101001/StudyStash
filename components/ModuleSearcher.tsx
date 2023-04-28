@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/Input";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ModuleList from "@/components/ModuleList";
 import { containsOnlyNumbers } from "@/lib/utils";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
@@ -11,7 +11,7 @@ interface ModuleSearcherProps {
   module_codes: Array<string>;
 }
 
-const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
+export default function ModuleSearcher(props: ModuleSearcherProps) {
   let selectedResourceType: ResourceType | null = null;
   let selectedModule: string | null = null;
   let segments = useSelectedLayoutSegments();
@@ -80,6 +80,4 @@ const ModuleSearcher: FC<ModuleSearcherProps> = (props) => {
       />
     </div>
   );
-};
-
-export default ModuleSearcher;
+}

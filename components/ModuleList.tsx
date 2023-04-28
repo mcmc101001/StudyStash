@@ -1,4 +1,3 @@
-import { FC } from "react";
 import Link from "next/link";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 
@@ -8,7 +7,7 @@ interface ModuleListProps {
   selectedModule: string | null;
 }
 
-const ModuleList: FC<ModuleListProps> = (props) => {
+export default function ModuleList(props: ModuleListProps) {
   let link_extension: ResourceTypeURL;
   if (props.selectedResourceType === "Cheatsheets") {
     link_extension = "cheatsheets";
@@ -42,6 +41,4 @@ const ModuleList: FC<ModuleListProps> = (props) => {
       })}
     </ul>
   );
-};
-
-export default ModuleList;
+}

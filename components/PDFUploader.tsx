@@ -1,12 +1,5 @@
-/*
- * Please note: TO CHANGE
- * Use unique file id as key to upload file
- * Take note
- */
-
 "use client";
 
-import { FC } from "react";
 import { Upload } from "lucide-react";
 
 interface PDFUploaderProps {
@@ -15,7 +8,7 @@ interface PDFUploaderProps {
   fileName: string | null;
 }
 
-const PDFUploader: FC<PDFUploaderProps> = (props) => {
+export default function PDFUploader(props: PDFUploaderProps) {
   return (
     <div
       className="flex h-60 w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-indigo-600"
@@ -32,6 +25,4 @@ const PDFUploader: FC<PDFUploaderProps> = (props) => {
       <span className="text-indigo-600">{props.fileName || "Select file"}</span>
     </div>
   );
-};
-
-export default PDFUploader;
+}

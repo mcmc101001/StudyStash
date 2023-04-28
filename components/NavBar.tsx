@@ -30,7 +30,7 @@ export const navOptions: NavOptionsProps[] = [
   },
 ];
 
-const NavBar: FC = () => {
+export default function Navbar() {
   return (
     <div className="flex h-screen flex-col gap-y-5 overflow-y-hidden border-r border-gray-700 px-3 pt-4 dark:border-gray-300">
       <Link href="/" className="flex h-16 shrink-0 items-center justify-center">
@@ -64,6 +64,4 @@ const NavBar: FC = () => {
       </nav>
     </div>
   );
-};
-
-export default NavBar;
+}
