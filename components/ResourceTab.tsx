@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import Link from "next/link";
 import { ResourceOptionsProps } from "@/lib/content";
 import { useSelectedLayoutSegment } from "next/navigation";
@@ -11,7 +10,10 @@ interface ResourceTabProps {
   resourceOptions: ResourceOptionsProps[];
 }
 
-const ResourceTab: FC<ResourceTabProps> = ({ moduleCode, resourceOptions }) => {
+export default function ResourceTab({
+  moduleCode,
+  resourceOptions,
+}: ResourceTabProps) {
   let segment = useSelectedLayoutSegment();
   return (
     <div className="my-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
@@ -42,6 +44,4 @@ const ResourceTab: FC<ResourceTabProps> = ({ moduleCode, resourceOptions }) => {
       })}
     </div>
   );
-};
-
-export default ResourceTab;
+}

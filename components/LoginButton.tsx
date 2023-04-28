@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import toast from "react-hot-toast";
 import { LogIn, Loader2 } from "lucide-react";
 
-const LoginButton = () => {
+export default function LoginButton() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   return (
     <Button
@@ -30,6 +30,4 @@ const LoginButton = () => {
       )}
     </Button>
   );
-};
-
-export default LoginButton;
+}

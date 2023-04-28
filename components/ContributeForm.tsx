@@ -2,15 +2,14 @@
 
 import { containsOnlyNumbers } from "@/lib/utils";
 import axios from "axios";
-import { FC, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import Select from "react-select";
-import PDFUploader from "./PDFUploader";
-import { Button } from "./ui/Button";
+import PDFUploader from "@/components/PDFUploader";
+import Button from "./ui/Button";
 import { Trash2 } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
 import { ResourceType } from "@/lib/content";
-import { Option, StyledSelect } from "@/components/ui/StyledSelect";
+import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -23,7 +22,7 @@ interface ContributeFormProps {
   userID: string;
 }
 
-const ContributeForm: FC<ContributeFormProps> = (props) => {
+const ContributeForm = (props: ContributeFormProps) => {
   const [acadYear, setAcadYear] = useState<string | null>(null);
   const [semester, setSemester] = useState<string | null>(null);
   const [moduleCode, setModuleCode] = useState<string | null>(null);

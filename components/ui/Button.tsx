@@ -33,14 +33,14 @@ export interface ButtonProps
   isLoading?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({
+export default function Button({
   className,
   children,
   variant,
   isLoading,
   size,
   ...props
-}) => {
+}: ButtonProps) {
   return (
     <button
       className={cn(buttonVariants({ variant, size, className }))}
@@ -53,6 +53,4 @@ const Button: FC<ButtonProps> = ({
       ) : null}
     </button>
   );
-};
-
-export { Button };
+}

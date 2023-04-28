@@ -6,7 +6,7 @@
 
 import { ResourceOptions } from "@/lib/content";
 import { Icons } from "@/components/Icons";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import { authOptions } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";

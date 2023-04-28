@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
 import { Moon, Sun } from "lucide-react";
-import { motion } from "framer-motion";
 
 export default function DarkModeToggler() {
   const [theme, setTheme] = useState<string>(() => {

@@ -1,4 +1,3 @@
-import { FC } from "react";
 import Select from "react-select";
 
 export interface Option {
@@ -14,13 +13,13 @@ interface SelectProps {
   filterOption?: (option: Option, query: string) => boolean;
 }
 
-export const StyledSelect: FC<SelectProps> = ({
+export default function StyledSelect({
   label,
   options,
   onChange,
   placeholder = false,
   filterOption,
-}) => {
+}: SelectProps) {
   return (
     <div className="flex flex-col gap-y-1">
       {!placeholder ? (
@@ -50,7 +49,6 @@ export const StyledSelect: FC<SelectProps> = ({
                 : "bg-white dark:bg-slate-950 "
             }` +
             `${state.isSelected ? "font-bold" : ""}`,
-          // menu: () => "p-0",
           menuList: () =>
             "p-0 border dark:border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950",
           control: () => "bg-white dark:bg-slate-950",
@@ -88,4 +86,4 @@ export const StyledSelect: FC<SelectProps> = ({
       />
     </div>
   );
-};
+}

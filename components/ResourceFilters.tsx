@@ -1,15 +1,16 @@
 "use client";
 
-import { FC } from "react";
 import useQueryParams from "@/hooks/useQueryParams";
 import { semesterOptions, examTypeOptions } from "@/lib/content";
-import { Option, StyledSelect } from "@/components/ui/StyledSelect";
+import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
 }
 
-const ResourceFilters: FC<ResourceFiltersProps> = ({ acadYearOptions }) => {
+export default function ResourceFilters({
+  acadYearOptions,
+}: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
 
   const handleAcadYearChange = (option: Option | null) => {
@@ -58,6 +59,4 @@ const ResourceFilters: FC<ResourceFiltersProps> = ({ acadYearOptions }) => {
       />
     </div>
   );
-};
-
-export default ResourceFilters;
+}

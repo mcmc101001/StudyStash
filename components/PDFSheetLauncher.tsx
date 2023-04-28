@@ -1,5 +1,5 @@
 "use client";
-import { FC, useState } from "react";
+
 import {
   Sheet,
   SheetTrigger,
@@ -17,7 +17,10 @@ interface PDFSheetLauncherProps {
   id: string;
 }
 
-const PDFSheetLauncher: FC<PDFSheetLauncherProps> = ({ children, id }) => {
+export default function PDFSheetLauncher({
+  children,
+  id,
+}: PDFSheetLauncherProps) {
   const { queryParams, setQueryParams } = useQueryParams();
   const router = useRouter();
   const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${id}`;
@@ -58,6 +61,4 @@ const PDFSheetLauncher: FC<PDFSheetLauncherProps> = ({ children, id }) => {
       </SheetContent>
     </Sheet>
   );
-};
-
-export default PDFSheetLauncher;
+}
