@@ -27,7 +27,7 @@ const mock_user_id = "1234567890";
 describe("ContributeForm", () => {
   const resourceTypes: ResourceType[] = ["Notes", "Past Papers", "Cheatsheets"];
   resourceTypes.map((resourceType) => {
-    it("should render correct form output for ", async () => {
+    it(`should render correct form output for ${resourceType}`, async () => {
       render(
         <ContributeForm
           acadYearOptions={mock_acadYearOptions}
@@ -41,7 +41,6 @@ describe("ContributeForm", () => {
         />
       );
       const selects = screen.getAllByRole("combobox");
-      screen.debug();
       if (resourceType === "Notes") {
         expect(selects.length).toBe(3);
       } else {

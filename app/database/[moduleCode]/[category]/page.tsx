@@ -61,8 +61,8 @@ export default async function Page({
     <div className="flex flex-col gap-y-6">
       <ResourceFilters acadYearOptions={acadYearOptions} />
       {parsed_resources.length !== 0 ? (
-        <table className="text-sate-800 w-full dark:text-slate-200">
-          <thead>
+        <table className="w-full table-auto border-separate border-spacing-2 border border-slate-800 text-slate-800 dark:border-slate-200 dark:text-slate-200">
+          <thead className="text-left">
             <tr>
               <th>Name</th>
               <th>User</th>

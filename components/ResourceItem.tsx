@@ -32,10 +32,22 @@ export default async function ResourceItem({
   return (
     <tr>
       <td>
-        <PDFSheetLauncher id={id}>{name}</PDFSheetLauncher>
+        <PDFSheetLauncher id={id}>
+          <div className="h-full w-full text-slate-800 hover:underline dark:text-slate-200">
+            {name}
+          </div>
+        </PDFSheetLauncher>
       </td>
       <td>{user?.name}</td>
-      <td>{createdAt.toISOString()}</td>
+      <td>
+        {createdAt.toLocaleString("en-GB", {
+          minute: "2-digit",
+          hour: "numeric",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
+      </td>
       <td>{`${acadYear} S${semester}`}</td>
       {category !== "Notes" ? <td>{examType}</td> : <></>}
     </tr>

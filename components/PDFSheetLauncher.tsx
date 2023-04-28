@@ -41,15 +41,20 @@ const PDFSheetLauncher: FC<PDFSheetLauncherProps> = ({ children, id }) => {
             This action cannot be undone. This will permanently delete your
             account and remove your data from our servers.
           </SheetDescription>
+          <div
+            className="absolute right-4 top-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+            onClick={router.back}
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </div>
         </SheetHeader>
-        <div
-          className="absolute right-4 top-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
-          onClick={router.back}
-        >
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </div>
-        <iframe src={PDFURL} width="100%" height="500px"></iframe>
+        <iframe
+          src={PDFURL}
+          width="100%"
+          height="600px"
+          className="mt-4"
+        ></iframe>
       </SheetContent>
     </Sheet>
   );
