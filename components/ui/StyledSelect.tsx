@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import Select from "react-select";
 
 export interface Option {
@@ -11,6 +12,7 @@ interface SelectProps {
   options: Array<Option>;
   placeholder?: boolean;
   filterOption?: (option: Option, query: string) => boolean;
+  noOptionsMessage?: (obj: { inputValue: string }) => ReactNode;
 }
 
 export default function StyledSelect({
@@ -19,6 +21,7 @@ export default function StyledSelect({
   onChange,
   placeholder = false,
   filterOption,
+  noOptionsMessage,
 }: SelectProps) {
   return (
     <div className="flex flex-col gap-y-1">
@@ -32,14 +35,6 @@ export default function StyledSelect({
       ) : null}
       <Select
         id="acadYear"
-        // styles={{
-        //   option: (baseStyles, state) => {
-        //     return {
-        //       ...baseStyles,
-        //       backgroundColor: state.isFocused ? "#AAAAAA" : "#000000",
-        //     };
-        //   },
-        // }}
         classNames={{
           option: (state) =>
             `text-slate-800 dark:text-slate-200 ` +
@@ -83,6 +78,7 @@ export default function StyledSelect({
         onChange={(e) => onChange(e)}
         isClearable={true}
         filterOption={filterOption}
+        noOptionsMessage={noOptionsMessage}
       />
     </div>
   );
