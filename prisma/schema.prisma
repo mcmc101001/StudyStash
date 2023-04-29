@@ -55,6 +55,7 @@ model User {
   cheatsheetVotes    CheatsheetVote[]
   questionPaperVotes QuestionPaperVote[]
   notesVotes         NotesVote[]
+  starredModules     StarredModules[]
 }
 
 model VerificationToken {
@@ -143,6 +144,14 @@ model NotesVote {
   @@unique([userId, resourceId])
   @@index([userId])
   @@index([resourceId])
+}
+
+model StarredModules {
+  moduleCode String
+  userId     String
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, moduleCode])
 }
 
 // WARNING: CHANGE ADD PDF FUNCTION IF CHANGING THIS
