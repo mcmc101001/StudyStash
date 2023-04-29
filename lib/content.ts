@@ -15,7 +15,7 @@ export const ResourceOptions: ResourceOptionsProps[] = [
   {
     name: "Cheatsheets",
     href: "cheatsheets",
-    icon: "LayoutDashboard",
+    icon: "Calculator",
   },
   {
     name: "Past Papers",

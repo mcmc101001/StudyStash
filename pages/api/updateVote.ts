@@ -57,9 +57,63 @@ export default async function updateVote(
       }
       res.status(200).json({ vote });
     } else if (category === "Past Papers") {
-      res.status(200).json({ message: "Vote updated!" });
+      if (value !== null) {
+        vote = await prisma.questionPaperVote.upsert({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+          update: {
+            value: value,
+          },
+          create: {
+            value: value,
+            resourceId: resourceId,
+            userId: userId,
+          },
+        });
+      } else {
+        vote = await prisma.questionPaperVote.delete({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+        });
+      }
+      res.status(200).json({ vote });
     } else if (category === "Notes") {
-      res.status(200).json({ message: "Vote updated!" });
+      if (value !== null) {
+        vote = await prisma.notesVote.upsert({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+          update: {
+            value: value,
+          },
+          create: {
+            value: value,
+            resourceId: resourceId,
+            userId: userId,
+          },
+        });
+      } else {
+        vote = await prisma.notesVote.delete({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+        });
+      }
+      res.status(200).json({ vote });
     } else {
       res.status(400).json({ message: "Invalid request" });
     }

@@ -26,11 +26,11 @@ export default async function Page({
   const FilterAcadYear = searchParams.filterAcadYear ?? null;
   const FilterExamType = searchParams.filterExamType ?? null;
   const Sort = searchParams.sort ?? null;
-  let parsed_resources;
+  let parsedResources;
   let category: ResourceType;
   if (params.category === "cheatsheets") {
     category = "Cheatsheets";
-    parsed_resources = await prisma.cheatsheet.findMany({
+    parsedResources = await prisma.cheatsheet.findMany({
       where: {
         moduleCode: params.moduleCode,
         ...(FilterSemester ? { semester: FilterSemester } : {}),
@@ -40,14 +40,14 @@ export default async function Page({
     });
   } else if (params.category === "notes") {
     category = "Notes";
-    parsed_resources = await prisma.notes.findMany({
+    parsedResources = await prisma.notes.findMany({
       where: {
         moduleCode: params.moduleCode,
       },
     });
   } else if (params.category === "past_papers") {
     category = "Past Papers";
-    parsed_resources = await prisma.questionPaper.findMany({
+    parsedResources = await prisma.questionPaper.findMany({
       where: {
         moduleCode: params.moduleCode,
       },
@@ -59,7 +59,7 @@ export default async function Page({
   return (
     <div className="flex flex-col gap-y-6">
       <ResourceFilters acadYearOptions={acadYearOptions} />
-      {parsed_resources.length !== 0 ? (
+      {parsedResources.length !== 0 ? (
         <table className="w-full table-auto border-separate border-spacing-2 border border-slate-800 text-lg text-slate-800 dark:border-slate-200 dark:text-slate-200">
           <thead className="text-left">
             <tr>
@@ -72,7 +72,7 @@ export default async function Page({
             </tr>
           </thead>
           <tbody>
-            {parsed_resources.map((resource) => {
+            {parsedResources.map((resource) => {
               return (
                 // @ts-expect-error Server component
                 <ResourceItem

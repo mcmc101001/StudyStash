@@ -7,11 +7,11 @@ export default async function DataBaseLayout({
   children: React.ReactNode;
 }) {
   const modules = await getModuleList();
-  let module_codes = modules.map((mod) => mod.moduleCode);
+  let moduleCodes = modules.map((mod) => mod.moduleCode);
 
   return (
     <div className="flex flex-row">
-      <ModuleSearcher module_codes={module_codes} />
+      <ModuleSearcher moduleCodes={moduleCodes} />
       <main className="m-8 flex w-full flex-col">{children}</main>
     </div>
   );
