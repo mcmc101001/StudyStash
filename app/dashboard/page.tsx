@@ -21,7 +21,12 @@ export default async function DashboardPage() {
       <div className="flex flex-row flex-wrap gap-12 overflow-hidden">
         {starredModules.map((module, index) => {
           if (index < 12) {
-            return <DashboardItem moduleCode={module.moduleCode} />;
+            return (
+              <DashboardItem
+                key={module.moduleCode}
+                moduleCode={module.moduleCode}
+              />
+            );
           } else {
             return null;
           }
