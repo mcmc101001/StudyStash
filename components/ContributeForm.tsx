@@ -100,7 +100,6 @@ const ContributeForm = (props: ContributeFormProps) => {
 
           toast.success("PDF uploaded successfully");
         } catch (error) {
-          console.log(error);
           toast.error("Error uploading PDF.");
           setIsDisabled(false);
           return;

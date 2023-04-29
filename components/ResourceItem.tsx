@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import PDFSheetLauncher from "@/components/PDFSheetLauncher";
 import Rating from "@/components/Rating";
 import { CheatsheetVote, QuestionPaperVote, NotesVote } from "@prisma/client";
+import { getCurrentUser } from "@/lib/session";
 
 interface ResourceItemProps {
   name: string;
@@ -26,59 +27,78 @@ export default async function ResourceItem({
   examType,
   category,
 }: ResourceItemProps) {
-  const user = await prisma.user.findUnique({
+  const resourceUser = await prisma.user.findUnique({
     where: {
       id: userId,
     },
   });
+  const currentUser = await getCurrentUser();
 
   let votes: CheatsheetVote[] | NotesVote[] | QuestionPaperVote[];
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
+
+  // If user is signed in, get user vote as well, otherwise just get total votes
+
   if (category === "Cheatsheets") {
     const votesPromise = prisma.cheatsheetVote.findMany({
       where: {
         resourceId: id,
       },
     });
-    const userVotePromise = prisma.cheatsheetVote.findUnique({
-      where: {
-        userId_resourceId: {
-          userId: userId,
-          resourceId: id,
+    if (currentUser) {
+      const userVotePromise = prisma.cheatsheetVote.findUnique({
+        where: {
+          userId_resourceId: {
+            userId: currentUser.id,
+            resourceId: id,
+          },
         },
-      },
-    });
-    [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+      });
+      [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+    } else {
+      votes = await votesPromise;
+      userVote = null;
+    }
   } else if (category === "Notes") {
     const votesPromise = prisma.notesVote.findMany({
       where: {
         resourceId: id,
       },
     });
-    const userVotePromise = prisma.notesVote.findUnique({
-      where: {
-        userId_resourceId: {
-          userId: userId,
-          resourceId: id,
+    if (currentUser) {
+      const userVotePromise = prisma.notesVote.findUnique({
+        where: {
+          userId_resourceId: {
+            userId: currentUser.id,
+            resourceId: id,
+          },
         },
-      },
-    });
-    [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+      });
+      [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+    } else {
+      votes = await votesPromise;
+      userVote = null;
+    }
   } else if (category === "Past Papers") {
     const votesPromise = prisma.questionPaperVote.findMany({
       where: {
         resourceId: id,
       },
     });
-    const userVotePromise = prisma.questionPaperVote.findUnique({
-      where: {
-        userId_resourceId: {
-          userId: userId,
-          resourceId: id,
+    if (currentUser) {
+      const userVotePromise = prisma.questionPaperVote.findUnique({
+        where: {
+          userId_resourceId: {
+            userId: currentUser.id,
+            resourceId: id,
+          },
         },
-      },
-    });
-    [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+      });
+      [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+    } else {
+      votes = await votesPromise;
+      userVote = null;
+    }
   } else {
     redirect("/404");
   }
@@ -92,7 +112,8 @@ export default async function ResourceItem({
       <td>
         <Rating
           resourceId={id}
-          userId={userId}
+          currentUserId={currentUser ? currentUser.id : null}
+          category={category}
           totalRating={rating}
           userRating={userVote !== null ? userVote.value : null}
         />
@@ -104,7 +125,7 @@ export default async function ResourceItem({
           </div>
         </PDFSheetLauncher>
       </td>
-      <td>{user?.name}</td>
+      <td>{resourceUser?.name}</td>
       <td>
         {createdAt.toLocaleString("en-GB", {
           minute: "2-digit",
