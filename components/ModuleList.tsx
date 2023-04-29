@@ -2,27 +2,27 @@ import Link from "next/link";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 
 interface ModuleListProps {
-  module_codes: Array<string>;
+  moduleCodes: Array<string>;
   selectedResourceType: ResourceType | null;
   selectedModule: string | null;
 }
 
 export default function ModuleList(props: ModuleListProps) {
-  let link_extension: ResourceTypeURL;
+  let linkExtension: ResourceTypeURL;
   if (props.selectedResourceType === "Cheatsheets") {
-    link_extension = "cheatsheets";
+    linkExtension = "cheatsheets";
   } else if (props.selectedResourceType === "Past Papers") {
-    link_extension = "past_papers";
+    linkExtension = "past_papers";
   } else if (props.selectedResourceType === "Notes") {
-    link_extension = "notes";
+    linkExtension = "notes";
   } else {
     // cheatsheets by default
-    link_extension = "cheatsheets";
+    linkExtension = "cheatsheets";
   }
 
   return (
     <ul role="list" className="flex flex-1 flex-col gap-y-7">
-      {props.module_codes.map((mod) => {
+      {props.moduleCodes.map((mod) => {
         return (
           <li key={mod}>
             <Link
@@ -32,7 +32,7 @@ export default function ModuleList(props: ModuleListProps) {
                   ? `border border-slate-800 dark:border-slate-200`
                   : "")
               }
-              href={`/database/${mod}/${link_extension}`}
+              href={`/database/${mod}/${linkExtension}`}
             >
               {mod}
             </Link>

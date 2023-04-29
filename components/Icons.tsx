@@ -4,6 +4,7 @@ import {
   FilePlus,
   FileSignature,
   LayoutDashboard,
+  Calculator,
   Construction,
 } from "lucide-react";
 
@@ -11,7 +12,6 @@ export const Icons = {
   Logo: (props: LucideProps) => (
     <svg
       className="fill-current text-slate-800 dark:text-slate-200"
-      // fill="#eeeeee"
       width="64px"
       height="64px"
       viewBox="0 0 512 512"
@@ -30,6 +30,7 @@ export const Icons = {
   ),
   Files,
   FilePlus,
+  Calculator,
   LayoutDashboard,
   Construction,
   FileSignature,

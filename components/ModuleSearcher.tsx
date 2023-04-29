@@ -8,7 +8,7 @@ import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { useSelectedLayoutSegments } from "next/navigation";
 
 interface ModuleSearcherProps {
-  module_codes: Array<string>;
+  moduleCodes: Array<string>;
 }
 
 export default function ModuleSearcher(props: ModuleSearcherProps) {
@@ -31,7 +31,7 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
 
   const [query, setQuery] = useState("");
 
-  const modules = props.module_codes;
+  const modules = props.moduleCodes;
   const [filterMods, setFilterMods] = useState([""]);
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +74,7 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
       ></Input>
       <hr className="border bg-slate-700 dark:bg-slate-300"></hr>
       <ModuleList
-        module_codes={filterMods}
+        moduleCodes={filterMods}
         selectedModule={selectedModule}
         selectedResourceType={selectedResourceType}
       />
