@@ -86,9 +86,6 @@ export default async function ResourceItem({
     (total, vote) => (vote.value ? total + 1 : total - 1),
     0
   );
-  const formatted_rating = Intl.NumberFormat("en-GB", {
-    notation: "compact",
-  }).format(rating);
 
   return (
     <tr>
@@ -96,8 +93,8 @@ export default async function ResourceItem({
         <Rating
           resourceId={id}
           userId={userId}
-          totalRating={formatted_rating}
-          userRating={userVote ? userVote.value : null}
+          totalRating={rating}
+          userRating={userVote !== null ? userVote.value : null}
         />
       </td>
       <td>
