@@ -12,14 +12,14 @@ jest.mock("next/navigation", () => ({
 describe("Module Searcher", () => {
   it("should render textbox input field", async () => {
     (useSelectedLayoutSegments as jest.Mock).mockReturnValue([]);
-    render(<ModuleSearcher module_codes={mock_module_codes} />);
+    render(<ModuleSearcher moduleCodes={mock_module_codes} />);
     const input = screen.getByRole("textbox");
     expect(input).toBeInTheDocument();
   });
   it("should show module list with correct number on user input CS", async () => {
     (useSelectedLayoutSegments as jest.Mock).mockReturnValue([]);
 
-    render(<ModuleSearcher module_codes={mock_module_codes} />);
+    render(<ModuleSearcher moduleCodes={mock_module_codes} />);
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "CS" } });
     const list = screen.getByRole("list");
@@ -28,7 +28,7 @@ describe("Module Searcher", () => {
   it("should show module list with correct number on user input MA", async () => {
     (useSelectedLayoutSegments as jest.Mock).mockReturnValue([]);
 
-    render(<ModuleSearcher module_codes={mock_module_codes} />);
+    render(<ModuleSearcher moduleCodes={mock_module_codes} />);
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "MA" } });
     const list = screen.getByRole("list");
@@ -40,7 +40,7 @@ describe("Module Searcher", () => {
       "cheatsheets",
     ]);
 
-    render(<ModuleSearcher module_codes={mock_module_codes} />);
+    render(<ModuleSearcher moduleCodes={mock_module_codes} />);
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "CS" } });
     const CS1010 = screen.getByRole("link", { name: "CS1010" });
@@ -52,7 +52,7 @@ describe("Module Searcher", () => {
       "past_papers",
     ]);
 
-    render(<ModuleSearcher module_codes={mock_module_codes} />);
+    render(<ModuleSearcher moduleCodes={mock_module_codes} />);
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "CS" } });
     const CS1010 = screen.getByRole("link", { name: "CS1010" });
