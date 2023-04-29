@@ -110,39 +110,39 @@ model Notes {
 }
 
 model CheatsheetVote {
-  id           String     @id @default(cuid())
-  type         Boolean // true for upvote, false for downvote
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String
-  cheatsheet   Cheatsheet @relation(fields: [cheatsheetId], references: [id], onDelete: Cascade)
-  cheatsheetId String
+  value      Boolean // true = upvote, false = downvote
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   Cheatsheet @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
 
+  @@unique([userId, resourceId])
   @@index([userId])
-  @@index([cheatsheetId])
+  @@index([resourceId])
 }
 
 model QuestionPaperVote {
-  id              String        @id @default(cuid())
-  type            Boolean // true for upvote, false for downvote
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String
-  questionPaper   QuestionPaper @relation(fields: [questionPaperId], references: [id], onDelete: Cascade)
-  questionPaperId String
+  value      Boolean // true = upvote, false = downvote
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
 
+  @@unique([userId, resourceId])
   @@index([userId])
-  @@index([questionPaperId])
+  @@index([resourceId])
 }
 
 model NotesVote {
-  id      String  @id @default(cuid())
-  type    Boolean // true for upvote, false for downvote
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  String
-  notes   Notes   @relation(fields: [notesId], references: [id], onDelete: Cascade)
-  notesId String
+  value      Boolean // true = upvote, false = downvote
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   Notes   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
 
+  @@unique([userId, resourceId])
   @@index([userId])
-  @@index([notesId])
+  @@index([resourceId])
 }
 
 // WARNING: CHANGE ADD PDF FUNCTION IF CHANGING THIS

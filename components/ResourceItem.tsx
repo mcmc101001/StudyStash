@@ -1,7 +1,9 @@
 import { ResourceType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
-import PDFSheetLauncher from "./PDFSheetLauncher";
+import { redirect } from "next/navigation";
+import PDFSheetLauncher from "@/components/PDFSheetLauncher";
 import Rating from "@/components/Rating";
+import { CheatsheetVote, QuestionPaperVote, NotesVote } from "@prisma/client";
 
 interface ResourceItemProps {
   name: string;
@@ -30,10 +32,73 @@ export default async function ResourceItem({
     },
   });
 
+  let votes: CheatsheetVote[] | NotesVote[] | QuestionPaperVote[];
+  let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
+  if (category === "Cheatsheets") {
+    const votesPromise = prisma.cheatsheetVote.findMany({
+      where: {
+        resourceId: id,
+      },
+    });
+    const userVotePromise = prisma.cheatsheetVote.findUnique({
+      where: {
+        userId_resourceId: {
+          userId: userId,
+          resourceId: id,
+        },
+      },
+    });
+    [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+  } else if (category === "Notes") {
+    const votesPromise = prisma.notesVote.findMany({
+      where: {
+        resourceId: id,
+      },
+    });
+    const userVotePromise = prisma.notesVote.findUnique({
+      where: {
+        userId_resourceId: {
+          userId: userId,
+          resourceId: id,
+        },
+      },
+    });
+    [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+  } else if (category === "Past Papers") {
+    const votesPromise = prisma.questionPaperVote.findMany({
+      where: {
+        resourceId: id,
+      },
+    });
+    const userVotePromise = prisma.questionPaperVote.findUnique({
+      where: {
+        userId_resourceId: {
+          userId: userId,
+          resourceId: id,
+        },
+      },
+    });
+    [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
+  } else {
+    redirect("/404");
+  }
+  const rating = votes.reduce(
+    (total, vote) => (vote.value ? total + 1 : total - 1),
+    0
+  );
+  const formatted_rating = Intl.NumberFormat("en-GB", {
+    notation: "compact",
+  }).format(rating);
+
   return (
     <tr>
       <td>
-        <Rating resourceId={id} userId={userId} />
+        <Rating
+          resourceId={id}
+          userId={userId}
+          totalRating={formatted_rating}
+          userRating={userVote ? userVote.value : null}
+        />
       </td>
       <td>
         <PDFSheetLauncher id={id}>
