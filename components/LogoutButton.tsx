@@ -14,7 +14,7 @@ export default function LogoutButton() {
       onClick={async () => {
         setIsSigningOut(true);
         try {
-          await signOut({ callbackUrl: "https://localhost:3000" });
+          await signOut();
         } catch (error) {
           toast.error("There was an error signing out");
         } finally {
@@ -24,9 +24,9 @@ export default function LogoutButton() {
     >
       Logout
       {isSigningOut ? (
-        <Loader2 className="h-4 w-4 animate-spin" />
+        <Loader2 className="ml-1 h-4 w-4 animate-spin" />
       ) : (
-        <LogOut className="h-6 w-6" />
+        <LogOut className="ml-1 h-6 w-6" />
       )}
     </Button>
   );

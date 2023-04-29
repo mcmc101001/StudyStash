@@ -19,7 +19,6 @@ export default async function addPDF(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("API CALL ADDPDF!");
   if (req.method != "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -78,7 +77,6 @@ export default async function addPDF(
       res.status(400).json({ message: "Invalid request" });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 }

@@ -1,8 +1,7 @@
-import { FC, Suspense } from "react";
-import { NavOptionsProps } from "./NavOptions";
+import { Suspense } from "react";
+import NavOptions, { NavOptionsProps } from "@/components/NavOptions";
 import Link from "next/link";
 import { Icons } from "@/components/Icons";
-import NavOptions from "./NavOptions";
 import UserProfilePic from "@/components/UserProfilePic";
 import { Loader2 } from "lucide-react";
 import DarkModeToggler from "@/components/DarkModeToggler";

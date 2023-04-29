@@ -13,7 +13,6 @@ export default function DarkModeToggler() {
         const themeLocalStorage = window.localStorage.getItem("theme");
         return themeLocalStorage || "dark";
       } catch (error) {
-        console.log(error);
         return "dark";
       }
     }
@@ -40,7 +39,7 @@ export default function DarkModeToggler() {
         }
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 

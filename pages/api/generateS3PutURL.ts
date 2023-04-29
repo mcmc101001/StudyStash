@@ -36,7 +36,6 @@ export default async function generateS3PutURL(
 
     res.status(200).json({ url });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 }

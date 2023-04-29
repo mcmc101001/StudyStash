@@ -100,7 +100,6 @@ const ContributeForm = (props: ContributeFormProps) => {
 
           toast.success("PDF uploaded successfully");
         } catch (error) {
-          console.log(error);
           toast.error("Error uploading PDF.");
           setIsDisabled(false);
           return;
@@ -177,6 +176,11 @@ const ContributeForm = (props: ContributeFormProps) => {
           label="Module Code"
           onChange={moduleCodeSelectHandler}
           options={props.moduleCodeOptions}
+          noOptionsMessage={({ inputValue }) =>
+            inputValue.trimStart().length < 2
+              ? "Type to search..."
+              : "No options"
+          }
           filterOption={(
             option: { value: string; label: string },
             query: string
