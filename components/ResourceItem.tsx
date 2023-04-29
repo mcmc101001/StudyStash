@@ -1,6 +1,7 @@
 import { ResourceType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import PDFSheetLauncher from "./PDFSheetLauncher";
+import Rating from "@/components/Rating";
 
 interface ResourceItemProps {
   name: string;
@@ -31,6 +32,9 @@ export default async function ResourceItem({
 
   return (
     <tr>
+      <td>
+        <Rating resourceId={id} userId={userId} />
+      </td>
       <td>
         <PDFSheetLauncher id={id}>
           <div className="h-full w-full text-slate-800 hover:underline dark:text-slate-200">

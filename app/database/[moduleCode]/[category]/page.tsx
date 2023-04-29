@@ -63,6 +63,7 @@ export default async function Page({
         <table className="w-full table-auto border-separate border-spacing-2 border border-slate-800 text-slate-800 dark:border-slate-200 dark:text-slate-200">
           <thead className="text-left">
             <tr>
+              <th></th>
               <th>Name</th>
               <th>User</th>
               <th>Uploaded at</th>
