@@ -10,18 +10,23 @@ export default async function DashboardPage() {
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
   }
 
-  const starredModules = await prisma.starredModules.findMany({
+  let starredModules = await prisma.starredModules.findMany({
     where: {
       userId: user.id,
     },
   });
 
   return (
-    <div className="m-20 text-slate-800 dark:text-slate-200">
-      <div className="flex flex-row">
-        {starredModules.map((module) => {
-          return <DashboardItem moduleCode={module.moduleCode} />;
+    <div className="m-28 text-slate-800 dark:text-slate-200">
+      <div className="flex flex-row flex-wrap gap-12 overflow-hidden">
+        {starredModules.map((module, index) => {
+          if (index < 12) {
+            return <DashboardItem moduleCode={module.moduleCode} />;
+          } else {
+            return null;
+          }
         })}
+        {starredModules.length < 12 && <DashboardItem moduleCode={null} />}
       </div>
     </div>
   );

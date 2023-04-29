@@ -1,7 +1,6 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import PDFViewer from "@/components/PDFViewer";
 
 export default async function PDFPage() {
   const user = await getCurrentUser();
@@ -11,7 +10,13 @@ export default async function PDFPage() {
 
   return (
     <>
-      <PDFViewer url="https://orbital2023.s3.ap-southeast-1.amazonaws.com/Verilog_Tutorial.pdf" />
+      <li className="text-slate-800 dark:text-slate-200">
+        <ul>Button debouncing</ul>
+        <ul>Transitions and responsive ui</ul>
+        <ul>Comments</ul>
+        <ul>Solutions</ul>
+        <ul>Responsive layout</ul>
+      </li>
     </>
   );
 }
