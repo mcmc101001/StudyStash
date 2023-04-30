@@ -57,8 +57,7 @@ export default async function Page({
   }
 
   return (
-    <div className="flex flex-col gap-y-6">
-      <ResourceFilters acadYearOptions={acadYearOptions} />
+    <div className="flex flex-row gap-x-6">
       {parsedResources.length !== 0 ? (
         <table className="w-full table-auto border-separate border-spacing-2 border border-slate-800 text-lg text-slate-800 dark:border-slate-200 dark:text-slate-200">
           <thead className="text-left">
@@ -96,6 +95,7 @@ export default async function Page({
           No resources found
         </h1>
       )}
+      <ResourceFilters acadYearOptions={acadYearOptions} />
     </div>
   );
 }

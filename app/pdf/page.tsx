@@ -11,6 +11,8 @@ export default async function PDFPage() {
   return (
     <>
       <li className="text-slate-800 dark:text-slate-200">
+        <ul>Completed flags</ul>
+        <ul>Profile and history</ul>
         <ul>Button debouncing</ul>
         <ul>Transitions and responsive ui</ul>
         <ul>Comments</ul>

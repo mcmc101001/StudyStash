@@ -119,8 +119,15 @@ export default async function ResourceItem({
         />
       </td>
       <td>
-        <PDFSheetLauncher id={id}>
-          <div className="h-full w-full text-slate-800 hover:underline dark:text-slate-200">
+        <PDFSheetLauncher
+          title={name}
+          currentUserId={currentUser ? currentUser.id : null}
+          category={category}
+          totalRating={rating}
+          userRating={userVote !== null ? userVote.value : null}
+          id={id}
+        >
+          <div className="h-full w-full font-semibold text-slate-800 hover:underline dark:text-slate-200">
             {name}
           </div>
         </PDFSheetLauncher>

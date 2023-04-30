@@ -97,8 +97,8 @@ export default function Rating({
   };
 
   return (
-    <div className="flex flex-row items-center">
-      <div className="flex flex-col">
+    <div className="flex flex-row items-center font-light">
+      <div className="flex flex-col items-center">
         <button onClick={handleUpvote}>
           <ArrowBigUp
             className={
@@ -109,6 +109,9 @@ export default function Rating({
             }
           />
         </button>
+        {Intl.NumberFormat("en-GB", { notation: "compact" }).format(
+          ratingState
+        )}
         <button onClick={handleDownVote}>
           <ArrowBigDown
             className={
@@ -121,7 +124,6 @@ export default function Rating({
         </button>
       </div>
       {/* Format total rating to 3K, 2.2M, etc version */}
-      {Intl.NumberFormat("en-GB", { notation: "compact" }).format(ratingState)}
     </div>
   );
 }
