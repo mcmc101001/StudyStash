@@ -149,6 +149,14 @@ export default async function Page({
     sortedResources.sort((a, b) => {
       return a.rating - b.rating;
     });
+  } else if (Sort === "date") {
+    sortedResources.sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+  } else if (Sort === "date_flip") {
+    sortedResources.sort((a, b) => {
+      return a.createdAt.getTime() - b.createdAt.getTime();
+    });
   }
 
   return (
