@@ -44,7 +44,7 @@ export default function PDFSheetLauncher({
         setQueryParams({ id: id });
       }}
     >
-      <SheetTrigger>{children}</SheetTrigger>
+      <SheetTrigger className="h-full w-full">{children}</SheetTrigger>
       <SheetContent
         size={"xl"}
         onEscapeKeyDown={router.back}

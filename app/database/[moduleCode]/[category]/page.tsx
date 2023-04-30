@@ -37,6 +37,11 @@ export default async function Page({
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(FilterExamType ? { type: FilterExamType } : {}),
       },
+      include: {
+        _count: {
+          select: { votes: true },
+        },
+      },
     });
   } else if (params.category === "notes") {
     category = "Notes";

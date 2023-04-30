@@ -109,22 +109,22 @@ export default async function ResourceItem({
   );
 
   return (
-    <PDFSheetLauncher
-      title={name}
-      currentUserId={currentUser ? currentUser.id : null}
-      category={category}
-      totalRating={rating}
-      userRating={userVote !== null ? userVote.value : null}
-      id={id}
-    >
-      <div className="flex h-full w-full flex-row items-center justify-start gap-x-4 rounded-xl border border-slate-800 p-2 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-        <Rating
-          resourceId={id}
-          currentUserId={currentUser ? currentUser.id : null}
-          category={category}
-          totalRating={rating}
-          userRating={userVote !== null ? userVote.value : null}
-        />
+    <div className="flex h-full w-full flex-row items-center justify-start gap-x-4 rounded-xl border border-slate-800 p-2 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+      <Rating
+        resourceId={id}
+        currentUserId={currentUser ? currentUser.id : null}
+        category={category}
+        totalRating={rating}
+        userRating={userVote !== null ? userVote.value : null}
+      />
+      <PDFSheetLauncher
+        title={name}
+        currentUserId={currentUser ? currentUser.id : null}
+        category={category}
+        totalRating={rating}
+        userRating={userVote !== null ? userVote.value : null}
+        id={id}
+      >
         <div className="grid h-full w-full grid-flow-row grid-cols-5 justify-center">
           <div className="col-span-3 row-span-1 flex items-center font-semibold">
             {name}
@@ -146,7 +146,7 @@ export default async function ResourceItem({
             <Link href={`#`}>{resourceUser?.name}</Link>
           </div>
         </div>
-      </div>
-    </PDFSheetLauncher>
+      </PDFSheetLauncher>
+    </div>
   );
 }
