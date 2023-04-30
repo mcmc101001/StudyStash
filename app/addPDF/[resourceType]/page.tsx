@@ -27,7 +27,6 @@ export default async function Page({
     resourceType = "Notes";
     header = "Submit notes";
   } else {
-    // this should be taken care of by generateStaticParams
     redirect("/404");
   }
 

@@ -25,7 +25,8 @@ export default function Rating({
   let [ratingState, setRatingState] = useState(totalRating);
   let [userRatingState, setUserRatingState] = useState(userRating);
 
-  const handleUpvote = async () => {
+  const handleUpvote = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation(); // stops button click from propogating up parent
     // not logged in
     if (currentUserId === null) {
       toast.error("You must be logged in to vote!");
@@ -61,7 +62,8 @@ export default function Rating({
     }
   };
 
-  const handleDownVote = async () => {
+  const handleDownvote = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (currentUserId === null) {
       toast.error("You must be logged in to vote!");
       return;
@@ -99,7 +101,7 @@ export default function Rating({
   return (
     <div className="flex flex-row items-center font-light">
       <div className="flex flex-col items-center">
-        <button onClick={handleUpvote}>
+        <button onClick={(e) => handleUpvote(e)}>
           <ArrowBigUp
             className={
               " " +
@@ -112,7 +114,7 @@ export default function Rating({
         {Intl.NumberFormat("en-GB", { notation: "compact" }).format(
           ratingState
         )}
-        <button onClick={handleDownVote}>
+        <button onClick={(e) => handleDownvote(e)}>
           <ArrowBigDown
             className={
               " " +
