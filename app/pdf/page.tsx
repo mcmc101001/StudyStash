@@ -13,7 +13,7 @@ export default async function PDFPage() {
       <li className="text-slate-800 dark:text-slate-200">
         <ul>Completed flags</ul>
         <ul>Profile and history</ul>
-        <ul>Resource sorting</ul>
+        <ul>Resource sorting by rating (HOW???)</ul>
         <ul>Pagination</ul>
         <ul>Button debouncing</ul>
         <ul>Transitions and responsive ui</ul>

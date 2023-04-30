@@ -64,7 +64,7 @@ export default async function Page({
   return (
     <div className="flex flex-row gap-x-6 text-slate-800 dark:text-slate-200">
       {parsedResources.length !== 0 ? (
-        <div className="flex w-10/12 flex-col gap-y-6">
+        <div className="flex w-11/12 flex-col gap-y-6">
           {parsedResources.map((resource) => {
             return (
               // @ts-expect-error Server component

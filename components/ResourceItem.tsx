@@ -109,7 +109,7 @@ export default async function ResourceItem({
   );
 
   return (
-    <div className="flex h-full w-full flex-row items-center justify-start gap-x-4 rounded-xl border border-slate-800 p-2 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+    <div className="flex h-24 w-full flex-row items-center justify-start gap-x-4 rounded-xl border border-slate-800 p-2 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
       <Rating
         resourceId={id}
         currentUserId={currentUser ? currentUser.id : null}
