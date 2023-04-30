@@ -12,7 +12,7 @@ export default async function DataBaseLayout({
   return (
     <div className="flex flex-row">
       <ModuleSearcher moduleCodes={moduleCodes} />
-      <main className="m-8 flex w-full flex-col">{children}</main>
+      <main className="m-8 mr-16 flex w-full flex-col">{children}</main>
     </div>
   );
 }

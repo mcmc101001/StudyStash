@@ -38,7 +38,7 @@ export default function ResourceFilters({
   };
 
   return (
-    <div className="flex flex-row items-center justify-between gap-x-4">
+    <div className="flex flex-col items-center gap-x-4 gap-y-4">
       <StyledSelect
         label="Acad Year"
         options={acadYearOptions}

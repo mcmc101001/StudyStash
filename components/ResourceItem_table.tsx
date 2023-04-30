@@ -5,7 +5,6 @@ import PDFSheetLauncher from "@/components/PDFSheetLauncher";
 import Rating from "@/components/Rating";
 import { CheatsheetVote, QuestionPaperVote, NotesVote } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
-import Link from "next/link";
 
 interface ResourceItemProps {
   name: string;
@@ -109,15 +108,8 @@ export default async function ResourceItem({
   );
 
   return (
-    <PDFSheetLauncher
-      title={name}
-      currentUserId={currentUser ? currentUser.id : null}
-      category={category}
-      totalRating={rating}
-      userRating={userVote !== null ? userVote.value : null}
-      id={id}
-    >
-      <div className="flex h-full w-full flex-row items-center justify-start gap-x-4 rounded-xl border border-slate-800 p-2 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+    <tr>
+      <td>
         <Rating
           resourceId={id}
           currentUserId={currentUser ? currentUser.id : null}
@@ -125,28 +117,33 @@ export default async function ResourceItem({
           totalRating={rating}
           userRating={userVote !== null ? userVote.value : null}
         />
-        <div className="grid h-full w-full grid-flow-row grid-cols-5 justify-center">
-          <div className="col-span-3 row-span-1 flex items-center font-semibold">
+      </td>
+      <td>
+        <PDFSheetLauncher
+          title={name}
+          currentUserId={currentUser ? currentUser.id : null}
+          category={category}
+          totalRating={rating}
+          userRating={userVote !== null ? userVote.value : null}
+          id={id}
+        >
+          <div className="h-full w-full font-semibold text-slate-800 hover:underline dark:text-slate-200">
             {name}
           </div>
-          <div className="col-span-2 row-span-1 flex items-center justify-end">
-            {category !== "Notes" ? `${examType}, ` : ""}
-            {`${acadYear} S${semester}`}
-          </div>
-          <div className="col-span-3 row-span-1 flex items-center text-slate-600 dark:text-slate-400">
-            {createdAt.toLocaleString("en-GB", {
-              minute: "2-digit",
-              hour: "numeric",
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
-          </div>
-          <div className="col-span-2 row-span-1 flex items-center justify-end">
-            <Link href={`#`}>{resourceUser?.name}</Link>
-          </div>
-        </div>
-      </div>
-    </PDFSheetLauncher>
+        </PDFSheetLauncher>
+      </td>
+      <td>{resourceUser?.name}</td>
+      <td>
+        {createdAt.toLocaleString("en-GB", {
+          minute: "2-digit",
+          hour: "numeric",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
+      </td>
+      <td>{`${acadYear} S${semester}`}</td>
+      {category !== "Notes" ? <td>{examType}</td> : <></>}
+    </tr>
   );
 }

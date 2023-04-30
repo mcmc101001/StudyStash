@@ -5,7 +5,7 @@ import {
 } from "@/lib/content";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import ResourceItem from "@/components/ResourceItem";
+import ResourceItem from "@/components/ResourceItem_table";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/ResourceFilters";
 
@@ -57,27 +57,39 @@ export default async function Page({
   }
 
   return (
-    <div className="flex flex-row gap-x-6 text-slate-800 dark:text-slate-200">
+    <div className="flex flex-row gap-x-6">
       {parsedResources.length !== 0 ? (
-        <div className="flex w-10/12 flex-col gap-y-6">
-          {parsedResources.map((resource) => {
-            return (
-              // @ts-expect-error Server component
-              <ResourceItem
-                key={resource.id}
-                id={resource.id}
-                name={resource.name}
-                userId={resource.userId}
-                createdAt={resource.createdAt}
-                acadYear={resource.acadYear}
-                semester={resource.semester}
-                // @ts-expect-error Wrong type inference
-                examType={category !== "Notes" ? resource.type : null}
-                category={category}
-              />
-            );
-          })}
-        </div>
+        <table className="w-full table-auto border-separate border-spacing-2 border border-slate-800 text-lg text-slate-800 dark:border-slate-200 dark:text-slate-200">
+          <thead className="text-left">
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>User</th>
+              <th>Uploaded at</th>
+              <th>Semester</th>
+              {category !== "Notes" ? <th>Exam Type</th> : <></>}
+            </tr>
+          </thead>
+          <tbody>
+            {parsedResources.map((resource) => {
+              return (
+                // @ts-expect-error Server component
+                <ResourceItem
+                  key={resource.id}
+                  id={resource.id}
+                  name={resource.name}
+                  userId={resource.userId}
+                  createdAt={resource.createdAt}
+                  acadYear={resource.acadYear}
+                  semester={resource.semester}
+                  // @ts-expect-error Wrong type inference
+                  examType={category !== "Notes" ? resource.type : null}
+                  category={category}
+                />
+              );
+            })}
+          </tbody>
+        </table>
       ) : (
         <h1 className="text-slate-800 dark:text-slate-200">
           No resources found
