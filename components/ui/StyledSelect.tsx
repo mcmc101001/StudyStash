@@ -24,7 +24,7 @@ export default function StyledSelect({
   noOptionsMessage,
 }: SelectProps) {
   return (
-    <div className="flex flex-col gap-y-1">
+    <div className="flex w-full flex-col gap-y-1">
       {!placeholder ? (
         <label
           htmlFor="acadYear"

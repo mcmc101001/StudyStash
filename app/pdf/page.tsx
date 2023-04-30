@@ -15,6 +15,8 @@ export default async function PDFPage() {
         <ul>Profile and history</ul>
         <ul>Resource sorting by rating (HOW???)</ul>
         <ul>Pagination</ul>
+        <ul>Profile</ul>
+        <ul>Gamification/point system</ul>
         <ul>Button debouncing</ul>
         <ul>Transitions and responsive ui</ul>
         <ul>Comments</ul>

@@ -92,6 +92,7 @@ export default async function Page({
   const acadYearOptions = acadYearList.map((acadYear) => {
     return { value: acadYear, label: acadYear };
   });
+
   /************  DATA FETCHING ************/
   const FilterSemester = searchParams.filterSemester ?? null;
   const FilterAcadYear = searchParams.filterAcadYear ?? null;
@@ -141,6 +142,7 @@ export default async function Page({
     };
   });
 
+  /************** SORTING **************/
   if (Sort === "rating") {
     sortedResources.sort((a, b) => {
       return b.rating - a.rating;
@@ -162,7 +164,7 @@ export default async function Page({
   return (
     <div className="flex flex-row gap-x-6 text-slate-800 dark:text-slate-200">
       {sortedResources.length !== 0 ? (
-        <div className="flex w-11/12 flex-col gap-y-6">
+        <div className="flex w-4/5 flex-col gap-y-6">
           {sortedResources.map((resource) => {
             return (
               // @ts-expect-error Server component
@@ -190,7 +192,9 @@ export default async function Page({
           </h1>
         </div>
       )}
-      <ResourceFilters acadYearOptions={acadYearOptions} />
+      <div className="w-1/5">
+        <ResourceFilters acadYearOptions={acadYearOptions} />
+      </div>
     </div>
   );
 }
