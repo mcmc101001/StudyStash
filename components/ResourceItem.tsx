@@ -16,6 +16,7 @@ interface ResourceItemProps {
   semester: string;
   category: ResourceType;
   examType?: string;
+  rating: number;
 }
 
 export default async function ResourceItem({
@@ -27,6 +28,7 @@ export default async function ResourceItem({
   semester,
   examType,
   category,
+  rating,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
@@ -41,13 +43,13 @@ export default async function ResourceItem({
   // If user is signed in, get user vote as well, otherwise just get total votes
 
   if (category === "Cheatsheets") {
-    const votesPromise = prisma.cheatsheetVote.findMany({
-      where: {
-        resourceId: id,
-      },
-    });
+    // const votesPromise = prisma.cheatsheetVote.findMany({
+    //   where: {
+    //     resourceId: id,
+    //   },
+    // });
     if (currentUser) {
-      const userVotePromise = prisma.cheatsheetVote.findUnique({
+      userVote = await prisma.cheatsheetVote.findUnique({
         where: {
           userId_resourceId: {
             userId: currentUser.id,
@@ -55,19 +57,12 @@ export default async function ResourceItem({
           },
         },
       });
-      [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
     } else {
-      votes = await votesPromise;
       userVote = null;
     }
   } else if (category === "Notes") {
-    const votesPromise = prisma.notesVote.findMany({
-      where: {
-        resourceId: id,
-      },
-    });
     if (currentUser) {
-      const userVotePromise = prisma.notesVote.findUnique({
+      userVote = await prisma.notesVote.findUnique({
         where: {
           userId_resourceId: {
             userId: currentUser.id,
@@ -75,19 +70,12 @@ export default async function ResourceItem({
           },
         },
       });
-      [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
     } else {
-      votes = await votesPromise;
       userVote = null;
     }
   } else if (category === "Past Papers") {
-    const votesPromise = prisma.questionPaperVote.findMany({
-      where: {
-        resourceId: id,
-      },
-    });
     if (currentUser) {
-      const userVotePromise = prisma.questionPaperVote.findUnique({
+      userVote = await prisma.questionPaperVote.findUnique({
         where: {
           userId_resourceId: {
             userId: currentUser.id,
@@ -95,18 +83,12 @@ export default async function ResourceItem({
           },
         },
       });
-      [votes, userVote] = await Promise.all([votesPromise, userVotePromise]);
     } else {
-      votes = await votesPromise;
       userVote = null;
     }
   } else {
     redirect("/404");
   }
-  const rating = votes.reduce(
-    (total, vote) => (vote.value ? total + 1 : total - 1),
-    0
-  );
 
   return (
     <div className="flex h-24 w-full flex-row items-center justify-start gap-x-4 rounded-xl border border-slate-800 p-2 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
