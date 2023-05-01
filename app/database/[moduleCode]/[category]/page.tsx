@@ -186,7 +186,7 @@ export default async function Page({
         </div>
       ) : (
         // FIX WIDTH
-        <div className="flex w-11/12 flex-col items-center justify-center gap-y-6">
+        <div className="flex w-11/12 flex-col items-center justify-center gap-y-6 text-2xl">
           <h1 className="text-slate-800 dark:text-slate-200">
             No resources found
           </h1>
