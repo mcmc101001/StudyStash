@@ -10,6 +10,22 @@ import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/ResourceFilters";
 import { ExamType, NotesVote, Prisma } from "@prisma/client";
 
+export function getRating(
+  resources: CheatsheetWithPosts | QuestionPaperWithPosts | NotesWithPosts
+) {
+  const new_resources = resources.map((resource) => {
+    const rating = resource.votes.reduce(
+      (total: number, vote: NotesVote) => (vote.value ? total + 1 : total - 1),
+      0
+    );
+    return {
+      ...resource,
+      rating: rating,
+    };
+  });
+  return new_resources;
+}
+
 async function getCheatsheetsWithPosts(
   moduleCode: string,
   FilterSemester: string | null,
@@ -131,16 +147,7 @@ export default async function Page({
     redirect("/404");
   }
 
-  let sortedResources = parsedResources.map((resource) => {
-    const rating = resource.votes.reduce(
-      (total: number, vote: NotesVote) => (vote.value ? total + 1 : total - 1),
-      0
-    );
-    return {
-      ...resource,
-      rating: rating,
-    };
-  });
+  let sortedResources = getRating(parsedResources);
 
   /************** SORTING **************/
   if (Sort === "rating") {

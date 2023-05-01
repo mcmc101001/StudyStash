@@ -3,7 +3,12 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import PDFSheetLauncher from "@/components/PDFSheetLauncher";
 import Rating from "@/components/Rating";
-import { CheatsheetVote, QuestionPaperVote, NotesVote } from "@prisma/client";
+import {
+  CheatsheetVote,
+  QuestionPaperVote,
+  NotesVote,
+  ExamType,
+} from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 
@@ -15,7 +20,7 @@ interface ResourceItemProps {
   acadYear: string;
   semester: string;
   category: ResourceType;
-  examType?: string;
+  examType?: ExamType;
   rating: number;
 }
 
@@ -91,7 +96,7 @@ export default async function ResourceItem({
   }
 
   return (
-    <div className="flex h-24 w-full flex-row items-center justify-start gap-x-4 rounded-xl border border-slate-800 p-2 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+    <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 p-4 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
       <Rating
         resourceId={id}
         currentUserId={currentUser ? currentUser.id : null}
@@ -99,41 +104,47 @@ export default async function ResourceItem({
         totalRating={rating}
         userRating={userVote !== null ? userVote.value : null}
       />
-      <PDFSheetLauncher
-        title={name}
-        currentUserId={currentUser ? currentUser.id : null}
-        category={category}
-        totalRating={rating}
-        userRating={userVote !== null ? userVote.value : null}
-        id={id}
-      >
-        <div className="grid h-full w-full grid-flow-row grid-cols-5 justify-center">
-          <div className="col-span-3 row-span-1 flex items-center font-semibold">
-            {name}
+      <div className="ml-3 box-border h-full w-full overflow-hidden">
+        <PDFSheetLauncher
+          title={name}
+          currentUserId={currentUser ? currentUser.id : null}
+          category={category}
+          totalRating={rating}
+          userRating={userVote !== null ? userVote.value : null}
+          id={id}
+        >
+          <div className="flex">
+            <div className="space-y-2 overflow-hidden text-ellipsis pr-4">
+              <p className="overflow-hidden whitespace-nowrap font-semibold">
+                {name}
+              </p>
+              <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
+                {createdAt.toLocaleString("en-GB", {
+                  minute: "2-digit",
+                  hour: "numeric",
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </p>
+            </div>
+            <div className="ml-auto space-y-2">
+              <p className="whitespace-nowrap text-end">
+                {category !== "Notes" ? `${examType}, ` : ""}
+                {`${acadYear} S${semester}`}
+              </p>
+              <p className="whitespace-nowrap text-end">
+                <Link
+                  href={`#`}
+                  className="text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
+                >
+                  {resourceUser?.name}
+                </Link>
+              </p>
+            </div>
           </div>
-          <div className="col-span-2 row-span-1 flex items-center justify-end">
-            {category !== "Notes" ? `${examType}, ` : ""}
-            {`${acadYear} S${semester}`}
-          </div>
-          <div className="col-span-3 row-span-1 flex items-center text-slate-600 dark:text-slate-400">
-            {createdAt.toLocaleString("en-GB", {
-              minute: "2-digit",
-              hour: "numeric",
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
-          </div>
-          <div className="col-span-2 row-span-1 flex items-center justify-end">
-            <Link
-              href={`#`}
-              className="text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
-            >
-              {resourceUser?.name}
-            </Link>
-          </div>
-        </div>
-      </PDFSheetLauncher>
+        </PDFSheetLauncher>
+      </div>
     </div>
   );
 }

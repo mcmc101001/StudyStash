@@ -13,6 +13,7 @@ export default async function ProfilePage() {
       <h1>Profile</h1>
       <p>I am {user.name}</p>
       <p>Add past submissions, achievements, points?</p>
+      {/* @ts-expect-error Server Component */}
       <UserResources />
     </div>
   );
