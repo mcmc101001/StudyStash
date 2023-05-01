@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import ToasterClient from "@/components/ui/ToasterClient";
+import { Toaster } from "react-hot-toast";
 import NavBar from "@/components/NavBar";
 // import Script from "next/script";
 
@@ -21,8 +21,9 @@ export default async function RootLayout({
       <body className={inter.className}>
         {/* show DOM content after loaded to prevent dark mode flickering */}
         {/* <Script src='/theme.js' strategy='afterInteractive' /> */}
-        <ToasterClient />
+        <Toaster />
         <main className="flex w-full flex-row bg-white transition-colors duration-500 dark:bg-slate-950">
+          {/* @ts-expect-error Server component */}
           <NavBar />
           <div className="h-screen w-full">{children}</div>
         </main>

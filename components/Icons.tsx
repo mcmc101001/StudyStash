@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Calculator,
   Construction,
+  User,
 } from "lucide-react";
 
 export const Icons = {
@@ -34,6 +35,7 @@ export const Icons = {
   LayoutDashboard,
   Construction,
   FileSignature,
+  User,
 };
 
 export type Icon = keyof typeof Icons;
