@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/Sheet";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
 import Rating from "./Rating";
@@ -44,7 +44,7 @@ export default function PDFSheetLauncher({
         setQueryParams({ id: id });
       }}
     >
-      <SheetTrigger>{children}</SheetTrigger>
+      <SheetTrigger className="h-full w-full">{children}</SheetTrigger>
       <SheetContent
         size={"xl"}
         onEscapeKeyDown={router.back}
