@@ -5,6 +5,7 @@ import { Icons } from "@/components/Icons";
 import UserProfilePic from "@/components/UserProfilePic";
 import { Loader2 } from "lucide-react";
 import DarkModeToggler from "@/components/DarkModeToggler";
+import { getCurrentUser } from "@/lib/session";
 
 export const navOptions: NavOptionsProps[] = [
   {
@@ -23,13 +24,19 @@ export const navOptions: NavOptionsProps[] = [
     icon: "FilePlus",
   },
   {
+    name: "Profile",
+    href: "/profile",
+    icon: "User",
+  },
+  {
     name: "Under development",
     href: "/pdf",
     icon: "Construction",
   },
 ];
 
-export default function Navbar() {
+export default async function Navbar() {
+  const user = await getCurrentUser();
   return (
     <div className="flex h-screen flex-col gap-y-5 overflow-y-hidden border-r border-gray-700 px-3 pt-4 dark:border-gray-300">
       <Link href="/" className="flex h-16 shrink-0 items-center justify-center">
@@ -39,6 +46,7 @@ export default function Navbar() {
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
           {navOptions.map((option) => {
+            if (!user && option.name === "Profile") return null; // Don't show profile tab if not signed in
             return (
               <NavOptions
                 key={option.name}
@@ -57,7 +65,7 @@ export default function Navbar() {
             }
           >
             {/* @ts-expect-error Server Component */}
-            <UserProfilePic />
+            <UserProfilePic user={user} />
           </Suspense>
         </ul>
       </nav>

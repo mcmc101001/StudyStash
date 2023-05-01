@@ -46,7 +46,8 @@ export default function StyledSelect({
             `${state.isSelected ? "font-bold" : ""}`,
           menuList: () =>
             "p-0 border dark:border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950",
-          control: () => "bg-white dark:bg-slate-950",
+          control: () =>
+            "bg-white dark:bg-slate-950 border border-slate-700 dark:border-slate-300",
           placeholder: () => "text-slate-500 dark:text-slate-400",
           input: () => "text-slate-800 dark:text-slate-200",
           singleValue: () => "text-slate-800 dark:text-slate-200",

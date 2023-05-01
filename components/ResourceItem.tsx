@@ -124,8 +124,13 @@ export default async function ResourceItem({
               year: "numeric",
             })}
           </div>
-          <div className="col-span-2 row-span-1 flex items-center justify-end text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300">
-            <Link href={`#`}>{resourceUser?.name}</Link>
+          <div className="col-span-2 row-span-1 flex items-center justify-end">
+            <Link
+              href={`#`}
+              className="text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
+            >
+              {resourceUser?.name}
+            </Link>
           </div>
         </div>
       </PDFSheetLauncher>
