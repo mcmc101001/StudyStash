@@ -36,11 +36,30 @@ const ContributeForm = (props: ContributeFormProps) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       setFile(e.currentTarget.files[0]);
       setFileName(e.currentTarget.files[0].name);
-      if (e.currentTarget.files[0].type != "application/pdf") {
+      if (e.currentTarget.files[0].type !== "application/pdf") {
         toast.error("Please upload a PDF file");
         // Set submit to disabled
         setIsDisabled(true);
       } else if (e.currentTarget.files[0].size > MAX_FILE_SIZE) {
+        toast.error("Max file size: 10Mb");
+        // Set submit to disabled
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
+    }
+  };
+
+  const fileDropHandler = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+      setFileName(e.dataTransfer.files[0].name);
+      if (e.dataTransfer.files[0].type !== "application/pdf") {
+        toast.error("Please upload a PDF file");
+        // Set submit to disabled
+        setIsDisabled(true);
+      } else if (e.dataTransfer.files[0].size > MAX_FILE_SIZE) {
         toast.error("Max file size: 10Mb");
         // Set submit to disabled
         setIsDisabled(true);
@@ -214,6 +233,7 @@ const ContributeForm = (props: ContributeFormProps) => {
       </div>
       <div className="flex w-1/3 flex-col items-center justify-center gap-y-6">
         <PDFUploader
+          fileDropHandler={fileDropHandler}
           fileSelectedHandler={fileSelectedHandler}
           fileName={fileName}
           inputRef={inputRef}
