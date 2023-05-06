@@ -17,7 +17,7 @@ export default function DashboardItem({ moduleCode }: DashboardItemProps) {
           {ResourceOptions.map((option, index, { length }) => {
             const Icon = Icons[option.icon];
             return (
-              <>
+              <div key={option.name}>
                 <Link href={`/database/${moduleCode}/${option.href}`}>
                   <Icon className="h-12 w-12 hover:text-slate-500" />
                 </Link>
@@ -27,7 +27,7 @@ export default function DashboardItem({ moduleCode }: DashboardItemProps) {
                     className="bg-slate-800 dark:bg-slate-200"
                   />
                 )}
-              </>
+              </div>
             );
           })}
         </div>
