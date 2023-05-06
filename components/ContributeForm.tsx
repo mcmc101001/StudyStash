@@ -72,11 +72,17 @@ const ContributeForm = (props: ContributeFormProps) => {
   const uploadFile = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsDisabled(true);
     e.preventDefault();
-    if (!acadYear || !semester || !moduleCode || !examType) {
+    if (
+      !acadYear ||
+      !semester ||
+      !moduleCode ||
+      !(examType || props.resourceType === "Notes")
+    ) {
       toast.error("Please fill in all fields!");
       setIsDisabled(false);
       return;
     }
+
     if (!file || file.type != "application/pdf") {
       toast.error("Please upload a PDF file");
       setIsDisabled(false);
