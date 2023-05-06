@@ -111,7 +111,7 @@ model Notes {
 }
 
 model CheatsheetVote {
-  value      Boolean // true = upvote, false = downvote
+  value      Boolean /// true = upvote, false = downvote
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   resource   Cheatsheet @relation(fields: [resourceId], references: [id], onDelete: Cascade)
@@ -123,7 +123,7 @@ model CheatsheetVote {
 }
 
 model QuestionPaperVote {
-  value      Boolean // true = upvote, false = downvote
+  value      Boolean /// true = upvote, false = downvote
   user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
@@ -135,7 +135,7 @@ model QuestionPaperVote {
 }
 
 model NotesVote {
-  value      Boolean // true = upvote, false = downvote
+  value      Boolean /// true = upvote, false = downvote
   user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   resource   Notes   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
@@ -154,7 +154,7 @@ model StarredModules {
   @@unique([userId, moduleCode])
 }
 
-// WARNING: CHANGE ADD PDF FUNCTION IF CHANGING THIS
+/// WARNING: CHANGE ADD PDF FUNCTION IF CHANGING THIS
 enum ExamType {
   Midterm
   Final
