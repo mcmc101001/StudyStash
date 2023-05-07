@@ -42,20 +42,21 @@ model Session {
 }
 
 model User {
-  id                 String              @id @default(cuid())
-  name               String?
-  email              String?             @unique
-  emailVerified      DateTime?
-  image              String?
-  accounts           Account[]
-  sessions           Session[]
-  cheatsheets        Cheatsheet[]
-  questionPapers     QuestionPaper[]
-  notes              Notes[]
-  cheatsheetVotes    CheatsheetVote[]
-  questionPaperVotes QuestionPaperVote[]
-  notesVotes         NotesVote[]
-  starredModules     StarredModules[]
+  id                      String                    @id @default(cuid())
+  name                    String?
+  email                   String?                   @unique
+  emailVerified           DateTime?
+  image                   String?
+  accounts                Account[]
+  sessions                Session[]
+  cheatsheets             Cheatsheet[]
+  questionPapers          QuestionPaper[]
+  notes                   Notes[]
+  cheatsheetVotes         CheatsheetVote[]
+  questionPaperVotes      QuestionPaperVote[]
+  notesVotes              NotesVote[]
+  questionPaperDifficulty QuestionPaperDifficulty[]
+  starredModules          StarredModules[]
 }
 
 model VerificationToken {
@@ -82,16 +83,17 @@ model Cheatsheet {
 }
 
 model QuestionPaper {
-  id            String              @id @default(cuid())
+  id            String                    @id @default(cuid())
   name          String
-  createdAt     DateTime            @default(now())
-  userSubmitted User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime                  @default(now())
+  userSubmitted User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
   moduleCode    String
   acadYear      String
   semester      String
   type          ExamType
   votes         QuestionPaperVote[]
+  difficulties  QuestionPaperDifficulty[]
 
   @@index([userId])
 }
@@ -139,6 +141,18 @@ model NotesVote {
   user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   resource   Notes   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@unique([userId, resourceId])
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model QuestionPaperDifficulty {
+  value      Int
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
   @@unique([userId, resourceId])
