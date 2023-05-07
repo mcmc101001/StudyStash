@@ -192,15 +192,17 @@ export default async function Page({
           })}
         </div>
       ) : (
-        // FIX WIDTH
-        <div className="flex w-11/12 flex-col items-center justify-center gap-y-6 text-2xl">
+        <div className="flex w-4/5 flex-col items-center justify-center gap-y-6 text-2xl">
           <h1 className="text-slate-800 dark:text-slate-200">
             No resources found
           </h1>
         </div>
       )}
       <div className="w-1/5">
-        <ResourceFilters acadYearOptions={acadYearOptions} />
+        <ResourceFilters
+          acadYearOptions={acadYearOptions}
+          category={category}
+        />
       </div>
     </div>
   );

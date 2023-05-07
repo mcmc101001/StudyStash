@@ -19,12 +19,12 @@ export default function ModuleStar({
   const [star, setStar] = useState(starred);
 
   const handleClick = async () => {
+    setStar(!star);
     const res = await axios.post("/api/updateStarredModule", {
       moduleCode: moduleCode,
       userId: userId,
       value: !star,
     } as updateStarredModuleType);
-    setStar(!star);
   };
 
   return (
