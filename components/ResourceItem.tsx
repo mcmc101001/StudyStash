@@ -11,6 +11,7 @@ import {
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
+import DifficultyDisplay from "@/components/DifficultyDisplay";
 
 interface ResourceItemProps {
   name: string;
@@ -113,7 +114,7 @@ export default async function ResourceItem({
           userRating={userVote !== null ? userVote.value : null}
           id={id}
         >
-          <div className="flex">
+          <div className="flex items-center">
             <div className="space-y-2 overflow-hidden text-ellipsis pr-4">
               <p className="overflow-hidden whitespace-nowrap font-semibold">
                 {name}
@@ -135,12 +136,15 @@ export default async function ResourceItem({
               </p>
               <p className="whitespace-nowrap text-end">
                 <Link
-                  href={`#`}
+                  href={`/profile/${resourceUser?.id}`}
                   className="text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
                 >
                   {resourceUser?.name}
                 </Link>
               </p>
+            </div>
+            <div className="ml-4">
+              <DifficultyDisplay difficulty={3} />
             </div>
           </div>
         </PDFSheetLauncher>
