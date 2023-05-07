@@ -200,7 +200,10 @@ export default async function Page({
         </div>
       )}
       <div className="w-1/5">
-        <ResourceFilters acadYearOptions={acadYearOptions} />
+        <ResourceFilters
+          acadYearOptions={acadYearOptions}
+          category={category}
+        />
       </div>
     </div>
   );

@@ -1,15 +1,17 @@
 "use client";
 
 import useQueryParams from "@/hooks/useQueryParams";
-import { semesterOptions, examTypeOptions } from "@/lib/content";
+import { semesterOptions, examTypeOptions, ResourceType } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
+  category: ResourceType;
 }
 
 export default function ResourceFilters({
   acadYearOptions,
+  category,
 }: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -65,17 +67,19 @@ export default function ResourceFilters({
             : undefined
         }
       />
-      <StyledSelect
-        label="Exam Type"
-        options={examTypeOptions}
-        onChange={handleExamTypeChange}
-        placeholder={true}
-        defaultValue={
-          examTypeQueryParam
-            ? { value: examTypeQueryParam, label: examTypeQueryParam }
-            : undefined
-        }
-      />
+      {category !== "Notes" && (
+        <StyledSelect
+          label="Exam Type"
+          options={examTypeOptions}
+          onChange={handleExamTypeChange}
+          placeholder={true}
+          defaultValue={
+            examTypeQueryParam
+              ? { value: examTypeQueryParam, label: examTypeQueryParam }
+              : undefined
+          }
+        />
+      )}
     </div>
   );
 }
