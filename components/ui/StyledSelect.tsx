@@ -13,6 +13,7 @@ interface SelectProps {
   placeholder?: boolean;
   filterOption?: (option: Option, query: string) => boolean;
   noOptionsMessage?: (obj: { inputValue: string }) => ReactNode;
+  defaultValue?: Option;
 }
 
 export default function StyledSelect({
@@ -22,6 +23,7 @@ export default function StyledSelect({
   placeholder = false,
   filterOption,
   noOptionsMessage,
+  defaultValue,
 }: SelectProps) {
   return (
     <div className="flex w-full flex-col gap-y-1">
@@ -80,6 +82,7 @@ export default function StyledSelect({
         isClearable={true}
         filterOption={filterOption}
         noOptionsMessage={noOptionsMessage}
+        defaultValue={defaultValue}
       />
     </div>
   );

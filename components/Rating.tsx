@@ -99,7 +99,7 @@ export default function Rating({
   };
 
   return (
-    <div className="flex flex-row items-center font-light">
+    <div className="flex flex-row items-center">
       <div className="flex flex-col items-center">
         <button onClick={(e) => handleUpvote(e)}>
           <ArrowBigUp
