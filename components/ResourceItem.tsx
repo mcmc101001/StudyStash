@@ -146,9 +146,11 @@ export default async function ResourceItem({
           </div>
         </PDFSheetLauncher>
       </div>
-      <div className="ml-4 border-l-2 border-slate-500 pl-4">
-        <DifficultyDisplay difficulty={3.5} />
-      </div>
+      {category !== "Past Papers" && (
+        <div className="ml-4 border-l-2 border-slate-500 pl-4">
+          <DifficultyDisplay difficulty={3.5} />
+        </div>
+      )}
     </div>
   );
 }

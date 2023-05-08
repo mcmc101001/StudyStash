@@ -13,6 +13,7 @@ import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
 import Rating from "./Rating";
 import { ResourceType } from "@/lib/content";
+import RateDifficulty from "./RateDifficulty";
 
 interface PDFSheetLauncherProps {
   children: React.ReactNode;
@@ -60,6 +61,9 @@ export default function PDFSheetLauncher({
               resourceId={id}
             />
             <div>{title}</div>
+            <div className="ml-auto mr-4">
+              <RateDifficulty UserDifficulty={3} />
+            </div>
           </SheetTitle>
           <SheetDescription></SheetDescription>
           <div
