@@ -9,10 +9,9 @@ export default function DifficultyDisplay({
 }: DifficultyDisplayProps) {
   const stars = [1, 2, 3, 4, 5];
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <div>
-        <span className="text-xl font-semibold">{difficulty} </span>
-        <span className="text-sm text-slate-700 dark:text-slate-300">(43)</span>
+        <span className="text-lg font-semibold">{difficulty} </span>
       </div>
       <div className="flex">
         {stars.map((star) => {
@@ -28,6 +27,11 @@ export default function DifficultyDisplay({
             </span>
           );
         })}
+      </div>
+      <div>
+        <span className="text-sm text-slate-700 dark:text-slate-300">
+          43 reviews
+        </span>
       </div>
     </div>
   );
