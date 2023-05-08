@@ -116,7 +116,7 @@ export default async function ResourceItem({
         >
           <div className="flex items-center">
             <div className="space-y-2 overflow-hidden text-ellipsis pr-4">
-              <p className="overflow-hidden whitespace-nowrap font-semibold">
+              <p className="overflow-hidden whitespace-nowrap text-left font-semibold">
                 {name}
               </p>
               <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
@@ -143,11 +143,11 @@ export default async function ResourceItem({
                 </Link>
               </p>
             </div>
-            <div className="ml-4">
-              <DifficultyDisplay difficulty={3} />
-            </div>
           </div>
         </PDFSheetLauncher>
+      </div>
+      <div className="ml-4 border-l-2 border-slate-500 pl-4">
+        <DifficultyDisplay difficulty={3.5} />
       </div>
     </div>
   );
