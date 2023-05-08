@@ -61,7 +61,7 @@ export default function PDFSheetLauncher({
             />
             <div>{title}</div>
           </SheetTitle>
-          <SheetDescription>Placeholder text</SheetDescription>
+          <SheetDescription></SheetDescription>
           <div
             className="absolute right-4 top-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
             onClick={router.back}
@@ -70,12 +70,7 @@ export default function PDFSheetLauncher({
             <span className="sr-only">Close</span>
           </div>
         </SheetHeader>
-        <iframe
-          src={PDFURL}
-          width="100%"
-          height="600px"
-          className="mt-4"
-        ></iframe>
+        <iframe src={PDFURL} width="100%" height="600px"></iframe>
       </SheetContent>
     </Sheet>
   );

@@ -16,12 +16,16 @@ export default function DifficultyDisplay({
       </div>
       <div className="flex">
         {stars.map((star) => {
-          return star <= difficulty ? (
-            <BsStarFill />
-          ) : star <= difficulty + 0.5 ? (
-            <BsStarHalf />
-          ) : (
-            <BsStar />
+          return (
+            <span key={star}>
+              {star <= difficulty ? (
+                <BsStarFill />
+              ) : star <= difficulty + 0.5 ? (
+                <BsStarHalf />
+              ) : (
+                <BsStar />
+              )}
+            </span>
           );
         })}
       </div>

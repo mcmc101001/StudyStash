@@ -83,14 +83,15 @@ const ContributeForm = (props: ContributeFormProps) => {
       return;
     }
 
-    if (!file || file.type != "application/pdf") {
+    if (!file || !fileName || file.type != "application/pdf") {
       toast.error("Please upload a PDF file");
       setIsDisabled(false);
       return;
     } else {
       try {
+        const newFileName = fileName.replace(/\.[^/.]+$/, "");
         let { data } = await axios.post("/api/addPDF", {
-          name: fileName,
+          name: newFileName,
           acadYear: acadYear,
           semester: semester,
           moduleCode: moduleCode,

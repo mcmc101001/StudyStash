@@ -116,7 +116,7 @@ export default async function ResourceItem({
         >
           <div className="flex items-center">
             <div className="space-y-2 overflow-hidden text-ellipsis pr-4">
-              <p className="overflow-hidden whitespace-nowrap font-semibold">
+              <p className="overflow-hidden whitespace-nowrap text-left font-semibold">
                 {name}
               </p>
               <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
