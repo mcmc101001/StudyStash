@@ -144,7 +144,7 @@ export default async function ResourceItem({
               </p>
             </div>
             <div className="ml-4">
-              <DifficultyDisplay difficulty={3} />
+              <DifficultyDisplay difficulty={3.5} />
             </div>
           </div>
         </PDFSheetLauncher>
