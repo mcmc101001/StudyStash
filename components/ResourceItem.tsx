@@ -124,7 +124,7 @@ export default async function ResourceItem({
               <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
                 {createdAt.toLocaleString("en-GB", {
                   minute: "2-digit",
-                  hour: "numeric",
+                  hour: "2-digit",
                   day: "numeric",
                   month: "short",
                   year: "numeric",
