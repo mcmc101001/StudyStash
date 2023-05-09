@@ -40,8 +40,9 @@ export default async function UserResources() {
 
   return (
     <div className="flex flex-row gap-x-4">
+      <h1>Cheatsheets</h1>
       {cheatsheets.length !== 0 ? (
-        <div className="flex w-1/2 flex-col gap-y-6">
+        <div className="w-4/7 flex flex-col gap-y-6">
           {cheatsheets.map((resource) => {
             return (
               /* @ts-expect-error Server Component */

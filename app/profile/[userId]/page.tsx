@@ -26,10 +26,9 @@ export default async function ProfilePageUser({
   const profileUser = profileUserArray[0];
 
   return (
-    <div className="text-slate-800 dark:text-slate-200">
-      <h1>Profile</h1>
-      <p>{profileUser.name}</p>
-      <p>Add past submissions, achievements, points?</p>
+    <div className="m-20 text-slate-800 dark:text-slate-200">
+      <h1 className="text-xl font-bold">{profileUser.name}</h1>
+      <h2 className="my-2 text-lg font-semibold">My resources</h2>
       {/* @ts-expect-error Server Component */}
       <UserResources />
     </div>
