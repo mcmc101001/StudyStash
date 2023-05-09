@@ -21,6 +21,7 @@ interface ResourceItemProps {
   acadYear: string;
   semester: string;
   category: ResourceType;
+  difficultyCount?: number;
   examType?: ExamType;
   rating: number;
 }
@@ -32,6 +33,7 @@ export default async function ResourceItem({
   createdAt,
   acadYear,
   semester,
+  difficultyCount,
   examType,
   category,
   rating,
@@ -148,7 +150,10 @@ export default async function ResourceItem({
       </div>
       {category !== "Past Papers" && (
         <div className="ml-4 border-l-2 border-slate-500 pl-4">
-          <DifficultyDisplay difficulty={3.5} />
+          <DifficultyDisplay
+            difficulty={3.5}
+            difficultyCount={difficultyCount as number}
+          />
         </div>
       )}
     </div>

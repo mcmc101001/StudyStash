@@ -61,6 +61,9 @@ async function getQuestionPapersWithPosts(
     },
     include: {
       votes: true,
+      _count: {
+        select: { difficulties: true },
+      },
     },
   });
   return resource;
@@ -184,6 +187,12 @@ export default async function Page({
                 acadYear={resource.acadYear}
                 semester={resource.semester}
                 rating={resource.rating}
+                difficultyCount={
+                  category === "Past Papers"
+                    ? // @ts-expect-error wrong type inference
+                      resource._count.difficulties
+                    : null
+                }
                 // @ts-expect-error wrong type inference
                 examType={category !== "Notes" ? resource.type : null}
                 category={category}

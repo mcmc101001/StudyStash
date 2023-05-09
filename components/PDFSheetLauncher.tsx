@@ -62,7 +62,11 @@ export default function PDFSheetLauncher({
             />
             <div>{title}</div>
             <div className="ml-auto mr-4">
-              <RateDifficulty UserDifficulty={3} />
+              <RateDifficulty
+                resourceId={id}
+                currentUserId={currentUserId}
+                userDifficulty={4}
+              />
             </div>
           </SheetTitle>
           <SheetDescription></SheetDescription>

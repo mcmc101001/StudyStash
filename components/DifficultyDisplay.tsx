@@ -2,10 +2,12 @@ import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 
 interface DifficultyDisplayProps {
   difficulty: number;
+  difficultyCount: number;
 }
 
 export default function DifficultyDisplay({
   difficulty,
+  difficultyCount,
 }: DifficultyDisplayProps) {
   const stars = [1, 2, 3, 4, 5];
   return (
@@ -30,7 +32,7 @@ export default function DifficultyDisplay({
       </div>
       <div>
         <span className="text-sm text-slate-700 dark:text-slate-300">
-          43 reviews
+          {difficultyCount} reviews
         </span>
       </div>
     </div>
