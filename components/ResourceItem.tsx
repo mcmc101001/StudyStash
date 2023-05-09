@@ -8,10 +8,59 @@ import {
   QuestionPaperVote,
   NotesVote,
   ExamType,
+  Prisma,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import DifficultyDisplay from "@/components/DifficultyDisplay";
+
+async function getCheatsheetVote(userId: string, resourceId: string) {
+  const res = await prisma.cheatsheetVote.findUnique({
+    where: {
+      userId_resourceId: {
+        userId: userId,
+        resourceId: resourceId,
+      },
+    },
+  });
+  return res;
+}
+
+async function getNotesVote(userId: string, resourceId: string) {
+  const res = await prisma.notesVote.findUnique({
+    where: {
+      userId_resourceId: {
+        userId: userId,
+        resourceId: resourceId,
+      },
+    },
+  });
+  return res;
+}
+
+async function getQuestionPaperVote(userId: string, resourceId: string) {
+  const res = await prisma.questionPaperVote.findUnique({
+    where: {
+      userId_resourceId: {
+        userId: userId,
+        resourceId: resourceId,
+      },
+    },
+  });
+  return res;
+}
+
+async function getDifficulty(resourceId: string) {
+  const res = prisma.questionPaperDifficulty.aggregate({
+    where: {
+      resourceId: resourceId,
+    },
+    _avg: {
+      value: true,
+    },
+  });
+  return res;
+}
 
 interface ResourceItemProps {
   name: string;
@@ -47,6 +96,8 @@ export default async function ResourceItem({
 
   let votes: CheatsheetVote[] | NotesVote[] | QuestionPaperVote[];
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
+  let avgDifficultyData: Prisma.PromiseReturnType<typeof getDifficulty>;
+  let avgDifficulty: number = 0;
 
   // If user is signed in, get user vote as well, otherwise just get total votes
 
@@ -57,40 +108,25 @@ export default async function ResourceItem({
     //   },
     // });
     if (currentUser) {
-      userVote = await prisma.cheatsheetVote.findUnique({
-        where: {
-          userId_resourceId: {
-            userId: currentUser.id,
-            resourceId: id,
-          },
-        },
-      });
+      userVote = await getCheatsheetVote(currentUser.id, id);
     } else {
       userVote = null;
     }
   } else if (category === "Notes") {
     if (currentUser) {
-      userVote = await prisma.notesVote.findUnique({
-        where: {
-          userId_resourceId: {
-            userId: currentUser.id,
-            resourceId: id,
-          },
-        },
-      });
+      userVote = await getNotesVote(currentUser.id, id);
     } else {
       userVote = null;
     }
   } else if (category === "Past Papers") {
+    const avgDifficultyPromise = getDifficulty(id);
     if (currentUser) {
-      userVote = await prisma.questionPaperVote.findUnique({
-        where: {
-          userId_resourceId: {
-            userId: currentUser.id,
-            resourceId: id,
-          },
-        },
-      });
+      const userVotePromise = getQuestionPaperVote(currentUser.id, id);
+      [avgDifficultyData, userVote] = await Promise.all([
+        avgDifficultyPromise,
+        userVotePromise,
+      ]);
+      avgDifficulty = avgDifficultyData._avg.value || 0;
     } else {
       userVote = null;
     }
@@ -148,10 +184,10 @@ export default async function ResourceItem({
           </div>
         </PDFSheetLauncher>
       </div>
-      {category !== "Past Papers" && (
+      {category === "Past Papers" && (
         <div className="ml-4 border-l-2 border-slate-500 pl-4">
           <DifficultyDisplay
-            difficulty={3.5}
+            difficulty={avgDifficulty}
             difficultyCount={difficultyCount as number}
           />
         </div>

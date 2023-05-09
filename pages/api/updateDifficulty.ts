@@ -38,8 +38,8 @@ export default async function updateDifficulty(
         },
         create: {
           value: value,
-          resourceId: resourceId,
           userId: userId,
+          resourceId: resourceId,
         },
       });
     } else if (value === 0) {
