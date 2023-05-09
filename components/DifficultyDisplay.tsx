@@ -32,7 +32,7 @@ export default function DifficultyDisplay({
       </div>
       <div>
         <span className="text-sm text-slate-700 dark:text-slate-300">
-          {difficultyCount} reviews
+          {difficultyCount} {difficultyCount === 1 ? "review" : "reviews"}
         </span>
       </div>
     </div>
