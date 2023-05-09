@@ -23,6 +23,7 @@ interface PDFSheetLauncherProps {
   currentUserId: string | null;
   totalRating: number;
   userRating: boolean | null;
+  userDifficulty: number;
 }
 
 export default function PDFSheetLauncher({
@@ -33,6 +34,7 @@ export default function PDFSheetLauncher({
   currentUserId,
   totalRating,
   userRating,
+  userDifficulty,
 }: PDFSheetLauncherProps) {
   const { queryParams, setQueryParams } = useQueryParams();
   const router = useRouter();
@@ -61,13 +63,15 @@ export default function PDFSheetLauncher({
               resourceId={id}
             />
             <div>{title}</div>
-            <div className="ml-auto mr-4">
-              <RateDifficulty
-                resourceId={id}
-                currentUserId={currentUserId}
-                userDifficulty={4}
-              />
-            </div>
+            {category === "Past Papers" && (
+              <div className="ml-auto mr-4">
+                <RateDifficulty
+                  resourceId={id}
+                  currentUserId={currentUserId}
+                  userDifficulty={userDifficulty}
+                />
+              </div>
+            )}
           </SheetTitle>
           <SheetDescription></SheetDescription>
           <div

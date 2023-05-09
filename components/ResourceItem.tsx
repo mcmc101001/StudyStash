@@ -62,6 +62,18 @@ async function getDifficulty(resourceId: string) {
   return res;
 }
 
+async function getUserDifficulty(userId: string, resourceId: string) {
+  const res = prisma.questionPaperDifficulty.findUnique({
+    where: {
+      userId_resourceId: {
+        userId: userId,
+        resourceId: resourceId,
+      },
+    },
+  });
+  return res;
+}
+
 interface ResourceItemProps {
   name: string;
   id: string;
@@ -97,7 +109,9 @@ export default async function ResourceItem({
   let votes: CheatsheetVote[] | NotesVote[] | QuestionPaperVote[];
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
   let avgDifficultyData: Prisma.PromiseReturnType<typeof getDifficulty>;
+  let userDifficultyData: Prisma.PromiseReturnType<typeof getUserDifficulty>;
   let avgDifficulty: number = 0;
+  let userDifficulty: number = 0;
 
   // If user is signed in, get user vote as well, otherwise just get total votes
 
@@ -122,13 +136,17 @@ export default async function ResourceItem({
     const avgDifficultyPromise = getDifficulty(id);
     if (currentUser) {
       const userVotePromise = getQuestionPaperVote(currentUser.id, id);
-      [avgDifficultyData, userVote] = await Promise.all([
+      const userDifficultyPromise = getUserDifficulty(currentUser.id, id);
+      [avgDifficultyData, userDifficultyData, userVote] = await Promise.all([
         avgDifficultyPromise,
+        userDifficultyPromise,
         userVotePromise,
       ]);
       avgDifficulty = avgDifficultyData._avg.value || 0;
+      userDifficulty = userDifficultyData?.value || 0;
     } else {
       userVote = null;
+      userDifficulty = 0;
     }
   } else {
     redirect("/404");
@@ -145,12 +163,13 @@ export default async function ResourceItem({
       />
       <div className="ml-3 box-border h-full w-full overflow-hidden">
         <PDFSheetLauncher
+          id={id}
           title={name}
           currentUserId={currentUser ? currentUser.id : null}
           category={category}
           totalRating={rating}
           userRating={userVote !== null ? userVote.value : null}
-          id={id}
+          userDifficulty={userDifficulty}
         >
           <div className="flex items-center">
             <div className="space-y-2 overflow-hidden text-ellipsis pr-4">
