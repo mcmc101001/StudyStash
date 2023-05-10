@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import PDFUploader from "@/components/PDFUploader";
-import Button from "./ui/Button";
+import Button from "@/components/ui/Button";
 import { Trash2 } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
 import { ResourceType } from "@/lib/content";
