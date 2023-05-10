@@ -4,6 +4,7 @@ import axios from "axios";
 import { StarIcon } from "lucide-react";
 import { useState } from "react";
 import { updateStarredModuleType } from "@/pages/api/updateStarredModule";
+import { toast } from "react-hot-toast";
 
 interface ModuleStarProps {
   moduleCode: string;
@@ -20,11 +21,15 @@ export default function ModuleStar({
 
   const handleClick = async () => {
     setStar(!star);
-    const res = await axios.post("/api/updateStarredModule", {
-      moduleCode: moduleCode,
-      userId: userId,
-      value: !star,
-    } as updateStarredModuleType);
+    try {
+      const res = await axios.post("/api/updateStarredModule", {
+        moduleCode: moduleCode,
+        userId: userId,
+        value: !star,
+      } as updateStarredModuleType);
+    } catch (error) {
+      toast.error("Error updating starred module, please try again later.");
+    }
   };
 
   return (

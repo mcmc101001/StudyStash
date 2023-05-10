@@ -126,6 +126,16 @@ const ContributeForm = (props: ContributeFormProps) => {
 
           toast.success("PDF uploaded successfully");
         } catch (error) {
+          // Delete the database entry if s3 upload fails
+          try {
+            await axios.post("/api/deletePDF", {
+              id: pdfEntryPrismaId,
+            });
+          } catch (error) {
+            toast.error("Error uploading PDF.");
+            setIsDisabled(false);
+            return;
+          }
           toast.error("Error uploading PDF.");
           setIsDisabled(false);
           return;

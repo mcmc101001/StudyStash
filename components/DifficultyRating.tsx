@@ -17,6 +17,15 @@ export default function RateDifficulty({
   userDifficulty,
   currentUserId,
 }: DifficultyDisplayProps) {
+  async function updateDifficulty(value: number) {
+    let req = await axios.post("/api/updateDifficulty", {
+      resourceId: resourceId,
+      userId: currentUserId,
+      value: value,
+    } as updateDifficultyType);
+    return req;
+  }
+
   const [difficulty, setDifficulty] = useState(userDifficulty);
   const [hovered, setHovered] = useState(0);
 
@@ -26,20 +35,18 @@ export default function RateDifficulty({
     } else {
       if (star === difficulty) {
         setDifficulty(0);
-        let req = await axios.post("/api/updateDifficulty", {
-          resourceId: resourceId,
-          userId: currentUserId,
-          value: 0,
-        } as updateDifficultyType);
-        console.log(req);
+        try {
+          updateDifficulty(0);
+        } catch (error) {
+          toast.error("Error updating difficulty, please try again later.");
+        }
       } else {
         setDifficulty(star);
-        let req = await axios.post("/api/updateDifficulty", {
-          resourceId: resourceId,
-          userId: currentUserId,
-          value: star,
-        } as updateDifficultyType);
-        console.log(req);
+        try {
+          updateDifficulty(star);
+        } catch (error) {
+          toast.error("Error updating difficulty, please try again later.");
+        }
       }
     }
   };

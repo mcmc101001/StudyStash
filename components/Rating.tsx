@@ -22,6 +22,16 @@ export default function Rating({
   totalRating,
   userRating,
 }: RatingProps) {
+  async function updateVote(value: boolean | null) {
+    let req = await axios.post("/api/updateVote", {
+      category: category,
+      resourceId: resourceId,
+      userId: currentUserId,
+      value: value,
+    } as updateVoteType);
+    return req;
+  }
+
   let [ratingState, setRatingState] = useState(totalRating);
   let [userRatingState, setUserRatingState] = useState(userRating);
 
@@ -35,30 +45,27 @@ export default function Rating({
     if (userRatingState === true) {
       setRatingState(ratingState - 1);
       setUserRatingState(null);
-      let req = await axios.post("/api/updateVote", {
-        category: category,
-        resourceId: resourceId,
-        userId: currentUserId,
-        value: null,
-      } as updateVoteType);
+      try {
+        let req = await updateVote(null);
+      } catch (error) {
+        toast.error("Error updating vote, please try again later.");
+      }
     } else if (userRatingState === false) {
       setRatingState(ratingState + 2);
       setUserRatingState(true);
-      let req = await axios.post("/api/updateVote", {
-        category: category,
-        resourceId: resourceId,
-        userId: currentUserId,
-        value: true,
-      } as updateVoteType);
+      try {
+        let req = await updateVote(true);
+      } catch (error) {
+        toast.error("Error updating vote, please try again later.");
+      }
     } else {
       setRatingState(ratingState + 1);
       setUserRatingState(true);
-      let req = await axios.post("/api/updateVote", {
-        category: category,
-        resourceId: resourceId,
-        userId: currentUserId,
-        value: true,
-      } as updateVoteType);
+      try {
+        let req = await updateVote(true);
+      } catch (error) {
+        toast.error("Error updating vote, please try again later.");
+      }
     }
   };
 
@@ -71,30 +78,27 @@ export default function Rating({
     if (userRatingState === true) {
       setRatingState(ratingState - 2);
       setUserRatingState(false);
-      let req = await axios.post("/api/updateVote", {
-        category: category,
-        resourceId: resourceId,
-        userId: currentUserId,
-        value: false,
-      } as updateVoteType);
+      try {
+        let req = await updateVote(false);
+      } catch (error) {
+        toast.error("Error updating vote, please try again later.");
+      }
     } else if (userRatingState === false) {
       setRatingState(ratingState + 1);
       setUserRatingState(null);
-      let req = await axios.post("/api/updateVote", {
-        category: category,
-        resourceId: resourceId,
-        userId: currentUserId,
-        value: null,
-      } as updateVoteType);
+      try {
+        let req = await updateVote(null);
+      } catch (error) {
+        toast.error("Error updating vote, please try again later.");
+      }
     } else {
       setRatingState(ratingState - 1);
       setUserRatingState(false);
-      let req = await axios.post("/api/updateVote", {
-        category: category,
-        resourceId: resourceId,
-        userId: currentUserId,
-        value: false,
-      } as updateVoteType);
+      try {
+        let req = await updateVote(false);
+      } catch (error) {
+        toast.error("Error updating vote, please try again later.");
+      }
     }
   };
 
