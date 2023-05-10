@@ -13,7 +13,7 @@ export default function DashboardItem({ moduleCode }: DashboardItemProps) {
       <div className="flex h-40 w-56 flex-col justify-center rounded-lg border-4 border-slate-900 p-4 dark:border-slate-100">
         <h1 className="mb-2 mt-auto text-3xl">{moduleCode}</h1>
         <Separator className="bg-slate-800 dark:bg-slate-200" />
-        <div className="mt-4 flex flex-row items-center justify-center gap-3">
+        <div className="mt-4 flex flex-row items-center justify-center gap-5">
           {ResourceOptions.map((option, index, { length }) => {
             const Icon = Icons[option.icon];
             return (
@@ -21,12 +21,6 @@ export default function DashboardItem({ moduleCode }: DashboardItemProps) {
                 <Link href={`/database/${moduleCode}/${option.href}`}>
                   <Icon className="h-12 w-12 hover:text-slate-500" />
                 </Link>
-                {index + 1 !== length && (
-                  <Separator
-                    orientation="vertical"
-                    className="bg-slate-800 dark:bg-slate-200"
-                  />
-                )}
               </div>
             );
           })}

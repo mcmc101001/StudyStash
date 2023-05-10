@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import ContributeForm from "@/components/ContributeForm";
 import "@testing-library/jest-dom/extend-expect";
 import { ResourceType } from "@/lib/content";
+import { Toaster } from "react-hot-toast";
 
 const mock_acadYearOptions = [
   { label: "2020/2021", value: "2020/2021" },
@@ -48,4 +49,27 @@ describe("ContributeForm", () => {
       }
     });
   });
+  // resourceTypes.map((resourceType) => {
+  //   it(`should not be able to submit form if not all fields are filled for ${resourceType}`, async () => {
+  //     await render(
+  //       <>
+  //         <Toaster />
+  //         <ContributeForm
+  //           acadYearOptions={mock_acadYearOptions}
+  //           semesterOptions={mock_semesterOptions}
+  //           moduleCodeOptions={mock_moduleCodeOptions}
+  //           examTypeOptions={
+  //             resourceType !== "Notes" ? mock_examTypeOptions : null
+  //           }
+  //           resourceType={resourceType}
+  //           userID={mock_user_id}
+  //         />
+  //       </>
+  //     );
+  //     const submitButton = screen.getByRole("button", { name: "Upload" });
+  //     fireEvent.click(submitButton);
+  //     const toastText = await screen.findByText("Please fill in all fields!");
+  //     expect(toastText).toBeInTheDocument();
+  //   });
+  // });
 });

@@ -12,7 +12,7 @@ import {
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
-import DifficultyDisplay from "@/components/DifficultyDisplay";
+import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
 
 async function getCheatsheetVote(userId: string, resourceId: string) {
   const res = await prisma.cheatsheetVote.findUnique({
@@ -142,9 +142,11 @@ export default async function ResourceItem({
         userDifficultyPromise,
         userVotePromise,
       ]);
-      avgDifficulty = avgDifficultyData._avg.value || 0;
       userDifficulty = userDifficultyData?.value || 0;
+      avgDifficulty = avgDifficultyData._avg.value || 0;
     } else {
+      avgDifficultyData = await avgDifficultyPromise;
+      avgDifficulty = avgDifficultyData._avg.value || 0;
       userVote = null;
       userDifficulty = 0;
     }
@@ -205,7 +207,8 @@ export default async function ResourceItem({
       </div>
       {category === "Past Papers" && (
         <div className="ml-4 border-l-2 border-slate-500 pl-4">
-          <DifficultyDisplay
+          <DifficultyDisplayDialog
+            id={id}
             difficulty={avgDifficulty}
             difficultyCount={difficultyCount as number}
           />

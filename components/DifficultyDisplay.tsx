@@ -11,9 +11,9 @@ export default function DifficultyDisplay({
 }: DifficultyDisplayProps) {
   const stars = [1, 2, 3, 4, 5];
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
+    <div className="flex h-full w-full cursor-pointer flex-col items-center justify-center">
       <div>
-        <span className="text-lg font-semibold">{difficulty} </span>
+        <span className="text-lg font-semibold">{difficulty.toFixed(1)} </span>
       </div>
       <div className="flex">
         {stars.map((star) => {
