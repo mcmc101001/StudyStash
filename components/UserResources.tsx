@@ -39,7 +39,7 @@ export default async function UserResources() {
   const notes = getRating(notesRaw);
 
   return (
-    <div className="flex flex-row gap-x-4">
+    <>
       <h1>Cheatsheets</h1>
       {cheatsheets.length !== 0 ? (
         <div className="w-4/7 flex flex-col gap-y-6">
@@ -65,6 +65,6 @@ export default async function UserResources() {
       ) : (
         <div>No cheatsheet found</div>
       )}
-    </div>
+    </>
   );
 }
