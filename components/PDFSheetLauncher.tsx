@@ -13,7 +13,7 @@ import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
 import Rating from "./Rating";
 import { ResourceType } from "@/lib/content";
-import RateDifficulty from "./RateDifficulty";
+import DifficultyRating from "@/components/DifficultyRating";
 
 interface PDFSheetLauncherProps {
   children: React.ReactNode;
@@ -66,7 +66,7 @@ export default function PDFSheetLauncher({
             {category === "Past Papers" && (
               <div className="ml-auto mr-4 flex flex-col items-center">
                 <span>Rate difficulty</span>
-                <RateDifficulty
+                <DifficultyRating
                   resourceId={id}
                   currentUserId={currentUserId}
                   userDifficulty={userDifficulty}

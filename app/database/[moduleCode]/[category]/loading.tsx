@@ -6,6 +6,7 @@ export default function Loading() {
       <Skeleton className="h-24 w-full rounded-xl bg-slate-200 dark:bg-slate-800" />
       <Skeleton className="h-24 w-full rounded-xl bg-slate-200 dark:bg-slate-800" />
       <Skeleton className="h-24 w-full rounded-xl bg-slate-200 dark:bg-slate-800" />
+      <Skeleton className="h-24 w-full rounded-xl bg-slate-200 dark:bg-slate-800" />
     </div>
   );
 }
