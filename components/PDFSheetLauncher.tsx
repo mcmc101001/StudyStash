@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
-import Rating from "./Rating";
+import Rating from "@/components/Rating";
 import { ResourceType } from "@/lib/content";
 import DifficultyRating from "@/components/DifficultyRating";
 

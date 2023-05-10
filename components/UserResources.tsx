@@ -2,7 +2,7 @@ import { getRating } from "@/app/database/[moduleCode]/[category]/page";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
-import ResourceItem from "./ResourceItem";
+import ResourceItem from "@/components/ResourceItem";
 
 export default async function UserResources() {
   const user = await getCurrentUser();
