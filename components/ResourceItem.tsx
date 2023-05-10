@@ -142,9 +142,11 @@ export default async function ResourceItem({
         userDifficultyPromise,
         userVotePromise,
       ]);
-      avgDifficulty = avgDifficultyData._avg.value || 0;
       userDifficulty = userDifficultyData?.value || 0;
+      avgDifficulty = avgDifficultyData._avg.value || 0;
     } else {
+      avgDifficultyData = await avgDifficultyPromise;
+      avgDifficulty = avgDifficultyData._avg.value || 0;
       userVote = null;
       userDifficulty = 0;
     }

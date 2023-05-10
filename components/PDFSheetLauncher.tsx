@@ -64,7 +64,8 @@ export default function PDFSheetLauncher({
             />
             <div>{title}</div>
             {category === "Past Papers" && (
-              <div className="ml-auto mr-4">
+              <div className="ml-auto mr-4 flex flex-col items-center">
+                <span>Rate difficulty</span>
                 <RateDifficulty
                   resourceId={id}
                   currentUserId={currentUserId}
