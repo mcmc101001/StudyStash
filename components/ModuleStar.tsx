@@ -21,12 +21,13 @@ export default function ModuleStar({
 
   const handleClick = async () => {
     setStar(!star);
-    try {
-      const res = await axios.post("/api/updateStarredModule", {
+    let body:updateStarredModuleType = {
         moduleCode: moduleCode,
         userId: userId,
         value: !star,
-      } as updateStarredModuleType);
+      }
+    try {
+      const res = await axios.post("/api/updateStarredModule", body);
     } catch (error) {
       toast.error("Error updating starred module, please try again later.");
     }

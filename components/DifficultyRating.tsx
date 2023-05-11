@@ -18,11 +18,15 @@ export default function RateDifficulty({
   currentUserId,
 }: DifficultyDisplayProps) {
   async function updateDifficulty(value: number) {
-    let req = await axios.post("/api/updateDifficulty", {
+    if (!currentUserId) {
+      return null;
+    }
+    let body: updateDifficultyType = {
       resourceId: resourceId,
       userId: currentUserId,
       value: value,
-    } as updateDifficultyType);
+    };
+    let req = await axios.post("/api/updateDifficulty", body);
     return req;
   }
 

@@ -20,12 +20,12 @@ export default function ResourceDeleteButton({
   const router = useRouter();
 
   const handleDelete = async function () {
-    let data: deleteS3ObjectType = { id: resourceId };
+    let body: deleteS3ObjectType = { id: resourceId };
     try {
-      const res = await axios.post("/api/deleteS3Object", data);
+      const res = await axios.post("/api/deleteS3Object", body);
       try {
-        let data: deletePDFType = { id: resourceId, category: category };
-        await axios.post("/api/deletePDF", data);
+        let body: deletePDFType = { id: resourceId, category: category };
+        await axios.post("/api/deletePDF", body);
       } catch (error) {
         toast.error("Error deleting resource, please try again later.");
         return;
