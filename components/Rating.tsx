@@ -23,12 +23,16 @@ export default function Rating({
   userRating,
 }: RatingProps) {
   async function updateVote(value: boolean | null) {
-    let req = await axios.post("/api/updateVote", {
+    if (!currentUserId) {
+      return null;
+    }
+    let body: updateVoteType = {
       category: category,
       resourceId: resourceId,
       userId: currentUserId,
       value: value,
-    } as updateVoteType);
+    };
+    let req = await axios.post("/api/updateVote", body);
     return req;
   }
 

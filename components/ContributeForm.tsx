@@ -5,11 +5,13 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import PDFUploader from "@/components/PDFUploader";
-import Button from "./ui/Button";
+import Button from "@/components/ui/Button";
 import { Trash2 } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
 import { ResourceType } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
+import { ExamType } from "@prisma/client";
+import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -26,7 +28,7 @@ const ContributeForm = (props: ContributeFormProps) => {
   const [acadYear, setAcadYear] = useState<string | null>(null);
   const [semester, setSemester] = useState<string | null>(null);
   const [moduleCode, setModuleCode] = useState<string | null>(null);
-  const [examType, setExamType] = useState<string | null>(null);
+  const [examType, setExamType] = useState<ExamType | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -90,15 +92,16 @@ const ContributeForm = (props: ContributeFormProps) => {
     } else {
       try {
         const newFileName = fileName.replace(/\.[^/.]+$/, "");
-        let { data } = await axios.post("/api/addPDF", {
+        let body: addPDFType = {
           name: newFileName,
           acadYear: acadYear,
           semester: semester,
           moduleCode: moduleCode,
-          examType: examType,
+          examType: examType ? examType : undefined,
           userID: props.userID,
           resourceType: props.resourceType,
-        } as addPDFType);
+        };
+        let { data } = await axios.post("/api/addPDF");
 
         const pdfEntryPrismaId = data.PDFentry.id;
 
@@ -109,10 +112,8 @@ const ContributeForm = (props: ContributeFormProps) => {
           return;
         }
         try {
-          let { data } = await axios.post("/api/generateS3PutURL", {
-            name: pdfEntryPrismaId,
-            type: file.type,
-          });
+          let body: generateS3PutURLType = { name: pdfEntryPrismaId };
+          let { data } = await axios.post("/api/generateS3PutURL", body);
 
           const url = data.url;
 
@@ -185,7 +186,7 @@ const ContributeForm = (props: ContributeFormProps) => {
 
   const examTypeSelectHandler = (option: Option | null) => {
     if (option) {
-      setExamType(option.value);
+      setExamType(option.value as ExamType);
     } else {
       setExamType(null);
     }

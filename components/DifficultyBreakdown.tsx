@@ -2,19 +2,19 @@ import { prisma } from "@/lib/prisma";
 import { BsStarFill } from "react-icons/bs";
 
 interface DifficultyBreakdownProps {
-  id: string;
+  resourceId: string;
   difficulty: number;
   difficultyCount: number;
 }
 
 export default async function DifficultyBreakdown({
-  id,
+  resourceId,
   difficulty,
   difficultyCount,
 }: DifficultyBreakdownProps) {
   const votes = await prisma.questionPaperDifficulty.findMany({
     where: {
-      resourceId: id,
+      resourceId: resourceId,
     },
   });
   let voteCount = [0, 0, 0, 0, 0];

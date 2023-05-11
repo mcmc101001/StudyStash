@@ -2,11 +2,19 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { ResourceType } from "@/lib/content";
+import { ResourceEnum } from "@/lib/content";
+import z from "zod";
 
-export interface deletePDFType {
-  id: string;
-  resourceType: ResourceType;
+const deletePDFSchema = z.object({
+  id: z.string(),
+  category: ResourceEnum,
+});
+
+export type deletePDFType = z.infer<typeof deletePDFSchema>;
+
+function isValidBody(body: any): body is deletePDFType {
+  const { success } = deletePDFSchema.safeParse(body);
+  return success;
 }
 
 export default async function deletePDF(
@@ -22,10 +30,13 @@ export default async function deletePDF(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
+  if (!isValidBody(req.body)) {
+    return res.status(400).json({ message: "Invalid request body" });
+  }
   try {
-    let { id, resourceType } = req.body as deletePDFType;
+    let { id, category } = req.body;
     // ensure authenticated user is the owner of the PDF
-    if (resourceType === "Cheatsheets") {
+    if (category === "Cheatsheets") {
       const PDFentry = await prisma.cheatsheet.deleteMany({
         where: {
           id: id,
@@ -33,16 +44,16 @@ export default async function deletePDF(
         },
       });
       res.status(200).json({ PDFentry });
-    } else if (resourceType === "Past Papers") {
-      const PDFentry = await prisma.cheatsheet.deleteMany({
+    } else if (category === "Past Papers") {
+      const PDFentry = await prisma.questionPaper.deleteMany({
         where: {
           id: id,
           userId: session.user.id,
         },
       });
       res.status(200).json({ PDFentry });
-    } else if (resourceType === "Notes") {
-      const PDFentry = await prisma.cheatsheet.deleteMany({
+    } else if (category === "Notes") {
+      const PDFentry = await prisma.notes.deleteMany({
         where: {
           id: id,
           userId: session.user.id,

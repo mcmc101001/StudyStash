@@ -3,16 +3,24 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { ExamType } from "@prisma/client";
-import { ResourceType } from "@/lib/content";
+import { ResourceEnum } from "@/lib/content";
+import z from "zod";
 
-export interface addPDFType {
-  name: string;
-  acadYear: string;
-  semester: string;
-  moduleCode: string;
-  examType: ExamType;
-  userID: string;
-  resourceType: ResourceType;
+const addPDFSchema = z.object({
+  name: z.string(),
+  acadYear: z.string(),
+  semester: z.string(),
+  moduleCode: z.string(),
+  examType: z.nativeEnum(ExamType).optional(),
+  userID: z.string(),
+  resourceType: ResourceEnum,
+});
+
+export type addPDFType = z.infer<typeof addPDFSchema>;
+
+function isValidBody(body: any): body is addPDFType {
+  const { success } = addPDFSchema.safeParse(body);
+  return success;
 }
 
 export default async function addPDF(
@@ -28,6 +36,10 @@ export default async function addPDF(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
+  if (!isValidBody(req.body)) {
+    console.log(req.body);
+    return res.status(400).json({ message: "Invalid request body" });
+  }
   try {
     let {
       name,
@@ -37,31 +49,39 @@ export default async function addPDF(
       moduleCode,
       examType,
       resourceType,
-    } = req.body as addPDFType;
+    } = req.body;
     if (resourceType === "Cheatsheets") {
-      const PDFentry = await prisma.cheatsheet.create({
-        data: {
-          acadYear: acadYear,
-          semester: semester,
-          userId: userID,
-          moduleCode: moduleCode,
-          type: examType,
-          name: name,
-        },
-      });
-      res.status(200).json({ PDFentry });
+      if (examType === undefined) {
+        res.status(400).json({ message: "Invalid request" });
+      } else {
+        const PDFentry = await prisma.cheatsheet.create({
+          data: {
+            acadYear: acadYear,
+            semester: semester,
+            userId: userID,
+            moduleCode: moduleCode,
+            type: examType,
+            name: name,
+          },
+        });
+        res.status(200).json({ PDFentry });
+      }
     } else if (resourceType === "Past Papers") {
-      const PDFentry = await prisma.questionPaper.create({
-        data: {
-          acadYear: acadYear,
-          semester: semester,
-          userId: userID,
-          moduleCode: moduleCode,
-          type: examType,
-          name: name,
-        },
-      });
-      res.status(200).json({ PDFentry });
+      if (examType === undefined) {
+        res.status(400).json({ message: "Invalid request" });
+      } else {
+        const PDFentry = await prisma.questionPaper.create({
+          data: {
+            acadYear: acadYear,
+            semester: semester,
+            userId: userID,
+            moduleCode: moduleCode,
+            type: examType,
+            name: name,
+          },
+        });
+        res.status(200).json({ PDFentry });
+      }
     } else if (resourceType === "Notes") {
       const PDFentry = await prisma.notes.create({
         data: {

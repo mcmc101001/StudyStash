@@ -39,32 +39,91 @@ export default async function UserResources() {
   const notes = getRating(notesRaw);
 
   return (
-    <div className="flex flex-row gap-x-4">
-      <h1>Cheatsheets</h1>
-      {cheatsheets.length !== 0 ? (
-        <div className="w-4/7 flex flex-col gap-y-6">
-          {cheatsheets.map((resource) => {
-            return (
-              /* @ts-expect-error Server Component */
-              <ResourceItem
-                key={resource.id}
-                id={resource.id}
-                name={resource.name}
-                userId={resource.userId}
-                createdAt={resource.createdAt}
-                acadYear={resource.acadYear}
-                semester={resource.semester}
-                rating={resource.rating}
-                /* @ts-expect-error Wrong type inference */
-                examType={resource.type}
-                category="Cheatsheets"
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <div>No cheatsheet found</div>
-      )}
+    <div className="flex">
+      <div className="w-1/4">
+        <h1>Cheatsheets</h1>
+        {cheatsheets.length !== 0 ? (
+          <div className="flex flex-col gap-y-6">
+            {cheatsheets.map((resource) => {
+              return (
+                /* @ts-expect-error Server Component */
+                <ResourceItem
+                  key={resource.id}
+                  resourceId={resource.id}
+                  name={resource.name}
+                  userId={resource.userId}
+                  createdAt={resource.createdAt}
+                  acadYear={resource.acadYear}
+                  semester={resource.semester}
+                  rating={resource.rating}
+                  /* @ts-expect-error Wrong type inference */
+                  examType={resource.type}
+                  category="Cheatsheets"
+                  deletable={true}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div>No cheatsheet found</div>
+        )}
+      </div>
+      <div className="w-1/3">
+        <h1>Past papers</h1>
+        {pastPapers.length !== 0 ? (
+          <div className="flex flex-col gap-y-6">
+            {pastPapers.map((resource) => {
+              return (
+                /* @ts-expect-error Server Component */
+                <ResourceItem
+                  key={resource.id}
+                  resourceId={resource.id}
+                  name={resource.name}
+                  userId={resource.userId}
+                  createdAt={resource.createdAt}
+                  acadYear={resource.acadYear}
+                  semester={resource.semester}
+                  rating={resource.rating}
+                  /* @ts-expect-error Wrong type inference */
+                  examType={resource.type}
+                  category="Past Papers"
+                  deletable={true}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div>No past papers found</div>
+        )}
+      </div>
+      <div className="w-1/4">
+        <h1>Notes</h1>
+        {notes.length !== 0 ? (
+          <div className="flex flex-col gap-y-6">
+            {notes.map((resource) => {
+              return (
+                /* @ts-expect-error Server Component */
+                <ResourceItem
+                  key={resource.id}
+                  resourceId={resource.id}
+                  name={resource.name}
+                  userId={resource.userId}
+                  createdAt={resource.createdAt}
+                  acadYear={resource.acadYear}
+                  semester={resource.semester}
+                  rating={resource.rating}
+                  /* @ts-expect-error Wrong type inference */
+                  examType={resource.type}
+                  category="Notes"
+                  deletable={true}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div>No notes found</div>
+        )}
+      </div>
     </div>
   );
 }

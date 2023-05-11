@@ -180,7 +180,7 @@ export default async function Page({
               // @ts-expect-error Server component
               <ResourceItem
                 key={resource.id}
-                id={resource.id}
+                resourceId={resource.id}
                 name={resource.name}
                 userId={resource.userId}
                 createdAt={resource.createdAt}
@@ -201,7 +201,7 @@ export default async function Page({
           })}
         </div>
       ) : (
-        <div className="flex w-4/5 flex-col items-center justify-center gap-y-6 text-2xl">
+        <div className="flex h-full w-4/5 flex-col items-center justify-center gap-y-6 pt-10 text-2xl">
           <h1 className="text-slate-800 dark:text-slate-200">
             No resources found
           </h1>

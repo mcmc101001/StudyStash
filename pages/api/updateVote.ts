@@ -1,14 +1,22 @@
 import { authOptions } from "@/lib/auth";
-import { ResourceType } from "@/lib/content";
+import { ResourceEnum } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
+import z from "zod";
 
-export interface updateVoteType {
-  resourceId: string;
-  userId: string;
-  category: ResourceType;
-  value: boolean | null;
+const updateVoteSchema = z.object({
+  resourceId: z.string(),
+  userId: z.string(),
+  category: ResourceEnum,
+  value: z.union([z.boolean(), z.null()]),
+});
+
+export type updateVoteType = z.infer<typeof updateVoteSchema>;
+
+function isValidBody(body: any): body is updateVoteType {
+  const { success } = updateVoteSchema.safeParse(body);
+  return success;
 }
 
 export default async function updateVote(
@@ -24,8 +32,11 @@ export default async function updateVote(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
+  if (!isValidBody(req.body)) {
+    return res.status(400).json({ message: "Invalid request body" });
+  }
   try {
-    let { resourceId, userId, category, value } = req.body as updateVoteType;
+    let { resourceId, userId, category, value } = req.body;
     let vote;
     if (category === "Cheatsheets") {
       if (value !== null) {

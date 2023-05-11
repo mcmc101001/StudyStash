@@ -13,6 +13,7 @@ import {
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
+import ResourceDeleteButton from "./ResourceDeleteButton";
 
 async function getCheatsheetVote(userId: string, resourceId: string) {
   const res = await prisma.cheatsheetVote.findUnique({
@@ -76,7 +77,7 @@ async function getUserDifficulty(userId: string, resourceId: string) {
 
 interface ResourceItemProps {
   name: string;
-  id: string;
+  resourceId: string;
   userId: string;
   createdAt: Date;
   acadYear: string;
@@ -85,11 +86,12 @@ interface ResourceItemProps {
   difficultyCount?: number;
   examType?: ExamType;
   rating: number;
+  deletable?: boolean;
 }
 
 export default async function ResourceItem({
   name,
-  id,
+  resourceId,
   userId,
   createdAt,
   acadYear,
@@ -98,6 +100,7 @@ export default async function ResourceItem({
   examType,
   category,
   rating,
+  deletable,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
@@ -122,21 +125,24 @@ export default async function ResourceItem({
     //   },
     // });
     if (currentUser) {
-      userVote = await getCheatsheetVote(currentUser.id, id);
+      userVote = await getCheatsheetVote(currentUser.id, resourceId);
     } else {
       userVote = null;
     }
   } else if (category === "Notes") {
     if (currentUser) {
-      userVote = await getNotesVote(currentUser.id, id);
+      userVote = await getNotesVote(currentUser.id, resourceId);
     } else {
       userVote = null;
     }
   } else if (category === "Past Papers") {
-    const avgDifficultyPromise = getDifficulty(id);
+    const avgDifficultyPromise = getDifficulty(resourceId);
     if (currentUser) {
-      const userVotePromise = getQuestionPaperVote(currentUser.id, id);
-      const userDifficultyPromise = getUserDifficulty(currentUser.id, id);
+      const userVotePromise = getQuestionPaperVote(currentUser.id, resourceId);
+      const userDifficultyPromise = getUserDifficulty(
+        currentUser.id,
+        resourceId
+      );
       [avgDifficultyData, userDifficultyData, userVote] = await Promise.all([
         avgDifficultyPromise,
         userDifficultyPromise,
@@ -157,7 +163,7 @@ export default async function ResourceItem({
   return (
     <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 p-4 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
       <Rating
-        resourceId={id}
+        resourceId={resourceId}
         currentUserId={currentUser ? currentUser.id : null}
         category={category}
         totalRating={rating}
@@ -165,7 +171,7 @@ export default async function ResourceItem({
       />
       <div className="ml-3 box-border h-full w-full overflow-hidden">
         <PDFSheetLauncher
-          id={id}
+          resourceId={resourceId}
           title={name}
           currentUserId={currentUser ? currentUser.id : null}
           category={category}
@@ -206,12 +212,17 @@ export default async function ResourceItem({
         </PDFSheetLauncher>
       </div>
       {category === "Past Papers" && (
-        <div className="ml-4 border-l-2 border-slate-500 pl-4">
+        <div className="ml-4 flex h-full items-center justify-center border-l-2 border-slate-500 pl-4">
           <DifficultyDisplayDialog
-            id={id}
+            resourceId={resourceId}
             difficulty={avgDifficulty}
             difficultyCount={difficultyCount as number}
           />
+        </div>
+      )}
+      {deletable && currentUser?.id === userId && (
+        <div className="ml-4 flex h-full items-center justify-center border-l-2 border-slate-500 pl-4">
+          <ResourceDeleteButton resourceId={resourceId} category={category} />
         </div>
       )}
     </div>

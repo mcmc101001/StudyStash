@@ -2,6 +2,18 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { createPresignedUrlWithoutClient } from "@/lib/aws_s3_sdk";
+import z from "zod";
+
+const generateS3PutURLSchema = z.object({
+  name: z.string(),
+});
+
+export type generateS3PutURLType = z.infer<typeof generateS3PutURLSchema>;
+
+function isValidBody(body: any): body is generateS3PutURLType {
+  const { success } = generateS3PutURLSchema.safeParse(body);
+  return success;
+}
 
 export const config = {
   api: {
@@ -23,6 +35,9 @@ export default async function generateS3PutURL(
   if (!session) {
     res.status(401).json({ message: "You must be logged in." });
     return;
+  }
+  if (!isValidBody(req.body)) {
+    return res.status(400).json({ message: "Invalid request body" });
   }
 
   try {

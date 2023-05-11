@@ -18,7 +18,7 @@ import DifficultyRating from "@/components/DifficultyRating";
 interface PDFSheetLauncherProps {
   children: React.ReactNode;
   title: string;
-  id: string;
+  resourceId: string;
   category: ResourceType;
   currentUserId: string | null;
   totalRating: number;
@@ -29,7 +29,7 @@ interface PDFSheetLauncherProps {
 export default function PDFSheetLauncher({
   children,
   title,
-  id,
+  resourceId,
   category,
   currentUserId,
   totalRating,
@@ -38,13 +38,13 @@ export default function PDFSheetLauncher({
 }: PDFSheetLauncherProps) {
   const { queryParams, setQueryParams } = useQueryParams();
   const router = useRouter();
-  const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${id}`;
+  const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${resourceId}`;
 
   return (
     <Sheet
-      open={queryParams?.get("id") === id}
+      open={queryParams?.get("id") === resourceId}
       onOpenChange={() => {
-        setQueryParams({ id: id });
+        setQueryParams({ id: resourceId });
       }}
     >
       <SheetTrigger className="h-full w-full">{children}</SheetTrigger>
@@ -60,14 +60,14 @@ export default function PDFSheetLauncher({
               currentUserId={currentUserId}
               totalRating={totalRating}
               userRating={userRating}
-              resourceId={id}
+              resourceId={resourceId}
             />
             <div>{title}</div>
             {category === "Past Papers" && (
               <div className="ml-auto mr-4 flex flex-col items-center">
                 <span>Rate difficulty</span>
                 <DifficultyRating
-                  resourceId={id}
+                  resourceId={resourceId}
                   currentUserId={currentUserId}
                   userDifficulty={userDifficulty}
                 />
