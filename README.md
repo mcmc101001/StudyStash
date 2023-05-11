@@ -38,6 +38,10 @@ show diagram of routing and workflow
 
 show database relationships
 
+## Type safety
+
+### Prisma
+
 ## Software Engineering Practices
 
 ### Version control

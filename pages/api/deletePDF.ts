@@ -6,7 +6,7 @@ import { ResourceType } from "@/lib/content";
 
 export interface deletePDFType {
   id: string;
-  resourceType: ResourceType;
+  category: ResourceType;
 }
 
 export default async function deletePDF(
@@ -23,9 +23,9 @@ export default async function deletePDF(
     return;
   }
   try {
-    let { id, resourceType } = req.body as deletePDFType;
+    let { id, category } = req.body as deletePDFType;
     // ensure authenticated user is the owner of the PDF
-    if (resourceType === "Cheatsheets") {
+    if (category === "Cheatsheets") {
       const PDFentry = await prisma.cheatsheet.deleteMany({
         where: {
           id: id,
@@ -33,7 +33,7 @@ export default async function deletePDF(
         },
       });
       res.status(200).json({ PDFentry });
-    } else if (resourceType === "Past Papers") {
+    } else if (category === "Past Papers") {
       const PDFentry = await prisma.cheatsheet.deleteMany({
         where: {
           id: id,
@@ -41,7 +41,7 @@ export default async function deletePDF(
         },
       });
       res.status(200).json({ PDFentry });
-    } else if (resourceType === "Notes") {
+    } else if (category === "Notes") {
       const PDFentry = await prisma.cheatsheet.deleteMany({
         where: {
           id: id,

@@ -10,13 +10,13 @@ import DifficultyDisplay from "@/components/DifficultyDisplay";
 import { Separator } from "@/components/ui/Separator";
 
 interface DifficultyDisplayDialogProps {
-  id: string;
+  resourceId: string;
   difficulty: number;
   difficultyCount: number;
 }
 
 export default function DifficultyDisplayDialog({
-  id,
+  resourceId,
   difficulty,
   difficultyCount,
 }: DifficultyDisplayDialogProps) {
@@ -40,7 +40,7 @@ export default function DifficultyDisplayDialog({
           <DifficultyBreakdown
             difficulty={difficulty}
             difficultyCount={difficultyCount}
-            id={id}
+            resourceId={resourceId}
           />
           <Separator orientation="vertical" className="mr-2 bg-slate-200" />
           <div className="scale-150">

@@ -42,13 +42,13 @@ export default async function UserResources() {
     <>
       <h1>Cheatsheets</h1>
       {cheatsheets.length !== 0 ? (
-        <div className="w-4/7 flex flex-col gap-y-6">
+        <div className="flex w-1/2 flex-col gap-y-6">
           {cheatsheets.map((resource) => {
             return (
               /* @ts-expect-error Server Component */
               <ResourceItem
                 key={resource.id}
-                id={resource.id}
+                resourceId={resource.id}
                 name={resource.name}
                 userId={resource.userId}
                 createdAt={resource.createdAt}
@@ -58,6 +58,7 @@ export default async function UserResources() {
                 /* @ts-expect-error Wrong type inference */
                 examType={resource.type}
                 category="Cheatsheets"
+                deletable={true}
               />
             );
           })}

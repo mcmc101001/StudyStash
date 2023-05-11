@@ -180,7 +180,7 @@ export default async function Page({
               // @ts-expect-error Server component
               <ResourceItem
                 key={resource.id}
-                id={resource.id}
+                resourceId={resource.id}
                 name={resource.name}
                 userId={resource.userId}
                 createdAt={resource.createdAt}
