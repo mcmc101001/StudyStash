@@ -21,7 +21,9 @@ export default function ResourceDeleteButton({
   const handleDelete = async function () {
     let data: deleteS3ObjectType = { id: resourceId };
     try {
-      const res = await axios.post("/api/deleteS3Object", data);
+      const res = await axios.post("/api/deleteS3Object", {
+        id: resourceId,
+      });
       try {
         await axios.post("/api/deletePDF", {
           id: resourceId,

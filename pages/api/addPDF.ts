@@ -16,7 +16,7 @@ const addPDFSchema = z.object({
   resourceType: ResourceEnum,
 });
 
-type addPDFType = z.infer<typeof addPDFSchema>;
+export type addPDFType = z.infer<typeof addPDFSchema>;
 
 function isValidBody(body: any): body is addPDFType {
   const { success } = addPDFSchema.safeParse(body);

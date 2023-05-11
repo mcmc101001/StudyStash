@@ -45,7 +45,7 @@ export default async function deletePDF(
       });
       res.status(200).json({ PDFentry });
     } else if (category === "Past Papers") {
-      const PDFentry = await prisma.cheatsheet.deleteMany({
+      const PDFentry = await prisma.questionPaper.deleteMany({
         where: {
           id: id,
           userId: session.user.id,
@@ -53,7 +53,7 @@ export default async function deletePDF(
       });
       res.status(200).json({ PDFentry });
     } else if (category === "Notes") {
-      const PDFentry = await prisma.cheatsheet.deleteMany({
+      const PDFentry = await prisma.notes.deleteMany({
         where: {
           id: id,
           userId: session.user.id,
