@@ -12,6 +12,7 @@ import { ResourceType } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { ExamType } from "@prisma/client";
 import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
+import { deletePDFType } from "@/pages/api/deletePDF";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -101,7 +102,7 @@ const ContributeForm = (props: ContributeFormProps) => {
           userID: props.userID,
           resourceType: props.resourceType,
         };
-        let { data } = await axios.post("/api/addPDF");
+        let { data } = await axios.post("/api/addPDF", body);
 
         const pdfEntryPrismaId = data.PDFentry.id;
 
@@ -129,9 +130,11 @@ const ContributeForm = (props: ContributeFormProps) => {
         } catch (error) {
           // Delete the database entry if s3 upload fails
           try {
-            await axios.post("/api/deletePDF", {
+            let body: deletePDFType = {
               id: pdfEntryPrismaId,
-            });
+              category: props.resourceType,
+            };
+            await axios.post("/api/deletePDF", body);
           } catch (error) {
             toast.error("Error uploading PDF.");
             setIsDisabled(false);
