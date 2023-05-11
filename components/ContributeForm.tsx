@@ -95,10 +95,10 @@ const ContributeForm = (props: ContributeFormProps) => {
           acadYear: acadYear,
           semester: semester,
           moduleCode: moduleCode,
-          examType: examType,
+          examType: examType ? examType : undefined,
           userID: props.userID,
           resourceType: props.resourceType,
-        } as addPDFType);
+        });
 
         const pdfEntryPrismaId = data.PDFentry.id;
 
