@@ -13,7 +13,7 @@ import {
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
-import ResourceDeleteButton from "./ResourceDeleteButton";
+import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 
 async function getCheatsheetVote(userId: string, resourceId: string) {
   const res = await prisma.cheatsheetVote.findUnique({
