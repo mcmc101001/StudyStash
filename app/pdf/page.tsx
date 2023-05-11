@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
+import TestDeleteS3Button from "@/components/TestDeleteS3Button";
 
 export default async function PDFPage() {
   const user = await getCurrentUser();
@@ -29,6 +30,7 @@ export default async function PDFPage() {
         <li>Solutions</li>
         <li>Responsive layout</li>
       </ul>
+      <TestDeleteS3Button />
     </>
   );
 }
