@@ -2,11 +2,19 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { ResourceType } from "@/lib/content";
+import { ResourceEnum } from "@/lib/content";
+import z from "zod";
 
-export interface deletePDFType {
-  id: string;
-  category: ResourceType;
+const deletePDFSchema = z.object({
+  id: z.string(),
+  category: ResourceEnum,
+});
+
+export type deletePDFType = z.infer<typeof deletePDFSchema>;
+
+function isValidBody(body: any): body is deletePDFType {
+  const { success } = deletePDFSchema.safeParse(body);
+  return success;
 }
 
 export default async function deletePDF(
@@ -22,8 +30,11 @@ export default async function deletePDF(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
+  if (!isValidBody(req.body)) {
+    return res.status(400).json({ message: "Invalid request body" });
+  }
   try {
-    let { id, category } = req.body as deletePDFType;
+    let { id, category } = req.body;
     // ensure authenticated user is the owner of the PDF
     if (category === "Cheatsheets") {
       const PDFentry = await prisma.cheatsheet.deleteMany({

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { deleteS3ObjectType } from "@/pages/api/deleteS3Object";
 
 interface ResourceDeleteButtonProps {
   resourceId: string;
@@ -18,10 +19,9 @@ export default function ResourceDeleteButton({
   const router = useRouter();
 
   const handleDelete = async function () {
+    let data: deleteS3ObjectType = { id: resourceId };
     try {
-      const res = await axios.post("/api/deleteS3Object", {
-        id: resourceId,
-      });
+      const res = await axios.post("/api/deleteS3Object", data);
       try {
         await axios.post("/api/deletePDF", {
           id: resourceId,

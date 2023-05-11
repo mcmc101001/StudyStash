@@ -1,9 +1,12 @@
 import { Icon } from "@/components/Icons";
 import { ExamType } from "@prisma/client";
+import { z } from "zod";
 
-export type ResourceType = "Cheatsheets" | "Past Papers" | "Notes";
+export const ResourceEnum = z.enum(["Cheatsheets", "Past Papers", "Notes"]);
+export type ResourceType = z.infer<typeof ResourceEnum>;
 
-export type ResourceTypeURL = "cheatsheets" | "past_papers" | "notes";
+export const ResourceEnumURL = z.enum(["cheatsheets", "past_papers", "notes"]);
+export type ResourceTypeURL = z.infer<typeof ResourceEnumURL>;
 
 export interface ResourceOptionsProps {
   name: ResourceType;

@@ -38,9 +38,11 @@ show diagram of routing and workflow
 
 show database relationships
 
-## Type safety
+## Type validation
 
 ### Prisma
+
+### Zod
 
 ## Software Engineering Practices
 

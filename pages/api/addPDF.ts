@@ -3,16 +3,24 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { ExamType } from "@prisma/client";
-import { ResourceType } from "@/lib/content";
+import { ResourceEnum } from "@/lib/content";
+import z from "zod";
 
-export interface addPDFType {
-  name: string;
-  acadYear: string;
-  semester: string;
-  moduleCode: string;
-  examType: ExamType;
-  userID: string;
-  resourceType: ResourceType;
+const addPDFSchema = z.object({
+  name: z.string(),
+  acadYear: z.string(),
+  semester: z.string(),
+  moduleCode: z.string(),
+  examType: z.nativeEnum(ExamType),
+  userID: z.string(),
+  resourceType: ResourceEnum,
+});
+
+type addPDFType = z.infer<typeof addPDFSchema>;
+
+function isValidBody(body: any): body is addPDFType {
+  const { success } = addPDFSchema.safeParse(body);
+  return success;
 }
 
 export default async function addPDF(
@@ -28,6 +36,9 @@ export default async function addPDF(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
+  if (!isValidBody(req.body)) {
+    return res.status(400).json({ message: "Invalid request body" });
+  }
   try {
     let {
       name,
@@ -37,7 +48,7 @@ export default async function addPDF(
       moduleCode,
       examType,
       resourceType,
-    } = req.body as addPDFType;
+    } = req.body;
     if (resourceType === "Cheatsheets") {
       const PDFentry = await prisma.cheatsheet.create({
         data: {

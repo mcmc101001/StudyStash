@@ -22,7 +22,7 @@ export default async function RootLayout({
         {/* show DOM content after loaded to prevent dark mode flickering */}
         {/* <Script src='/theme.js' strategy='afterInteractive' /> */}
         <Toaster />
-        <main className="flex w-full flex-row bg-white transition-colors duration-500 dark:bg-slate-950">
+        <main className="flex w-full min-w-fit flex-row bg-white transition-colors duration-500 dark:bg-slate-950">
           {/* @ts-expect-error Server component */}
           <NavBar />
           <div className="h-screen w-full">{children}</div>
