@@ -7,7 +7,7 @@ import z from "zod";
 const updateProfileSchema = z.object({
   userId: z.string(),
   username: z.string(),
-  bio: z.string(), //.maxLength(255),
+  bio: z.string(), //.max(255),
 });
 
 export type updateProfileType = z.infer<typeof updateProfileSchema>;

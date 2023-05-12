@@ -10,9 +10,11 @@ import {
 } from "@/components/ui/Dialog";
 import { UserCog } from "lucide-react";
 import axios from "axios";
-import { Toast } from "react-hot-toast"; // For confirmation of change or err
 import { useState } from "react";
 import { updateProfileType } from "@/pages/api/updateProfile";
+import Button from "@/components/ui/Button";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 interface ProfileEditDialogProps {
   userId: string;
@@ -28,23 +30,35 @@ export default function ProfileEditDialog({
   const [nameState, setNameState] = useState(username);
   const [bioState, setBioState] = useState(bio);
 
+  const router = useRouter();
+
   async function updateProfile() {
     if (!userId) {
       return null;
     }
+    // biostate check
     let body: updateProfileType = {
       userId: userId,
       username: nameState,
       bio: bioState,
     };
-    let req = await axios.post("/api/updateProfile", body);
-    return req;
+
+    try {
+      let req = await axios.post("/api/updateProfile", body);
+      toast.success("BIg success");
+      router.refresh();
+    } catch (error) {
+      toast.error("Please try again");
+    }
   }
 
   return (
     <Dialog>
-      <DialogTrigger className="rounded-md border-2 px-2 hover:scale-110 ">
-        <UserCog></UserCog>
+      <DialogTrigger className="flex h-10 items-center justify-center rounded-md border-2 p-2 px-3">
+        Edit Profile{" "}
+        <span className="pl-2">
+          <UserCog></UserCog>
+        </span>
       </DialogTrigger>
       <DialogContent className="text-slate-800 dark:text-slate-200">
         <DialogHeader>
