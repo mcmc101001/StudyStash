@@ -109,7 +109,6 @@ export default async function ResourceItem({
   });
   const currentUser = await getCurrentUser();
 
-  let votes: CheatsheetVote[] | NotesVote[] | QuestionPaperVote[];
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
   let avgDifficultyData: Prisma.PromiseReturnType<typeof getDifficulty>;
   let userDifficultyData: Prisma.PromiseReturnType<typeof getUserDifficulty>;
@@ -119,11 +118,6 @@ export default async function ResourceItem({
   // If user is signed in, get user vote as well, otherwise just get total votes
 
   if (category === "Cheatsheets") {
-    // const votesPromise = prisma.cheatsheetVote.findMany({
-    //   where: {
-    //     resourceId: id,
-    //   },
-    // });
     if (currentUser) {
       userVote = await getCheatsheetVote(currentUser.id, resourceId);
     } else {
@@ -163,6 +157,7 @@ export default async function ResourceItem({
   return (
     <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 p-4 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
       <Rating
+        key={rating}
         resourceId={resourceId}
         currentUserId={currentUser ? currentUser.id : null}
         category={category}

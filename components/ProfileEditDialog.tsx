@@ -56,7 +56,7 @@ export default function ProfileEditDialog({
 
   return (
     <Dialog>
-      <DialogTrigger className="flex h-10 items-center justify-center rounded-md border-2 py-2">
+      <DialogTrigger className="flex h-10 items-center justify-center rounded-md border-2 border-slate-500 py-2">
         <UserCog className="ml-2"></UserCog>
         <h2 className="w-24">Edit Profile</h2>
       </DialogTrigger>
@@ -76,7 +76,7 @@ export default function ProfileEditDialog({
                   setNameState(target?.value);
                   setNameCharState(target?.value.length);
                 }}
-                className="rounded-md bg-slate-700 p-1"
+                className="rounded-md bg-slate-300 p-1 dark:bg-slate-700"
                 id="name"
                 defaultValue={nameState}
                 maxLength={30}
@@ -86,7 +86,7 @@ export default function ProfileEditDialog({
                 <span className="float-right">{nameCharState}/30</span>
               </div>
 
-              <label className="mt-2 text-lg font-semibold" htmlFor="bio">
+              <label className="text-lg font-semibold" htmlFor="bio">
                 Bio
               </label>
               <textarea
@@ -95,7 +95,7 @@ export default function ProfileEditDialog({
                   setBioState(target?.value);
                   setBioCharState(target?.value.length);
                 }}
-                className="h-28 w-full resize-none whitespace-normal rounded-md bg-slate-700 p-1"
+                className="h-28 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-1 dark:bg-slate-700"
                 id="bio"
                 defaultValue={bioState}
                 maxLength={255}
@@ -108,7 +108,7 @@ export default function ProfileEditDialog({
 
             <button
               onClick={() => updateProfile()}
-              className="mt-4 rounded border border-white p-1 align-middle"
+              className="rounded border border-black p-1 align-middle font-semibold dark:border-white"
             >
               Submit changes
             </button>

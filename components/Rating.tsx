@@ -6,6 +6,7 @@ import { ResourceType } from "@/lib/content";
 import axios from "axios";
 import { updateVoteType } from "@/pages/api/updateVote";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface RatingProps {
   category: ResourceType;
@@ -35,6 +36,8 @@ export default function Rating({
     let req = await axios.post("/api/updateVote", body);
     return req;
   }
+
+  let router = useRouter();
 
   let [ratingState, setRatingState] = useState(totalRating);
   let [userRatingState, setUserRatingState] = useState(userRating);
@@ -71,6 +74,7 @@ export default function Rating({
         toast.error("Error updating vote, please try again later.");
       }
     }
+    router.refresh();
   };
 
   const handleDownvote = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -104,6 +108,7 @@ export default function Rating({
         toast.error("Error updating vote, please try again later.");
       }
     }
+    router.refresh();
   };
 
   return (
