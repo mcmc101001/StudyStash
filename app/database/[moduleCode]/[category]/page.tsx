@@ -146,6 +146,7 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType
     );
+    console.log("FETCHED DATA");
   } else {
     redirect("/404");
   }
