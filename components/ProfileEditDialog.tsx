@@ -109,6 +109,7 @@ export default function ProfileEditDialog({
             <button
               onClick={() => updateProfile()}
               className="rounded border border-black p-1 align-middle font-semibold dark:border-white"
+              autoFocus={true}
             >
               Submit changes
             </button>
