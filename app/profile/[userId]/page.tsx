@@ -18,14 +18,13 @@ export default async function ProfilePageUser({
       id: params.userId,
     },
   });
-
   if (!profileUser) {
     redirect("/404");
   }
 
   return (
     <div className="m-20 text-slate-800 dark:text-slate-200">
-      <div className="flex justify-between">
+      <div className="flex">
         <div>
           <Image
             src={profileUser.image!}
@@ -34,27 +33,27 @@ export default async function ProfilePageUser({
             alt="Profile pic"
           ></Image>
           <h1 className="text-xl font-bold">{profileUser.name}</h1>
-          <div className="my-2">
-            <h2 className="text-lg font-bold">Bio</h2>
+          <div className="my-2 w-2/5">
+            <h2 className="text-lg font-semibold">Bio</h2>
             <p>
               {profileUser.bio ||
-                "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."}
+                "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."}
             </p>
           </div>
-          <h2 className="my-2 text-lg font-semibold">My resources</h2>
         </div>
-        <div className="">
-          {isProfile && (
-            <ProfileEditDialog
-              userId={profileUser.id}
-              username={profileUser.name ?? "name not found"}
-              bio={profileUser.bio}
-            />
-          )}
-        </div>
+        {isProfile && (
+          <ProfileEditDialog
+            userId={profileUser.id}
+            username={profileUser.name ?? "ERROR: name not found"}
+            bio={profileUser.bio}
+          />
+        )}
       </div>
-      {/* @ts-expect-error Server Component */}
-      <UserResources />
+      <div>
+        <h2 className="my-2 text-lg font-semibold">My resources</h2>
+        {/* @ts-expect-error Server Component */}
+        <UserResources />
+      </div>
     </div>
   );
 }

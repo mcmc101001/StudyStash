@@ -12,7 +12,6 @@ import { UserCog } from "lucide-react";
 import axios from "axios";
 import { useState } from "react";
 import { updateProfileType } from "@/pages/api/updateProfile";
-import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
@@ -45,25 +44,26 @@ export default function ProfileEditDialog({
 
     try {
       let req = await axios.post("/api/updateProfile", body);
-      toast.success("BIg success");
+      toast.success("Profile updated.");
       router.refresh();
     } catch (error) {
-      toast.error("Please try again");
+      toast.error("Update unsuccessful. Please try again.");
     }
   }
 
+  const [nameCharState, setNameCharState] = useState(nameState.length);
+  const [bioCharState, setBioCharState] = useState(bioState.length);
+
   return (
     <Dialog>
-      <DialogTrigger className="flex h-10 items-center justify-center rounded-md border-2 p-2 px-3">
-        Edit Profile{" "}
-        <span className="pl-2">
-          <UserCog></UserCog>
-        </span>
+      <DialogTrigger className="flex h-10 items-center justify-center rounded-md border-2 py-2">
+        <UserCog className="ml-2"></UserCog>
+        <h2 className="w-24">Edit Profile</h2>
       </DialogTrigger>
       <DialogContent className="text-slate-800 dark:text-slate-200">
         <DialogHeader>
           <DialogTitle>
-            <h2 className="text-xl font-bold ">Edit Profile</h2>
+            <h2 className="text-xl font-bold">Edit Profile</h2>
           </DialogTitle>
           <DialogDescription>
             <div className="flex flex-col">
@@ -72,35 +72,46 @@ export default function ProfileEditDialog({
               </label>
               <input
                 autoComplete="off"
-                onChange={({ target }) => setNameState(target?.value)}
+                onChange={({ target }) => {
+                  setNameState(target?.value);
+                  setNameCharState(target?.value.length);
+                }}
                 className="rounded-md bg-slate-700 p-1"
                 id="name"
                 defaultValue={nameState}
+                maxLength={30}
+                spellCheck={false}
               />
+              <div>
+                <span className="float-right">{nameCharState}/30</span>
+              </div>
+
               <label className="mt-2 text-lg font-semibold" htmlFor="bio">
                 Bio
               </label>
               <textarea
                 autoComplete="off"
-                onChange={({ target }) => setBioState(target?.value)}
-                className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-700 p-1"
+                onChange={({ target }) => {
+                  setBioState(target?.value);
+                  setBioCharState(target?.value.length);
+                }}
+                className="h-28 w-full resize-none whitespace-normal rounded-md bg-slate-700 p-1"
                 id="bio"
                 defaultValue={bioState}
+                maxLength={255}
+                spellCheck={false}
               />
+              <div>
+                <span className="float-right">{bioCharState}/255</span>
+              </div>
             </div>
 
             <button
               onClick={() => updateProfile()}
-              className="mt-1 rounded border border-white p-1 align-middle"
+              className="mt-4 rounded border border-white p-1 align-middle"
             >
-              SUBMIT
+              Submit changes
             </button>
-
-            <div className="my-2">
-              <h1>for testing: </h1>
-              <p>Name: {nameState}</p>
-              <p>Bio: {bioState}</p>
-            </div>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
