@@ -23,6 +23,7 @@ export default async function UserResources() {
     },
     include: {
       votes: true,
+      _count: { select: { difficulties: true } },
     },
   });
   const notesRaw = await prisma.notes.findMany({
@@ -86,6 +87,8 @@ export default async function UserResources() {
                   rating={resource.rating}
                   /* @ts-expect-error Wrong type inference */
                   examType={resource.type}
+                  /* @ts-expect-error Wrong type inference */
+                  difficultyCount={resource?._count.difficulties}
                   category="Past Papers"
                   deletable={true}
                 />
