@@ -26,8 +26,8 @@ export default async function ProfilePageUser({
   }
 
   return (
-    <div className="flex w-[calc(100vw-7rem)] gap-x-10 p-20 text-slate-800 dark:text-slate-200">
-      <div className="w-1/2">
+    <div className="flex w-full gap-x-10 p-20 text-slate-800 dark:text-slate-200">
+      <div className="w-1/3">
         <div className="relative">
           <Image
             src={profileUser.image!}
@@ -57,7 +57,7 @@ export default async function ProfilePageUser({
           points or achievements
         </div>
       </div>
-      <div className="w-1/2">
+      <div className="w-[calc(66.666666%-2.5rem)]">
         <h2 className="my-2 text-xl font-semibold text-white">My resources</h2>
         {/* @ts-expect-error Server Component */}
         <UserResourcesSection

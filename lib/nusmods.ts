@@ -22,7 +22,7 @@ export type ModuleInformation = Readonly<{
 }>;
 
 // Return array of past 7 academic years for form selection.
-export function getAcadYearOptions() {
+export function getAcadYearList() {
   const currentDate = new Date();
   let acadYear: number;
   if (currentDate.getMonth() < 6) {
@@ -37,6 +37,14 @@ export function getAcadYearOptions() {
     acadYearArray.push(currentAcadYearString);
   }
   return acadYearArray;
+}
+
+export function getAcadYearOptions() {
+  const acadYearList = getAcadYearList();
+  const acadYearOptions = acadYearList.map((acadYear) => {
+    return { value: acadYear, label: acadYear };
+  });
+  return acadYearOptions;
 }
 
 // Extract academic year in form "YYYY-YYYY" based on whether month is before June.

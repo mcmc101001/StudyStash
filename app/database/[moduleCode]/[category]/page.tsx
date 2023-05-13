@@ -107,10 +107,7 @@ export default async function Page({
   searchParams: ResourceFiltersSorts;
 }) {
   /************  FETCH OPTIONS FOR SELECT ************/
-  const acadYearList = getAcadYearOptions();
-  const acadYearOptions = acadYearList.map((acadYear) => {
-    return { value: acadYear, label: acadYear };
-  });
+  const acadYearOptions = getAcadYearOptions();
 
   /************  DATA FETCHING ************/
   const FilterSemester = searchParams.filterSemester ?? null;
