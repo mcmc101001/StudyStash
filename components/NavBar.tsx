@@ -38,7 +38,7 @@ export const navOptions: NavOptionsProps[] = [
 export default async function Navbar() {
   const user = await getCurrentUser();
   return (
-    <div className="flex h-screen flex-col gap-y-5 overflow-y-hidden border-r border-gray-700 px-3 pt-4 dark:border-gray-300">
+    <div className="flex h-screen w-28 flex-col gap-y-5 overflow-hidden border-r border-gray-700 px-3 pt-4 dark:border-gray-300">
       <Link href="/" className="flex h-16 shrink-0 items-center justify-center">
         <Icons.Logo className="h-8 w-8 fill-current text-slate-800 dark:text-slate-200" />
       </Link>

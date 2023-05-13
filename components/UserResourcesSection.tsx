@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
 import UserResourceTab from "./UserResourceTab";
-import { ResourceOptions, ResourceTypeURL } from "@/lib/content";
+import { ResourceOptions, ResourceType, ResourceTypeURL } from "@/lib/content";
 
 interface UserResourcesSectionProps {
   profileUserId: string;
@@ -17,8 +17,10 @@ export default async function UserResourcesSection({
   isProfile,
 }: UserResourcesSectionProps) {
   console.log(filterCategory);
+  let category: ResourceType;
   let resources;
   if (filterCategory === "cheatsheets") {
+    category = "Cheatsheets";
     resources = await prisma.cheatsheet.findMany({
       where: {
         userId: profileUserId,
@@ -28,6 +30,7 @@ export default async function UserResourcesSection({
       },
     });
   } else if (filterCategory === "past_papers") {
+    category = "Past Papers";
     resources = await prisma.questionPaper.findMany({
       where: {
         userId: profileUserId,
@@ -38,6 +41,7 @@ export default async function UserResourcesSection({
       },
     });
   } else if (filterCategory === "notes") {
+    category = "Notes";
     resources = await prisma.notes.findMany({
       where: {
         userId: profileUserId,
@@ -55,11 +59,16 @@ export default async function UserResourcesSection({
   return (
     <>
       <UserResourceTab resourceOptions={ResourceOptions} />
-      <div className="flex w-full justify-between">
+      <div className="flex h-[70vh] w-full justify-between">
         {filterCategory === undefined ? (
           <div>Select category.</div>
         ) : (
-          <div className="w-4/5">
+          <div
+            className="flex w-4/5 flex-col gap-y-6 overflow-y-auto pr-5 scrollbar-thin 
+          scrollbar-track-transparent scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 
+          dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+            style={{ scrollbarGutter: "stable" }}
+          >
             {resourcesWithRating.length !== 0 ? (
               <div className="flex flex-col gap-y-6">
                 {resourcesWithRating.map((resource) => {
@@ -84,7 +93,7 @@ export default async function UserResourcesSection({
                         // @ts-expect-error wrong type inference
                         filterCategory !== "notes" ? resource.type : null
                       }
-                      category="Cheatsheets"
+                      category={category}
                       deletable={isProfile}
                     />
                   );

@@ -175,7 +175,12 @@ export default async function Page({
   return (
     <div className="flex h-[70vh] flex-row justify-between gap-x-4 text-slate-800 dark:text-slate-200">
       {sortedResources.length !== 0 ? (
-        <div className="flex w-4/5 flex-col gap-y-6 overflow-y-auto pr-5 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700">
+        <div
+          className="flex w-4/5 flex-col gap-y-6 overflow-y-auto pr-5 scrollbar-thin 
+          scrollbar-track-transparent scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 
+          dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+          style={{ scrollbarGutter: "stable" }}
+        >
           {sortedResources.map((resource) => {
             return (
               // @ts-expect-error Server component

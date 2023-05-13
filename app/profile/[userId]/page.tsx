@@ -26,39 +26,39 @@ export default async function ProfilePageUser({
   }
 
   return (
-    <div className="m-20 flex gap-x-10 text-slate-800 dark:text-slate-200">
+    <div className="flex w-[calc(100vw-7rem)] gap-x-10 p-20 text-slate-800 dark:text-slate-200">
       <div className="w-1/2">
-        <div className="flex">
-          <div>
-            <Image
-              src={profileUser.image!}
-              width={75}
-              height={75}
-              alt="Profile pic"
-            ></Image>
-            <h1 className="text-xl font-bold">{profileUser.name}</h1>
-            <div className="my-2 w-11/12">
-              <h2 className="text-lg font-semibold">Bio</h2>
-              <p>
-                {profileUser.bio ||
-                  "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."}
-              </p>
-            </div>
+        <div className="relative">
+          <Image
+            src={profileUser.image!}
+            width={75}
+            height={75}
+            alt="Profile pic"
+          ></Image>
+          <h1 className="mt-2 text-xl font-bold">{profileUser.name}</h1>
+          <div className="my-2">
+            <h2 className="text-lg font-semibold">Bio</h2>
+            <p className="break-words">
+              {profileUser.bio ||
+                "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."}
+            </p>
           </div>
-          {isProfile && (
-            <ProfileEditDialog
-              userId={profileUser.id}
-              username={profileUser.name ?? "ERROR: name not found"}
-              bio={profileUser.bio}
-            />
-          )}
+          <div className="absolute right-0 top-0">
+            {isProfile && (
+              <ProfileEditDialog
+                userId={profileUser.id}
+                username={profileUser.name ?? "ERROR: name not found"}
+                bio={profileUser.bio}
+              />
+            )}
+          </div>
         </div>
         <div className="flex items-center justify-center bg-slate-600 text-center text-xl">
           points or achievements
         </div>
       </div>
       <div className="w-1/2">
-        <h2 className="my-2 text-lg font-semibold">My resources</h2>
+        <h2 className="my-2 text-xl font-semibold text-white">My resources</h2>
         {/* @ts-expect-error Server Component */}
         <UserResourcesSection
           filterCategory={searchParams.filterCategory}

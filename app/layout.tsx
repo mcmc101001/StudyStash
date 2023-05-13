@@ -17,7 +17,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark h-full overflow-hidden">
+    <html lang="en" className="dark overflow-hidden">
       <body className={inter.className}>
         {/* show DOM content after loaded to prevent dark mode flickering */}
         {/* <Script src='/theme.js' strategy='afterInteractive' /> */}
