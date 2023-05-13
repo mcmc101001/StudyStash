@@ -53,18 +53,18 @@ export default async function ProfilePageUser({
             />
           )}
         </div>
-        <div>
-          <h2 className="my-2 text-lg font-semibold">My resources</h2>
-          {/* @ts-expect-error Server Component */}
-          <UserResourcesSection
-            filterCategory={searchParams.filterCategory}
-            isProfile={isProfile}
-            profileUserId={profileUser.id}
-          />
+        <div className="flex items-center justify-center bg-slate-600 text-center text-xl">
+          points or achievements
         </div>
       </div>
-      <div className="flex w-1/2 items-center justify-center bg-slate-600 text-center text-xl">
-        points or achievements
+      <div className="w-1/2">
+        <h2 className="my-2 text-lg font-semibold">My resources</h2>
+        {/* @ts-expect-error Server Component */}
+        <UserResourcesSection
+          filterCategory={searchParams.filterCategory}
+          isProfile={isProfile}
+          profileUserId={profileUser.id}
+        />
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ export default async function UserResourcesSection({
         {filterCategory === undefined ? (
           <div>Select category.</div>
         ) : (
-          <div>
+          <div className="w-4/5">
             {resourcesWithRating.length !== 0 ? (
               <div className="flex flex-col gap-y-6">
                 {resourcesWithRating.map((resource) => {
