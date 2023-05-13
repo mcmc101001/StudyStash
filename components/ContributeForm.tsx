@@ -90,77 +90,84 @@ const ContributeForm = (props: ContributeFormProps) => {
       toast.error("Please upload a PDF file");
       setIsDisabled(false);
       return;
-    } else {
-      try {
-        const newFileName = fileName.replace(/\.[^/.]+$/, "");
-        let body: addPDFType = {
-          name: newFileName,
-          acadYear: acadYear,
-          semester: semester,
-          moduleCode: moduleCode,
-          examType: examType ? examType : undefined,
-          userID: props.userID,
-          resourceType: props.resourceType,
-        };
-        let { data } = await axios.post("/api/addPDF", body);
+    }
 
-        const pdfEntryPrismaId = data.PDFentry.id;
+    // if file name exceeds length of varchar(191) in mysql
+    if (fileName.length > 191) {
+      toast.error("File name too long!");
+      setIsDisabled(false);
+      return;
+    }
 
-        // If prisma does not return ID for some reason
-        if (!pdfEntryPrismaId) {
-          toast.error("Error uploading PDF.");
-          setIsDisabled(false);
-          return;
-        }
-        try {
-          let body: generateS3PutURLType = { name: pdfEntryPrismaId };
-          let { data } = await axios.post("/api/generateS3PutURL", body);
+    try {
+      const newFileName = fileName.replace(/\.[^/.]+$/, "");
+      let body: addPDFType = {
+        name: newFileName,
+        acadYear: acadYear,
+        semester: semester,
+        moduleCode: moduleCode,
+        examType: examType ? examType : undefined,
+        userID: props.userID,
+        resourceType: props.resourceType,
+      };
+      let { data } = await axios.post("/api/addPDF", body);
 
-          const url = data.url;
+      const pdfEntryPrismaId = data.PDFentry.id;
 
-          await axios.put(url, file, {
-            headers: {
-              "Content-Type": "application/pdf",
-              "Content-Disposition": "inline",
-              "Access-Control-Allow-Origin": "*",
-            },
-          });
-
-          toast.success("PDF uploaded successfully");
-        } catch (error) {
-          // Delete the database entry if s3 upload fails
-          try {
-            let body: deletePDFType = {
-              id: pdfEntryPrismaId,
-              category: props.resourceType,
-            };
-            await axios.post("/api/deletePDF", body);
-          } catch (error) {
-            toast.error("Error uploading PDF.");
-            setIsDisabled(false);
-            return;
-          }
-          toast.error("Error uploading PDF.");
-          setIsDisabled(false);
-          return;
-        }
-      } catch (error) {
+      // If prisma does not return ID for some reason
+      if (!pdfEntryPrismaId) {
         toast.error("Error uploading PDF.");
         setIsDisabled(false);
         return;
       }
-      if (inputRef.current) {
-        inputRef.current.value = "";
+      try {
+        let body: generateS3PutURLType = { name: pdfEntryPrismaId };
+        let { data } = await axios.post("/api/generateS3PutURL", body);
+
+        const url = data.url;
+
+        await axios.put(url, file, {
+          headers: {
+            "Content-Type": "application/pdf",
+            "Content-Disposition": "inline",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+
+        toast.success("PDF uploaded successfully");
+      } catch (error) {
+        // Delete the database entry if s3 upload fails
+        try {
+          let body: deletePDFType = {
+            id: pdfEntryPrismaId,
+            category: props.resourceType,
+          };
+          await axios.post("/api/deletePDF", body);
+        } catch (error) {
+          toast.error("Error uploading PDF.");
+          setIsDisabled(false);
+          return;
+        }
+        toast.error("Error uploading PDF.");
+        setIsDisabled(false);
+        return;
       }
-      setFileName(null);
-      setFile(null);
-      // We do not want to set these to be null for users to upload similar documents
-      // setAcadYear(null);
-      // setSemester(null);
-      // setModuleCode(null);
-      // setExamType(null);
+    } catch (error) {
+      toast.error("Error uploading PDF.");
       setIsDisabled(false);
+      return;
     }
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+    setFileName(null);
+    setFile(null);
+    // We do not want to set these to be null for users to upload similar documents
+    // setAcadYear(null);
+    // setSemester(null);
+    // setModuleCode(null);
+    // setExamType(null);
+    setIsDisabled(false);
   };
 
   const acadYearSelectHandler = (option: Option | null) => {

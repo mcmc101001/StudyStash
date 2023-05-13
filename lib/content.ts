@@ -46,6 +46,7 @@ export const ResourceOptions: ResourceOptionsProps[] = [
 // // Bad implementation, copy from prisma schema, but I can't seem to import it
 
 export interface ResourceFiltersSorts {
+  filterModuleCode?: string | undefined;
   filterCategory?: ResourceTypeURL | undefined;
   filterSemester?: string | undefined;
   filterAcadYear?: string | undefined;
