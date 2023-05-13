@@ -63,7 +63,10 @@ export default function ResourceFilters({
         placeholder={true}
         defaultValue={
           semesterQueryParam
-            ? { value: semesterQueryParam, label: semesterQueryParam }
+            ? {
+                value: semesterQueryParam,
+                label: `Semester ${semesterQueryParam}`,
+              }
             : undefined
         }
       />
