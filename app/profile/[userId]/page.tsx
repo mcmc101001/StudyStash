@@ -35,7 +35,9 @@ export default async function ProfilePageUser({
             height={75}
             alt="Profile pic"
           ></Image>
-          <h1 className="mt-2 text-xl font-bold">{profileUser.name}</h1>
+          <h1 className="mt-2 overflow-x-scroll whitespace-nowrap text-xl font-bold scrollbar-none">
+            {profileUser.name}
+          </h1>
           <div className="my-2">
             <h2 className="text-lg font-semibold">Bio</h2>
             <p className="whitespace-break-spaces break-words">
