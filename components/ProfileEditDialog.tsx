@@ -45,20 +45,25 @@ export default function ProfileEditDialog({
 
     try {
       let req = await axios.post("/api/updateProfile", body);
-      toast.success("BIg success");
+      toast.success("Profile updated successfully!");
       router.refresh();
     } catch (error) {
-      toast.error("Please try again");
+      toast.error("Something went wrong, please try again.");
     }
   }
 
   return (
     <Dialog>
-      <DialogTrigger className="flex h-10 items-center justify-center rounded-md border-2 p-2 px-3">
-        Edit Profile{" "}
-        <span className="pl-2">
-          <UserCog></UserCog>
-        </span>
+      <DialogTrigger
+        asChild
+        className="flex h-10 items-center justify-center rounded-md border-2 p-2 px-3"
+      >
+        <Button variant="ghost">
+          Edit Profile{" "}
+          <span className="pl-2">
+            <UserCog></UserCog>
+          </span>
+        </Button>
       </DialogTrigger>
       <DialogContent className="text-slate-800 dark:text-slate-200">
         <DialogHeader>
