@@ -41,10 +41,18 @@ export default async function Layout({
 
   return (
     // set to be div for framer motion to work
-    <div>
+    <div className="h-full overflow-hidden">
       <h1 className="flex flex-row items-center justify-start gap-x-2 text-4xl font-bold text-slate-800 dark:text-slate-200">
         {moduleInfo.moduleCode}
-        <span>{user && <ModuleStar moduleCode={params.moduleCode} userId={user.id} starred={!!starred} />}</span>
+        <span>
+          {user && (
+            <ModuleStar
+              moduleCode={params.moduleCode}
+              userId={user.id}
+              starred={!!starred}
+            />
+          )}
+        </span>
       </h1>
       <h2 className="text-2xl font-semibold text-slate-700 dark:text-slate-300">
         {moduleInfo.title}

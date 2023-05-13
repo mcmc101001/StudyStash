@@ -9,6 +9,7 @@ import ResourceItem from "@/components/ResourceItem";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/ResourceFilters";
 import { ExamType, NotesVote, Prisma } from "@prisma/client";
+import { ScrollArea } from "@/components/ui/ScrollArea";
 
 export function getRating(
   resources: CheatsheetWithPosts | QuestionPaperWithPosts | NotesWithPosts
@@ -146,6 +147,7 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType
     );
+    console.log("FETCHED DATA");
   } else {
     redirect("/404");
   }
@@ -172,34 +174,36 @@ export default async function Page({
   }
 
   return (
-    <div className="flex flex-row gap-x-6 text-slate-800 dark:text-slate-200">
+    <div className="flex h-[70vh] flex-row justify-between gap-x-4 text-slate-800 dark:text-slate-200">
       {sortedResources.length !== 0 ? (
-        <div className="flex w-4/5 flex-col gap-y-6">
-          {sortedResources.map((resource) => {
-            return (
-              // @ts-expect-error Server component
-              <ResourceItem
-                key={resource.id}
-                resourceId={resource.id}
-                name={resource.name}
-                userId={resource.userId}
-                createdAt={resource.createdAt}
-                acadYear={resource.acadYear}
-                semester={resource.semester}
-                rating={resource.rating}
-                difficultyCount={
-                  category === "Past Papers"
-                    ? // @ts-expect-error wrong type inference
-                      resource._count.difficulties
-                    : null
-                }
-                // @ts-expect-error wrong type inference
-                examType={category !== "Notes" ? resource.type : null}
-                category={category}
-              />
-            );
-          })}
-        </div>
+        <ScrollArea className="w-4/5">
+          <div className="flex flex-col gap-y-6 pr-5">
+            {sortedResources.map((resource) => {
+              return (
+                // @ts-expect-error Server component
+                <ResourceItem
+                  key={resource.id}
+                  resourceId={resource.id}
+                  name={resource.name}
+                  userId={resource.userId}
+                  createdAt={resource.createdAt}
+                  acadYear={resource.acadYear}
+                  semester={resource.semester}
+                  rating={resource.rating}
+                  difficultyCount={
+                    category === "Past Papers"
+                      ? // @ts-expect-error wrong type inference
+                        resource._count.difficulties
+                      : null
+                  }
+                  // @ts-expect-error wrong type inference
+                  examType={category !== "Notes" ? resource.type : null}
+                  category={category}
+                />
+              );
+            })}
+          </div>
+        </ScrollArea>
       ) : (
         <div className="flex h-full w-4/5 flex-col items-center justify-center gap-y-6 pt-10 text-2xl">
           <h1 className="text-slate-800 dark:text-slate-200">
