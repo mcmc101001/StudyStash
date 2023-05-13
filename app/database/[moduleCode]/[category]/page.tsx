@@ -4,11 +4,11 @@ import {
   ResourceTypeURL,
 } from "@/lib/content";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import ResourceItem from "@/components/ResourceItem";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/ResourceFilters";
 import { ExamType, NotesVote, Prisma } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
 export function getRating(
   resources: CheatsheetWithPosts | QuestionPaperWithPosts | NotesWithPosts
@@ -26,78 +26,114 @@ export function getRating(
   return new_resources;
 }
 
-async function getCheatsheetsWithPosts(
-  moduleCode: string,
-  FilterSemester: string | null,
-  FilterAcadYear: string | null,
-  FilterExamType: ExamType | null
-) {
-  const resource = await prisma.cheatsheet.findMany({
-    where: {
-      moduleCode: moduleCode,
-      ...(FilterSemester ? { semester: FilterSemester } : {}),
-      ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-      ...(FilterExamType ? { type: FilterExamType } : {}),
-    },
-    include: {
-      votes: true,
-    },
-  });
-  return resource;
-}
-
-async function getQuestionPapersWithPosts(
-  moduleCode: string,
-  FilterSemester: string | null,
-  FilterAcadYear: string | null,
-  FilterExamType: ExamType | null
-) {
-  const resource = await prisma.questionPaper.findMany({
-    where: {
-      moduleCode: moduleCode,
-      ...(FilterSemester ? { semester: FilterSemester } : {}),
-      ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-      ...(FilterExamType ? { type: FilterExamType } : {}),
-    },
-    include: {
-      votes: true,
-      _count: {
-        select: { difficulties: true },
+export async function getCheatsheetsWithPosts({
+  moduleCode,
+  FilterSemester,
+  FilterAcadYear,
+  FilterExamType,
+  userId,
+}: {
+  moduleCode: string | undefined;
+  FilterSemester: string | undefined;
+  FilterAcadYear: string | undefined;
+  FilterExamType: ExamType | undefined;
+  userId: string | undefined;
+}) {
+  try {
+    const resource = await prisma.cheatsheet.findMany({
+      where: {
+        ...(moduleCode ? { moduleCode: moduleCode } : {}),
+        ...(FilterSemester ? { semester: FilterSemester } : {}),
+        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
+        ...(FilterExamType ? { type: FilterExamType } : {}),
+        ...(userId ? { userId: userId } : {}),
       },
-    },
-  });
-  return resource;
+      include: {
+        votes: true,
+      },
+    });
+    return resource;
+  } catch (error) {
+    return [];
+  }
 }
 
-async function getNotesWithPosts(
-  moduleCode: string,
-  FilterSemester: string | null,
-  FilterAcadYear: string | null,
-  FilterExamType: ExamType | null
-) {
-  const resource = await prisma.notes.findMany({
-    where: {
-      moduleCode: moduleCode,
-      ...(FilterSemester ? { semester: FilterSemester } : {}),
-      ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-      ...(FilterExamType ? { type: FilterExamType } : {}),
-    },
-    include: {
-      votes: true,
-    },
-  });
-  return resource;
+export async function getQuestionPapersWithPosts({
+  moduleCode,
+  FilterSemester,
+  FilterAcadYear,
+  FilterExamType,
+  userId,
+}: {
+  moduleCode: string | undefined;
+  FilterSemester: string | undefined;
+  FilterAcadYear: string | undefined;
+  FilterExamType: ExamType | undefined;
+  userId: string | undefined;
+}) {
+  try {
+    const resource = await prisma.questionPaper.findMany({
+      where: {
+        ...(moduleCode ? { moduleCode: moduleCode } : {}),
+        ...(FilterSemester ? { semester: FilterSemester } : {}),
+        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
+        ...(FilterExamType ? { type: FilterExamType } : {}),
+        ...(userId ? { userId: userId } : {}),
+      },
+      include: {
+        votes: true,
+        _count: {
+          select: { difficulties: true },
+        },
+      },
+    });
+    return resource;
+  } catch (error) {
+    return [];
+  }
 }
 
-type CheatsheetWithPosts = Prisma.PromiseReturnType<
+export async function getNotesWithPosts({
+  moduleCode,
+  FilterSemester,
+  FilterAcadYear,
+  FilterExamType,
+  userId,
+}: {
+  moduleCode: string | undefined;
+  FilterSemester: string | undefined;
+  FilterAcadYear: string | undefined;
+  FilterExamType: ExamType | undefined;
+  userId: string | undefined;
+}) {
+  try {
+    const resource = await prisma.notes.findMany({
+      where: {
+        ...(moduleCode ? { moduleCode: moduleCode } : {}),
+        ...(FilterSemester ? { semester: FilterSemester } : {}),
+        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
+        ...(FilterExamType ? { type: FilterExamType } : {}),
+        ...(userId ? { userId: userId } : {}),
+      },
+      include: {
+        votes: true,
+      },
+    });
+    return resource;
+  } catch (error) {
+    return [];
+  }
+}
+
+export type CheatsheetWithPosts = Prisma.PromiseReturnType<
   typeof getCheatsheetsWithPosts
 >;
 
-type QuestionPaperWithPosts = Prisma.PromiseReturnType<
+export type QuestionPaperWithPosts = Prisma.PromiseReturnType<
   typeof getQuestionPapersWithPosts
 >;
 
-type NotesWithPosts = Prisma.PromiseReturnType<typeof getNotesWithPosts>;
+export type NotesWithPosts = Prisma.PromiseReturnType<typeof getNotesWithPosts>;
 
 export default async function Page({
   params,
@@ -110,10 +146,10 @@ export default async function Page({
   const acadYearOptions = getAcadYearOptions();
 
   /************  DATA FETCHING ************/
-  const FilterSemester = searchParams.filterSemester ?? null;
-  const FilterAcadYear = searchParams.filterAcadYear ?? null;
-  const FilterExamType = searchParams.filterExamType ?? null;
-  const Sort = searchParams.sort ?? null;
+  const FilterSemester = searchParams.filterSemester;
+  const FilterAcadYear = searchParams.filterAcadYear;
+  const FilterExamType = searchParams.filterExamType;
+  const Sort = searchParams.sort;
   let parsedResources:
     | CheatsheetWithPosts
     | QuestionPaperWithPosts
@@ -121,28 +157,31 @@ export default async function Page({
   let category: ResourceType;
   if (params.category === "cheatsheets") {
     category = "Cheatsheets";
-    parsedResources = await getCheatsheetsWithPosts(
-      params.moduleCode,
+    parsedResources = await getCheatsheetsWithPosts({
+      moduleCode: params.moduleCode,
       FilterSemester,
       FilterAcadYear,
-      FilterExamType
-    );
+      FilterExamType,
+      userId: undefined,
+    });
   } else if (params.category === "notes") {
     category = "Notes";
-    parsedResources = await getNotesWithPosts(
-      params.moduleCode,
+    parsedResources = await getNotesWithPosts({
+      moduleCode: params.moduleCode,
       FilterSemester,
       FilterAcadYear,
-      FilterExamType
-    );
+      FilterExamType,
+      userId: undefined,
+    });
   } else if (params.category === "past_papers") {
     category = "Past Papers";
-    parsedResources = await getQuestionPapersWithPosts(
-      params.moduleCode,
+    parsedResources = await getQuestionPapersWithPosts({
+      moduleCode: params.moduleCode,
       FilterSemester,
       FilterAcadYear,
-      FilterExamType
-    );
+      FilterExamType,
+      userId: undefined,
+    });
     console.log("FETCHED DATA");
   } else {
     redirect("/404");
@@ -173,9 +212,9 @@ export default async function Page({
     <div className="flex h-[70vh] flex-row justify-between gap-x-4 text-slate-800 dark:text-slate-200">
       {sortedResources.length !== 0 ? (
         <div
-          className="flex w-4/5 flex-col gap-y-6 overflow-y-auto pr-5 scrollbar-thin 
-          scrollbar-track-transparent scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 
-          dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+          className="flex w-4/5 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
+          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
+          hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
           style={{ scrollbarGutter: "stable" }}
         >
           {sortedResources.map((resource) => {

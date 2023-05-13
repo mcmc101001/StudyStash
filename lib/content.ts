@@ -46,12 +46,20 @@ export const ResourceOptions: ResourceOptionsProps[] = [
 // // Bad implementation, copy from prisma schema, but I can't seem to import it
 
 export interface ResourceFiltersSorts {
+  filterModuleCode?: string | undefined;
   filterCategory?: ResourceTypeURL | undefined;
   filterSemester?: string | undefined;
   filterAcadYear?: string | undefined;
   filterExamType?: ExamType | undefined;
   sort?: string | undefined;
 }
+
+export const sortOptions = [
+  { value:"rating", label:"Highest Rating" },
+  { value:"rating_flip", label:"Lowest Rating" },
+  { value:"date", label:"Most recent" },
+  { value:"date_flip", label:"Oldest" },
+]
 
 export const examTypeOptions = [
   { value: "Midterm", label: "Midterm" },
