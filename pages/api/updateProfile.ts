@@ -6,8 +6,8 @@ import z from "zod";
 
 const updateProfileSchema = z.object({
   userId: z.string(),
-  username: z.string(),
-  bio: z.string(), //.max(255),
+  username: z.string().max(30),
+  bio: z.string().max(255),
 });
 
 export type updateProfileType = z.infer<typeof updateProfileSchema>;
@@ -35,8 +35,7 @@ export default async function updateProfile(
   }
   try {
     let { userId, username, bio } = req.body;
-    let update;
-    update = await prisma.user.update({
+    const update = await prisma.user.update({
       where: {
         id: userId,
       },

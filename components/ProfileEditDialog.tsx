@@ -12,9 +12,9 @@ import { UserCog } from "lucide-react";
 import axios from "axios";
 import { useState } from "react";
 import { updateProfileType } from "@/pages/api/updateProfile";
-import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import Button from "@/components/ui/Button";
 
 interface ProfileEditDialogProps {
   userId: string;
@@ -52,6 +52,9 @@ export default function ProfileEditDialog({
     }
   }
 
+  const [nameCharState, setNameCharState] = useState(nameState.length);
+  const [bioCharState, setBioCharState] = useState(bioState.length);
+
   return (
     <Dialog>
       <DialogTrigger
@@ -68,7 +71,7 @@ export default function ProfileEditDialog({
       <DialogContent className="text-slate-800 dark:text-slate-200">
         <DialogHeader>
           <DialogTitle>
-            <h2 className="text-xl font-bold ">Edit Profile</h2>
+            <h2 className="text-xl font-bold">Edit Profile</h2>
           </DialogTitle>
           <DialogDescription>
             <div className="flex flex-col">
@@ -77,35 +80,47 @@ export default function ProfileEditDialog({
               </label>
               <input
                 autoComplete="off"
-                onChange={({ target }) => setNameState(target?.value)}
-                className="rounded-md bg-slate-700 p-1"
+                onChange={({ target }) => {
+                  setNameState(target?.value);
+                  setNameCharState(target?.value.length);
+                }}
+                className="rounded-md bg-slate-300 p-1 dark:bg-slate-700"
                 id="name"
                 defaultValue={nameState}
+                maxLength={30}
+                spellCheck={false}
               />
-              <label className="mt-2 text-lg font-semibold" htmlFor="bio">
+              <div>
+                <span className="float-right">{nameCharState}/30</span>
+              </div>
+
+              <label className="text-lg font-semibold" htmlFor="bio">
                 Bio
               </label>
               <textarea
                 autoComplete="off"
-                onChange={({ target }) => setBioState(target?.value)}
-                className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-700 p-1"
+                onChange={({ target }) => {
+                  setBioState(target?.value);
+                  setBioCharState(target?.value.length);
+                }}
+                className="h-28 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-1 dark:bg-slate-700"
                 id="bio"
                 defaultValue={bioState}
+                maxLength={255}
+                spellCheck={false}
               />
+              <div>
+                <span className="float-right">{bioCharState}/255</span>
+              </div>
             </div>
 
             <button
               onClick={() => updateProfile()}
-              className="mt-1 rounded border border-white p-1 align-middle"
+              className="rounded border border-black p-1 align-middle font-semibold dark:border-white"
+              autoFocus={true}
             >
-              SUBMIT
+              Submit changes
             </button>
-
-            <div className="my-2">
-              <h1>for testing: </h1>
-              <p>Name: {nameState}</p>
-              <p>Bio: {bioState}</p>
-            </div>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
