@@ -62,7 +62,7 @@ export default function PDFSheetLauncher({
               userRating={userRating}
               resourceId={resourceId}
             />
-            <div>{title}</div>
+            <div className="overflow-scroll scrollbar-none">{title}</div>
             {category === "Past Papers" && (
               <div className="ml-auto mr-4 flex flex-col items-center">
                 <span>Rate difficulty</span>

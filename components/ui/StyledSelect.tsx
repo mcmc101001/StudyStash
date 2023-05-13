@@ -10,7 +10,8 @@ interface SelectProps {
   label: string;
   onChange: (option: Option | null) => void;
   options: Array<Option>;
-  placeholder?: boolean;
+  labelExists?: boolean;
+  placeholderText?: string;
   filterOption?: (option: Option, query: string) => boolean;
   noOptionsMessage?: (obj: { inputValue: string }) => ReactNode;
   defaultValue?: Option;
@@ -20,14 +21,15 @@ export default function StyledSelect({
   label,
   options,
   onChange,
-  placeholder = false,
+  labelExists = true,
+  placeholderText,
   filterOption,
   noOptionsMessage,
   defaultValue,
 }: SelectProps) {
   return (
     <div className="flex w-full flex-col gap-y-1">
-      {!placeholder ? (
+      {labelExists ? (
         <label
           htmlFor="acadYear"
           className="text-slate-800 dark:text-slate-200"
@@ -75,7 +77,7 @@ export default function StyledSelect({
             },
           }),
         }}
-        placeholder={`Select ${label}`}
+        placeholder={placeholderText}
         closeMenuOnSelect={true}
         options={options}
         onChange={(e) => onChange(e)}

@@ -1,6 +1,6 @@
 import ContributeForm from "@/components/ContributeForm";
 import { authOptions } from "@/lib/auth";
-import { getAcadYearOptions, getModuleList } from "@/lib/nusmods";
+import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import {
@@ -36,11 +36,7 @@ export default async function Page({
   }
 
   const acadYearOptions = getAcadYearOptions();
-
-  const moduleList = await getModuleList();
-  const moduleCodeOptions = moduleList.map((module) => {
-    return { value: module.moduleCode, label: module.moduleCode };
-  });
+  const moduleCodeOptions = await getModuleCodeOptions();
 
   return (
     <main className="flex h-screen w-full flex-1 flex-col gap-y-24 p-20">

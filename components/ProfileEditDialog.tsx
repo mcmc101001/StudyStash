@@ -103,7 +103,7 @@ export default function ProfileEditDialog({
                   setBioState(target?.value);
                   setBioCharState(target?.value.length);
                 }}
-                className="h-28 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-1 dark:bg-slate-700"
+                className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-1 scrollbar-thin dark:bg-slate-700"
                 id="bio"
                 defaultValue={bioState}
                 maxLength={255}

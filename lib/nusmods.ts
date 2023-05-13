@@ -39,6 +39,7 @@ export function getAcadYearList() {
   return acadYearArray;
 }
 
+// Extract academic year in form "YYYY-YYYY" based on whether month is before June.
 export function getAcadYearOptions() {
   const acadYearList = getAcadYearList();
   const acadYearOptions = acadYearList.map((acadYear) => {
@@ -47,7 +48,6 @@ export function getAcadYearOptions() {
   return acadYearOptions;
 }
 
-// Extract academic year in form "YYYY-YYYY" based on whether month is before June.
 export function getAcadYear() {
   const currentDate = new Date();
   let acadYear: string;
@@ -57,6 +57,14 @@ export function getAcadYear() {
     acadYear = `${currentDate.getFullYear()}-${currentDate.getFullYear() + 1}`;
   }
   return acadYear;
+}
+
+export async function getModuleCodeOptions() {
+  const moduleList = await getModuleList();
+  const moduleCodeOptions = moduleList.map((module) => {
+    return { value: module.moduleCode, label: module.moduleCode };
+  });
+  return moduleCodeOptions;
 }
 
 // Fetch module list from NUSMods API

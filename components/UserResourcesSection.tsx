@@ -1,56 +1,66 @@
-import { getRating } from "@/app/database/[moduleCode]/[category]/page";
-import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
 import UserResourceTab from "./UserResourceTab";
 import { ResourceOptions, ResourceType, ResourceTypeURL } from "@/lib/content";
 import ResourceFilters from "./ResourceFilters";
-import { getAcadYearOptions } from "@/lib/nusmods";
+import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
+import { ExamType } from "@prisma/client";
+import {
+  getCheatsheetsWithPosts,
+  getNotesWithPosts,
+  getQuestionPapersWithPosts,
+  getRating,
+} from "@/app/database/[moduleCode]/[category]/page";
 
 interface UserResourcesSectionProps {
   profileUserId: string;
+  filterModuleCode: string | undefined;
   filterCategory: ResourceTypeURL | undefined;
+  filterSemester: string | undefined;
+  filterAcadYear: string | undefined;
+  filterExamType: ExamType | undefined;
+  sort: string | undefined;
   isProfile: boolean;
 }
 
 export default async function UserResourcesSection({
   profileUserId,
+  filterModuleCode,
   filterCategory,
+  filterSemester,
+  filterAcadYear,
+  filterExamType,
+  sort,
   isProfile,
 }: UserResourcesSectionProps) {
-  console.log(filterCategory);
   let category: ResourceType = "Cheatsheets";
   let resources;
   if (filterCategory === "cheatsheets") {
     category = "Cheatsheets";
-    resources = await prisma.cheatsheet.findMany({
-      where: {
-        userId: profileUserId,
-      },
-      include: {
-        votes: true,
-      },
+    resources = await getCheatsheetsWithPosts({
+      moduleCode: filterModuleCode,
+      FilterSemester: filterSemester,
+      FilterAcadYear: filterAcadYear,
+      FilterExamType: filterExamType,
+      userId: profileUserId,
     });
   } else if (filterCategory === "past_papers") {
     category = "Past Papers";
-    resources = await prisma.questionPaper.findMany({
-      where: {
-        userId: profileUserId,
-      },
-      include: {
-        votes: true,
-        _count: { select: { difficulties: true } },
-      },
+    resources = await getQuestionPapersWithPosts({
+      moduleCode: filterModuleCode,
+      FilterSemester: filterSemester,
+      FilterAcadYear: filterAcadYear,
+      FilterExamType: filterExamType,
+      userId: profileUserId,
     });
   } else if (filterCategory === "notes") {
     category = "Notes";
-    resources = await prisma.notes.findMany({
-      where: {
-        userId: profileUserId,
-      },
-      include: {
-        votes: true,
-      },
+    resources = await getNotesWithPosts({
+      moduleCode: filterModuleCode,
+      FilterSemester: filterSemester,
+      FilterAcadYear: filterAcadYear,
+      FilterExamType: filterExamType,
+      userId: profileUserId,
     });
   } else if (filterCategory !== undefined) {
     redirect("/404");
@@ -58,7 +68,27 @@ export default async function UserResourcesSection({
 
   const resourcesWithRating = resources ? getRating(resources) : [];
 
+  /************** SORTING **************/
+  if (sort === "rating") {
+    resourcesWithRating.sort((a, b) => {
+      return b.rating - a.rating;
+    });
+  } else if (sort === "rating_flip") {
+    resourcesWithRating.sort((a, b) => {
+      return a.rating - b.rating;
+    });
+  } else if (sort === "date") {
+    resourcesWithRating.sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+  } else if (sort === "date_flip") {
+    resourcesWithRating.sort((a, b) => {
+      return a.createdAt.getTime() - b.createdAt.getTime();
+    });
+  }
+
   const acadYearOptions = getAcadYearOptions();
+  const moduleCodeOptions = await getModuleCodeOptions();
 
   return (
     <>
@@ -69,9 +99,9 @@ export default async function UserResourcesSection({
         ) : (
           <>
             <div
-              className="flex w-4/5 flex-col gap-y-6 overflow-y-auto pr-5 scrollbar-thin 
-          scrollbar-track-transparent scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 
-          dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+              className="flex w-3/4 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
+          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
+          hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
               style={{ scrollbarGutter: "stable" }}
             >
               {resourcesWithRating.length !== 0 ? (
@@ -105,13 +135,14 @@ export default async function UserResourcesSection({
                   })}
                 </div>
               ) : (
-                <div>Start contributing!</div>
+                <div className="flex justify-center">No resources found!</div>
               )}
             </div>
-            <div className="w-1/5">
+            <div className="w-1/4">
               <ResourceFilters
                 acadYearOptions={acadYearOptions}
                 category={category}
+                moduleCodeOptions={moduleCodeOptions}
               />
             </div>
           </>

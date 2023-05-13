@@ -61,7 +61,12 @@ export default async function ProfilePageUser({
         <h2 className="my-2 text-xl font-semibold text-white">My resources</h2>
         {/* @ts-expect-error Server Component */}
         <UserResourcesSection
+          filterModuleCode={searchParams.filterModuleCode}
           filterCategory={searchParams.filterCategory}
+          filterSemester={searchParams.filterSemester}
+          filterAcadYear={searchParams.filterAcadYear}
+          filterExamType={searchParams.filterExamType}
+          sort={searchParams.sort}
           isProfile={isProfile}
           profileUserId={profileUser.id}
         />
