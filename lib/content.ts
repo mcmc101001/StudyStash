@@ -54,6 +54,13 @@ export interface ResourceFiltersSorts {
   sort?: string | undefined;
 }
 
+export const sortOptions = [
+  { value:"rating", label:"Highest Rating" },
+  { value:"rating_flip", label:"Lowest Rating" },
+  { value:"date", label:"Most recent" },
+  { value:"date_flip", label:"Oldest" },
+]
+
 export const examTypeOptions = [
   { value: "Midterm", label: "Midterm" },
   { value: "Final", label: "Final" },

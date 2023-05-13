@@ -30,6 +30,7 @@ export default async function UserResourcesSection({
   filterSemester,
   filterAcadYear,
   filterExamType,
+  sort,
   isProfile,
 }: UserResourcesSectionProps) {
   let category: ResourceType = "Cheatsheets";
@@ -66,6 +67,25 @@ export default async function UserResourcesSection({
   }
 
   const resourcesWithRating = resources ? getRating(resources) : [];
+
+  /************** SORTING **************/
+  if (sort === "rating") {
+    resourcesWithRating.sort((a, b) => {
+      return b.rating - a.rating;
+    });
+  } else if (sort === "rating_flip") {
+    resourcesWithRating.sort((a, b) => {
+      return a.rating - b.rating;
+    });
+  } else if (sort === "date") {
+    resourcesWithRating.sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+  } else if (sort === "date_flip") {
+    resourcesWithRating.sort((a, b) => {
+      return a.createdAt.getTime() - b.createdAt.getTime();
+    });
+  }
 
   const acadYearOptions = getAcadYearOptions();
   const moduleCodeOptions = await getModuleCodeOptions();

@@ -211,16 +211,19 @@ const ContributeForm = (props: ContributeFormProps) => {
       <div className="flex w-1/3 flex-col gap-y-4">
         <StyledSelect
           label="Acad Year"
+          placeholderText="Select Acad Year"
           onChange={acadYearSelectHandler}
           options={props.acadYearOptions}
         />
         <StyledSelect
           label="Semester"
+          placeholderText="Select Semester"
           onChange={semesterSelectHandler}
           options={props.semesterOptions}
         />
         <StyledSelect
           label="Module Code"
+          placeholderText="Select Module Code"
           onChange={moduleCodeSelectHandler}
           options={props.moduleCodeOptions}
           noOptionsMessage={({ inputValue }) =>
@@ -254,6 +257,7 @@ const ContributeForm = (props: ContributeFormProps) => {
         {props.examTypeOptions !== null && (
           <StyledSelect
             label="Exam Type"
+            placeholderText="Select Exam Type"
             onChange={examTypeSelectHandler}
             options={props.examTypeOptions}
           />

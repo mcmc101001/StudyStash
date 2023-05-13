@@ -1,7 +1,12 @@
 "use client";
 
 import useQueryParams from "@/hooks/useQueryParams";
-import { semesterOptions, examTypeOptions, ResourceType } from "@/lib/content";
+import {
+  semesterOptions,
+  examTypeOptions,
+  ResourceType,
+  sortOptions,
+} from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
 
@@ -17,6 +22,14 @@ export default function ResourceFilters({
   moduleCodeOptions,
 }: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
+
+  const handleSortChange = (option: Option | null) => {
+    if (option) {
+      setQueryParams({ sort: option.value });
+    } else {
+      setQueryParams({ sort: null });
+    }
+  };
 
   const handleModuleCodeChange = (option: Option | null) => {
     if (option) {
@@ -50,18 +63,34 @@ export default function ResourceFilters({
     }
   };
 
+  const sortQueryParam = queryParams?.get("sort");
   const acadYearQueryParam = queryParams?.get("filterAcadYear");
   const semesterQueryParam = queryParams?.get("filterSemester");
   const examTypeQueryParam = queryParams?.get("filterExamType");
 
   return (
     <div className="flex w-full flex-col items-center gap-x-4 gap-y-4">
+      <StyledSelect
+        label="Sort"
+        placeholderText="Sort"
+        options={sortOptions}
+        onChange={handleSortChange}
+        labelExists={false}
+        defaultValue={
+          sortQueryParam
+            ? sortOptions.find((option) => {
+                return option.value === sortQueryParam;
+              })
+            : undefined
+        }
+      />
       {moduleCodeOptions !== undefined && (
         <StyledSelect
-          label="Module Code"
+          label="Select Module Code"
+          placeholderText="Select Module Code"
           onChange={handleModuleCodeChange}
           options={moduleCodeOptions}
-          placeholder={true}
+          labelExists={false}
           noOptionsMessage={({ inputValue }) =>
             inputValue.trimStart().length < 2
               ? "Type to search..."
@@ -80,11 +109,11 @@ export default function ResourceFilters({
                 .toLowerCase()
                 .startsWith(query.trimStart().toLowerCase())
             ) {
-              return true;
+              return false;
             } else if (containsOnlyNumbers(query.trimStart())) {
               // If matches number
               if (option.value.includes(query.trimStart())) {
-                return true;
+                return false;
               }
             }
             return false;
@@ -92,10 +121,11 @@ export default function ResourceFilters({
         />
       )}
       <StyledSelect
-        label="Acad Year"
+        label="Select Acad Year"
+        placeholderText="Select Acad Year"
         options={acadYearOptions}
         onChange={handleAcadYearChange}
-        placeholder={true}
+        labelExists={false}
         defaultValue={
           acadYearQueryParam
             ? { value: acadYearQueryParam, label: acadYearQueryParam }
@@ -103,10 +133,11 @@ export default function ResourceFilters({
         }
       />
       <StyledSelect
-        label="Semester"
+        label="Select Semester"
+        placeholderText="Select Semester"
         options={semesterOptions}
         onChange={handleSemesterChange}
-        placeholder={true}
+        labelExists={false}
         defaultValue={
           semesterQueryParam
             ? {
@@ -118,10 +149,11 @@ export default function ResourceFilters({
       />
       {category !== "Notes" && (
         <StyledSelect
-          label="Exam Type"
+          label="Select Exam Type"
+          placeholderText="Select Exam Type"
           options={examTypeOptions}
           onChange={handleExamTypeChange}
-          placeholder={true}
+          labelExists={false}
           defaultValue={
             examTypeQueryParam
               ? { value: examTypeQueryParam, label: examTypeQueryParam }
