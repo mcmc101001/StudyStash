@@ -35,10 +35,7 @@ export default async function Page({
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
   }
 
-  const acadYearList = getAcadYearOptions();
-  const acadYearOptions = acadYearList.map((acadYear) => {
-    return { value: acadYear, label: acadYear };
-  });
+  const acadYearOptions = getAcadYearOptions();
 
   const moduleList = await getModuleList();
   const moduleCodeOptions = moduleList.map((module) => {
