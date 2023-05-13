@@ -32,6 +32,8 @@ show diagram of routing and workflow
 
 ## Timeline and Development Plan
 
+## Wireframe
+
 ## UML Diagrams
 
 ## Model Entity Relationship Diagram
