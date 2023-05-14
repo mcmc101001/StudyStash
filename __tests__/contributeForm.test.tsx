@@ -38,14 +38,16 @@ describe("ContributeForm", () => {
             resourceType !== "Notes" ? mock_examTypeOptions : null
           }
           resourceType={resourceType}
-          userID={mock_user_id}
+          userId={mock_user_id}
         />
       );
       const selects = screen.getAllByRole("combobox");
       if (resourceType === "Notes") {
         expect(selects.length).toBe(3);
-      } else {
+      } else if (resourceType === "Cheatsheets") {
         expect(selects.length).toBe(4);
+      } else {
+        expect(selects.length).toBe(5);
       }
     });
   });
