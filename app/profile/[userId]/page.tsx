@@ -41,7 +41,7 @@ export default async function ProfilePageUser({
           </h1>
           <div className="my-2">
             <h2 className="text-lg font-semibold">Bio</h2>
-            <p className="whitespace-break-spaces break-words">
+            <p className="max-h-[120px] overflow-y-scroll whitespace-break-spaces break-words scrollbar-thin scrollbar-thumb-slate-400">
               {profileUser.bio ||
                 "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."}
             </p>
