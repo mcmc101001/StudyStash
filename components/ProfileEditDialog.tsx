@@ -116,7 +116,13 @@ export default function ProfileEditDialog({
             </div>
 
             <button
-              onClick={() => updateProfile()}
+              onClick={() => {
+                if (nameState.trim() === "") {
+                  toast.error("Invalid username.");
+                  return;
+                }
+                updateProfile();
+              }}
               className="rounded border border-black p-1 align-middle font-semibold dark:border-white"
             >
               Submit changes
