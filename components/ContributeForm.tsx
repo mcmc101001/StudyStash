@@ -31,6 +31,9 @@ const ContributeForm = (props: ContributeFormProps) => {
   const [moduleCode, setModuleCode] = useState<string | null>(null);
   const [examType, setExamType] = useState<ExamType | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [solutionIncluded, setSolutionIncluded] = useState<boolean | null>(
+    null
+  );
   const [isDisabled, setIsDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -108,6 +111,7 @@ const ContributeForm = (props: ContributeFormProps) => {
         moduleCode: moduleCode,
         examType: examType ? examType : undefined,
         userId: props.userId,
+        solutionIncluded: solutionIncluded ? solutionIncluded : undefined,
         resourceType: props.resourceType,
       };
       let { data } = await axios.post("/api/addPDF", body);
@@ -202,6 +206,16 @@ const ContributeForm = (props: ContributeFormProps) => {
     }
   };
 
+  const solutionsIncludedSelectHandler = (option: Option | null) => {
+    if (option?.value === "Yes") {
+      setSolutionIncluded(true);
+    } else if (option?.value === "No") {
+      setSolutionIncluded(false);
+    } else {
+      setSolutionIncluded(null);
+    }
+  };
+
   return (
     <form
       id="contributeForm"
@@ -262,8 +276,19 @@ const ContributeForm = (props: ContributeFormProps) => {
             options={props.examTypeOptions}
           />
         )}
+        {props.resourceType === "Past Papers" && (
+          <StyledSelect
+            label="Solution included"
+            placeholderText="Included/Excluded"
+            onChange={solutionsIncludedSelectHandler}
+            options={[
+              { value: "Yes", label: "Yes" },
+              { value: "No", label: "No" },
+            ]}
+          />
+        )}
       </div>
-      <div className="flex w-1/3 flex-col items-center justify-center gap-y-6">
+      <div className="flex h-full min-h-[20rem] w-1/3 flex-col items-center justify-center gap-y-6">
         <PDFUploader
           fileDropHandler={fileDropHandler}
           fileSelectedHandler={fileSelectedHandler}
@@ -272,17 +297,18 @@ const ContributeForm = (props: ContributeFormProps) => {
         />
         <section className="flex w-full flex-row items-center justify-between">
           <Button
-            size="sm"
+            size="lg"
             variant="default"
             isLoading={isDisabled}
             type="submit"
             form="contributeForm"
+            className="text-lg"
           >
             Upload
           </Button>
           <Trash2
             className="cursor-pointer text-slate-800 dark:text-slate-200"
-            size={20}
+            size={40}
             onClick={() => {
               setFileName(null);
               setFile(null);

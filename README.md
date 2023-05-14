@@ -26,6 +26,8 @@ We hope to make the stressful process of preparing for quizzes, midterms and fin
 
 ## Features
 
+Desktop app like feel instead of web page, main page non scrollable
+
 ## Overall navigation flow
 
 show diagram of routing and workflow
@@ -77,3 +79,7 @@ The master branch is a protected branch containing contains the code used in pro
 ## Limitations
 
 ## Challenges
+
+### Edge cases
+
+1. long names causing layout shifts, solution: overflow

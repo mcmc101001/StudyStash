@@ -74,7 +74,6 @@ export default function Rating({
         toast.error("Error updating vote, please try again later.");
       }
     }
-    router.refresh();
   };
 
   const handleDownvote = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -108,7 +107,6 @@ export default function Rating({
         toast.error("Error updating vote, please try again later.");
       }
     }
-    router.refresh();
   };
 
   return (

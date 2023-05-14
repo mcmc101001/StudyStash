@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
-import UserResourceTab from "./UserResourceTab";
+import UserResourceTab from "@/components/UserResourceTab";
 import { ResourceOptions, ResourceType, ResourceTypeURL } from "@/lib/content";
-import ResourceFilters from "./ResourceFilters";
+import ResourceFilters from "@/components/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
 import { ExamType } from "@prisma/client";
 import {
@@ -11,10 +11,6 @@ import {
   getQuestionPapersWithPosts,
   getRating,
 } from "@/app/database/[moduleCode]/[category]/page";
-import { deleteS3ObjectType } from "@/pages/api/deleteS3Object";
-import axios from "axios";
-import { deletePDFType } from "@/pages/api/deletePDF";
-import { toast } from "react-hot-toast";
 
 interface UserResourcesSectionProps {
   profileUserId: string;
