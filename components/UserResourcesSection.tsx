@@ -11,6 +11,10 @@ import {
   getQuestionPapersWithPosts,
   getRating,
 } from "@/app/database/[moduleCode]/[category]/page";
+import { deleteS3ObjectType } from "@/pages/api/deleteS3Object";
+import axios from "axios";
+import { deletePDFType } from "@/pages/api/deletePDF";
+import { toast } from "react-hot-toast";
 
 interface UserResourcesSectionProps {
   profileUserId: string;
@@ -66,7 +70,7 @@ export default async function UserResourcesSection({
     redirect("/404");
   }
 
-  const resourcesWithRating = resources ? getRating(resources) : [];
+  let resourcesWithRating = resources ? getRating(resources) : [];
 
   /************** SORTING **************/
   if (sort === "rating") {
@@ -135,7 +139,9 @@ export default async function UserResourcesSection({
                   })}
                 </div>
               ) : (
-                <div className="flex justify-center">No resources found!</div>
+                <div className="flex justify-center text-xl">
+                  No resources found!
+                </div>
               )}
             </div>
             <div className="w-1/4">

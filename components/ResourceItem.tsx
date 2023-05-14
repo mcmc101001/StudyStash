@@ -87,6 +87,7 @@ interface ResourceItemProps {
   examType?: ExamType;
   rating: number;
   deletable?: boolean;
+  handleDeleteResource?: Promise<void>;
 }
 
 export default async function ResourceItem({
@@ -101,6 +102,7 @@ export default async function ResourceItem({
   category,
   rating,
   deletable,
+  handleDeleteResource,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
