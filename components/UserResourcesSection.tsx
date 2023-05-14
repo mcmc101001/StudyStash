@@ -99,7 +99,9 @@ export default async function UserResourcesSection({
       <UserResourceTab resourceOptions={ResourceOptions} />
       <div className="flex h-[70vh] w-full flex-row justify-between gap-x-4">
         {filterCategory === undefined ? (
-          <div>Select category.</div>
+          <div className="flex h-1/2 w-full items-center justify-center text-3xl">
+            Select category.
+          </div>
         ) : (
           <>
             <div
@@ -139,7 +141,7 @@ export default async function UserResourcesSection({
                   })}
                 </div>
               ) : (
-                <div className="flex justify-center text-xl">
+                <div className="flex h-1/2 w-full items-center justify-center text-3xl">
                   No resources found!
                 </div>
               )}

@@ -8,6 +8,16 @@ import { toast } from "react-hot-toast";
 import { deleteS3ObjectType } from "@/pages/api/deleteS3Object";
 import { deletePDFType } from "@/pages/api/deletePDF";
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import Button from "./ui/Button";
 
 interface ResourceDeleteButtonProps {
   resourceId: string;
@@ -49,12 +59,34 @@ export default function ResourceDeleteButton({
       {isLoading ? (
         <Loader2 height={30} width={30} className="animate-spin" />
       ) : (
-        <Trash2
-          onClick={() => handleDelete()}
-          height={30}
-          width={30}
-          className="cursor-pointer"
-        />
+        <Dialog>
+          <DialogTrigger>
+            <Trash2 height={30} width={30} className="cursor-pointer" />
+          </DialogTrigger>
+          <DialogContent className="text-slate-800 dark:text-slate-200">
+            <DialogHeader>
+              <DialogTitle>Are you sure you want to delete this?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone.
+              </DialogDescription>
+              <div className="flex w-full gap-x-2 pt-5">
+                <DialogPrimitive.Close className="flex-1">
+                  <Button className="w-full">Cancel</Button>
+                </DialogPrimitive.Close>
+                <div className="flex-1">
+                  <Button
+                    isLoading={isLoading}
+                    className="w-full"
+                    variant="dangerous"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       )}
     </>
   );
