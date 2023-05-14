@@ -33,6 +33,10 @@ export default async function deletePDF(
   if (!isValidBody(req.body)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
+  if (session.user.id !== req.body.id) {
+    res.status(401).json({ message: "You are not authorized." });
+    return;
+  }
   try {
     let { id, category } = req.body;
     // ensure authenticated user is the owner of the PDF

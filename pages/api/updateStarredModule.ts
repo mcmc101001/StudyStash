@@ -33,6 +33,10 @@ export default async function updateStarredModule(
   if (!isValidBody(req.body)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
+  if (session.user.id !== req.body.userId) {
+    res.status(401).json({ message: "You are not authorized." });
+    return;
+  }
   try {
     let { userId, moduleCode, value } = req.body;
     let mod;

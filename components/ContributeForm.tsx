@@ -22,7 +22,7 @@ interface ContributeFormProps {
   semesterOptions: Array<Option>;
   examTypeOptions: Array<Option> | null;
   resourceType: ResourceType;
-  userID: string;
+  userId: string;
 }
 
 const ContributeForm = (props: ContributeFormProps) => {
@@ -107,7 +107,7 @@ const ContributeForm = (props: ContributeFormProps) => {
         semester: semester,
         moduleCode: moduleCode,
         examType: examType ? examType : undefined,
-        userID: props.userID,
+        userId: props.userId,
         resourceType: props.resourceType,
       };
       let { data } = await axios.post("/api/addPDF", body);

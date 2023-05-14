@@ -2,11 +2,14 @@ import { ResourceType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import PDFSheetLauncher from "@/components/PDFSheetLauncher";
-import Rating from "@/components/Rating";
+import ResourceRating from "@/components/ResourceRating";
 import {
   CheatsheetVote,
   QuestionPaperVote,
   NotesVote,
+  CheatsheetStatus,
+  NotesStatus,
+  QuestionPaperStatus,
   ExamType,
   Prisma,
 } from "@prisma/client";
@@ -14,6 +17,7 @@ import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
+import ResourceStatusComponent from "./ResourceFlag";
 
 async function getCheatsheetVote(userId: string, resourceId: string) {
   const res = await prisma.cheatsheetVote.findUnique({
@@ -41,6 +45,42 @@ async function getNotesVote(userId: string, resourceId: string) {
 
 async function getQuestionPaperVote(userId: string, resourceId: string) {
   const res = await prisma.questionPaperVote.findUnique({
+    where: {
+      userId_resourceId: {
+        userId: userId,
+        resourceId: resourceId,
+      },
+    },
+  });
+  return res;
+}
+
+async function getCheatsheetStatus(userId: string, resourceId: string) {
+  const res = await prisma.cheatsheetStatus.findUnique({
+    where: {
+      userId_resourceId: {
+        userId: userId,
+        resourceId: resourceId,
+      },
+    },
+  });
+  return res;
+}
+
+async function getNotesStatus(userId: string, resourceId: string) {
+  const res = await prisma.notesStatus.findUnique({
+    where: {
+      userId_resourceId: {
+        userId: userId,
+        resourceId: resourceId,
+      },
+    },
+  });
+  return res;
+}
+
+async function getQuestionPaperStatus(userId: string, resourceId: string) {
+  const res = await prisma.questionPaperStatus.findUnique({
     where: {
       userId_resourceId: {
         userId: userId,
@@ -87,7 +127,6 @@ interface ResourceItemProps {
   examType?: ExamType;
   rating: number;
   deletable?: boolean;
-  handleDeleteResource?: Promise<void>;
 }
 
 export default async function ResourceItem({
@@ -102,7 +141,6 @@ export default async function ResourceItem({
   category,
   rating,
   deletable,
-  handleDeleteResource,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
@@ -112,6 +150,7 @@ export default async function ResourceItem({
   const currentUser = await getCurrentUser();
 
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
+  let userStatus: CheatsheetStatus | NotesStatus | QuestionPaperStatus | null;
   let avgDifficultyData: Prisma.PromiseReturnType<typeof getDifficulty>;
   let userDifficultyData: Prisma.PromiseReturnType<typeof getUserDifficulty>;
   let avgDifficulty: number = 0;
@@ -122,34 +161,46 @@ export default async function ResourceItem({
   if (category === "Cheatsheets") {
     if (currentUser) {
       userVote = await getCheatsheetVote(currentUser.id, resourceId);
+      userStatus = await getCheatsheetStatus(currentUser.id, resourceId);
     } else {
       userVote = null;
+      userStatus = null;
     }
   } else if (category === "Notes") {
     if (currentUser) {
       userVote = await getNotesVote(currentUser.id, resourceId);
+      userStatus = await getNotesStatus(currentUser.id, resourceId);
     } else {
       userVote = null;
+      userStatus = null;
     }
   } else if (category === "Past Papers") {
     const avgDifficultyPromise = getDifficulty(resourceId);
     if (currentUser) {
+      // Parallel data fetching
       const userVotePromise = getQuestionPaperVote(currentUser.id, resourceId);
+      const userStatusPromise = getQuestionPaperStatus(
+        currentUser.id,
+        resourceId
+      );
       const userDifficultyPromise = getUserDifficulty(
         currentUser.id,
         resourceId
       );
-      [avgDifficultyData, userDifficultyData, userVote] = await Promise.all([
-        avgDifficultyPromise,
-        userDifficultyPromise,
-        userVotePromise,
-      ]);
+      [avgDifficultyData, userVote, userStatus, userDifficultyData] =
+        await Promise.all([
+          avgDifficultyPromise,
+          userVotePromise,
+          userStatusPromise,
+          userDifficultyPromise,
+        ]);
       userDifficulty = userDifficultyData?.value || 0;
       avgDifficulty = avgDifficultyData._avg.value || 0;
     } else {
       avgDifficultyData = await avgDifficultyPromise;
       avgDifficulty = avgDifficultyData._avg.value || 0;
       userVote = null;
+      userStatus = null;
       userDifficulty = 0;
     }
   } else {
@@ -158,7 +209,15 @@ export default async function ResourceItem({
 
   return (
     <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 p-4 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-      <Rating
+      {currentUser && (
+        <ResourceStatusComponent
+          category={category}
+          resourceId={resourceId}
+          currentUserId={currentUser.id}
+          status={userStatus ? userStatus.status : null}
+        />
+      )}
+      <ResourceRating
         key={rating}
         resourceId={resourceId}
         currentUserId={currentUser ? currentUser.id : null}

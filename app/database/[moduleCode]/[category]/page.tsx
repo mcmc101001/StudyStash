@@ -182,7 +182,6 @@ export default async function Page({
       FilterExamType,
       userId: undefined,
     });
-    console.log("FETCHED DATA");
   } else {
     redirect("/404");
   }

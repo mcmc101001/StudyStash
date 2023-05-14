@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
-import Rating from "@/components/Rating";
+import ResourceRating from "@/components/ResourceRating";
 import { ResourceType } from "@/lib/content";
 import DifficultyRating from "@/components/DifficultyRating";
 
@@ -55,7 +55,7 @@ export default function PDFSheetLauncher({
       >
         <SheetHeader>
           <SheetTitle className="flex flex-row items-center gap-x-4">
-            <Rating
+            <ResourceRating
               category={category}
               currentUserId={currentUserId}
               totalRating={totalRating}
