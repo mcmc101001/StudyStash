@@ -17,8 +17,9 @@ import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
-import ResourceStatusComponent from "./ResourceFlag";
+import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 
+/*************** DATA FETCHING CODE ****************/
 async function getCheatsheetVote(userId: string, resourceId: string) {
   const res = await prisma.cheatsheetVote.findUnique({
     where: {
@@ -218,7 +219,7 @@ export default async function ResourceItem({
         />
       )}
       <ResourceRating
-        key={rating}
+        key={resourceId}
         resourceId={resourceId}
         currentUserId={currentUser ? currentUser.id : null}
         category={category}
@@ -227,6 +228,7 @@ export default async function ResourceItem({
       />
       <div className="ml-3 box-border h-full w-full overflow-hidden">
         <PDFSheetLauncher
+          key={resourceId}
           resourceId={resourceId}
           title={name}
           currentUserId={currentUser ? currentUser.id : null}

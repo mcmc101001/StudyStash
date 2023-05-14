@@ -13,6 +13,7 @@ const addPDFSchema = z.object({
   moduleCode: z.string(),
   examType: z.nativeEnum(ExamType).optional(),
   userId: z.string(),
+  solutionIncluded: z.boolean().optional(),
   resourceType: ResourceEnum,
 });
 

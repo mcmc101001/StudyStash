@@ -88,18 +88,19 @@ model Cheatsheet {
 }
 
 model QuestionPaper {
-  id            String                    @id @default(cuid())
-  name          String
-  createdAt     DateTime                  @default(now())
-  userSubmitted User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String
-  moduleCode    String
-  acadYear      String
-  semester      String
-  type          ExamType
-  votes         QuestionPaperVote[]
-  difficulties  QuestionPaperDifficulty[]
-  statuses      QuestionPaperStatus[]
+  id               String                    @id @default(cuid())
+  name             String
+  createdAt        DateTime                  @default(now())
+  userSubmitted    User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String
+  moduleCode       String
+  acadYear         String
+  semester         String
+  solutionIncluded Boolean                   @default(false)
+  type             ExamType
+  votes            QuestionPaperVote[]
+  difficulties     QuestionPaperDifficulty[]
+  statuses         QuestionPaperStatus[]
 
   @@index([userId])
 }

@@ -17,7 +17,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/Dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import Button from "./ui/Button";
+import Button from "@/components/ui/Button";
 
 interface ResourceDeleteButtonProps {
   resourceId: string;

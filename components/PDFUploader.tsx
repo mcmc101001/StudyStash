@@ -12,7 +12,7 @@ interface PDFUploaderProps {
 export default function PDFUploader(props: PDFUploaderProps) {
   return (
     <div
-      className="flex h-60 w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-indigo-600"
+      className="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-indigo-600"
       onClick={() => props.inputRef.current?.click()}
       onDrop={(e) => props.fileDropHandler(e)}
       onDragOver={(e) => e.preventDefault()}
@@ -25,7 +25,7 @@ export default function PDFUploader(props: PDFUploaderProps) {
         hidden={true}
       ></input>
       <Upload className="text-indigo-600" size={70} />
-      <span className="max-w-[70%] truncate text-center text-indigo-600">
+      <span className="mt-2 max-w-[70%] truncate text-center text-xl text-indigo-600">
         {props.fileName || "Select or drop pdf file"}
       </span>
     </div>
