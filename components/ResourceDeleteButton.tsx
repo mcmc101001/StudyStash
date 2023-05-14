@@ -75,7 +75,6 @@ export default function ResourceDeleteButton({
                 </DialogPrimitive.Close>
                 <div className="flex-1">
                   <Button
-                    isLoading={isLoading}
                     className="w-full"
                     variant="dangerous"
                     onClick={handleDelete}

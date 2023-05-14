@@ -49,7 +49,7 @@ export default async function Page({
         semesterOptions={semesterOptions}
         examTypeOptions={resourceType !== "Notes" ? examTypeOptions : null}
         resourceType={resourceType}
-        userID={user.id}
+        userId={user.id}
       />
     </main>
   );

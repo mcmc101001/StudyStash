@@ -52,9 +52,13 @@ show database relationships
 
 #### Branching
 
+The master branch is a protected branch containing contains the code used in production, and code cannot be pushed into it directly, instead requiring a pull request to be made before merging, as well as approval by the partner as the code reviewer, as well as passing status checks such as GitGuardian (see Security Measures)
+
 #### Pull requests
 
-### Git issues
+### Github Issues
+
+### Github Projects
 
 ### Two-week Sprints
 

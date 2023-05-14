@@ -1,25 +1,26 @@
 import { authOptions } from "@/lib/auth";
 import { ResourceEnum } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
+import { ResourceStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
-const updateVoteSchema = z.object({
+const updateStatusSchema = z.object({
+  category: ResourceEnum,
   resourceId: z.string(),
   userId: z.string(),
-  category: ResourceEnum,
-  value: z.union([z.boolean(), z.null()]),
+  status: z.union([z.nativeEnum(ResourceStatus), z.null()]),
 });
 
-export type updateVoteType = z.infer<typeof updateVoteSchema>;
+export type updateStatusType = z.infer<typeof updateStatusSchema>;
 
-function isValidBody(body: any): body is updateVoteType {
-  const { success } = updateVoteSchema.safeParse(body);
+function isValidBody(body: any): body is updateStatusType {
+  const { success } = updateStatusSchema.safeParse(body);
   return success;
 }
 
-export default async function updateVote(
+export default async function updateStatus(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -40,11 +41,11 @@ export default async function updateVote(
     return;
   }
   try {
-    let { resourceId, userId, category, value } = req.body;
+    let { category, resourceId, userId, status } = req.body;
     let vote;
-    if (category === "Cheatsheets") {
-      if (value !== null) {
-        vote = await prisma.cheatsheetVote.upsert({
+    if (status !== null) {
+      if (category === "Cheatsheets") {
+        vote = await prisma.cheatsheetStatus.upsert({
           where: {
             userId_resourceId: {
               userId: userId,
@@ -52,16 +53,70 @@ export default async function updateVote(
             },
           },
           update: {
-            value: value,
+            status: status,
           },
           create: {
-            value: value,
-            resourceId: resourceId,
+            status: status,
             userId: userId,
+            resourceId: resourceId,
           },
         });
-      } else {
-        vote = await prisma.cheatsheetVote.delete({
+      } else if (category === "Past Papers") {
+        vote = await prisma.questionPaperStatus.upsert({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+          update: {
+            status: status,
+          },
+          create: {
+            status: status,
+            userId: userId,
+            resourceId: resourceId,
+          },
+        });
+      } else if (category === "Notes") {
+        vote = await prisma.notesStatus.upsert({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+          update: {
+            status: status,
+          },
+          create: {
+            status: status,
+            userId: userId,
+            resourceId: resourceId,
+          },
+        });
+      }
+    } else if (status === null) {
+      if (category === "Cheatsheets") {
+        vote = await prisma.cheatsheetStatus.delete({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+        });
+      } else if (category === "Past Papers") {
+        vote = await prisma.questionPaperStatus.delete({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+        });
+      } else if (category === "Notes") {
+        vote = await prisma.notesStatus.delete({
           where: {
             userId_resourceId: {
               userId: userId,
@@ -70,68 +125,10 @@ export default async function updateVote(
           },
         });
       }
-      res.status(200).json({ vote });
-    } else if (category === "Past Papers") {
-      if (value !== null) {
-        vote = await prisma.questionPaperVote.upsert({
-          where: {
-            userId_resourceId: {
-              userId: userId,
-              resourceId: resourceId,
-            },
-          },
-          update: {
-            value: value,
-          },
-          create: {
-            value: value,
-            resourceId: resourceId,
-            userId: userId,
-          },
-        });
-      } else {
-        vote = await prisma.questionPaperVote.delete({
-          where: {
-            userId_resourceId: {
-              userId: userId,
-              resourceId: resourceId,
-            },
-          },
-        });
-      }
-      res.status(200).json({ vote });
-    } else if (category === "Notes") {
-      if (value !== null) {
-        vote = await prisma.notesVote.upsert({
-          where: {
-            userId_resourceId: {
-              userId: userId,
-              resourceId: resourceId,
-            },
-          },
-          update: {
-            value: value,
-          },
-          create: {
-            value: value,
-            resourceId: resourceId,
-            userId: userId,
-          },
-        });
-      } else {
-        vote = await prisma.notesVote.delete({
-          where: {
-            userId_resourceId: {
-              userId: userId,
-              resourceId: resourceId,
-            },
-          },
-        });
-      }
-      res.status(200).json({ vote });
     } else {
-      res.status(400).json({ message: "Invalid request" });
+      res.status(400).json({ message: "Invalid value" });
     }
+    res.status(200).json({ vote });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }

@@ -32,19 +32,6 @@ export const ResourceOptions: ResourceOptionsProps[] = [
   },
 ];
 
-// /* from prisma schema
-// enum ExamType {
-//   Midterm
-//   Final
-//   Quiz
-//   Assignment
-//   PE
-//   Other
-// }
-// */
-
-// // Bad implementation, copy from prisma schema, but I can't seem to import it
-
 export interface ResourceFiltersSorts {
   filterModuleCode?: string | undefined;
   filterCategory?: ResourceTypeURL | undefined;
@@ -55,11 +42,11 @@ export interface ResourceFiltersSorts {
 }
 
 export const sortOptions = [
-  { value:"rating", label:"Highest Rating" },
-  { value:"rating_flip", label:"Lowest Rating" },
-  { value:"date", label:"Most recent" },
-  { value:"date_flip", label:"Oldest" },
-]
+  { value: "rating", label: "Highest Rating" },
+  { value: "rating_flip", label: "Lowest Rating" },
+  { value: "date", label: "Most recent" },
+  { value: "date_flip", label: "Oldest" },
+];
 
 export const examTypeOptions = [
   { value: "Midterm", label: "Midterm" },
