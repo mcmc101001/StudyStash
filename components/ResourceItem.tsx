@@ -199,7 +199,7 @@ export default async function ResourceItem({
               <p className="whitespace-nowrap text-end">
                 <Link
                   href={`/profile/${resourceUser?.id}`}
-                  className="text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
+                  className="ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
                 >
                   {resourceUser?.name}
                 </Link>

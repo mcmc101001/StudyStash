@@ -25,7 +25,7 @@ export default function PDFUploader(props: PDFUploaderProps) {
         hidden={true}
       ></input>
       <Upload className="text-indigo-600" size={70} />
-      <span className="text-center text-indigo-600">
+      <span className="max-w-[70%] truncate text-center text-indigo-600">
         {props.fileName || "Select or drop pdf file"}
       </span>
     </div>
