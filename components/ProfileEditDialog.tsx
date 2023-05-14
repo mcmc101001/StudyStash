@@ -89,6 +89,7 @@ export default function ProfileEditDialog({
                 defaultValue={nameState}
                 maxLength={30}
                 spellCheck={false}
+                autoFocus={false}
               />
               <div>
                 <span className="float-right">{nameCharState}/30</span>
@@ -117,7 +118,6 @@ export default function ProfileEditDialog({
             <button
               onClick={() => updateProfile()}
               className="rounded border border-black p-1 align-middle font-semibold dark:border-white"
-              autoFocus={true}
             >
               Submit changes
             </button>
