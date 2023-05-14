@@ -11,6 +11,10 @@ import {
   getQuestionPapersWithPosts,
   getRating,
 } from "@/app/database/[moduleCode]/[category]/page";
+import { deleteS3ObjectType } from "@/pages/api/deleteS3Object";
+import axios from "axios";
+import { deletePDFType } from "@/pages/api/deletePDF";
+import { toast } from "react-hot-toast";
 
 interface UserResourcesSectionProps {
   profileUserId: string;
@@ -66,7 +70,7 @@ export default async function UserResourcesSection({
     redirect("/404");
   }
 
-  const resourcesWithRating = resources ? getRating(resources) : [];
+  let resourcesWithRating = resources ? getRating(resources) : [];
 
   /************** SORTING **************/
   if (sort === "rating") {
@@ -95,7 +99,9 @@ export default async function UserResourcesSection({
       <UserResourceTab resourceOptions={ResourceOptions} />
       <div className="flex h-[70vh] w-full flex-row justify-between gap-x-4">
         {filterCategory === undefined ? (
-          <div>Select category.</div>
+          <div className="flex h-1/2 w-full items-center justify-center text-3xl">
+            Select category.
+          </div>
         ) : (
           <>
             <div
@@ -135,7 +141,9 @@ export default async function UserResourcesSection({
                   })}
                 </div>
               ) : (
-                <div className="flex justify-center">No resources found!</div>
+                <div className="flex h-1/2 w-full items-center justify-center text-3xl">
+                  No resources found!
+                </div>
               )}
             </div>
             <div className="w-1/4">

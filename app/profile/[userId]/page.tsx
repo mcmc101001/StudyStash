@@ -35,10 +35,12 @@ export default async function ProfilePageUser({
             height={75}
             alt="Profile pic"
           ></Image>
-          <h1 className="mt-2 text-xl font-bold">{profileUser.name}</h1>
+          <h1 className="mt-2 overflow-x-scroll whitespace-nowrap text-xl font-bold scrollbar-none">
+            {profileUser.name}
+          </h1>
           <div className="my-2">
             <h2 className="text-lg font-semibold">Bio</h2>
-            <p className="break-words">
+            <p className="whitespace-break-spaces break-words">
               {profileUser.bio ||
                 "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."}
             </p>
