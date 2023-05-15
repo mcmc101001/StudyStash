@@ -14,7 +14,7 @@ import useQueryParams from "@/hooks/useQueryParams";
 import ResourceRating from "@/components/ResourceRating";
 import { ResourceType } from "@/lib/content";
 import DifficultyRating from "@/components/DifficultyRating";
-import { atom, useAtom } from "jotai";
+import { atom } from "jotai";
 
 interface PDFSheetLauncherProps {
   children: React.ReactNode;

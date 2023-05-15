@@ -101,7 +101,7 @@ export default async function UserResourcesSection({
         ) : (
           <>
             <div
-              className="flex w-3/4 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
+              className="flex w-4/5 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
           scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
               style={{ scrollbarGutter: "stable" }}
@@ -142,7 +142,7 @@ export default async function UserResourcesSection({
                 </div>
               )}
             </div>
-            <div className="w-1/4">
+            <div className="w-1/5">
               <ResourceFilters
                 acadYearOptions={acadYearOptions}
                 category={category}

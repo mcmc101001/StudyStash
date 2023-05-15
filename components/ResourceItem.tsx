@@ -17,6 +17,7 @@ import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
+import { Separator } from "./ui/Separator";
 
 /*************** DATA FETCHING CODE ****************/
 async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -247,19 +248,24 @@ export default async function ResourceItem({
               {category !== "Notes" ? `${examType}, ` : ""}
               {`${acadYear} S${semester}`}
             </p>
-            <p className="whitespace-nowrap text-end">
+            <p className="ml-auto w-max whitespace-nowrap text-end">
               <Link
                 href={`/profile/${resourceUser?.id}`}
-                className="ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
+                className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
               >
                 {resourceUser?.name}
+                <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
               </Link>
             </p>
           </div>
         </ResourceSheetLauncher>
       </div>
       {category === "Past Papers" && (
-        <div className="ml-4 flex h-full items-center justify-center border-l-2 border-slate-500 pl-4">
+        <div className="flex h-full items-center justify-center">
+          <Separator
+            className="mx-4 my-2 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
+            orientation="vertical"
+          />
           <DifficultyDisplayDialog
             resourceId={resourceId}
             difficulty={avgDifficulty}
@@ -268,7 +274,11 @@ export default async function ResourceItem({
         </div>
       )}
       {deletable && currentUser?.id === userId && (
-        <div className="ml-4 flex h-full items-center justify-center border-l-2 border-slate-500 pl-4">
+        <div className="flex h-full items-center justify-center">
+          <Separator
+            className="mx-4 my-2 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
+            orientation="vertical"
+          />
           <ResourceDeleteButton
             currentUserId={currentUser.id}
             resourceId={resourceId}

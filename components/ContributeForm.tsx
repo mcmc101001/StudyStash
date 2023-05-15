@@ -292,7 +292,7 @@ const ContributeForm = (props: ContributeFormProps) => {
           />
         )}
       </div>
-      <div className="flex h-full min-h-[20rem] w-1/3 flex-col items-center justify-center gap-y-6">
+      <div className="flex h-full min-h-[20rem] w-1/3 flex-col items-center justify-center gap-y-6 pt-4">
         <PDFUploader
           fileDropHandler={fileDropHandler}
           fileSelectedHandler={fileSelectedHandler}

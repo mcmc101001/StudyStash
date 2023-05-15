@@ -76,8 +76,10 @@ export default function ResourceDeleteButton({
                 This action cannot be undone.
               </DialogDescription>
               <div className="flex w-full gap-x-2 pt-5">
-                <DialogPrimitive.Close asChild className="flex-1">
-                  <Button className="w-full">Cancel</Button>
+                <DialogPrimitive.Close className="flex-1">
+                  <div className="inline-flex h-full w-full items-center justify-center rounded-md bg-slate-900 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-100 dark:text-slate-700 dark:hover:bg-slate-300">
+                    Cancel
+                  </div>
                 </DialogPrimitive.Close>
                 <div className="flex-1">
                   <Button

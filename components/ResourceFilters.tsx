@@ -87,7 +87,7 @@ export default function ResourceFilters({
       {moduleCodeOptions !== undefined && (
         <StyledSelect
           label="Select Module Code"
-          placeholderText="Select Module Code"
+          placeholderText="Module Code"
           onChange={handleModuleCodeChange}
           options={moduleCodeOptions}
           labelExists={false}
@@ -122,7 +122,7 @@ export default function ResourceFilters({
       )}
       <StyledSelect
         label="Select Acad Year"
-        placeholderText="Select Acad Year"
+        placeholderText="Acad Year"
         options={acadYearOptions}
         onChange={handleAcadYearChange}
         labelExists={false}
@@ -134,7 +134,7 @@ export default function ResourceFilters({
       />
       <StyledSelect
         label="Select Semester"
-        placeholderText="Select Semester"
+        placeholderText="Semester"
         options={semesterOptions}
         onChange={handleSemesterChange}
         labelExists={false}
@@ -150,7 +150,7 @@ export default function ResourceFilters({
       {category !== "Notes" && (
         <StyledSelect
           label="Select Exam Type"
-          placeholderText="Select Exam Type"
+          placeholderText="Exam Type"
           options={examTypeOptions}
           onChange={handleExamTypeChange}
           labelExists={false}
