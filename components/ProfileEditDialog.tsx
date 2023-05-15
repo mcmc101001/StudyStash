@@ -14,7 +14,7 @@ import { useState } from "react";
 import { updateProfileType } from "@/pages/api/updateProfile";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import Button from "@/components/ui/Button";
+import Button from "./ui/Button";
 
 interface ProfileEditDialogProps {
   userId: string;
@@ -61,12 +61,13 @@ export default function ProfileEditDialog({
         asChild
         className="flex h-10 items-center justify-center rounded-md border-2 p-2 px-3"
       >
-        <Button variant="ghost">
+        {/* manually set button style here, as cant use button tag with as child, need to accept forward passing of ref, and cant nest buttons in dom */}
+        <div className="inline-flex cursor-pointer items-center justify-center rounded-md bg-transparent text-sm font-medium text-slate-800 transition-colors hover:bg-slate-200 hover:text-slate-700 disabled:pointer-events-none disabled:opacity-50 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-slate-300">
           Edit Profile{" "}
           <span className="pl-2">
             <UserCog></UserCog>
           </span>
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="text-slate-800 dark:text-slate-200">
         <DialogHeader>
@@ -84,14 +85,14 @@ export default function ProfileEditDialog({
                   setNameState(target?.value);
                   setNameCharState(target?.value.length);
                 }}
-                className="rounded-md bg-slate-300 p-1 dark:bg-slate-700"
+                className="rounded-md bg-slate-300 p-2 dark:bg-slate-700"
                 id="name"
                 defaultValue={nameState}
                 maxLength={30}
                 spellCheck={false}
                 autoFocus={false}
               />
-              <div>
+              <div className="mt-1">
                 <span className="float-right">{nameCharState}/30</span>
               </div>
 
@@ -104,18 +105,19 @@ export default function ProfileEditDialog({
                   setBioState(target?.value);
                   setBioCharState(target?.value.length);
                 }}
-                className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-1 scrollbar-thin dark:bg-slate-700"
+                className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-2 scrollbar-thin dark:bg-slate-700"
                 id="bio"
                 defaultValue={bioState}
                 maxLength={255}
                 spellCheck={false}
               />
-              <div>
+              <div className="mt-1">
                 <span className="float-right">{bioCharState}/255</span>
               </div>
             </div>
 
-            <button
+            <Button
+              variant="default"
               onClick={() => {
                 if (nameState.trim() === "") {
                   toast.error("Invalid username.");
@@ -123,10 +125,9 @@ export default function ProfileEditDialog({
                 }
                 updateProfile();
               }}
-              className="rounded border border-black p-1 align-middle font-semibold dark:border-white"
             >
               Submit changes
-            </button>
+            </Button>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

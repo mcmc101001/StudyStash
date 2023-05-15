@@ -138,7 +138,10 @@ const ContributeForm = (props: ContributeFormProps) => {
         return;
       }
       try {
-        let body: generateS3PutURLType = { name: pdfEntryPrismaId };
+        let body: generateS3PutURLType = {
+          userId: props.userId,
+          name: pdfEntryPrismaId,
+        };
         let { data } = await axios.post("/api/generateS3PutURL", body);
 
         const url = data.url;
@@ -156,6 +159,7 @@ const ContributeForm = (props: ContributeFormProps) => {
         // Delete the database entry if s3 upload fails
         try {
           let body: deletePDFType = {
+            userId: props.userId,
             id: pdfEntryPrismaId,
             category: props.resourceType,
           };

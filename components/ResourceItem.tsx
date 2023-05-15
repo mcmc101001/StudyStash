@@ -1,8 +1,7 @@
 import { ResourceType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import PDFSheetLauncher from "@/components/PDFSheetLauncher";
-import ResourceRating from "@/components/ResourceRating";
+import ResourceSheetLauncher from "@/components/ResourceSheetLauncher";
 import {
   CheatsheetVote,
   QuestionPaperVote,
@@ -209,7 +208,7 @@ export default async function ResourceItem({
   }
 
   return (
-    <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 p-4 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+    <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
       {currentUser && (
         <ResourceStatusComponent
           category={category}
@@ -218,17 +217,9 @@ export default async function ResourceItem({
           status={userStatus ? userStatus.status : null}
         />
       )}
-      <ResourceRating
-        key={resourceId}
-        resourceId={resourceId}
-        currentUserId={currentUser ? currentUser.id : null}
-        category={category}
-        totalRating={rating}
-        userRating={userVote !== null ? userVote.value : null}
-      />
-      <div className="ml-3 box-border h-full w-full overflow-hidden">
-        <PDFSheetLauncher
-          key={resourceId}
+
+      <div className="box-border h-full w-full overflow-hidden">
+        <ResourceSheetLauncher
           resourceId={resourceId}
           title={name}
           currentUserId={currentUser ? currentUser.id : null}
@@ -237,37 +228,35 @@ export default async function ResourceItem({
           userRating={userVote !== null ? userVote.value : null}
           userDifficulty={userDifficulty}
         >
-          <div className="flex items-center">
-            <div className="space-y-2 overflow-hidden text-ellipsis pr-4">
-              <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
-                {name}
-              </p>
-              <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
-                {createdAt.toLocaleString("en-GB", {
-                  minute: "2-digit",
-                  hour: "2-digit",
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </p>
-            </div>
-            <div className="ml-auto space-y-2">
-              <p className="whitespace-nowrap text-end">
-                {category !== "Notes" ? `${examType}, ` : ""}
-                {`${acadYear} S${semester}`}
-              </p>
-              <p className="whitespace-nowrap text-end">
-                <Link
-                  href={`/profile/${resourceUser?.id}`}
-                  className="ml-auto block max-w-[200px] truncate text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                  {resourceUser?.name}
-                </Link>
-              </p>
-            </div>
+          <div className="ml-3 space-y-2 overflow-hidden text-ellipsis pr-4">
+            <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
+              {name}
+            </p>
+            <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
+              {createdAt.toLocaleString("en-GB", {
+                minute: "2-digit",
+                hour: "2-digit",
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </p>
           </div>
-        </PDFSheetLauncher>
+          <div className="ml-auto space-y-2">
+            <p className="whitespace-nowrap text-end">
+              {category !== "Notes" ? `${examType}, ` : ""}
+              {`${acadYear} S${semester}`}
+            </p>
+            <p className="whitespace-nowrap text-end">
+              <Link
+                href={`/profile/${resourceUser?.id}`}
+                className="ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:text-slate-300"
+              >
+                {resourceUser?.name}
+              </Link>
+            </p>
+          </div>
+        </ResourceSheetLauncher>
       </div>
       {category === "Past Papers" && (
         <div className="ml-4 flex h-full items-center justify-center border-l-2 border-slate-500 pl-4">
@@ -280,7 +269,11 @@ export default async function ResourceItem({
       )}
       {deletable && currentUser?.id === userId && (
         <div className="ml-4 flex h-full items-center justify-center border-l-2 border-slate-500 pl-4">
-          <ResourceDeleteButton resourceId={resourceId} category={category} />
+          <ResourceDeleteButton
+            currentUserId={currentUser.id}
+            resourceId={resourceId}
+            category={category}
+          />
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useId } from "react";
 import Select from "react-select";
 
 export interface Option {
@@ -38,6 +38,7 @@ export default function StyledSelect({
         </label>
       ) : null}
       <Select
+        instanceId={useId()}
         id="acadYear"
         classNames={{
           option: (state) =>

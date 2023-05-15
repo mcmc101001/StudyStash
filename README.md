@@ -48,6 +48,12 @@ show database relationships
 
 ### Zod
 
+## User experience
+
+### Instant feedback
+
+### Transitions and animations
+
 ## Software Engineering Practices
 
 ### Version control
@@ -66,6 +72,8 @@ The master branch is a protected branch containing contains the code used in pro
 
 ### Security Measures
 
+#### Protect API routes with server side validation and authentication
+
 ### CI/CD
 
 ## Testing
@@ -79,6 +87,10 @@ The master branch is a protected branch containing contains the code used in pro
 ## Limitations
 
 ## Challenges
+
+### State Management
+
+#### Jotai
 
 ### Edge cases
 

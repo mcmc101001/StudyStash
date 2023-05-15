@@ -5,6 +5,7 @@ import { deleteS3ObjectLib } from "@/lib/aws_s3_sdk";
 import z from "zod";
 
 const deleteS3ObjectSchema = z.object({
+  userId: z.string(),
   id: z.string(),
 });
 
@@ -30,6 +31,10 @@ export default async function deleteS3Object(
   }
   if (!isValidBody(req.body)) {
     return res.status(400).json({ message: "Invalid request body" });
+  }
+  if (session.user.id !== req.body.userId) {
+    res.status(401).json({ message: "You are not authorized." });
+    return;
   }
 
   try {
