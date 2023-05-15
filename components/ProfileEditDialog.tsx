@@ -14,7 +14,6 @@ import { useState } from "react";
 import { updateProfileType } from "@/pages/api/updateProfile";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import Button from "@/components/ui/Button";
 
 interface ProfileEditDialogProps {
   userId: string;
@@ -61,12 +60,13 @@ export default function ProfileEditDialog({
         asChild
         className="flex h-10 items-center justify-center rounded-md border-2 p-2 px-3"
       >
-        <Button variant="ghost">
+        {/* copied button style here, as cant use button tag with as child, need to accept forward passing of ref, and cant nest buttons in dom */}
+        <div className="transition-color inline-flex items-center justify-center rounded-md bg-transparent text-sm font-medium text-slate-800 hover:bg-slate-200 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-slate-300">
           Edit Profile{" "}
           <span className="pl-2">
             <UserCog></UserCog>
           </span>
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="text-slate-800 dark:text-slate-200">
         <DialogHeader>
