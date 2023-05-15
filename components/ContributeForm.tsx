@@ -13,6 +13,7 @@ import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { ExamType } from "@prisma/client";
 import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
 import { deletePDFType } from "@/pages/api/deletePDF";
+import useQueryParams from "@/hooks/useQueryParams";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -37,6 +38,18 @@ const ContributeForm = (props: ContributeFormProps) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const { queryParams, setQueryParams } = useQueryParams();
+  const acadYearQueryParam = queryParams?.get("filterAcadYear");
+  const semesterQueryParam = queryParams?.get("filterSemester");
+  const examTypeQueryParam = queryParams?.get("filterExamType");
+  const moduleCodeQueryParam = queryParams?.get("filterModuleCode");
+
+  console.log(queryParams);
+  console.log(acadYearQueryParam);
+  console.log(semesterQueryParam);
+  console.log(examTypeQueryParam);
+  console.log(moduleCodeQueryParam);
 
   const fileSelectedHandler = (e: React.FormEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
@@ -228,12 +241,25 @@ const ContributeForm = (props: ContributeFormProps) => {
           placeholderText="Select Acad Year"
           onChange={acadYearSelectHandler}
           options={props.acadYearOptions}
+          defaultValue={
+            acadYearQueryParam
+              ? { value: acadYearQueryParam, label: acadYearQueryParam }
+              : undefined
+          }
         />
         <StyledSelect
           label="Semester"
           placeholderText="Select Semester"
           onChange={semesterSelectHandler}
           options={props.semesterOptions}
+          defaultValue={
+            semesterQueryParam
+              ? {
+                  value: semesterQueryParam,
+                  label: `Semester ${semesterQueryParam}`,
+                }
+              : undefined
+          }
         />
         <StyledSelect
           label="Module Code"
@@ -267,6 +293,14 @@ const ContributeForm = (props: ContributeFormProps) => {
             }
             return false;
           }}
+          defaultValue={
+            moduleCodeQueryParam
+              ? {
+                  value: moduleCodeQueryParam,
+                  label: moduleCodeQueryParam,
+                }
+              : undefined
+          }
         />
         {props.examTypeOptions !== null && (
           <StyledSelect
@@ -274,12 +308,17 @@ const ContributeForm = (props: ContributeFormProps) => {
             placeholderText="Select Exam Type"
             onChange={examTypeSelectHandler}
             options={props.examTypeOptions}
+            defaultValue={
+              examTypeQueryParam
+                ? { value: examTypeQueryParam, label: examTypeQueryParam }
+                : undefined
+            }
           />
         )}
         {props.resourceType === "Past Papers" && (
           <StyledSelect
             label="Solution included"
-            placeholderText="Included/Excluded"
+            placeholderText="Select Included/Excluded"
             onChange={solutionsIncludedSelectHandler}
             options={[
               { value: "Yes", label: "Yes" },

@@ -9,6 +9,7 @@ import {
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
+import Link from "next/link";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
@@ -67,6 +68,12 @@ export default function ResourceFilters({
   const acadYearQueryParam = queryParams?.get("filterAcadYear");
   const semesterQueryParam = queryParams?.get("filterSemester");
   const examTypeQueryParam = queryParams?.get("filterExamType");
+
+  console.log(queryParams?.getAll.toString());
+
+  const getContributeLink = () => {
+    return "/addPDF/" + "past_papers" + "?filterModuleCode=";
+  };
 
   return (
     <div className="flex w-full flex-col items-center gap-x-4 gap-y-4">
@@ -161,6 +168,13 @@ export default function ResourceFilters({
           }
         />
       )}
+
+      <Link
+        href={getContributeLink()}
+        className="rounded-md border border-white bg-slate-700 p-2 text-white"
+      >
+        Contribute
+      </Link>
     </div>
   );
 }
