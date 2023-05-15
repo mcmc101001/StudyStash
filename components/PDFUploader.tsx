@@ -1,6 +1,6 @@
 "use client";
 
-import { Upload } from "lucide-react";
+import { ScrollText } from "lucide-react";
 
 interface PDFUploaderProps {
   fileSelectedHandler: (e: React.FormEvent<HTMLInputElement>) => void;
@@ -24,7 +24,7 @@ export default function PDFUploader(props: PDFUploaderProps) {
         onChange={(e) => props.fileSelectedHandler(e)}
         hidden={true}
       ></input>
-      <Upload className="text-indigo-600" size={70} />
+      <ScrollText className="text-indigo-600" size={70} />
       <span className="mt-2 max-w-[70%] truncate text-center text-xl text-indigo-600">
         {props.fileName || "Select or drop pdf file"}
       </span>

@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import PDFUploader from "@/components/PDFUploader";
 import Button from "@/components/ui/Button";
-import { Trash2 } from "lucide-react";
+import { Trash2, Upload } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
 import { ResourceType } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
@@ -221,9 +221,9 @@ const ContributeForm = (props: ContributeFormProps) => {
   };
 
   const solutionsIncludedSelectHandler = (option: Option | null) => {
-    if (option?.value === "Yes") {
+    if (option?.value === "Included") {
       setSolutionIncluded(true);
-    } else if (option?.value === "No") {
+    } else if (option?.value === "Excluded") {
       setSolutionIncluded(false);
     } else {
       setSolutionIncluded(null);
@@ -314,37 +314,37 @@ const ContributeForm = (props: ContributeFormProps) => {
         )}
         {props.resourceType === "Past Papers" && (
           <StyledSelect
-            label="Solution included"
+            label="Solutions"
             placeholderText="Select Included/Excluded"
             onChange={solutionsIncludedSelectHandler}
             options={[
-              { value: "Yes", label: "Yes" },
-              { value: "No", label: "No" },
+              { value: "Included", label: "Included" },
+              { value: "Excluded", label: "Excluded" },
             ]}
           />
         )}
       </div>
-      <div className="flex h-full min-h-[20rem] w-1/3 flex-col items-center justify-center gap-y-6">
+      <div className="flex h-full min-h-[20rem] w-1/3 flex-col items-center justify-center gap-y-3 pt-7">
         <PDFUploader
           fileDropHandler={fileDropHandler}
           fileSelectedHandler={fileSelectedHandler}
           fileName={fileName}
           inputRef={inputRef}
         />
-        <section className="flex w-full flex-row items-center justify-between">
+        <section className="flex w-full flex-row items-center justify-between gap-2">
           <Button
-            size="lg"
             variant="default"
             isLoading={isDisabled}
             type="submit"
             form="contributeForm"
-            className="text-lg"
+            className="w-1/2 gap-1 text-lg"
           >
-            Upload
+            <Upload size={25} /> <p>Upload</p>
           </Button>
-          <Trash2
-            className="cursor-pointer text-slate-800 dark:text-slate-200"
-            size={40}
+          <Button
+            variant="dangerous"
+            type="button"
+            className="w-1/2 gap-1 text-lg"
             onClick={() => {
               setFileName(null);
               setFile(null);
@@ -353,7 +353,9 @@ const ContributeForm = (props: ContributeFormProps) => {
                 inputRef.current.value = "";
               }
             }}
-          />
+          >
+            <Trash2 size={25} /> <p>Clear PDF</p>
+          </Button>
         </section>
       </div>
     </form>

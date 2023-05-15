@@ -29,7 +29,7 @@ export default async function ProfilePageUser({
   return (
     <div className="flex w-full p-20 text-slate-800 dark:text-slate-200">
       <div className="h-full w-1/3 pr-5">
-        <section className="relative rounded-xl bg-slate-300 p-8 dark:bg-slate-700">
+        <section className="relative rounded-xl bg-slate-300 p-6 dark:bg-slate-700">
           <Image
             src={profileUser.image!}
             width={75}
@@ -41,7 +41,7 @@ export default async function ProfilePageUser({
           </h1>
           <div className="my-2">
             <h2 className="text-lg font-semibold">Bio</h2>
-            <p className="max-h-[120px] overflow-y-scroll whitespace-break-spaces break-words scrollbar-thin scrollbar-thumb-slate-400">
+            <p className="max-h-[120px] overflow-y-scroll whitespace-break-spaces break-words scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-slate-400 dark:scrollbar-track-slate-500">
               {profileUser.bio ||
                 "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."}
             </p>

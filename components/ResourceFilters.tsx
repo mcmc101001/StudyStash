@@ -11,7 +11,6 @@ import {
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
@@ -68,7 +67,6 @@ export default function ResourceFilters({
     }
   };
 
-  const segments = usePathname();
   const sortQueryParam = queryParams?.get("sort");
   const acadYearQueryParam = queryParams?.get("filterAcadYear");
   const semesterQueryParam = queryParams?.get("filterSemester");
@@ -93,7 +91,7 @@ export default function ResourceFilters({
       {moduleCodeOptions !== undefined && (
         <StyledSelect
           label="Select Module Code"
-          placeholderText="Select Module Code"
+          placeholderText="Module Code"
           onChange={handleModuleCodeChange}
           options={moduleCodeOptions}
           labelExists={false}
@@ -128,7 +126,7 @@ export default function ResourceFilters({
       )}
       <StyledSelect
         label="Select Acad Year"
-        placeholderText="Select Acad Year"
+        placeholderText="Acad Year"
         options={acadYearOptions}
         onChange={handleAcadYearChange}
         labelExists={false}
@@ -140,7 +138,7 @@ export default function ResourceFilters({
       />
       <StyledSelect
         label="Select Semester"
-        placeholderText="Select Semester"
+        placeholderText="Semester"
         options={semesterOptions}
         onChange={handleSemesterChange}
         labelExists={false}
@@ -156,7 +154,7 @@ export default function ResourceFilters({
       {category !== "Notes" && (
         <StyledSelect
           label="Select Exam Type"
-          placeholderText="Select Exam Type"
+          placeholderText="Exam Type"
           options={examTypeOptions}
           onChange={handleExamTypeChange}
           labelExists={false}
@@ -177,7 +175,7 @@ export default function ResourceFilters({
           "&" +
           queryParams?.toString()
         }
-        className="rounded-md border border-white bg-slate-700 p-2 text-white"
+        className="absolute right-16 top-12 rounded-md border border-white bg-slate-700 p-2 font-semibold text-white"
       >
         Contribute
       </Link>
