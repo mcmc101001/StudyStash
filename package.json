@@ -55,7 +55,7 @@
     "postcss": "^8.4.23",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.7",
-    "prisma": "^4.13.0",
+    "prisma": "^4.14.0",
     "tailwind-scrollbar": "^3.0.1",
     "tailwindcss": "^3.3.2",
     "tailwindcss-animate": "^1.0.5",
