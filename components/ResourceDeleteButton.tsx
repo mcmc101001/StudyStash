@@ -20,11 +20,13 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import Button from "@/components/ui/Button";
 
 interface ResourceDeleteButtonProps {
+  currentUserId: string;
   resourceId: string;
   category: ResourceType;
 }
 
 export default function ResourceDeleteButton({
+  currentUserId,
   resourceId,
   category,
 }: ResourceDeleteButtonProps) {
@@ -33,11 +35,15 @@ export default function ResourceDeleteButton({
 
   const handleDelete = async function () {
     setIsLoading(true);
-    let body: deleteS3ObjectType = { id: resourceId };
+    let body: deleteS3ObjectType = { userId: currentUserId, id: resourceId };
     try {
       const res = await axios.post("/api/deleteS3Object", body);
       try {
-        let body: deletePDFType = { id: resourceId, category: category };
+        let body: deletePDFType = {
+          userId: currentUserId,
+          id: resourceId,
+          category: category,
+        };
         await axios.post("/api/deletePDF", body);
       } catch (error) {
         toast.error("Error deleting resource, please try again later.");
@@ -70,7 +76,7 @@ export default function ResourceDeleteButton({
                 This action cannot be undone.
               </DialogDescription>
               <div className="flex w-full gap-x-2 pt-5">
-                <DialogPrimitive.Close className="flex-1">
+                <DialogPrimitive.Close asChild className="flex-1">
                   <Button className="w-full">Cancel</Button>
                 </DialogPrimitive.Close>
                 <div className="flex-1">

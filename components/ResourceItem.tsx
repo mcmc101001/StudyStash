@@ -208,7 +208,7 @@ export default async function ResourceItem({
   }
 
   return (
-    <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 px-4 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+    <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
       {currentUser && (
         <ResourceStatusComponent
           category={category}
@@ -269,7 +269,11 @@ export default async function ResourceItem({
       )}
       {deletable && currentUser?.id === userId && (
         <div className="ml-4 flex h-full items-center justify-center border-l-2 border-slate-500 pl-4">
-          <ResourceDeleteButton resourceId={resourceId} category={category} />
+          <ResourceDeleteButton
+            currentUserId={currentUser.id}
+            resourceId={resourceId}
+            category={category}
+          />
         </div>
       )}
     </div>
