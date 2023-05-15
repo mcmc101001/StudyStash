@@ -49,10 +49,11 @@ export default function ProfileEditDialog({
 
     try {
       let req = await axios.post("/api/updateProfile", body);
-      toast.success("Profile updated successfully!");
       router.refresh();
+      toast.success("Profile updated successfully!");
     } catch (error) {
       toast.error("Something went wrong, please try again.");
+      return;
     }
   }
 
