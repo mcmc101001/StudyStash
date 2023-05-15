@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogTrigger,
 } from "@/components/ui/Dialog";
 import { UserCog } from "lucide-react";
@@ -14,7 +13,7 @@ import { useState } from "react";
 import { updateProfileType } from "@/pages/api/updateProfile";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import Button from "./ui/Button";
+import Button from "@/components/ui/Button";
 
 interface ProfileEditDialogProps {
   userId: string;
@@ -33,6 +32,11 @@ export default function ProfileEditDialog({
   const router = useRouter();
 
   async function updateProfile() {
+    if (nameState.trim() === "") {
+      toast.error("Invalid username.");
+      return;
+    }
+
     if (!userId) {
       return null;
     }
@@ -71,64 +75,57 @@ export default function ProfileEditDialog({
       </DialogTrigger>
       <DialogContent className="text-slate-800 dark:text-slate-200">
         <DialogHeader>
-          <DialogTitle>
-            <h2 className="text-xl font-bold">Edit Profile</h2>
+          <DialogTitle asChild className="text-xl font-bold">
+            <p>Edit Profile</p>
           </DialogTitle>
-          <DialogDescription>
-            <div className="flex flex-col">
-              <label className="text-lg font-semibold" htmlFor="name">
-                Name
-              </label>
-              <input
-                autoComplete="off"
-                onChange={({ target }) => {
-                  setNameState(target?.value);
-                  setNameCharState(target?.value.length);
-                }}
-                className="rounded-md bg-slate-300 p-2 dark:bg-slate-700"
-                id="name"
-                defaultValue={nameState}
-                maxLength={30}
-                spellCheck={false}
-                autoFocus={false}
-              />
-              <div className="mt-1">
-                <span className="float-right">{nameCharState}/30</span>
-              </div>
-
-              <label className="text-lg font-semibold" htmlFor="bio">
-                Bio
-              </label>
-              <textarea
-                autoComplete="off"
-                onChange={({ target }) => {
-                  setBioState(target?.value);
-                  setBioCharState(target?.value.length);
-                }}
-                className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-2 scrollbar-thin dark:bg-slate-700"
-                id="bio"
-                defaultValue={bioState}
-                maxLength={255}
-                spellCheck={false}
-              />
-              <div className="mt-1">
-                <span className="float-right">{bioCharState}/255</span>
-              </div>
+          <div className="flex flex-col">
+            <label className="text-lg font-semibold" htmlFor="name">
+              Name
+            </label>
+            <input
+              autoComplete="off"
+              onChange={({ target }) => {
+                setNameState(target?.value);
+                setNameCharState(target?.value.length);
+              }}
+              className="rounded-md bg-slate-300 p-2 dark:bg-slate-700"
+              id="name"
+              defaultValue={nameState}
+              maxLength={30}
+              spellCheck={false}
+              autoFocus={false}
+            />
+            <div className="mt-1">
+              <span className="float-right">{nameCharState}/30</span>
             </div>
 
-            <Button
-              variant="default"
-              onClick={() => {
-                if (nameState.trim() === "") {
-                  toast.error("Invalid username.");
-                  return;
-                }
-                updateProfile();
+            <label className="text-lg font-semibold" htmlFor="bio">
+              Bio
+            </label>
+            <textarea
+              autoComplete="off"
+              onChange={({ target }) => {
+                setBioState(target?.value);
+                setBioCharState(target?.value.length);
               }}
-            >
-              Submit changes
-            </Button>
-          </DialogDescription>
+              className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-2 scrollbar-thin dark:bg-slate-700"
+              id="bio"
+              defaultValue={bioState}
+              maxLength={255}
+              spellCheck={false}
+            />
+            <div className="mt-1">
+              <span className="float-right">{bioCharState}/255</span>
+            </div>
+          </div>
+
+          <Button
+            className="w-1/4 whitespace-nowrap p-2"
+            variant="default"
+            onClick={() => updateProfile()}
+          >
+            Submit changes
+          </Button>
         </DialogHeader>
       </DialogContent>
     </Dialog>

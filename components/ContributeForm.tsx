@@ -27,10 +27,19 @@ interface ContributeFormProps {
 }
 
 const ContributeForm = (props: ContributeFormProps) => {
-  const [acadYear, setAcadYear] = useState<string | null>(null);
-  const [semester, setSemester] = useState<string | null>(null);
-  const [moduleCode, setModuleCode] = useState<string | null>(null);
-  const [examType, setExamType] = useState<ExamType | null>(null);
+  const { queryParams, setQueryParams } = useQueryParams();
+  const [acadYear, setAcadYear] = useState<string | null>(
+    queryParams?.get("filterAcadYear") ?? null
+  );
+  const [semester, setSemester] = useState<string | null>(
+    queryParams?.get("filterSemester") ?? null
+  );
+  const [moduleCode, setModuleCode] = useState<string | null>(
+    queryParams?.get("filterModuleCode") ?? null
+  );
+  const [examType, setExamType] = useState<ExamType | null>(
+    (queryParams?.get("filterExamType") as ExamType) ?? null
+  );
   const [fileName, setFileName] = useState<string | null>(null);
   const [solutionIncluded, setSolutionIncluded] = useState<boolean | null>(
     null
@@ -38,18 +47,6 @@ const ContributeForm = (props: ContributeFormProps) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const { queryParams, setQueryParams } = useQueryParams();
-  const acadYearQueryParam = queryParams?.get("filterAcadYear");
-  const semesterQueryParam = queryParams?.get("filterSemester");
-  const examTypeQueryParam = queryParams?.get("filterExamType");
-  const moduleCodeQueryParam = queryParams?.get("filterModuleCode");
-
-  console.log(queryParams);
-  console.log(acadYearQueryParam);
-  console.log(semesterQueryParam);
-  console.log(examTypeQueryParam);
-  console.log(moduleCodeQueryParam);
 
   const fileSelectedHandler = (e: React.FormEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
@@ -246,9 +243,7 @@ const ContributeForm = (props: ContributeFormProps) => {
           onChange={acadYearSelectHandler}
           options={props.acadYearOptions}
           defaultValue={
-            acadYearQueryParam
-              ? { value: acadYearQueryParam, label: acadYearQueryParam }
-              : undefined
+            acadYear ? { value: acadYear, label: acadYear } : undefined
           }
         />
         <StyledSelect
@@ -257,10 +252,10 @@ const ContributeForm = (props: ContributeFormProps) => {
           onChange={semesterSelectHandler}
           options={props.semesterOptions}
           defaultValue={
-            semesterQueryParam
+            semester
               ? {
-                  value: semesterQueryParam,
-                  label: `Semester ${semesterQueryParam}`,
+                  value: semester,
+                  label: `Semester ${semester}`,
                 }
               : undefined
           }
@@ -298,10 +293,10 @@ const ContributeForm = (props: ContributeFormProps) => {
             return false;
           }}
           defaultValue={
-            moduleCodeQueryParam
+            moduleCode
               ? {
-                  value: moduleCodeQueryParam,
-                  label: moduleCodeQueryParam,
+                  value: moduleCode,
+                  label: moduleCode,
                 }
               : undefined
           }
@@ -313,9 +308,7 @@ const ContributeForm = (props: ContributeFormProps) => {
             onChange={examTypeSelectHandler}
             options={props.examTypeOptions}
             defaultValue={
-              examTypeQueryParam
-                ? { value: examTypeQueryParam, label: examTypeQueryParam }
-                : undefined
+              examType ? { value: examType, label: examType } : undefined
             }
           />
         )}

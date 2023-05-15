@@ -5,22 +5,26 @@ import {
   semesterOptions,
   examTypeOptions,
   ResourceType,
+  ResourceTypeURL,
   sortOptions,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
   category: ResourceType;
   moduleCodeOptions?: Option[];
+  params: { moduleCode: string; category: ResourceTypeURL };
 }
 
 export default function ResourceFilters({
   acadYearOptions,
   category,
   moduleCodeOptions,
+  params,
 }: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -64,16 +68,11 @@ export default function ResourceFilters({
     }
   };
 
+  const segments = usePathname();
   const sortQueryParam = queryParams?.get("sort");
   const acadYearQueryParam = queryParams?.get("filterAcadYear");
   const semesterQueryParam = queryParams?.get("filterSemester");
   const examTypeQueryParam = queryParams?.get("filterExamType");
-
-  console.log(queryParams?.getAll.toString());
-
-  const getContributeLink = () => {
-    return "/addPDF/" + "past_papers" + "?filterModuleCode=";
-  };
 
   return (
     <div className="flex w-full flex-col items-center gap-x-4 gap-y-4">
@@ -170,7 +169,14 @@ export default function ResourceFilters({
       )}
 
       <Link
-        href={getContributeLink()}
+        href={
+          "/addPDF/" +
+          params.category +
+          "/?filterModuleCode=" +
+          params.moduleCode +
+          "&" +
+          queryParams?.toString()
+        }
         className="rounded-md border border-white bg-slate-700 p-2 text-white"
       >
         Contribute
