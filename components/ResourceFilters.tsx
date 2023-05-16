@@ -10,7 +10,7 @@ import {
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
-import Link from "next/link";
+import ContributeButton from "@/components/ContributeButton";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
@@ -166,19 +166,13 @@ export default function ResourceFilters({
         />
       )}
 
-      <Link
-        href={
-          "/addPDF/" +
-          urlParams?.category +
-          "/?filterModuleCode=" +
-          urlParams?.moduleCode +
-          "&" +
-          queryParams?.toString()
-        }
-        className="absolute right-16 top-12 rounded-md border border-white bg-slate-700 p-2 font-semibold text-white"
-      >
-        Contribute
-      </Link>
+      {urlParams && (
+        <ContributeButton
+          category={urlParams.category}
+          moduleCode={urlParams.moduleCode}
+          queryParams={queryParams?.toString()}
+        />
+      )}
     </div>
   );
 }
