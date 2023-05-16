@@ -51,7 +51,7 @@ export default function PDFSheetLauncher({
         setQueryParams({ id: resourceId });
       }}
     >
-      <SheetTrigger className="h-full w-full py-2">
+      <SheetTrigger className="h-full w-full py-3">
         <div className="flex items-center">
           <ResourceRating
             category={category}
