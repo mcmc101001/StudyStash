@@ -16,14 +16,14 @@ interface ResourceFiltersProps {
   acadYearOptions: Option[];
   category: ResourceType;
   moduleCodeOptions?: Option[];
-  params: { moduleCode: string; category: ResourceTypeURL };
+  urlParams?: { moduleCode: string; category: ResourceTypeURL };
 }
 
 export default function ResourceFilters({
   acadYearOptions,
   category,
   moduleCodeOptions,
-  params,
+  urlParams,
 }: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -169,9 +169,9 @@ export default function ResourceFilters({
       <Link
         href={
           "/addPDF/" +
-          params.category +
+          urlParams?.category +
           "/?filterModuleCode=" +
-          params.moduleCode +
+          urlParams?.moduleCode +
           "&" +
           queryParams?.toString()
         }
