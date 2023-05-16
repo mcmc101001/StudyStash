@@ -2,6 +2,7 @@
 
 import { updateDifficultyType } from "@/pages/api/updateDifficulty";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsStarFill, BsStar } from "react-icons/bs";
@@ -30,6 +31,8 @@ export default function RateDifficulty({
     return req;
   }
 
+  let router = useRouter();
+
   const [difficulty, setDifficulty] = useState(userDifficulty);
   const [hovered, setHovered] = useState(0);
 
@@ -53,6 +56,7 @@ export default function RateDifficulty({
         }
       }
     }
+    router.refresh();
   };
 
   const stars = [1, 2, 3, 4, 5];

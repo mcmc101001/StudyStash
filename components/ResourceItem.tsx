@@ -209,7 +209,7 @@ export default async function ResourceItem({
   }
 
   return (
-    <div className="flex h-24 flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+    <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
       {currentUser && (
         <ResourceStatusComponent
           category={category}
@@ -219,7 +219,7 @@ export default async function ResourceItem({
         />
       )}
 
-      <div className="box-border h-full w-full overflow-hidden">
+      <div className="flex h-full w-full overflow-hidden">
         <ResourceSheetLauncher
           resourceId={resourceId}
           title={name}
@@ -229,7 +229,7 @@ export default async function ResourceItem({
           userRating={userVote !== null ? userVote.value : null}
           userDifficulty={userDifficulty}
         >
-          <div className="ml-3 space-y-2 overflow-hidden text-ellipsis pr-4">
+          <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
             <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
               {name}
             </p>
@@ -243,7 +243,7 @@ export default async function ResourceItem({
               })}
             </p>
           </div>
-          <div className="ml-auto space-y-2">
+          <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">
               {category !== "Notes" ? `${examType}, ` : ""}
               {`${acadYear} S${semester}`}
@@ -263,7 +263,7 @@ export default async function ResourceItem({
       {category === "Past Papers" && (
         <div className="flex h-full items-center justify-center">
           <Separator
-            className="mx-4 my-2 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
+            className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
             orientation="vertical"
           />
           <DifficultyDisplayDialog
@@ -276,7 +276,7 @@ export default async function ResourceItem({
       {deletable && currentUser?.id === userId && (
         <div className="flex h-full items-center justify-center">
           <Separator
-            className="mx-4 my-2 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
+            className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
             orientation="vertical"
           />
           <ResourceDeleteButton
