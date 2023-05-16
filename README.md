@@ -26,6 +26,8 @@ We hope to make the stressful process of preparing for quizzes, midterms and fin
 
 ## Features
 
+Desktop app like feel instead of web page, main page non scrollable
+
 ## Overall navigation flow
 
 show diagram of routing and workflow
@@ -46,19 +48,33 @@ show database relationships
 
 ### Zod
 
+## User experience
+
+### Instant feedback
+
+### Transitions and animations
+
 ## Software Engineering Practices
 
 ### Version control
 
 #### Branching
 
+The master branch is a protected branch containing contains the code used in production, and code cannot be pushed into it directly, instead requiring a pull request to be made before merging, as well as approval by the partner as the code reviewer, as well as passing status checks such as GitGuardian (see Security Measures)
+
+For code review, we come together and discuss the changes to ensure everyone is on the same page.
+
 #### Pull requests
 
-### Git issues
+### Github Issues
+
+### Github Projects
 
 ### Two-week Sprints
 
 ### Security Measures
+
+#### Protect API routes with server side validation and authentication
 
 ### CI/CD
 
@@ -73,3 +89,11 @@ show database relationships
 ## Limitations
 
 ## Challenges
+
+### State Management
+
+#### Jotai
+
+### Edge cases
+
+1. long names causing layout shifts, solution: overflow

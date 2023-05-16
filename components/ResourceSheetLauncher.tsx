@@ -11,9 +11,10 @@ import {
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
-import Rating from "@/components/Rating";
+import ResourceRating from "@/components/ResourceRating";
 import { ResourceType } from "@/lib/content";
 import DifficultyRating from "@/components/DifficultyRating";
+import { atom } from "jotai";
 
 interface PDFSheetLauncherProps {
   children: React.ReactNode;
@@ -36,6 +37,9 @@ export default function PDFSheetLauncher({
   userRating,
   userDifficulty,
 }: PDFSheetLauncherProps) {
+  const ratingAtom = atom<number>(totalRating);
+  const userRatingAtom = atom<boolean | null>(userRating);
+
   const { queryParams, setQueryParams } = useQueryParams();
   const router = useRouter();
   const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${resourceId}`;
@@ -47,7 +51,18 @@ export default function PDFSheetLauncher({
         setQueryParams({ id: resourceId });
       }}
     >
-      <SheetTrigger className="h-full w-full">{children}</SheetTrigger>
+      <SheetTrigger className="h-full w-full py-3">
+        <div className="flex items-center">
+          <ResourceRating
+            category={category}
+            resourceId={resourceId}
+            currentUserId={currentUserId}
+            ratingAtom={ratingAtom}
+            userRatingAtom={userRatingAtom}
+          />
+          {children}
+        </div>
+      </SheetTrigger>
       <SheetContent
         size={"xl"}
         onEscapeKeyDown={router.back}
@@ -55,11 +70,11 @@ export default function PDFSheetLauncher({
       >
         <SheetHeader>
           <SheetTitle className="flex flex-row items-center gap-x-4">
-            <Rating
+            <ResourceRating
               category={category}
               currentUserId={currentUserId}
-              totalRating={totalRating}
-              userRating={userRating}
+              ratingAtom={ratingAtom}
+              userRatingAtom={userRatingAtom}
               resourceId={resourceId}
             />
             <div className="overflow-scroll scrollbar-none">{title}</div>

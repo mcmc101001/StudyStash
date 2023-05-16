@@ -6,13 +6,14 @@ import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import PDFUploader from "@/components/PDFUploader";
 import Button from "@/components/ui/Button";
-import { Trash2 } from "lucide-react";
+import { Trash2, Upload } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
 import { ResourceType } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { ExamType } from "@prisma/client";
 import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
 import { deletePDFType } from "@/pages/api/deletePDF";
+import useQueryParams from "@/hooks/useQueryParams";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -22,15 +23,27 @@ interface ContributeFormProps {
   semesterOptions: Array<Option>;
   examTypeOptions: Array<Option> | null;
   resourceType: ResourceType;
-  userID: string;
+  userId: string;
 }
 
 const ContributeForm = (props: ContributeFormProps) => {
-  const [acadYear, setAcadYear] = useState<string | null>(null);
-  const [semester, setSemester] = useState<string | null>(null);
-  const [moduleCode, setModuleCode] = useState<string | null>(null);
-  const [examType, setExamType] = useState<ExamType | null>(null);
+  const { queryParams, setQueryParams } = useQueryParams();
+  const [acadYear, setAcadYear] = useState<string | null>(
+    queryParams?.get("filterAcadYear") ?? null
+  );
+  const [semester, setSemester] = useState<string | null>(
+    queryParams?.get("filterSemester") ?? null
+  );
+  const [moduleCode, setModuleCode] = useState<string | null>(
+    queryParams?.get("filterModuleCode") ?? null
+  );
+  const [examType, setExamType] = useState<ExamType | null>(
+    (queryParams?.get("filterExamType") as ExamType) ?? null
+  );
   const [fileName, setFileName] = useState<string | null>(null);
+  const [solutionIncluded, setSolutionIncluded] = useState<boolean | null>(
+    null
+  );
   const [isDisabled, setIsDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -107,7 +120,8 @@ const ContributeForm = (props: ContributeFormProps) => {
         semester: semester,
         moduleCode: moduleCode,
         examType: examType ? examType : undefined,
-        userID: props.userID,
+        userId: props.userId,
+        solutionIncluded: solutionIncluded ? solutionIncluded : undefined,
         resourceType: props.resourceType,
       };
       let { data } = await axios.post("/api/addPDF", body);
@@ -121,7 +135,10 @@ const ContributeForm = (props: ContributeFormProps) => {
         return;
       }
       try {
-        let body: generateS3PutURLType = { name: pdfEntryPrismaId };
+        let body: generateS3PutURLType = {
+          userId: props.userId,
+          name: pdfEntryPrismaId,
+        };
         let { data } = await axios.post("/api/generateS3PutURL", body);
 
         const url = data.url;
@@ -139,6 +156,7 @@ const ContributeForm = (props: ContributeFormProps) => {
         // Delete the database entry if s3 upload fails
         try {
           let body: deletePDFType = {
+            userId: props.userId,
             id: pdfEntryPrismaId,
             category: props.resourceType,
           };
@@ -202,6 +220,16 @@ const ContributeForm = (props: ContributeFormProps) => {
     }
   };
 
+  const solutionsIncludedSelectHandler = (option: Option | null) => {
+    if (option?.value === "Included") {
+      setSolutionIncluded(true);
+    } else if (option?.value === "Excluded") {
+      setSolutionIncluded(false);
+    } else {
+      setSolutionIncluded(null);
+    }
+  };
+
   return (
     <form
       id="contributeForm"
@@ -214,12 +242,23 @@ const ContributeForm = (props: ContributeFormProps) => {
           placeholderText="Select Acad Year"
           onChange={acadYearSelectHandler}
           options={props.acadYearOptions}
+          defaultValue={
+            acadYear ? { value: acadYear, label: acadYear } : undefined
+          }
         />
         <StyledSelect
           label="Semester"
           placeholderText="Select Semester"
           onChange={semesterSelectHandler}
           options={props.semesterOptions}
+          defaultValue={
+            semester
+              ? {
+                  value: semester,
+                  label: `Semester ${semester}`,
+                }
+              : undefined
+          }
         />
         <StyledSelect
           label="Module Code"
@@ -253,6 +292,14 @@ const ContributeForm = (props: ContributeFormProps) => {
             }
             return false;
           }}
+          defaultValue={
+            moduleCode
+              ? {
+                  value: moduleCode,
+                  label: moduleCode,
+                }
+              : undefined
+          }
         />
         {props.examTypeOptions !== null && (
           <StyledSelect
@@ -260,29 +307,45 @@ const ContributeForm = (props: ContributeFormProps) => {
             placeholderText="Select Exam Type"
             onChange={examTypeSelectHandler}
             options={props.examTypeOptions}
+            defaultValue={
+              examType ? { value: examType, label: examType } : undefined
+            }
+          />
+        )}
+        {props.resourceType === "Past Papers" && (
+          <StyledSelect
+            label="Solutions"
+            placeholderText="Select Included/Excluded"
+            onChange={solutionsIncludedSelectHandler}
+            options={[
+              { value: "Included", label: "Included" },
+              { value: "Excluded", label: "Excluded" },
+            ]}
           />
         )}
       </div>
-      <div className="flex w-1/3 flex-col items-center justify-center gap-y-6">
+
+      <div className="flex h-full min-h-[20rem] w-1/3 flex-col items-center justify-center gap-y-3 pt-7">
         <PDFUploader
           fileDropHandler={fileDropHandler}
           fileSelectedHandler={fileSelectedHandler}
           fileName={fileName}
           inputRef={inputRef}
         />
-        <section className="flex w-full flex-row items-center justify-between">
+        <section className="flex w-full flex-row items-center justify-between gap-2">
           <Button
-            size="sm"
             variant="default"
             isLoading={isDisabled}
             type="submit"
             form="contributeForm"
+            className="w-1/2 gap-1 text-lg"
           >
-            Upload
+            <Upload size={25} /> <p>Upload</p>
           </Button>
-          <Trash2
-            className="cursor-pointer text-slate-800 dark:text-slate-200"
-            size={20}
+          <Button
+            variant="dangerous"
+            type="button"
+            className="w-1/2 gap-1 text-lg"
             onClick={() => {
               setFileName(null);
               setFile(null);
@@ -291,7 +354,9 @@ const ContributeForm = (props: ContributeFormProps) => {
                 inputRef.current.value = "";
               }
             }}
-          />
+          >
+            <Trash2 size={25} /> <p>Clear PDF</p>
+          </Button>
         </section>
       </div>
     </form>

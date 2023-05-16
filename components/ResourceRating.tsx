@@ -1,27 +1,27 @@
 "use client";
 
-import { useState } from "react";
 import { ArrowBigUp, ArrowBigDown } from "lucide-react";
 import { ResourceType } from "@/lib/content";
 import axios from "axios";
 import { updateVoteType } from "@/pages/api/updateVote";
 import { toast } from "react-hot-toast";
+import { PrimitiveAtom, useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
 interface RatingProps {
   category: ResourceType;
   resourceId: string;
   currentUserId: string | null;
-  totalRating: number;
-  userRating: boolean | null;
+  ratingAtom: PrimitiveAtom<number>;
+  userRatingAtom: PrimitiveAtom<boolean | null>;
 }
 
 export default function Rating({
   category,
   resourceId,
   currentUserId,
-  totalRating,
-  userRating,
+  ratingAtom,
+  userRatingAtom,
 }: RatingProps) {
   async function updateVote(value: boolean | null) {
     if (!currentUserId) {
@@ -39,10 +39,10 @@ export default function Rating({
 
   let router = useRouter();
 
-  let [ratingState, setRatingState] = useState(totalRating);
-  let [userRatingState, setUserRatingState] = useState(userRating);
+  let [ratingState, setRatingState] = useAtom(ratingAtom);
+  let [userRatingState, setUserRatingState] = useAtom(userRatingAtom);
 
-  const handleUpvote = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleUpvote = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation(); // stops button click from propogating up parent
     // not logged in
     if (currentUserId === null) {
@@ -77,7 +77,7 @@ export default function Rating({
     router.refresh();
   };
 
-  const handleDownvote = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDownvote = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (currentUserId === null) {
       toast.error("You must be logged in to vote!");
@@ -114,7 +114,7 @@ export default function Rating({
   return (
     <div className="flex flex-row items-center">
       <div className="flex flex-col items-center">
-        <button onClick={(e) => handleUpvote(e)}>
+        <div className="cursor-pointer" onClick={(e) => handleUpvote(e)}>
           <ArrowBigUp
             className={
               " " +
@@ -123,11 +123,12 @@ export default function Rating({
                 : "fill-none hover:text-orange-500")
             }
           />
-        </button>
+        </div>
+        {/* Format total rating to 3K, 2.2M, etc version */}
         {Intl.NumberFormat("en-GB", { notation: "compact" }).format(
           ratingState
         )}
-        <button onClick={(e) => handleDownvote(e)}>
+        <div className="cursor-pointer" onClick={(e) => handleDownvote(e)}>
           <ArrowBigDown
             className={
               " " +
@@ -136,9 +137,8 @@ export default function Rating({
                 : "fill-none hover:text-blue-600")
             }
           />
-        </button>
+        </div>
       </div>
-      {/* Format total rating to 3K, 2.2M, etc version */}
     </div>
   );
 }

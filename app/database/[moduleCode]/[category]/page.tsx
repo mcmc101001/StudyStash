@@ -182,7 +182,6 @@ export default async function Page({
       FilterExamType,
       userId: undefined,
     });
-    console.log("FETCHED DATA");
   } else {
     redirect("/404");
   }
@@ -209,10 +208,10 @@ export default async function Page({
   }
 
   return (
-    <div className="flex h-[70vh] flex-row justify-between gap-x-4 text-slate-800 dark:text-slate-200">
+    <div className="flex h-[70vh] flex-row gap-x-4 text-slate-800 dark:text-slate-200">
       {sortedResources.length !== 0 ? (
         <div
-          className="flex w-4/5 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
+          className="flex h-full w-4/5 flex-col gap-y-6 overflow-y-scroll scroll-smooth pr-5 
           scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
           style={{ scrollbarGutter: "stable" }}
@@ -253,6 +252,7 @@ export default async function Page({
         <ResourceFilters
           acadYearOptions={acadYearOptions}
           category={category}
+          urlParams={params}
         />
       </div>
     </div>

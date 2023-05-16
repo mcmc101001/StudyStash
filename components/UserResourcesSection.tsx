@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
-import UserResourceTab from "./UserResourceTab";
+import UserResourceTab from "@/components/UserResourceTab";
 import { ResourceOptions, ResourceType, ResourceTypeURL } from "@/lib/content";
-import ResourceFilters from "./ResourceFilters";
+import ResourceFilters from "@/components/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
 import { ExamType } from "@prisma/client";
 import {
@@ -11,10 +11,6 @@ import {
   getQuestionPapersWithPosts,
   getRating,
 } from "@/app/database/[moduleCode]/[category]/page";
-import { deleteS3ObjectType } from "@/pages/api/deleteS3Object";
-import axios from "axios";
-import { deletePDFType } from "@/pages/api/deletePDF";
-import { toast } from "react-hot-toast";
 
 interface UserResourcesSectionProps {
   profileUserId: string;
@@ -105,7 +101,7 @@ export default async function UserResourcesSection({
         ) : (
           <>
             <div
-              className="flex w-3/4 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
+              className="flex w-4/5 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
           scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
               style={{ scrollbarGutter: "stable" }}
@@ -146,7 +142,7 @@ export default async function UserResourcesSection({
                 </div>
               )}
             </div>
-            <div className="w-1/4">
+            <div className="w-1/5">
               <ResourceFilters
                 acadYearOptions={acadYearOptions}
                 category={category}

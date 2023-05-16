@@ -12,7 +12,8 @@ const addPDFSchema = z.object({
   semester: z.string(),
   moduleCode: z.string(),
   examType: z.nativeEnum(ExamType).optional(),
-  userID: z.string(),
+  userId: z.string(),
+  solutionIncluded: z.boolean().optional(),
   resourceType: ResourceEnum,
 });
 
@@ -40,12 +41,16 @@ export default async function addPDF(
     console.log(req.body);
     return res.status(400).json({ message: "Invalid request body" });
   }
+  if (session.user.id !== req.body.userId) {
+    res.status(401).json({ message: "You are not authorized." });
+    return;
+  }
   try {
     let {
       name,
       acadYear,
       semester,
-      userID,
+      userId,
       moduleCode,
       examType,
       resourceType,
@@ -58,7 +63,7 @@ export default async function addPDF(
           data: {
             acadYear: acadYear,
             semester: semester,
-            userId: userID,
+            userId: userId,
             moduleCode: moduleCode,
             type: examType,
             name: name,
@@ -74,7 +79,7 @@ export default async function addPDF(
           data: {
             acadYear: acadYear,
             semester: semester,
-            userId: userID,
+            userId: userId,
             moduleCode: moduleCode,
             type: examType,
             name: name,
@@ -87,7 +92,7 @@ export default async function addPDF(
         data: {
           acadYear: acadYear,
           semester: semester,
-          userId: userID,
+          userId: userId,
           moduleCode: moduleCode,
           name: name,
         },

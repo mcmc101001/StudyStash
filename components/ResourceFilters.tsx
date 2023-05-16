@@ -5,21 +5,25 @@ import {
   semesterOptions,
   examTypeOptions,
   ResourceType,
+  ResourceTypeURL,
   sortOptions,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
+import Link from "next/link";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
   category: ResourceType;
   moduleCodeOptions?: Option[];
+  urlParams?: { moduleCode: string; category: ResourceTypeURL };
 }
 
 export default function ResourceFilters({
   acadYearOptions,
   category,
   moduleCodeOptions,
+  urlParams,
 }: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -87,7 +91,7 @@ export default function ResourceFilters({
       {moduleCodeOptions !== undefined && (
         <StyledSelect
           label="Select Module Code"
-          placeholderText="Select Module Code"
+          placeholderText="Module Code"
           onChange={handleModuleCodeChange}
           options={moduleCodeOptions}
           labelExists={false}
@@ -122,7 +126,7 @@ export default function ResourceFilters({
       )}
       <StyledSelect
         label="Select Acad Year"
-        placeholderText="Select Acad Year"
+        placeholderText="Acad Year"
         options={acadYearOptions}
         onChange={handleAcadYearChange}
         labelExists={false}
@@ -134,7 +138,7 @@ export default function ResourceFilters({
       />
       <StyledSelect
         label="Select Semester"
-        placeholderText="Select Semester"
+        placeholderText="Semester"
         options={semesterOptions}
         onChange={handleSemesterChange}
         labelExists={false}
@@ -150,7 +154,7 @@ export default function ResourceFilters({
       {category !== "Notes" && (
         <StyledSelect
           label="Select Exam Type"
-          placeholderText="Select Exam Type"
+          placeholderText="Exam Type"
           options={examTypeOptions}
           onChange={handleExamTypeChange}
           labelExists={false}
@@ -161,6 +165,20 @@ export default function ResourceFilters({
           }
         />
       )}
+
+      <Link
+        href={
+          "/addPDF/" +
+          urlParams?.category +
+          "/?filterModuleCode=" +
+          urlParams?.moduleCode +
+          "&" +
+          queryParams?.toString()
+        }
+        className="absolute right-16 top-12 rounded-md border border-white bg-slate-700 p-2 font-semibold text-white"
+      >
+        Contribute
+      </Link>
     </div>
   );
 }

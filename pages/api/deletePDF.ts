@@ -6,6 +6,7 @@ import { ResourceEnum } from "@/lib/content";
 import z from "zod";
 
 const deletePDFSchema = z.object({
+  userId: z.string(),
   id: z.string(),
   category: ResourceEnum,
 });
@@ -32,6 +33,10 @@ export default async function deletePDF(
   }
   if (!isValidBody(req.body)) {
     return res.status(400).json({ message: "Invalid request body" });
+  }
+  if (session.user.id !== req.body.userId) {
+    res.status(401).json({ message: "You are not authorized." });
+    return;
   }
   try {
     let { id, category } = req.body;

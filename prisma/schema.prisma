@@ -58,6 +58,9 @@ model User {
   notesVotes              NotesVote[]
   questionPaperDifficulty QuestionPaperDifficulty[]
   starredModules          StarredModules[]
+  cheatsheetStatuses      CheatsheetStatus[]
+  questionPaperStatuses   QuestionPaperStatus[]
+  notesStatuses           NotesStatus[]
 }
 
 model VerificationToken {
@@ -69,46 +72,50 @@ model VerificationToken {
 }
 
 model Cheatsheet {
-  id            String           @id @default(cuid())
+  id            String             @id @default(cuid())
   name          String
-  createdAt     DateTime         @default(now())
-  userSubmitted User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime           @default(now())
+  userSubmitted User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
   moduleCode    String
   acadYear      String
   semester      String
   type          ExamType
   votes         CheatsheetVote[]
+  statuses      CheatsheetStatus[]
 
   @@index([userId])
 }
 
 model QuestionPaper {
-  id            String                    @id @default(cuid())
-  name          String
-  createdAt     DateTime                  @default(now())
-  userSubmitted User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String
-  moduleCode    String
-  acadYear      String
-  semester      String
-  type          ExamType
-  votes         QuestionPaperVote[]
-  difficulties  QuestionPaperDifficulty[]
+  id               String                    @id @default(cuid())
+  name             String
+  createdAt        DateTime                  @default(now())
+  userSubmitted    User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String
+  moduleCode       String
+  acadYear         String
+  semester         String
+  solutionIncluded Boolean                   @default(false)
+  type             ExamType
+  votes            QuestionPaperVote[]
+  difficulties     QuestionPaperDifficulty[]
+  statuses         QuestionPaperStatus[]
 
   @@index([userId])
 }
 
 model Notes {
-  id            String      @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String
-  createdAt     DateTime    @default(now())
-  userSubmitted User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime      @default(now())
+  userSubmitted User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
   moduleCode    String
   acadYear      String
   semester      String
   votes         NotesVote[]
+  statuses      NotesStatus[]
 
   @@index([userId])
 }
@@ -149,6 +156,42 @@ model NotesVote {
   @@index([resourceId])
 }
 
+model CheatsheetStatus {
+  status     ResourceStatus
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   Cheatsheet     @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@unique([userId, resourceId])
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model QuestionPaperStatus {
+  status     ResourceStatus
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   QuestionPaper  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@unique([userId, resourceId])
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model NotesStatus {
+  status     ResourceStatus
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   Notes          @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@unique([userId, resourceId])
+  @@index([userId])
+  @@index([resourceId])
+}
+
 model QuestionPaperDifficulty {
   value      Int
   user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -177,4 +220,10 @@ enum ExamType {
   Assignment
   PE
   Other
+}
+
+enum ResourceStatus {
+  Completed
+  Todo
+  Saved
 }
