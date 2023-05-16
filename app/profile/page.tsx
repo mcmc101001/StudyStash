@@ -7,6 +7,6 @@ export default async function ProfilePage() {
   if (!user) {
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
   } else {
-    redirect(`/profile/${user.id}`);
+    redirect(`/profile/${user.id}?filterCategory=cheatsheets`);
   }
 }

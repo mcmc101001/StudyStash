@@ -17,7 +17,11 @@ describe("Module Searcher", () => {
     expect(input).toBeInTheDocument();
   });
   it("should show module list with correct number on user input CS", async () => {
-    (useSelectedLayoutSegments as jest.Mock).mockReturnValue([]);
+    (
+      useSelectedLayoutSegments as jest.MockedFunction<
+        typeof useSelectedLayoutSegments
+      >
+    ).mockReturnValue([]);
 
     render(<ModuleSearcher moduleCodes={mock_module_codes} />);
     const input = screen.getByRole("textbox");

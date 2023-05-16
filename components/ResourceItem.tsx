@@ -263,7 +263,7 @@ export default async function ResourceItem({
       {category === "Past Papers" && (
         <div className="flex h-full items-center justify-center">
           <Separator
-            className="mx-4 my-2 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
+            className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
             orientation="vertical"
           />
           <DifficultyDisplayDialog
@@ -276,7 +276,7 @@ export default async function ResourceItem({
       {deletable && currentUser?.id === userId && (
         <div className="flex h-full items-center justify-center">
           <Separator
-            className="mx-4 my-2 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
+            className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
             orientation="vertical"
           />
           <ResourceDeleteButton
