@@ -20,7 +20,7 @@ import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "./ui/Separator";
 
 /*************** DATA FETCHING CODE ****************/
-async function getCheatsheetVote(userId: string, resourceId: string) {
+export async function getCheatsheetVote(userId: string, resourceId: string) {
   const res = await prisma.cheatsheetVote.findUnique({
     where: {
       userId_resourceId: {
@@ -32,7 +32,7 @@ async function getCheatsheetVote(userId: string, resourceId: string) {
   return res;
 }
 
-async function getNotesVote(userId: string, resourceId: string) {
+export async function getNotesVote(userId: string, resourceId: string) {
   const res = await prisma.notesVote.findUnique({
     where: {
       userId_resourceId: {
@@ -44,7 +44,7 @@ async function getNotesVote(userId: string, resourceId: string) {
   return res;
 }
 
-async function getQuestionPaperVote(userId: string, resourceId: string) {
+export async function getQuestionPaperVote(userId: string, resourceId: string) {
   const res = await prisma.questionPaperVote.findUnique({
     where: {
       userId_resourceId: {
@@ -56,7 +56,7 @@ async function getQuestionPaperVote(userId: string, resourceId: string) {
   return res;
 }
 
-async function getCheatsheetStatus(userId: string, resourceId: string) {
+export async function getCheatsheetStatus(userId: string, resourceId: string) {
   const res = await prisma.cheatsheetStatus.findUnique({
     where: {
       userId_resourceId: {
@@ -68,7 +68,7 @@ async function getCheatsheetStatus(userId: string, resourceId: string) {
   return res;
 }
 
-async function getNotesStatus(userId: string, resourceId: string) {
+export async function getNotesStatus(userId: string, resourceId: string) {
   const res = await prisma.notesStatus.findUnique({
     where: {
       userId_resourceId: {
@@ -80,7 +80,10 @@ async function getNotesStatus(userId: string, resourceId: string) {
   return res;
 }
 
-async function getQuestionPaperStatus(userId: string, resourceId: string) {
+export async function getQuestionPaperStatus(
+  userId: string,
+  resourceId: string
+) {
   const res = await prisma.questionPaperStatus.findUnique({
     where: {
       userId_resourceId: {
@@ -92,7 +95,7 @@ async function getQuestionPaperStatus(userId: string, resourceId: string) {
   return res;
 }
 
-async function getDifficulty(resourceId: string) {
+export async function getDifficulty(resourceId: string) {
   const res = prisma.questionPaperDifficulty.aggregate({
     where: {
       resourceId: resourceId,
@@ -104,7 +107,7 @@ async function getDifficulty(resourceId: string) {
   return res;
 }
 
-async function getUserDifficulty(userId: string, resourceId: string) {
+export async function getUserDifficulty(userId: string, resourceId: string) {
   const res = prisma.questionPaperDifficulty.findUnique({
     where: {
       userId_resourceId: {
@@ -157,7 +160,7 @@ export default async function ResourceItem({
   let avgDifficulty: number = 0;
   let userDifficulty: number = 0;
 
-  // If user is signed in, get user vote as well, otherwise just get total votes
+  // If user is signed in, get user vote as well as user status
 
   if (category === "Cheatsheets") {
     if (currentUser) {

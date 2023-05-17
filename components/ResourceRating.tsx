@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 import { PrimitiveAtom, useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
-interface RatingProps {
+interface ResourceRatingProps {
   category: ResourceType;
   resourceId: string;
   currentUserId: string | null;
@@ -16,13 +16,13 @@ interface RatingProps {
   userRatingAtom: PrimitiveAtom<boolean | null>;
 }
 
-export default function Rating({
+export default function ResourceRating({
   category,
   resourceId,
   currentUserId,
   ratingAtom,
   userRatingAtom,
-}: RatingProps) {
+}: ResourceRatingProps) {
   async function updateVote(value: boolean | null) {
     if (!currentUserId) {
       return null;
