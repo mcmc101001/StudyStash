@@ -69,6 +69,10 @@ show diagram of routing and workflow
 
 ## Wireframe
 
+<img width="825" alt="image" src="https://github.com/mcmc101001/Orbital2023/assets/96778937/9a22da1d-76a1-4b63-9d54-50db0340e3c2">
+
+Sketches were created using Excalidraw.
+
 ## UML Diagrams
 
 ## Model Entity Relationship Diagram
@@ -113,15 +117,21 @@ We intend to use Cypress to conduct E2E tests.
 
 ### Version control
 
+<img width="696" alt="image" src="https://github.com/mcmc101001/Orbital2023/assets/96778937/fb4989fb-406f-4b84-a863-ec499d2fa934">
+
 The remote master branch is a protected branch containing contains the code used in production, and code cannot be pushed into it directly, instead requiring a pull request to be made before merging, as well as approval by the partner as the code reviewer, as well as passing status checks such as GitGuardian (see Security Measures)
 
 For code review, we come together and discuss the changes to ensure everyone is on the same page.
 
 ### Github Issues
 
+<img width="935" alt="image" src="https://github.com/mcmc101001/Orbital2023/assets/96778937/747255a6-f795-4518-9056-b76637d2c0e0">
+
 Github Issues was used to keep track of any bugs in the application and features we wanted to implement. Labels were included to more easily identify the type of issues, be it bugs, features or something we would like to revisit.
 
 ### Github Projects
+
+<img width="966" alt="image" src="https://github.com/mcmc101001/Orbital2023/assets/96778937/0e28a4e3-56ca-42bb-b332-971fd07b3b53">
 
 We used Github Projects, which was highly integrated with Github Issues to have a spreadsheet like field of all the issues (and features) and their statuses, making it easy to keep track of the progress of the project.
 
@@ -150,6 +160,8 @@ To protect our API routes, we would also validate the authenticity of the reques
 ESLint was used to perform static analysis of the code to identify stylistic errors and potential bugs, while Prettier was used to format the code on save to boost productivity and ensure consistent code formatting. Config files for both were included in the repository to ensure consistency across all contributors.
 
 ### CI/CD
+
+<img width="977" alt="image" src="https://github.com/mcmc101001/Orbital2023/assets/96778937/689e6091-9d63-42a0-8f66-e4b124e9b0c1">
 
 Github Actions and Vercel was utilised to perform Continuous Integration and Continuous Deployment. The CI workflow was triggered on every push to the repository, and would run the production build, followed by unit tests and linting. The CD workflow was triggered on every push to the main branch, and would deploy the application to Vercel.
 
