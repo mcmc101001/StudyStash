@@ -184,7 +184,9 @@ export default async function ResourcePage({
       </ResizableDiv>
       <div className="m-10 w-full">
         {categoryURL === "past_papers" ? (
-          <SolutionTab solutionTabOptions={solutionTabOptions} />
+          <div className="mx-auto w-5/6">
+            <SolutionTab solutionTabOptions={solutionTabOptions} />
+          </div>
         ) : (
           <h1 className="text-2xl text-slate-800 dark:text-slate-200">
             Comments
