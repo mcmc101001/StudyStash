@@ -38,7 +38,6 @@ export default async function addPDF(
     return;
   }
   if (!isValidBody(req.body)) {
-    console.log(req.body);
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

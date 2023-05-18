@@ -5,6 +5,14 @@ import { z } from "zod";
 export const ResourceEnum = z.enum(["Cheatsheets", "Past Papers", "Notes"]);
 export type ResourceType = z.infer<typeof ResourceEnum>;
 
+export const ResourceSolutionEnum = z.enum([
+  "Cheatsheets",
+  "Past Papers",
+  "Notes",
+  "Solutions",
+]);
+export type ResourceSolutionType = z.infer<typeof ResourceSolutionEnum>;
+
 export const ResourceEnumURL = z.enum(["cheatsheets", "past_papers", "notes"]);
 export type ResourceTypeURL = z.infer<typeof ResourceEnumURL>;
 
@@ -29,6 +37,45 @@ export const ResourceOptions: ResourceOptionsProps[] = [
     name: "Notes",
     href: "notes",
     icon: "FileSignature",
+  },
+];
+
+export const solutionTabEnum = z.enum([
+  "Solutions",
+  "Comments",
+  "Submit solution",
+]);
+
+export type solutionTabType = z.infer<typeof solutionTabEnum>;
+
+export const solutionTabURLEnum = z.enum([
+  "solutions",
+  "comments",
+  "contribute",
+]);
+export type solutionTabURLType = z.infer<typeof solutionTabURLEnum>;
+
+export interface solutionOptionsProps {
+  buttonName: string;
+  tabName: solutionTabType;
+  href: solutionTabURLType;
+}
+
+export const solutionTabOptions: solutionOptionsProps[] = [
+  {
+    buttonName: "View Solutions",
+    tabName: "Solutions",
+    href: "solutions",
+  },
+  {
+    buttonName: "View Comments",
+    tabName: "Comments",
+    href: "comments",
+  },
+  {
+    buttonName: "Submit solution",
+    tabName: "Submit solution",
+    href: "contribute",
   },
 ];
 

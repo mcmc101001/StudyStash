@@ -1,11 +1,11 @@
 "use client";
 
-import { ResourceType } from "@/lib/content";
+import { ResourceSolutionType } from "@/lib/content";
 import { atom } from "jotai";
 import ResourceRating from "@/components/ResourceRating";
 
 interface ResourceRatingProviderProps {
-  category: ResourceType;
+  category: ResourceSolutionType;
   resourceId: string;
   currentUserId: string | null;
   totalRating: number;

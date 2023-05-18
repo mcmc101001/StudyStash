@@ -28,6 +28,8 @@ import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
+import SolutionTab from "@/components/SolutionTab";
+import { solutionTabOptions } from "@/lib/content";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },
@@ -141,7 +143,7 @@ export default async function ResourcePage({
 
   return (
     <div className="flex h-full overflow-hidden">
-      <ResizableDiv className="flex flex-col text-slate-800 dark:text-slate-200">
+      <ResizableDiv className="flex max-w-[40vw] flex-col text-slate-800 dark:text-slate-200">
         <Link
           href={`/database/${resource.moduleCode}/${categoryURL}?id=${resourceId}`}
         >
@@ -177,10 +179,19 @@ export default async function ResourcePage({
           className="mt-4"
           src={PDFURL}
           width="100%"
-          height="600px"
+          height="100%"
         ></iframe>
       </ResizableDiv>
-      <div className="m-10 w-full border border-white">{children}</div>
+      <div className="m-10 w-full">
+        {categoryURL === "past_papers" ? (
+          <SolutionTab solutionTabOptions={solutionTabOptions} />
+        ) : (
+          <h1 className="text-2xl text-slate-800 dark:text-slate-200">
+            Comments
+          </h1>
+        )}
+        {children}
+      </div>
     </div>
   );
 }

@@ -18,13 +18,13 @@ import { prisma } from "@/lib/prisma";
 // };
 
 export default async function Layout({
-  params,
+  params: { moduleCode },
   children,
 }: {
   params: { moduleCode: string };
   children: React.ReactNode;
 }) {
-  const moduleInfo = await getSpecificModuleInfo(params.moduleCode);
+  const moduleInfo = await getSpecificModuleInfo(moduleCode);
   const user = await getCurrentUser();
 
   let starred = null;
@@ -33,7 +33,7 @@ export default async function Layout({
       where: {
         userId_moduleCode: {
           userId: user.id,
-          moduleCode: params.moduleCode,
+          moduleCode: moduleCode,
         },
       },
     });
@@ -47,7 +47,7 @@ export default async function Layout({
         <span>
           {user && (
             <ModuleStar
-              moduleCode={params.moduleCode}
+              moduleCode={moduleCode}
               userId={user.id}
               starred={!!starred}
             />
@@ -57,10 +57,7 @@ export default async function Layout({
       <h2 className="text-2xl font-semibold text-slate-700 dark:text-slate-300">
         {moduleInfo.title}
       </h2>
-      <ResourceTab
-        moduleCode={params.moduleCode}
-        resourceOptions={ResourceOptions}
-      />
+      <ResourceTab moduleCode={moduleCode} resourceOptions={ResourceOptions} />
       {children}
     </div>
   );

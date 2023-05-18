@@ -17,6 +17,7 @@ import DifficultyRating from "@/components/DifficultyRating";
 import { Provider, atom } from "jotai";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
+import { solutionTabOptions } from "@/lib/content";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -121,25 +122,33 @@ export default function ResourceSheetLauncher({
             title="PDF Resource"
             src={PDFURL}
             width="100%"
-            height="600px"
+            height="80%"
           ></iframe>
-          <div className="mt-4 flex gap-x-4">
-            <Link
-              className="flex-1"
-              href={`/solutions/${resourceId}/${categoryURL}`}
-            >
-              <Button variant="default" size="lg" className="w-full text-lg">
-                View solutions
-              </Button>
-            </Link>
-            <Link
-              className="flex-1"
-              href={`/solutions/${resourceId}/${categoryURL}`}
-            >
-              <Button variant="default" size="lg" className="w-full text-lg">
-                View comments
-              </Button>
-            </Link>
+          <div className="mt-5 flex gap-x-4">
+            {solutionTabOptions.map((option) => {
+              if (
+                categoryURL !== "past_papers" &&
+                (option.tabName === "Solutions" ||
+                  option.tabName === "Submit solution")
+              ) {
+                return null;
+              }
+              return (
+                <Link
+                  className="flex-1"
+                  key={option.tabName}
+                  href={`/resource/${resourceId}/${categoryURL}/${option.href}`}
+                >
+                  <Button
+                    variant="default"
+                    size="lg"
+                    className="w-full text-lg"
+                  >
+                    {option.buttonName}
+                  </Button>
+                </Link>
+              );
+            })}
           </div>
         </SheetContent>
       </Sheet>
