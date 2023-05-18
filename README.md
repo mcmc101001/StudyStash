@@ -59,7 +59,7 @@ We hope to make the stressful process of preparing for quizzes, midterms and fin
 
 Our aim was to create a web app that provides an experience similar to a desktop app, instead of a web page. To create that feeling, we set the main page to be non scrollable, and instead have specific scrollable components when needed.
 
-## For each feature, include description, implementation (how the code works), challenges faced (e.g. jotai for atomic state management for the rating in bg issue)
+## For each feature, include description, implementation (how the code works), challenges faced (e.g. jotai for atomic state management for the rating in bg issue) (e.g. for sort and filter functionalities, we lifted state into the URL for ease of sharing. challenge: preserve state on navigation)
 
 ## Overall navigation flow
 
