@@ -24,9 +24,42 @@ We hope to make the stressful process of preparing for quizzes, midterms and fin
 
 ## Tech Stack
 
+### Frontend
+
+- React
+  - React-hot-toast
+  - React-select
+  - Jotai (State Management Library)
+- TailwindCSS (CSS Framework)
+- Framer Motion (Animation Library)
+- ShadCN UI (UI Library Built upon Radix UI)
+- Lucide icons & React-icons (Icon Libraries)
+
+### Meta framework
+
+- NextJS
+
+### Database
+
+- Planetscale (Using MySQL)
+- Prisma (Object Relational Mapper)
+- AWS S3 (PDF storage)
+
+### Tools
+
+- Typescript
+- Jest & React Testing Library (Unit Testing)
+- Cypress (E2E Testing)
+- ESLint (Linting)
+- Prettier (Code Formatting)
+- Google OAuth and NextAuth (Authentication)
+- Vercel (Hosting and Deployment)
+
 ## Features
 
-Desktop app like feel instead of web page, main page non scrollable
+Our aim was to create a web app that provides an experience similar to a desktop app, instead of a web page. To create that feeling, we set the main page to be non scrollable, and instead have specific scrollable components when needed.
+
+## For each feature, include description, implementation (how the code works), challenges faced (e.g. jotai for atomic state management for the rating in bg issue)
 
 ## Overall navigation flow
 
@@ -44,55 +77,85 @@ show database relationships
 
 ## Type validation
 
+Typescript was used to provide static typing to reduce bugs, and more importantly to utilise the Typescript Language Server Protocol to provide autocomplete and type checking in the IDE for a better developer experience.
+
 ### Prisma
 
+Prisma not only serves as an object relational mapper for us to interact with the database, but also extends the type definitions of the database to the application, allowing us to perform type checking on the database queries.
+
 ### Zod
+
+At the API level, we used Zod to validate the request body at runtime to ensure that the data sent by the user is of the correct type, as well as to extend the benefits of Typescript to the API level.
 
 ## User experience
 
 ### Instant feedback
 
+To provide instant feedback to the user, we designed our app to be as responsive as possible, with loading states and error messages to inform the user of the status of their request.
+
 ### Transitions and animations
 
-## Software Engineering Practices
-
-### Version control
-
-#### Branching
-
-The master branch is a protected branch containing contains the code used in production, and code cannot be pushed into it directly, instead requiring a pull request to be made before merging, as well as approval by the partner as the code reviewer, as well as passing status checks such as GitGuardian (see Security Measures)
-
-For code review, we come together and discuss the changes to ensure everyone is on the same page.
-
-#### Pull requests
-
-### Github Issues
-
-### Github Projects
-
-### Two-week Sprints
-
-### Security Measures
-
-#### Protect API routes with server side validation and authentication
-
-### CI/CD
+Page transitions and animations were used to provide a more seamless experience for the user.
 
 ## Testing
 
 ### Unit Testing
 
-### Integration Testing
+We used Jest and React Testing Library to conduct unit tests. Unit tests were conducted to ensure that individual components of the application were working as intended.
+
+### End to End Testing
+
+We intend to use Cypress to conduct E2E tests.
 
 ### User Testing
+
+## Software Engineering Practices
+
+### Version control
+
+The remote master branch is a protected branch containing contains the code used in production, and code cannot be pushed into it directly, instead requiring a pull request to be made before merging, as well as approval by the partner as the code reviewer, as well as passing status checks such as GitGuardian (see Security Measures)
+
+For code review, we come together and discuss the changes to ensure everyone is on the same page.
+
+### Github Issues
+
+Github Issues was used to keep track of any bugs in the application and features we wanted to implement. Labels were included to more easily identify the type of issues, be it bugs, features or something we would like to revisit.
+
+### Github Projects
+
+We used Github Projects, which was highly integrated with Github Issues to have a spreadsheet like field of all the issues (and features) and their statuses, making it easy to keep track of the progress of the project.
+
+### Two-week Sprints
+
+### Security Measures
+
+#### Updating dependencies
+
+Dependabot was used to automatically create pull requests to update dependencies to the latest version, allowing us to keep our dependencies up to date to use the latest features, and more importantly to keep our app secure and free from security vulnerabiltiies.
+
+#### Concealing secret keys
+
+Secret keys, such as database (SQL and AWS S3) and authentication (NextAuth and Google OAuth) related information was stored in a .env file and excluded from version control using a gitignore file.
+
+#### GitGuardian
+
+GitGuardian was used to scan for any leaked secret keys in the repository, and would automatically create an issue in the repository if any were found.
+
+#### Protect API routes with server side validation and authentication
+
+To protect our API routes, we would also validate the authenticity of the request sent by the user using JSON Web Token authentication.
+
+### Linting and code formatting
+
+ESLint was used to perform static analysis of the code to identify stylistic errors and potential bugs, while Prettier was used to format the code on save to boost productivity and ensure consistent code formatting. Config files for both were included in the repository to ensure consistency across all contributors.
+
+### CI/CD
+
+Github Actions and Vercel was utilised to perform Continuous Integration and Continuous Deployment. The CI workflow was triggered on every push to the repository, and would run the production build, followed by unit tests and linting. The CD workflow was triggered on every push to the main branch, and would deploy the application to Vercel.
 
 ## Limitations
 
 ## Challenges
-
-### State Management
-
-#### Jotai
 
 ### Edge cases
 
