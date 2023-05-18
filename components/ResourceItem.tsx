@@ -17,7 +17,7 @@ import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
-import { Separator } from "./ui/Separator";
+import { Separator } from "@/components/ui/Separator";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {

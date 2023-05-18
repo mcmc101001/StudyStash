@@ -2,22 +2,27 @@
 
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export default function ResizableDiv({
   children,
+  className,
 }: {
   children: React.ReactNode;
+  className?: string;
 }) {
   const [minimised, setMinimised] = useState(false);
   return (
     <>
       <div
-        className={
-          "relative flex flex-col text-white transition-all duration-500 " +
-          (minimised
-            ? "invisible m-0 ml-8 w-0 opacity-0"
-            : "m-10 w-full opacity-100")
-        }
+        className={cn(
+          "relative transition-all duration-500",
+          {
+            "invisible m-0 ml-8 w-0 opacity-0": minimised === true,
+            "m-10 w-full opacity-100": minimised === false,
+          },
+          className
+        )}
       >
         {children}
       </div>

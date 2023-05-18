@@ -15,7 +15,7 @@ import ResourceRating from "@/components/ResourceRating";
 import { ResourceType } from "@/lib/content";
 import DifficultyRating from "@/components/DifficultyRating";
 import { Provider, atom } from "jotai";
-import Button from "./ui/Button";
+import Button from "@/components/ui/Button";
 import Link from "next/link";
 
 interface ResourceSheetLauncherProps {

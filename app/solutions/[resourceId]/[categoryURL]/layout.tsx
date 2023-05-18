@@ -1,5 +1,5 @@
 import { getRating } from "@/app/database/[moduleCode]/[category]/page";
-import ResizableDiv from "@/components/ResizableDiv";
+import ResizableDiv from "@/components/ui/ResizableDiv";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
@@ -141,7 +141,7 @@ export default async function ResourcePage({
 
   return (
     <div className="flex h-full overflow-hidden">
-      <ResizableDiv>
+      <ResizableDiv className="flex flex-col text-slate-800 dark:text-slate-200">
         <Link
           href={`/database/${resource.moduleCode}/${categoryURL}?id=${resourceId}`}
         >
