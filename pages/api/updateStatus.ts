@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { ResourceEnum } from "@/lib/content";
+import { ResourceSolutionEnum } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { ResourceStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth";
 import z from "zod";
 
 const updateStatusSchema = z.object({
-  category: ResourceEnum,
+  category: ResourceSolutionEnum,
   resourceId: z.string(),
   userId: z.string(),
   status: z.union([z.nativeEnum(ResourceStatus), z.null()]),
@@ -95,6 +95,23 @@ export default async function updateStatus(
             resourceId: resourceId,
           },
         });
+      } else if (category === "Solutions") {
+        vote = await prisma.solutionStatus.upsert({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+          update: {
+            status: status,
+          },
+          create: {
+            status: status,
+            userId: userId,
+            resourceId: resourceId,
+          },
+        });
       }
     } else if (status === null) {
       if (category === "Cheatsheets") {
@@ -117,6 +134,15 @@ export default async function updateStatus(
         });
       } else if (category === "Notes") {
         vote = await prisma.notesStatus.delete({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+        });
+      } else if (category === "Solutions") {
+        vote = await prisma.solutionStatus.delete({
           where: {
             userId_resourceId: {
               userId: userId,

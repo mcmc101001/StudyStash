@@ -1,6 +1,6 @@
 "use client";
 
-import { ResourceType } from "@/lib/content";
+import { ResourceSolutionType } from "@/lib/content";
 import axios from "axios";
 import { Loader2, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ import Button from "@/components/ui/Button";
 interface ResourceDeleteButtonProps {
   currentUserId: string;
   resourceId: string;
-  category: ResourceType;
+  category: ResourceSolutionType;
 }
 
 export default function ResourceDeleteButton({

@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { ResourceEnum } from "@/lib/content";
+import { ResourceSolutionEnum } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
@@ -8,7 +8,7 @@ import z from "zod";
 const updateVoteSchema = z.object({
   resourceId: z.string(),
   userId: z.string(),
-  category: ResourceEnum,
+  category: ResourceSolutionEnum,
   value: z.union([z.boolean(), z.null()]),
 });
 
@@ -120,6 +120,35 @@ export default async function updateVote(
         });
       } else {
         vote = await prisma.notesVote.delete({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+        });
+      }
+      res.status(200).json({ vote });
+    } else if (category === "Solutions") {
+      if (value !== null) {
+        vote = await prisma.solutionVote.upsert({
+          where: {
+            userId_resourceId: {
+              userId: userId,
+              resourceId: resourceId,
+            },
+          },
+          update: {
+            value: value,
+          },
+          create: {
+            value: value,
+            resourceId: resourceId,
+            userId: userId,
+          },
+        });
+      } else {
+        vote = await prisma.solutionVote.delete({
           where: {
             userId_resourceId: {
               userId: userId,

@@ -1,28 +1,27 @@
 "use client";
 
 import { ArrowBigUp, ArrowBigDown } from "lucide-react";
-import { ResourceType } from "@/lib/content";
+import { ResourceSolutionType } from "@/lib/content";
 import axios from "axios";
 import { updateVoteType } from "@/pages/api/updateVote";
 import { toast } from "react-hot-toast";
 import { PrimitiveAtom, useAtom } from "jotai";
-import { useRouter } from "next/navigation";
 
-interface RatingProps {
-  category: ResourceType;
+interface ResourceRatingProps {
+  category: ResourceSolutionType;
   resourceId: string;
   currentUserId: string | null;
   ratingAtom: PrimitiveAtom<number>;
   userRatingAtom: PrimitiveAtom<boolean | null>;
 }
 
-export default function Rating({
+export default function ResourceRating({
   category,
   resourceId,
   currentUserId,
   ratingAtom,
   userRatingAtom,
-}: RatingProps) {
+}: ResourceRatingProps) {
   async function updateVote(value: boolean | null) {
     if (!currentUserId) {
       return null;
@@ -36,8 +35,6 @@ export default function Rating({
     let req = await axios.post("/api/updateVote", body);
     return req;
   }
-
-  let router = useRouter();
 
   let [ratingState, setRatingState] = useAtom(ratingAtom);
   let [userRatingState, setUserRatingState] = useAtom(userRatingAtom);
@@ -74,7 +71,6 @@ export default function Rating({
         toast.error("Error updating vote, please try again later.");
       }
     }
-    router.refresh();
   };
 
   const handleDownvote = async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -108,7 +104,6 @@ export default function Rating({
         toast.error("Error updating vote, please try again later.");
       }
     }
-    router.refresh();
   };
 
   return (
