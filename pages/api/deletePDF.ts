@@ -2,13 +2,13 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { ResourceEnum } from "@/lib/content";
+import { ResourceEnum, ResourceSolutionEnum } from "@/lib/content";
 import z from "zod";
 
 const deletePDFSchema = z.object({
   userId: z.string(),
   id: z.string(),
-  category: ResourceEnum,
+  category: ResourceSolutionEnum,
 });
 
 export type deletePDFType = z.infer<typeof deletePDFSchema>;
@@ -59,6 +59,14 @@ export default async function deletePDF(
       res.status(200).json({ PDFentry });
     } else if (category === "Notes") {
       const PDFentry = await prisma.notes.deleteMany({
+        where: {
+          id: id,
+          userId: session.user.id,
+        },
+      });
+      res.status(200).json({ PDFentry });
+    } else if (category === "Solutions") {
+      const PDFentry = await prisma.solution.deleteMany({
         where: {
           id: id,
           userId: session.user.id,

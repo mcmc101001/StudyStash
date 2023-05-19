@@ -12,7 +12,7 @@ interface PDFUploaderProps {
 export default function PDFUploader(props: PDFUploaderProps) {
   return (
     <div
-      className="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-indigo-600 dark:border-indigo-500"
+      className="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-indigo-600 py-10 dark:border-indigo-500"
       onClick={() => props.inputRef.current?.click()}
       onDrop={(e) => props.fileDropHandler(e)}
       onDragOver={(e) => e.preventDefault()}
