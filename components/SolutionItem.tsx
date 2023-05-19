@@ -1,34 +1,43 @@
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
-import ResourceSheetLauncher from "@/components/ResourceSheetLauncher";
 import { SolutionVote, SolutionStatus } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
-import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "./ResourceRatingProvider";
 
 /*************** DATA FETCHING CODE ****************/
-export async function getSolutionVote(userId: string, resourceId: string) {
+export async function getSolutionVote({
+  userId,
+  solutionId,
+}: {
+  userId: string;
+  solutionId: string;
+}) {
   const res = await prisma.solutionVote.findUnique({
     where: {
       userId_resourceId: {
         userId: userId,
-        resourceId: resourceId,
+        resourceId: solutionId,
       },
     },
   });
   return res;
 }
 
-export async function getSolutionStatus(userId: string, resourceId: string) {
+export async function getSolutionStatus({
+  userId,
+  solutionId,
+}: {
+  userId: string;
+  solutionId: string;
+}) {
   const res = await prisma.solutionStatus.findUnique({
     where: {
       userId_resourceId: {
         userId: userId,
-        resourceId: resourceId,
+        resourceId: solutionId,
       },
     },
   });
@@ -37,7 +46,8 @@ export async function getSolutionStatus(userId: string, resourceId: string) {
 
 interface SolutionItemProps {
   name: string;
-  resourceId: string;
+  solutionId: string;
+  questionPaperId: string;
   userId: string;
   createdAt: Date;
   rating: number;
@@ -46,7 +56,8 @@ interface SolutionItemProps {
 
 export default async function SolutionItem({
   name,
-  resourceId,
+  solutionId,
+  questionPaperId,
   userId,
   createdAt,
   rating,
@@ -65,8 +76,11 @@ export default async function SolutionItem({
   // If user is signed in, get user vote as well as user status
 
   if (currentUser) {
-    userVote = await getSolutionVote(currentUser.id, resourceId);
-    userStatus = await getSolutionStatus(currentUser.id, resourceId);
+    userVote = await getSolutionVote({ userId: currentUser.id, solutionId });
+    userStatus = await getSolutionStatus({
+      userId: currentUser.id,
+      solutionId,
+    });
   } else {
     userVote = null;
     userStatus = null;
@@ -77,17 +91,22 @@ export default async function SolutionItem({
       {currentUser && (
         <ResourceStatusComponent
           category="Solutions"
-          resourceId={resourceId}
+          resourceId={solutionId}
           currentUserId={currentUser.id}
           status={userStatus ? userStatus.status : null}
         />
       )}
 
-      <div className="flex h-full w-full items-center overflow-hidden py-3">
+      <div className="relative flex h-full w-full items-center overflow-hidden py-3">
+        {/* positioned as such to prevent nesting anchor tags (use z-index to make internal link clickable) */}
+        <Link
+          href={`/resource/${questionPaperId}/past_papers/solutions/${solutionId}`}
+          className="absolute inset-0 z-0"
+        ></Link>
         <div className="flex w-full items-center">
           <ResourceRatingProvider
             category="Solutions"
-            resourceId={resourceId}
+            resourceId={solutionId}
             currentUserId={currentUser?.id || null}
             totalRating={rating}
             userRating={userVote?.value || null}
@@ -108,10 +127,10 @@ export default async function SolutionItem({
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">idk what to put here</p>
-            <p className="ml-auto w-max whitespace-nowrap text-end">
+            <p className="z-10 ml-auto w-max whitespace-nowrap text-end">
               <Link
                 href={`/profile/${resourceUser?.id}`}
-                className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                className="group z-10 ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
               >
                 {resourceUser?.name}
                 <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
@@ -129,7 +148,7 @@ export default async function SolutionItem({
           />
           <ResourceDeleteButton
             currentUserId={currentUser.id}
-            resourceId={resourceId}
+            resourceId={solutionId}
             category="Solutions"
           />
         </div>

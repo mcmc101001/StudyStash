@@ -1,4 +1,5 @@
 import SolutionItem from "@/components/SolutionItem";
+import SolutionSort from "@/components/SolutionSort";
 import { ResourceFiltersSorts, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { Prisma, SolutionVote } from "@prisma/client";
@@ -87,23 +88,27 @@ export default async function Database({
 
   return (
     <>
+      <div className="my-3 w-64">
+        <SolutionSort />
+      </div>
       {sortedSolutions.length !== 0 ? (
         <div
-          className="flex h-full w-full flex-col gap-y-6 overflow-y-scroll scroll-smooth pr-3 text-slate-800 scrollbar-thin
+          className="flex max-h-[80vh] w-full flex-col gap-y-6 overflow-y-scroll scroll-smooth pr-3 text-slate-800 scrollbar-thin
           scrollbar-track-transparent scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 
           dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
           style={{ scrollbarGutter: "stable" }}
         >
-          {sortedSolutions.map((resource) => {
+          {sortedSolutions.map((solution) => {
             return (
               // @ts-expect-error Server component
               <SolutionItem
-                key={resource.id}
-                resourceId={resource.id}
-                name={resource.name}
-                userId={resource.userId}
-                createdAt={resource.createdAt}
-                rating={resource.rating}
+                key={solution.id}
+                questionPaperId={resourceId}
+                solutionId={solution.id}
+                name={solution.name}
+                userId={solution.userId}
+                createdAt={solution.createdAt}
+                rating={solution.rating}
               />
             );
           })}

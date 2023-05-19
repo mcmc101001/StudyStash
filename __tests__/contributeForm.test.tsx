@@ -3,7 +3,7 @@ import ContributeForm from "@/components/ContributeForm";
 import "@testing-library/jest-dom/extend-expect";
 import { ResourceType } from "@/lib/content";
 import { Toaster } from "react-hot-toast";
-import useQueryParams from "@/hooks/useQueryParams";
+import { useSearchParams } from "next/navigation";
 
 const mock_acadYearOptions = [
   { label: "2020/2021", value: "2020/2021" },
@@ -26,13 +26,15 @@ const mock_examTypeOptions = [
 ];
 const mock_user_id = "1234567890";
 
-jest.mock("../hooks/useQueryParams", () => jest.fn());
+jest.mock("next/navigation", () => ({
+  useSearchParams: jest.fn(),
+}));
 
 describe("ContributeForm", () => {
   const resourceTypes: ResourceType[] = ["Notes", "Past Papers", "Cheatsheets"];
   (
-    useQueryParams as jest.MockedFunction<typeof useQueryParams>
-  ).mockReturnValue({ queryParams: null, setQueryParams: () => {} });
+    useSearchParams as jest.MockedFunction<typeof useSearchParams>
+  ).mockReturnValue(null);
 
   resourceTypes.map((resourceType) => {
     it(`should render correct form output for ${resourceType}`, async () => {
