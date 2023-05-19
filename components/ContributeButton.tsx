@@ -16,14 +16,7 @@ export default function ContributeButton({
 }: ContributeButtonProps) {
   return (
     <Link
-      href={
-        "/addPDF/" +
-        category +
-        "/?filterModuleCode=" +
-        moduleCode +
-        "&" +
-        queryParams
-      }
+      href={`/addPDF/${category}/?filterModuleCode=${moduleCode}&${queryParams}`}
       className="absolute right-16 top-12 rounded-md border border-slate-800 p-2 font-semibold dark:border-slate-200"
     >
       Contribute
