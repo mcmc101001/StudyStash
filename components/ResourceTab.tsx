@@ -22,9 +22,10 @@ export default function ResourceTab({
         return (
           <Link
             key={option.name}
-            href={`/database/${moduleCode}/${
-              option.href
-            }/?${queryParams?.toString()}`}
+            href={
+              `/database/${moduleCode}/${option.href}` +
+              `/?${queryParams?.toString()}`
+            }
             className={
               "relative w-1/3 rounded-md bg-inherit p-3 text-center text-xl font-medium transition duration-300 " +
               (segment === option.href

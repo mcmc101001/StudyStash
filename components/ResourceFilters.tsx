@@ -5,25 +5,21 @@ import {
   semesterOptions,
   examTypeOptions,
   ResourceType,
-  ResourceTypeURL,
   sortOptions,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
-import ContributeButton from "@/components/ContributeButton";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
   category: ResourceType;
   moduleCodeOptions?: Option[];
-  urlParams?: { moduleCode: string; category: ResourceTypeURL };
 }
 
 export default function ResourceFilters({
   acadYearOptions,
   category,
   moduleCodeOptions,
-  urlParams,
 }: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -163,14 +159,6 @@ export default function ResourceFilters({
               ? { value: examTypeQueryParam, label: examTypeQueryParam }
               : undefined
           }
-        />
-      )}
-
-      {urlParams && (
-        <ContributeButton
-          category={urlParams.category}
-          moduleCode={urlParams.moduleCode}
-          queryParams={queryParams?.toString()}
         />
       )}
     </div>
