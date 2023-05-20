@@ -14,6 +14,7 @@ import { updateProfileType } from "@/pages/api/updateProfile";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { DialogClose } from "@radix-ui/react-dialog";
+import Button from "./ui/Button";
 
 interface ProfileEditDialogProps {
   userId: string;
@@ -32,7 +33,9 @@ export default function ProfileEditDialog({
   const router = useRouter();
 
   async function updateProfile() {
+    setIsLoading(true);
     if (!userId) {
+      setIsLoading(false);
       return null;
     }
     // biostate check
@@ -44,20 +47,25 @@ export default function ProfileEditDialog({
 
     try {
       let req = await axios.post("/api/updateProfile", body);
+      setIsLoading(false);
       router.refresh();
+      setIsOpen(false);
       toast.success("Profile updated successfully!");
     } catch (error) {
+      setIsLoading(false);
+      setIsOpen(false);
       toast.error("Something went wrong, please try again.");
-      return;
     }
   }
 
   const [nameCharState, setNameCharState] = useState(nameState.length);
   const [bioCharState, setBioCharState] = useState(bioState.length);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger
         asChild
         className="flex h-10 items-center justify-center rounded-md border-2 p-2 px-3"
@@ -124,15 +132,14 @@ export default function ProfileEditDialog({
           </div>
         </div>
 
-        <DialogClose asChild>
-          <button
-            disabled={isDisabled}
-            className="whitespace-nowrap rounded-md border-2 border-slate-800 py-1 text-sm font-semibold disabled:border-slate-400 disabled:text-slate-400 dark:border-slate-100 dark:text-slate-100 dark:disabled:border-slate-500 dark:disabled:bg-slate-900 dark:disabled:text-slate-500"
-            onClick={() => updateProfile()}
-          >
-            Submit changes
-          </button>
-        </DialogClose>
+        <Button
+          isLoading={isLoading}
+          className={isDisabled ? "pointer-events-none opacity-50" : ""}
+          variant="default"
+          onClick={() => updateProfile()}
+        >
+          Submit changes
+        </Button>
       </DialogContent>
     </Dialog>
   );
