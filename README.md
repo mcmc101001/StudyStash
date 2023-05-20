@@ -8,7 +8,7 @@
 
 ## Motivation
 
-Whenever midterm/exam season rolls around, students always scramble to source for past year practice papers, solutions and cheatsheets. Typically, these resources are located across multiple platforms, such as gitHub repositories, google drives or from seniors’ personal files. More often than not, these papers would also lack proper solutions and explanations.
+Whenever midterm/exam season rolls around, students always scramble to source for past year practice papers, solutions and cheatsheets. Typically, these resources are located across multiple platforms, such as github repositories, google drives or from seniors’ personal files. More often than not, these papers would also lack proper solutions and explanations.
 
 ## Aim
 
@@ -32,7 +32,7 @@ We hope to make the stressful process of preparing for quizzes, midterms and fin
   - Jotai (State Management Library)
 - TailwindCSS (CSS Framework)
 - Framer Motion (Animation Library)
-- ShadCN UI (UI Library Built upon Radix UI)
+- shadcnUI (UI Library Built upon Radix UI)
 - Lucide icons & React-icons (Icon Libraries)
 
 ### Meta framework
@@ -55,15 +55,37 @@ We hope to make the stressful process of preparing for quizzes, midterms and fin
 - Google OAuth and NextAuth (Authentication)
 - Vercel (Hosting and Deployment)
 
-## Features
+## Design philosophy
 
 Our aim was to create a web app that provides an experience similar to a desktop app, instead of a web page. To create that feeling, we set the main page to be non scrollable, and instead have specific scrollable components when needed.
 
-## For each feature, include description, implementation (how the code works), challenges faced (e.g. jotai for atomic state management for the rating in bg issue) (e.g. for sort and filter functionalities, we lifted state into the URL for ease of sharing. challenge: preserve state on navigation)
+We also wanted to make the app as accessible as possible without logging in, and thus instead of requiring authentication app-wide, we instead opted to have a fine-grained control over the features that require authentication, and the features that do not.
+
+## Features
+
+## For each feature, include description, implementation (how the code works, UML diagrams), challenges faced (e.g. jotai for atomic state management for the rating in bg issue) (e.g. for sort and filter functionalities, we lifted state into the URL for ease of sharing. challenge: preserve state on navigation)
+
+### Authentication
+
+#### Description
+
+As StudyStash is a personalised revision platform, we require user authentication to provide unique experiences for each user.
+
+For authentication, we decided to use Google's OAuth to make it as easy as possible for users to sign up and log in. We also decided to use NextAuth to handle the authentication flow over implementing it ourself, as we highly valued security and wanted an established library to handle it for our app. It also provides a simple API to handle authentication, and also provide JSON Web Tokens (JWTs) for session tokens.
+
+#### Implementation
+
+When a user logs in through Google OAuth, their name, email and picture is retrieved from Google and stored in the SQL database if the user is not already stored. A JWT is also generated and stored in the browser's cookies, and is used to authenticate the user for subsequent requests. The JWT is crytographically encrypted (via JWE)
+
+(insert authentication flow diagram)
+
+#### Challenges
+
+NUS Authentication?
 
 ## Overall navigation flow
 
-show diagram of routing and workflow
+show diagram of routing
 
 ## Timeline and Development Plan
 
@@ -73,7 +95,17 @@ show diagram of routing and workflow
 
 Sketches were created using Excalidraw.
 
-## UML Diagrams
+## SEO and metadata
+
+### Open Graph Protocol
+
+### Twitter Cards
+
+### Sitemap
+
+## React Component tree
+
+As we are using NextJS 13, we are able to utilise React Server Components, which allows us to create components that are rendered on the server, allowing us to fetch data directly from the database instead of having to call an API endpoint to fetch the data form the client. This also allows us to ship less javascript to the client, improving performance.
 
 ## Model Entity Relationship Diagram
 
@@ -112,6 +144,8 @@ We used Jest and React Testing Library to conduct unit tests. Unit tests were co
 We intend to use Cypress to conduct E2E tests.
 
 ### User Testing
+
+We intend to engage users to conduct AB testing to evaluate design choices, and conduct usability testing to identify any pain points in the user experience.
 
 ## Software Engineering Practices
 
@@ -155,6 +189,8 @@ GitGuardian was used to scan for any leaked secret keys in the repository, and w
 
 To protect our API routes, we would also validate the authenticity of the request sent by the user using JSON Web Token authentication.
 
+(Insert list of API endpoints)
+
 ### Linting and code formatting
 
 ESLint was used to perform static analysis of the code to identify stylistic errors and potential bugs, while Prettier was used to format the code on save to boost productivity and ensure consistent code formatting. Config files for both were included in the repository to ensure consistency across all contributors.
@@ -166,6 +202,10 @@ ESLint was used to perform static analysis of the code to identify stylistic err
 Github Actions and Vercel was utilised to perform Continuous Integration and Continuous Deployment. The CI workflow was triggered on every push to the repository, and would run the production build, followed by unit tests and linting. The CD workflow was triggered on every push to the main branch, and would deploy the application to Vercel.
 
 ## Limitations
+
+### No API rate limiting
+
+### No rollbacks to database
 
 ## Challenges
 
