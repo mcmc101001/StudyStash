@@ -59,7 +59,6 @@ export default async function UserResourcesSection({
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
-      FilterExamType: filterExamType,
       userId: profileUserId,
     });
   } else if (filterCategory !== undefined) {

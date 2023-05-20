@@ -97,13 +97,11 @@ export async function getNotesWithPosts({
   moduleCode,
   FilterSemester,
   FilterAcadYear,
-  FilterExamType,
   userId,
 }: {
   moduleCode: string | undefined;
   FilterSemester: string | undefined;
   FilterAcadYear: string | undefined;
-  FilterExamType: ExamType | undefined;
   userId: string | undefined;
 }) {
   try {
@@ -112,7 +110,6 @@ export async function getNotesWithPosts({
         ...(moduleCode ? { moduleCode: moduleCode } : {}),
         ...(FilterSemester ? { semester: FilterSemester } : {}),
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-        ...(FilterExamType ? { type: FilterExamType } : {}),
         ...(userId ? { userId: userId } : {}),
       },
       include: {
@@ -170,7 +167,6 @@ export default async function Page({
       moduleCode: params.moduleCode,
       FilterSemester,
       FilterAcadYear,
-      FilterExamType,
       userId: undefined,
     });
   } else if (params.category === "past_papers") {
