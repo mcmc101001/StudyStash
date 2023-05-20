@@ -41,12 +41,12 @@ export default async function ProfilePageUser({
           </h1>
           <div className="my-2">
             <h2 className="text-lg font-semibold">Bio</h2>
-            <p className="max-h-[120px] overflow-y-scroll whitespace-break-spaces break-words scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-slate-400 dark:scrollbar-track-slate-500">
+            <p className="max-h-[120px] overflow-y-auto scroll-smooth whitespace-break-spaces break-words scrollbar-thin scrollbar-track-slate-50 scrollbar-thumb-slate-400 dark:scrollbar-track-slate-950">
               {profileUser.bio ||
                 "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."}
             </p>
           </div>
-          <div className="absolute right-8 top-8">
+          <div className="absolute right-6 top-6">
             {isProfile && (
               <ProfileEditDialog
                 userId={profileUser.id}
