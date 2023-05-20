@@ -1,18 +1,10 @@
 "use client";
 
-import { ResourceTypeURL } from "@/lib/content";
 import Link from "next/link";
-import useQueryParams from "@/hooks/useQueryParams";
-import { useParams, redirect } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
-interface ContributeButtonProps {
-  moduleCode: string;
-}
-
-export default function ContributeButton({
-  moduleCode,
-}: ContributeButtonProps) {
-  const { queryParams, setQueryParams } = useQueryParams();
+export default function ContributeButton() {
+  const queryParams = useSearchParams();
   const params = useParams(); // No need check type since guaranteed? Contribute page already checks
 
   return (

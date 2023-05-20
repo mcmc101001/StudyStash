@@ -83,6 +83,70 @@ When a user logs in through Google OAuth, their name, email and picture is retri
 
 NUS Authentication?
 
+### File upload
+
+#### Description
+
+Users are able to upload resources, such as past year papers, cheatsheets and notes to the platform, with relevant metadata such as the module code, exam type, year and semester. Users are also able to upload solutions to the resources uploaded by other users.
+
+#### Implementation
+
+Users are able to upload files by dragging and dropping the files into the dropzone, or by clicking on the dropzone to open the file explorer. The metadata is selected through many different dropdown menus, and the browser then checks that all fields are filled in and the file size and type is correct, before making several API calls to upload the file to AWS S3 and store the metadata in the SQL database. The PDFs are displayed in the browser using iframes from the AWS S3 link, but we have plans to implement a PDF viewer in the future.
+
+(add UML diagram)
+
+#### Challenges
+
+Initially, the file names of the uploaded files were used to uniquely identify the files, but we later realised that this would cause issues if users were to upload files with the same name, causing the files to be overwritten. There were also a few invalid characters that AWS S3 was unable to accept. To solve this, we decided to generate a random CUID to be used as the file identifier for AWS S3, which is stored in the database along with the original file name.
+
+### Dark mode
+
+#### Description
+
+Users are able to toggle between light and dark mode, and the preference is persisted across sessions.
+
+#### Implementation
+
+The user's preference is stored in the browser's local storage in order to persist the theme across sessions. The theme is applied using TailwindCSS's dark mode feature, which allows us to easily apply different styles to different themes.
+
+#### Challenges
+
+As we are using Server Side Rendering, we set the initial theme to be dark mode, and then use a useEffect hook to apply the correct theme after the page has loaded. However, this results in a flash of dark mode before the theme is applied (if the user's preference is light mode). To solve this, we could choose to display the webpage only after the theme has been applied, but this would result in a blank page for a few seconds, which is not ideal.
+
+### Resource search
+
+#### Description
+
+Users are able to search and filter for resources by module code, exam type, year and semester.
+
+#### Implementation
+
+The data for the module code search was fetched using NUSMods API, and is searchable with and without module code prefix. Depending on the filters in place, different SQL queries would be made to fetch the relevant resources and its metadata. A tab UI element was used to allow users to switch between the different resource types (notes, question papers, cheatsheets). A sheet was used to open up each individual resource instead of using a new page, to provide a more seamless experience for the user to quickly browse through the various resources, and to do so without affecting the filters.
+
+#### Challenges
+
+We wanted the filters to be able to be shared via URL and persist across navigation. However, the state was controlled by React hooks, and thus would be lost on navigation. To solve this, we decided to lift the state of the filters and the sheet showing individual resources into the URL, and use the URL to determine the filters to be applied and the resource currently open.
+
+### Rating system (upvote/downvote)
+
+#### Description
+
+Users are able to upvote or downvote resources, and the ratings are displayed alongside the resources. The ratings can also used to determine the order of the resources when sorting by rating.
+
+#### Implementation
+
+Each individual rating is stored as a record in the SQL database, unique for every combination of user and resource.
+
+#### Challenges
+
+The state of the rating is handled by each component. However, when looking at each individual resource in the resource sheet, we can also see the rating of the resource from the resource list in the background. We could bubble the state up to the parent, but this means that the top level component would be rerendered every time state changes given how React handles state changes, which is not ideal as it would rerender the resource sheet. To solve this, we decided to use Jotai, an atomic state management library, to have fine grained control over the rerenders and only rerender the rating components in the background and in the resource sheet when the rating changes.
+
+### Additional information
+
+(ADD TABLE OF FEATURES ACCESSIBLE TO AUTHENTICATED VS NON AUTHENTICATED USERS)
+
+(Insert list of API endpoints, and mention that all API calls are wrapped in try catch blocks)
+
 ## Overall navigation flow
 
 show diagram of routing
@@ -105,6 +169,8 @@ Sketches were created using Excalidraw.
 
 ## React Component tree
 
+(Talk about how we created and utilised reusable UI components such as selects and buttons)
+
 As we are using NextJS 13, we are able to utilise React Server Components, which allows us to create components that are rendered on the server, allowing us to fetch data directly from the database instead of having to call an API endpoint to fetch the data form the client. This also allows us to ship less javascript to the client, improving performance.
 
 ## Model Entity Relationship Diagram
@@ -124,6 +190,10 @@ Prisma not only serves as an object relational mapper for us to interact with th
 At the API level, we used Zod to validate the request body at runtime to ensure that the data sent by the user is of the correct type, as well as to extend the benefits of Typescript to the API level.
 
 ## User experience
+
+### Interactive UI elements
+
+All interactive UI elements demonstrate their interactivity through hover effects, animations and cursor changes, to intuitively express their interactivity to the user.
 
 ### Instant feedback
 
@@ -188,8 +258,6 @@ GitGuardian was used to scan for any leaked secret keys in the repository, and w
 #### Protect API routes with server side validation and authentication
 
 To protect our API routes, we would also validate the authenticity of the request sent by the user using JSON Web Token authentication.
-
-(Insert list of API endpoints)
 
 ### Linting and code formatting
 

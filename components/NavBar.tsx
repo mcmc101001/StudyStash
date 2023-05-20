@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import NavOptions, { NavOptionsProps } from "@/components/NavOptions";
 import Link from "next/link";
-import { Icons } from "@/components/Icons";
+import { Icon, Icons } from "@/components/Icons";
 import UserProfilePic from "@/components/UserProfilePic";
 import { Loader2 } from "lucide-react";
 import DarkModeToggler from "@/components/DarkModeToggler";
 import { getCurrentUser } from "@/lib/session";
 
-export const navOptions: NavOptionsProps[] = [
+export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
   {
     name: "Dashboard",
     href: "/dashboard",
@@ -50,6 +50,7 @@ export default async function Navbar() {
             return (
               <NavOptions
                 key={option.name}
+                userId={user?.id || null}
                 name={option.name}
                 href={option.href}
                 icon={option.icon}
