@@ -16,7 +16,7 @@ export default function ResourceTab({
 }: ResourceTabProps) {
   let segment = useSelectedLayoutSegment();
   return (
-    <div className="my-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
+    <div className="my-5 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
       {resourceOptions.map((option) => {
         return (
           <Link
