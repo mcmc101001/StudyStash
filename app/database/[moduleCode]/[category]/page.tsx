@@ -252,7 +252,6 @@ export default async function Page({
         <ResourceFilters
           acadYearOptions={acadYearOptions}
           category={category}
-          urlParams={params}
         />
       </div>
     </div>
