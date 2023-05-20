@@ -37,11 +37,7 @@ export default function DifficultyDisplayDialog({
         </DialogHeader>
         <div className="flex w-full items-center justify-center gap-x-14">
           {/* @ts-expect-error Server component */}
-          <DifficultyBreakdown
-            difficulty={difficulty}
-            difficultyCount={difficultyCount}
-            resourceId={resourceId}
-          />
+          <DifficultyBreakdown resourceId={resourceId} />
           <Separator orientation="vertical" className="mr-2 bg-slate-200" />
           <div className="scale-150">
             <DifficultyDisplay

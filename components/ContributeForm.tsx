@@ -13,7 +13,7 @@ import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { ExamType } from "@prisma/client";
 import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
 import { deletePDFType } from "@/pages/api/deletePDF";
-import useQueryParams from "@/hooks/useQueryParams";
+import { useSearchParams } from "next/navigation";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -40,7 +40,7 @@ function validQueryParamOrNull(
 }
 
 const ContributeForm = (props: ContributeFormProps) => {
-  const { queryParams, setQueryParams } = useQueryParams();
+  const queryParams = useSearchParams();
   const [acadYear, setAcadYear] = useState<string | null>(
     validQueryParamOrNull(
       queryParams?.get("filterAcadYear"),

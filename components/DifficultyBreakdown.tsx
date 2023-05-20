@@ -3,14 +3,10 @@ import { BsStarFill } from "react-icons/bs";
 
 interface DifficultyBreakdownProps {
   resourceId: string;
-  difficulty: number;
-  difficultyCount: number;
 }
 
 export default async function DifficultyBreakdown({
   resourceId,
-  difficulty,
-  difficultyCount,
 }: DifficultyBreakdownProps) {
   const votes = await prisma.questionPaperDifficulty.findMany({
     where: {

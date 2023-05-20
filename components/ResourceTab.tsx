@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { ResourceOptionsProps } from "@/lib/content";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { motion } from "framer-motion";
-import useQueryParams from "@/hooks/useQueryParams";
 
 interface ResourceTabProps {
   moduleCode: string;
@@ -16,9 +15,9 @@ export default function ResourceTab({
   resourceOptions,
 }: ResourceTabProps) {
   let segment = useSelectedLayoutSegment();
-  const { queryParams, setQueryParams } = useQueryParams();
+  const queryParams = useSearchParams();
   return (
-    <div className="my-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
+    <div className="my-5 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
       {resourceOptions.map((option) => {
         return (
           <Link
