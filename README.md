@@ -131,15 +131,41 @@ We wanted the filters to be able to be shared via URL and persist across navigat
 
 ### Description
 
-Users are able to upvote or downvote resources, and the ratings are displayed alongside the resources. The ratings can also used to determine the order of the resources when sorting by rating.
+Users are able to upvote or downvote resources, and the ratings are displayed alongside the resources.
 
 ### Implementation
 
-Each individual rating is stored as a record in the SQL database, unique for every combination of user and resource.
+Each individual rating is stored as a record in the SQL database, unique for every combination of user and resource, with a boolean value representing either an upvote or a downvote.
 
 ### Challenges
 
 The state of the rating is handled by each individual rating component. However, when looking at each individual resource in the resource sheet, we can also see the rating of the resource from the resource list in the background. We could bubble the state up to the parent, but this means that the top level component would be rerendered every time state changes given how React handles state changes, which is not ideal as it would rerender the resource sheet. To solve this, we decided to use Jotai, an atomic state management library, to have fine grained control over the rerenders and only rerender the rating components in the background and in the resource sheet when the rating changes.
+
+## Difficulty rating for past papers
+
+### Description
+
+Users are able to rate the difficulty of past year papers, and the average difficulty rating, as well as the breakdown is displayed alognside the past year paper.
+
+### Implementation
+
+Each individual difficulty rating is stored as a record in the SQL database, unique for every combination of user and past year paper.
+
+### Challenges
+
+## Sorting resources by rating, difficulty, date uploaded
+
+### Description
+
+Users are able to sort the resources by rating, difficulty and date uploaded.
+
+### Implementation
+
+The filtered resources are fetched from the database and subsequently sorted. At the frontend, the sorting method is stored in the URL similar to how the filters were stored, to persist across navigation.
+
+### Challenges
+
+Given how the rating is stored, as a separate record instead of a numerical field in the resource record, we are unable to sort the resources by rating in the SQL query, which would be beneficial for performance through pagination or an infinite scroll, and instead have to compute the rating value using all rating records associated with the particular resource. We could have implemented both the numerical rating field as well as the user-specific rating record, but this results in additional database mutations needed for every upvote/downvote, and more importantly creates inconsistencies as there isn't one single source of truth. Thus, we opted to simply fetch all the filtered resources and sort them server side, as the number of resources is not expected to be large, and thus the performance impact would be negligible.
 
 ## Additional information
 
