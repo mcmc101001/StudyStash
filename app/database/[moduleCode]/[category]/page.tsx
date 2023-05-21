@@ -33,7 +33,7 @@ export function getRating(
   return new_resources;
 }
 
-export function getDifficulty(
+export function getAvgDifficulty(
   resources: (QuestionPaper & {
     _count: {
       difficulties: number;
@@ -220,7 +220,7 @@ export default async function Page({
   sortedResources = getRating(parsedResources);
   if (params.category === "past_papers") {
     // @ts-expect-error Wrong type inference
-    sortedResources = getDifficulty(sortedResources);
+    sortedResources = getAvgDifficulty(sortedResources);
   }
 
   /************** SORTING **************/

@@ -61,6 +61,10 @@ Our aim was to create a web app that provides an experience similar to a desktop
 
 We also wanted to make the app as accessible as possible without logging in, and thus instead of requiring authentication app-wide, we instead opted to have a fine-grained control over the features that require authentication, and the features that do not.
 
+# Overall navigation flow
+
+show diagram of routing, with simplified explanation of the features
+
 # Features
 
 # For each feature, include description, implementation (how the code works, UML diagrams), challenges faced (e.g. jotai for atomic state management for the rating in bg issue) (e.g. for sort and filter functionalities, we lifted state into the URL for ease of sharing. challenge: preserve state on navigation)
@@ -97,7 +101,7 @@ Users are able to upload files by dragging and dropping the files into the dropz
 
 ### Challenges
 
-Initially, the file names of the uploaded files were used to uniquely identify the files, but we later realised that this would cause issues if users were to upload files with the same name, causing the files to be overwritten. There were also a few invalid characters that AWS S3 was unable to accept. To solve this, we decided to generate a random CUID to be used as the file identifier for AWS S3, which is stored in the database along with the original file name.
+Initially, the file names of the uploaded files were used to uniquely identify the files, but we later realised that this would cause issues if users were to upload files with the same name, causing the files to be overwritten. There were also a few invalid characters that AWS S3 was unable to accept. To solve this, we decided to generate a random CUID, which is stored in the database as the resource id, alongside the original file name. The resource id was then used as the file identifier for AWS S3. If the S3 upload process fails, the database entry would be deleted accordingly.
 
 ## Dark mode
 
@@ -117,7 +121,7 @@ As we are using Server Side Rendering, we set the initial theme to be dark mode,
 
 ### Description
 
-Users are able to search and filter for resources by module code, exam type, year and semester.
+Users are able to search and filter for resources by module code, exam type, year and semester. The resources also show the user and time of upload.
 
 ### Implementation
 
@@ -127,31 +131,19 @@ The data for the module code search was fetched using NUSMods API, and is search
 
 We wanted the filters to be able to be shared via URL and persist across navigation. However, the state was controlled by React hooks, and thus would be lost on navigation. To solve this, we decided to lift the state of the filters and the sheet showing individual resources into the URL, and use the URL to determine the filters to be applied and the resource currently open.
 
-## Rating system (upvote/downvote)
+## Rating system (upvote/downvote & difficulty for past year papers)
 
 ### Description
 
-Users are able to upvote or downvote resources, and the ratings are displayed alongside the resources.
+Users are able to upvote or downvote resources, and the ratings are displayed alongside the resources. Users are also able to rate the difficulty of past year papers on a scale from 1 to 5, and the average difficulty rating, as well as the breakdown is displayed alongside the past year paper.
 
 ### Implementation
 
-Each individual rating is stored as a record in the SQL database, unique for every combination of user and resource, with a boolean value representing either an upvote or a downvote.
+Each individual rating is stored as a record in the SQL database, unique for every combination of user and resource, with a boolean value for upvote/downvote representing either an upvote or a downvote and a numerical value for difficulty.
 
 ### Challenges
 
 The state of the rating is handled by each individual rating component. However, when looking at each individual resource in the resource sheet, we can also see the rating of the resource from the resource list in the background. We could bubble the state up to the parent, but this means that the top level component would be rerendered every time state changes given how React handles state changes, which is not ideal as it would rerender the resource sheet. To solve this, we decided to use Jotai, an atomic state management library, to have fine grained control over the rerenders and only rerender the rating components in the background and in the resource sheet when the rating changes.
-
-## Difficulty rating for past papers
-
-### Description
-
-Users are able to rate the difficulty of past year papers, and the average difficulty rating, as well as the breakdown is displayed alognside the past year paper.
-
-### Implementation
-
-Each individual difficulty rating is stored as a record in the SQL database, unique for every combination of user and past year paper.
-
-<!-- ### Challenges -->
 
 ## Sorting resources by rating, difficulty, date uploaded
 
@@ -165,17 +157,43 @@ The filtered resources are fetched from the database and subsequently sorted. At
 
 ### Challenges
 
-Given how the rating is stored, as a separate record instead of a numerical field in the resource record, we are unable to sort the resources by rating in the SQL query, which would be beneficial for performance through pagination or an infinite scroll, and instead have to compute the rating value using all rating records associated with the particular resource. We could have implemented both the numerical rating field as well as the user-specific rating record, but this results in additional database mutations needed for every upvote/downvote, and more importantly creates inconsistencies as there isn't one single source of truth. Thus, we opted to simply fetch all the filtered resources and sort them server side, as the number of resources is not expected to be large, and thus the performance impact would be negligible. If performance becomes an issue, we could consider using caching and incremental static regeneration for data fetching.
+Given how the rating (and difficulty) is stored, as a separate record instead of a numerical field in the resource record, we are unable to sort the resources in the SQL query, which would be beneficial for performance through pagination or an infinite scroll, and instead have to compute the rating value using all rating records associated with the particular resource. We could have implemented both the numerical rating field as well as the user-specific rating record, but this results in additional database mutations needed for every upvote/downvote, and more importantly creates inconsistencies as there isn't one single source of truth. Thus, we opted to simply fetch all the filtered resources and sort them server side, as the number of resources is not expected to be large, and thus the performance impact would be negligible. If performance becomes an issue, we could consider using caching and incremental static regeneration for data fetching.
+
+## Favourite modules
+
+### Description
+
+Users are able to bookmark certain modules as "favourite", and the modules would be displayed on the dashboard for ease of access. The dashboard would link directly to the relevant module page.
+
+### Implementation
+
+Users are able to favourite/unfavourite modules by clicking on the star icon on the module page, which is stored as a record in the SQL database, unique for every combination of user and module code. The dashboard fetches the list of favourite modules from the database and displays them.
+
+## User metadata
+
+### Description
+
+Users are able to set custom bios and names, and the information is displayed on their profile page.
+
+### Implementation
+
+xxx
+
+## User Resources
+
+### Description
+
+Users have custom profile pages which is publicly viewable to view the resources they have uploaded. Users are also able to delete resources they have uploaded from their profile page. Filters and sorts available in the database page are also available in the profile page.
+
+### Implementation
+
+The resources uploaded by the user is fetched from the database and displayed on the profile page. The user is able to delete the resources by clicking on the delete button, which opens a confirmation dialog and if confirmed, would make an API call to delete the resource from AWS S3, and if successful, delete from the database. Filters and sorts are implemented similarly to the database page (reusing the components).
 
 ## Additional information
 
 (ADD TABLE OF FEATURES ACCESSIBLE TO AUTHENTICATED VS NON AUTHENTICATED USERS)
 
 (Insert list of API endpoints, and mention that all API calls are wrapped in try catch blocks)
-
-# Overall navigation flow
-
-show diagram of routing
 
 # Timeline and Development Plan
 
