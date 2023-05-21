@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import NavOptions, { NavOptionsProps } from "@/components/NavOptions";
 import Link from "next/link";
-import { Icons } from "@/components/Icons";
+import { Icon, Icons } from "@/components/Icons";
 import UserProfilePic from "@/components/UserProfilePic";
 import { Loader2 } from "lucide-react";
 import DarkModeToggler from "@/components/DarkModeToggler";
 import { getCurrentUser } from "@/lib/session";
 
-export const navOptions: NavOptionsProps[] = [
+export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
   {
     name: "Dashboard",
     href: "/dashboard",
@@ -38,7 +38,7 @@ export const navOptions: NavOptionsProps[] = [
 export default async function Navbar() {
   const user = await getCurrentUser();
   return (
-    <div className="flex h-screen w-28 flex-col gap-y-5 overflow-hidden border-r border-gray-700 px-3 pt-4 dark:border-gray-300">
+    <div className="flex h-screen w-32 flex-col gap-y-5 overflow-hidden border-r border-gray-700 px-1 pt-4 dark:border-gray-300">
       <Link href="/" className="flex h-16 shrink-0 items-center justify-center">
         <Icons.Logo className="h-8 w-8 fill-current text-slate-800 dark:text-slate-200" />
       </Link>
@@ -50,6 +50,7 @@ export default async function Navbar() {
             return (
               <NavOptions
                 key={option.name}
+                userId={user?.id || null}
                 name={option.name}
                 href={option.href}
                 icon={option.icon}

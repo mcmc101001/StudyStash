@@ -89,10 +89,15 @@ export interface ResourceFiltersSorts {
 }
 
 export const sortOptions = [
-  { value: "rating", label: "Highest Rating" },
-  { value: "rating_flip", label: "Lowest Rating" },
   { value: "date", label: "Most recent" },
   { value: "date_flip", label: "Oldest" },
+  { value: "rating", label: "Highest Rating" },
+  { value: "rating_flip", label: "Lowest Rating" },
+];
+
+export const papersAdditionalSortOptions = [
+  { value: "difficulty", label: "Highest Difficulty" },
+  { value: "difficulty_flip", label: "Lowest Difficulty" },
 ];
 
 export const examTypeOptions = [
