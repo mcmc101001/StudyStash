@@ -61,7 +61,7 @@ export default async function Layout({
             {moduleInfo.title}
           </h2>
         </div>
-        <ContributeButton moduleCode={moduleCode} />
+        <ContributeButton />
       </div>
       <ResourceTab moduleCode={moduleCode} resourceOptions={ResourceOptions} />
       {children}
