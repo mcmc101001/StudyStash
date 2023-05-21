@@ -87,6 +87,30 @@ When a user logs in through Google OAuth, their name, email and picture is retri
 
 NUS Authentication?
 
+## Navigation bar????
+
+### Description
+
+The navigation bar is always visible at the side of the page, and provides links to the various pages of the app, as well as various utilities such as dark mode switching and logging in/out.
+
+### Implementation
+
+The various navigation anchor tags display tooltips upon hover and prefetch the relevant page.
+
+## Dark mode
+
+### Description
+
+Users are able to toggle between light and dark mode, and the preference is persisted across sessions.
+
+### Implementation
+
+The user's preference is stored in the browser's local storage in order to persist the theme across sessions. The theme is applied using TailwindCSS's dark mode feature, which allows us to easily apply different styles to different themes.
+
+### Challenges
+
+As we are using Server Side Rendering, we set the initial theme to be dark mode, and then use a useEffect hook to apply the correct theme after the page has loaded. However, this results in a flash of dark mode before the theme is applied (if the user's preference is light mode). To solve this, we could choose to display the webpage only after the theme has been applied, but this would result in a blank page for a few seconds, which is not ideal.
+
 ## File upload
 
 ### Description
@@ -103,21 +127,7 @@ Users are able to upload files by dragging and dropping the files into the dropz
 
 Initially, the file names of the uploaded files were used to uniquely identify the files, but we later realised that this would cause issues if users were to upload files with the same name, causing the files to be overwritten. There were also a few invalid characters that AWS S3 was unable to accept. To solve this, we decided to generate a random CUID, which is stored in the database as the resource id, alongside the original file name. The resource id was then used as the file identifier for AWS S3. If the S3 upload process fails, the database entry would be deleted accordingly.
 
-## Dark mode
-
-### Description
-
-Users are able to toggle between light and dark mode, and the preference is persisted across sessions.
-
-### Implementation
-
-The user's preference is stored in the browser's local storage in order to persist the theme across sessions. The theme is applied using TailwindCSS's dark mode feature, which allows us to easily apply different styles to different themes.
-
-### Challenges
-
-As we are using Server Side Rendering, we set the initial theme to be dark mode, and then use a useEffect hook to apply the correct theme after the page has loaded. However, this results in a flash of dark mode before the theme is applied (if the user's preference is light mode). To solve this, we could choose to display the webpage only after the theme has been applied, but this would result in a blank page for a few seconds, which is not ideal.
-
-## Resource search
+## Resource search with filters
 
 ### Description
 
@@ -130,6 +140,12 @@ The data for the module code search was fetched using NUSMods API, and is search
 ### Challenges
 
 We wanted the filters to be able to be shared via URL and persist across navigation. However, the state was controlled by React hooks, and thus would be lost on navigation. To solve this, we decided to lift the state of the filters and the sheet showing individual resources into the URL, and use the URL to determine the filters to be applied and the resource currently open.
+
+## Pre-filled resource upload with filters
+
+### Description
+
+### Implementation
 
 ## Rating system (upvote/downvote & difficulty for past year papers)
 
@@ -157,7 +173,21 @@ The filtered resources are fetched from the database and subsequently sorted. At
 
 ### Challenges
 
-Given how the rating (and difficulty) is stored, as a separate record instead of a numerical field in the resource record, we are unable to sort the resources in the SQL query, which would be beneficial for performance through pagination or an infinite scroll, and instead have to compute the rating value using all rating records associated with the particular resource. We could have implemented both the numerical rating field as well as the user-specific rating record, but this results in additional database mutations needed for every upvote/downvote, and more importantly creates inconsistencies as there isn't one single source of truth. Thus, we opted to simply fetch all the filtered resources and sort them server side, as the number of resources is not expected to be large, and thus the performance impact would be negligible. If performance becomes an issue, we could consider using caching and incremental static regeneration for data fetching.
+Initially, the rating (and difficulty) were fetched at the component level for each individual resource. However, this means that we are unable to sort the resources by rating, difficulty or date uploaded, as the rating is not available at the level where the list of resources are fetched.
+
+Given how the rating (and difficulty) is stored, as a separate record instead of a numerical field in the resource record, we are unable to sort the resources in the SQL query, which would be beneficial for performance through pagination or an infinite scroll, and instead have to compute the rating value using all rating records associated with the particular resource.
+
+We could have implemented both the numerical rating field as well as the user-specific rating record, but this results in additional database mutations needed for every upvote/downvote, and more importantly creates inconsistencies as there isn't one single source of truth.
+
+Thus, we opted to simply fetch all the filtered resources and compute the relevant metrics, before sorting them server side, as the number of resources is not expected to be large, and thus the performance impact would be negligible. If performance becomes an issue, we could consider using caching and incremental static regeneration for data fetching.
+
+## Individual resource status
+
+### Description
+
+Users are able to mark resources as "completed", "in progress", "not started" or "bookmarked" (for their individual purpose), and the status is displayed alongside the resources.
+
+### Implementation
 
 ## Favourite modules
 
@@ -189,6 +219,30 @@ Users have custom profile pages which is publicly viewable to view the resources
 
 The resources uploaded by the user is fetched from the database and displayed on the profile page. The user is able to delete the resources by clicking on the delete button, which opens a confirmation dialog and if confirmed, would make an API call to delete the resource from AWS S3, and if successful, delete from the database. Filters and sorts are implemented similarly to the database page (reusing the components).
 
+## Solutions section
+
+### Description
+
+Users are able to upload solutions to the past year papers uploaded by other users, and the solutions are displayed alongside the resources. Users are also able to upvote/downvote solutions, and the ratings are displayed alongside the solutions. Sorting functionaly for resource applies to solutions as well. talk about UI design choice
+
+### Implementation
+
+One to many field, during the resource uploading for past year paper, include dropdown asking if solution included in question paper, included as separate copy?
+
+# Upcoming features
+
+## Comments
+
+## Custom PDF Viewer
+
+## History of visited resources
+
+## Gamification: Achievements and points systems
+
+## Admin verified/ Profs account
+
+## Sort by "relevance": more recent ratings hold greater weightage
+
 ## Additional information
 
 (ADD TABLE OF FEATURES ACCESSIBLE TO AUTHENTICATED VS NON AUTHENTICATED USERS)
@@ -211,9 +265,15 @@ Sketches were created using Excalidraw.
 
 ## Sitemap
 
-# React Component tree
+# Folder structure
+
+## UI Components
 
 (Talk about how we created and utilised reusable UI components such as selects and buttons)
+
+## Lib folder
+
+# React Component tree
 
 As we are using NextJS 13, we are able to utilise React Server Components, which allows us to create components that are rendered on the server, allowing us to fetch data directly from the database instead of having to call an API endpoint to fetch the data form the client. This also allows us to ship less javascript to the client, improving performance.
 
@@ -237,7 +297,7 @@ At the API level, we used Zod to validate the request body at runtime to ensure 
 
 ## Interactive UI elements
 
-All interactive UI elements demonstrate their interactivity through hover effects, animations and cursor changes, to intuitively express their interactivity to the user.
+All interactive UI elements demonstrate their interactivity through hover effects, animations and cursor changes, to intuitively express their interactivity to the user. Button elements also have a loading state to inform the user that their request is being processed.
 
 ## Instant feedback
 
