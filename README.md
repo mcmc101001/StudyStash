@@ -75,7 +75,7 @@ For authentication, we decided to use Google's OAuth to make it as easy as possi
 
 #### Implementation
 
-When a user logs in through Google OAuth, their name, email and picture is retrieved from Google and stored in the SQL database if the user is not already stored. A JWT is also generated and stored in the browser's cookies, and is used to authenticate the user for subsequent requests. The JWT is crytographically encrypted (via JWE) and is stored in server-readable-only cookies to prevent XSS attacks. The JWT is also set to expire after 7 days, and the user is logged out when the JWT expires. The JWT is also set to expire after 7 days, and the user is logged out when the JWT expires.
+When a user logs in through Google OAuth, their name, email and picture is retrieved from Google and stored in the SQL database if the user is not already stored. A JWT is also generated and stored in the browser's cookies, and is used to authenticate the user for subsequent requests. The JWT is crytographically encrypted (via JWE) and is stored in server-readable-only cookies to prevent XSS attacks.
 
 (insert authentication flow diagram)
 
