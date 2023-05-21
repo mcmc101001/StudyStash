@@ -7,7 +7,14 @@ import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/ResourceFilters";
-import { ExamType, NotesVote, Prisma } from "@prisma/client";
+import {
+  ExamType,
+  NotesVote,
+  Prisma,
+  QuestionPaper,
+  QuestionPaperDifficulty,
+  QuestionPaperVote,
+} from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export function getRating(
@@ -21,6 +28,33 @@ export function getRating(
     return {
       ...resource,
       rating: rating,
+    };
+  });
+  return new_resources;
+}
+
+export function getDifficulty(
+  resources: (QuestionPaper & {
+    _count: {
+      difficulties: number;
+    };
+    votes: QuestionPaperVote[];
+    difficulties: QuestionPaperDifficulty[];
+    rating: number;
+  })[]
+) {
+  const new_resources = resources.map((resource) => {
+    const difficulty = resource.difficulties.reduce(
+      (total: number, difficulty: QuestionPaperDifficulty) =>
+        total + difficulty.value,
+      0
+    );
+    return {
+      ...resource,
+      difficulty:
+        resource._count.difficulties !== 0
+          ? difficulty / resource._count.difficulties
+          : 0,
     };
   });
   return new_resources;
@@ -82,6 +116,7 @@ export async function getQuestionPapersWithPosts({
       },
       include: {
         votes: true,
+        difficulties: true,
         _count: {
           select: { difficulties: true },
         },
@@ -151,6 +186,7 @@ export default async function Page({
     | CheatsheetWithPosts
     | QuestionPaperWithPosts
     | NotesWithPosts;
+  let sortedResources;
   let category: ResourceType;
   if (params.category === "cheatsheets") {
     category = "Cheatsheets";
@@ -181,8 +217,11 @@ export default async function Page({
   } else {
     redirect("/404");
   }
-
-  let sortedResources = getRating(parsedResources);
+  sortedResources = getRating(parsedResources);
+  if (params.category === "past_papers") {
+    // @ts-expect-error Wrong type inference
+    sortedResources = getDifficulty(sortedResources);
+  }
 
   /************** SORTING **************/
   if (Sort === "rating") {
@@ -200,6 +239,16 @@ export default async function Page({
   } else if (Sort === "date_flip") {
     sortedResources.sort((a, b) => {
       return a.createdAt.getTime() - b.createdAt.getTime();
+    });
+  } else if (Sort === "difficulty" && category === "Past Papers") {
+    sortedResources.sort((a, b) => {
+      // @ts-expect-error Wrong type inference
+      return b.difficulty - a.difficulty;
+    });
+  } else if (Sort === "difficulty_flip" && category === "Past Papers") {
+    sortedResources.sort((a, b) => {
+      // @ts-expect-error Wrong type inference
+      return a.difficulty - b.difficulty;
     });
   }
 
@@ -224,14 +273,20 @@ export default async function Page({
                 acadYear={resource.acadYear}
                 semester={resource.semester}
                 rating={resource.rating}
+                difficulty={
+                  category === "Past Papers"
+                    ? // @ts-expect-error wrong type inference
+                      resource.difficulty
+                    : undefined
+                }
                 difficultyCount={
                   category === "Past Papers"
                     ? // @ts-expect-error wrong type inference
                       resource._count.difficulties
-                    : null
+                    : undefined
                 }
                 // @ts-expect-error wrong type inference
-                examType={category !== "Notes" ? resource.type : null}
+                examType={category !== "Notes" ? resource.type : undefined}
                 category={category}
               />
             );

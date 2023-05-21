@@ -151,7 +151,7 @@ Users are able to rate the difficulty of past year papers, and the average diffi
 
 Each individual difficulty rating is stored as a record in the SQL database, unique for every combination of user and past year paper.
 
-### Challenges
+<!-- ### Challenges -->
 
 ## Sorting resources by rating, difficulty, date uploaded
 
@@ -165,7 +165,7 @@ The filtered resources are fetched from the database and subsequently sorted. At
 
 ### Challenges
 
-Given how the rating is stored, as a separate record instead of a numerical field in the resource record, we are unable to sort the resources by rating in the SQL query, which would be beneficial for performance through pagination or an infinite scroll, and instead have to compute the rating value using all rating records associated with the particular resource. We could have implemented both the numerical rating field as well as the user-specific rating record, but this results in additional database mutations needed for every upvote/downvote, and more importantly creates inconsistencies as there isn't one single source of truth. Thus, we opted to simply fetch all the filtered resources and sort them server side, as the number of resources is not expected to be large, and thus the performance impact would be negligible.
+Given how the rating is stored, as a separate record instead of a numerical field in the resource record, we are unable to sort the resources by rating in the SQL query, which would be beneficial for performance through pagination or an infinite scroll, and instead have to compute the rating value using all rating records associated with the particular resource. We could have implemented both the numerical rating field as well as the user-specific rating record, but this results in additional database mutations needed for every upvote/downvote, and more importantly creates inconsistencies as there isn't one single source of truth. Thus, we opted to simply fetch all the filtered resources and sort them server side, as the number of resources is not expected to be large, and thus the performance impact would be negligible. If performance becomes an issue, we could consider using caching and incremental static regeneration for data fetching.
 
 ## Additional information
 

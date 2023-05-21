@@ -6,6 +6,7 @@ import {
   examTypeOptions,
   ResourceType,
   sortOptions,
+  papersAdditionalSortOptions,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
@@ -73,14 +74,24 @@ export default function ResourceFilters({
       <StyledSelect
         label="Sort"
         placeholderText="Sort"
-        options={sortOptions}
+        options={
+          category === "Past Papers"
+            ? sortOptions.concat(papersAdditionalSortOptions)
+            : sortOptions
+        }
         onChange={handleSortChange}
         labelExists={false}
         defaultValue={
           sortQueryParam
-            ? sortOptions.find((option) => {
-                return option.value === sortQueryParam;
-              })
+            ? category === "Past Papers"
+              ? sortOptions
+                  .concat(papersAdditionalSortOptions)
+                  .find((option) => {
+                    return option.value === sortQueryParam;
+                  })
+              : sortOptions.find((option) => {
+                  return option.value === sortQueryParam;
+                })
             : undefined
         }
       />
