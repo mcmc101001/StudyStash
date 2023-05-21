@@ -71,11 +71,11 @@ We also wanted to make the app as accessible as possible without logging in, and
 
 As StudyStash is a personalised revision platform, we require user authentication to provide unique experiences for each user.
 
-For authentication, we decided to use Google's OAuth to make it as easy as possible for users to sign up and log in. We also decided to use NextAuth to handle the authentication flow over implementing it ourself, as we highly valued security and wanted an established library to handle it for our app. It also provides a simple API to handle authentication, and also provide JSON Web Tokens (JWTs) for session tokens.
+For authentication, we decided to use Google's OAuth to make it as easy as possible for users to sign up and log in. We also decided to use NextAuth to handle the authentication flow over implementing it ourself, as we highly valued security and wanted an established library to handle it for our app. It also provides a simple API to handle authentication, and also provide JSON Web Tokens (JWTs) which are .
 
 #### Implementation
 
-When a user logs in through Google OAuth, their name, email and picture is retrieved from Google and stored in the SQL database if the user is not already stored. A JWT is also generated and stored in the browser's cookies, and is used to authenticate the user for subsequent requests. The JWT is crytographically encrypted (via JWE)
+When a user logs in through Google OAuth, their name, email and picture is retrieved from Google and stored in the SQL database if the user is not already stored. A JWT is also generated and stored in the browser's cookies, and is used to authenticate the user for subsequent requests. The JWT is crytographically encrypted (via JWE) and is stored in server-readable-only cookies to prevent XSS attacks. The JWT is also set to expire after 7 days, and the user is logged out when the JWT expires. The JWT is also set to expire after 7 days, and the user is logged out when the JWT expires.
 
 (insert authentication flow diagram)
 
@@ -139,7 +139,7 @@ Each individual rating is stored as a record in the SQL database, unique for eve
 
 #### Challenges
 
-The state of the rating is handled by each component. However, when looking at each individual resource in the resource sheet, we can also see the rating of the resource from the resource list in the background. We could bubble the state up to the parent, but this means that the top level component would be rerendered every time state changes given how React handles state changes, which is not ideal as it would rerender the resource sheet. To solve this, we decided to use Jotai, an atomic state management library, to have fine grained control over the rerenders and only rerender the rating components in the background and in the resource sheet when the rating changes.
+The state of the rating is handled by each individual rating component. However, when looking at each individual resource in the resource sheet, we can also see the rating of the resource from the resource list in the background. We could bubble the state up to the parent, but this means that the top level component would be rerendered every time state changes given how React handles state changes, which is not ideal as it would rerender the resource sheet. To solve this, we decided to use Jotai, an atomic state management library, to have fine grained control over the rerenders and only rerender the rating components in the background and in the resource sheet when the rating changes.
 
 ### Additional information
 
@@ -274,6 +274,8 @@ Github Actions and Vercel was utilised to perform Continuous Integration and Con
 ### No API rate limiting
 
 ### No rollbacks to database
+
+### Difficult to invalidate JWTs, as it is stored in the client instead of sessions in the server
 
 ## Challenges
 
