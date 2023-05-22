@@ -5,7 +5,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
 
-export default async function Database({
+export default async function SpecificSolutionPage({
   params: { resourceId, categoryURL, solutionId },
 }: {
   params: {

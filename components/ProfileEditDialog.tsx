@@ -13,8 +13,7 @@ import { useState } from "react";
 import { updateProfileType } from "@/pages/api/updateProfile";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { DialogClose } from "@radix-ui/react-dialog";
-import Button from "./ui/Button";
+import Button from "@/components/ui/Button";
 
 interface ProfileEditDialogProps {
   userId: string;
