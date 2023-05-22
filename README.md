@@ -243,6 +243,8 @@ One to many field, during the resource uploading for past year paper, include dr
 
 ## Sort by "relevance": more recent ratings hold greater weightage
 
+## Stopwatch/Timer for papers
+
 ## Additional information
 
 (ADD TABLE OF FEATURES ACCESSIBLE TO AUTHENTICATED VS NON AUTHENTICATED USERS)

@@ -100,7 +100,7 @@ export const papersAdditionalSortOptions = [
   { value: "difficulty_flip", label: "Lowest Difficulty" },
 ];
 
-export const examTypeOptions = [
+export const examTypeOptions: { value: ExamType; label: ExamType }[] = [
   { value: "Midterm", label: "Midterm" },
   { value: "Final", label: "Final" },
   { value: "Quiz", label: "Quiz" },
