@@ -15,14 +15,14 @@ async function UserProfilePic() {
             src={user.image!}
             alt={user.name ?? "profile image"}
             referrerPolicy="no-referrer"
-            width={50}
-            height={50}
+            width={65}
+            height={65}
           />
           <LogoutButton />
         </>
       ) : (
         <>
-          <User className="h-12 w-12 text-slate-800 dark:text-slate-200" />
+          <User className="h-16 w-16 text-slate-800 dark:text-slate-200" />
           <LoginButton />
         </>
       )}

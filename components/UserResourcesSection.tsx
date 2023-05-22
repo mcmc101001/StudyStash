@@ -6,6 +6,7 @@ import ResourceFilters from "@/components/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
 import { ExamType } from "@prisma/client";
 import {
+  getAvgDifficulty,
   getCheatsheetsWithPosts,
   getNotesWithPosts,
   getQuestionPapersWithPosts,
@@ -59,7 +60,6 @@ export default async function UserResourcesSection({
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
-      FilterExamType: filterExamType,
       userId: profileUserId,
     });
   } else if (filterCategory !== undefined) {
@@ -67,6 +67,10 @@ export default async function UserResourcesSection({
   }
 
   let resourcesWithRating = resources ? getRating(resources) : [];
+  if (category === "Past Papers") {
+    // @ts-expect-error Wrong type inference
+    resourcesWithRating = getAvgDifficulty(resourcesWithRating);
+  }
 
   /************** SORTING **************/
   if (sort === "rating") {
@@ -84,6 +88,16 @@ export default async function UserResourcesSection({
   } else if (sort === "date_flip") {
     resourcesWithRating.sort((a, b) => {
       return a.createdAt.getTime() - b.createdAt.getTime();
+    });
+  } else if (sort === "difficulty" && category === "Past Papers") {
+    resourcesWithRating.sort((a, b) => {
+      // @ts-expect-error Wrong type inference
+      return b.difficulty - a.difficulty;
+    });
+  } else if (sort === "difficulty_flip" && category === "Past Papers") {
+    resourcesWithRating.sort((a, b) => {
+      // @ts-expect-error Wrong type inference
+      return a.difficulty - b.difficulty;
     });
   }
 
@@ -120,6 +134,12 @@ export default async function UserResourcesSection({
                         acadYear={resource.acadYear}
                         semester={resource.semester}
                         rating={resource.rating}
+                        difficulty={
+                          category === "Past Papers"
+                            ? // @ts-expect-error wrong type inference
+                              resource.difficulty
+                            : undefined
+                        }
                         difficultyCount={
                           filterCategory === "past_papers"
                             ? // @ts-expect-error wrong type inference

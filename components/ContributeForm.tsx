@@ -13,7 +13,7 @@ import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { ExamType } from "@prisma/client";
 import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
 import { deletePDFType } from "@/pages/api/deletePDF";
-import useQueryParams from "@/hooks/useQueryParams";
+import { useSearchParams } from "next/navigation";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -26,19 +26,44 @@ interface ContributeFormProps {
   userId: string;
 }
 
+function validQueryParamOrNull(
+  query: string | null | undefined,
+  options: Array<Option> | null
+) {
+  if (query === null || query === undefined || options === null) {
+    return null;
+  }
+  if (options.find((e) => e.value === query)) {
+    return query;
+  }
+  return null;
+}
+
 const ContributeForm = (props: ContributeFormProps) => {
-  const { queryParams, setQueryParams } = useQueryParams();
+  const queryParams = useSearchParams();
   const [acadYear, setAcadYear] = useState<string | null>(
-    queryParams?.get("filterAcadYear") ?? null
+    validQueryParamOrNull(
+      queryParams?.get("filterAcadYear"),
+      props.acadYearOptions
+    )
   );
   const [semester, setSemester] = useState<string | null>(
-    queryParams?.get("filterSemester") ?? null
+    validQueryParamOrNull(
+      queryParams?.get("filterSemester"),
+      props.semesterOptions
+    )
   );
   const [moduleCode, setModuleCode] = useState<string | null>(
-    queryParams?.get("filterModuleCode") ?? null
+    validQueryParamOrNull(
+      queryParams?.get("filterModuleCode"),
+      props.moduleCodeOptions
+    )
   );
   const [examType, setExamType] = useState<ExamType | null>(
-    (queryParams?.get("filterExamType") as ExamType) ?? null
+    validQueryParamOrNull(
+      queryParams?.get("filterExamType"),
+      props.examTypeOptions
+    ) as ExamType
   );
   const [fileName, setFileName] = useState<string | null>(null);
   const [solutionIncluded, setSolutionIncluded] = useState<boolean | null>(

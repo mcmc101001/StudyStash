@@ -17,7 +17,6 @@ import {
 import {
   getCheatsheetStatus,
   getCheatsheetVote,
-  getDifficulty,
   getNotesStatus,
   getNotesVote,
   getQuestionPaperStatus,
@@ -35,7 +34,10 @@ export default async function ResourcePage({
   params: { resourceId, categoryURL },
   children,
 }: {
-  params: { resourceId: string; categoryURL: ResourceTypeURL };
+  params: {
+    resourceId: string;
+    categoryURL: ResourceTypeURL;
+  };
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
@@ -154,7 +156,7 @@ export default async function ResourcePage({
             <span>Back to resource</span>
           </Button>
         </Link>
-        <div className="mt-4 flex flex-row items-center gap-x-4 text-lg font-semibold">
+        <div className="mx-2 mt-4 flex flex-row items-center gap-x-4 text-lg font-semibold">
           <ResourceRatingProvider
             category={category}
             currentUserId={currentUser?.id || null}
@@ -164,7 +166,7 @@ export default async function ResourcePage({
           />
           <div className="overflow-scroll scrollbar-none">{resource.name}</div>
           {category === "Past Papers" && (
-            <div className="ml-auto mr-4 flex flex-col items-center">
+            <div className="ml-auto flex flex-col items-center">
               <span>Rate difficulty</span>
               <DifficultyRating
                 resourceId={resourceId}
@@ -176,15 +178,15 @@ export default async function ResourcePage({
         </div>
         <iframe
           title="PDF Resource"
-          className="mt-4"
+          className="mt-5"
           src={PDFURL}
           width="100%"
-          height="100%"
+          height="80%"
         ></iframe>
       </ResizableDiv>
-      <div className="m-10 w-full">
+      <div className="m-10 w-full overflow-hidden">
         {categoryURL === "past_papers" ? (
-          <div className="mx-auto w-5/6">
+          <div className="mx-auto mt-14 w-5/6">
             <SolutionTab solutionTabOptions={solutionTabOptions} />
           </div>
         ) : (

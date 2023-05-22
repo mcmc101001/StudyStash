@@ -5,25 +5,22 @@ import {
   semesterOptions,
   examTypeOptions,
   ResourceType,
-  ResourceTypeURL,
   sortOptions,
+  papersAdditionalSortOptions,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
-import Link from "next/link";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
   category: ResourceType;
   moduleCodeOptions?: Option[];
-  urlParams?: { moduleCode: string; category: ResourceTypeURL };
 }
 
 export default function ResourceFilters({
   acadYearOptions,
   category,
   moduleCodeOptions,
-  urlParams,
 }: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -77,14 +74,24 @@ export default function ResourceFilters({
       <StyledSelect
         label="Sort"
         placeholderText="Sort"
-        options={sortOptions}
+        options={
+          category === "Past Papers"
+            ? sortOptions.concat(papersAdditionalSortOptions)
+            : sortOptions
+        }
         onChange={handleSortChange}
         labelExists={false}
         defaultValue={
           sortQueryParam
-            ? sortOptions.find((option) => {
-                return option.value === sortQueryParam;
-              })
+            ? category === "Past Papers"
+              ? sortOptions
+                  .concat(papersAdditionalSortOptions)
+                  .find((option) => {
+                    return option.value === sortQueryParam;
+                  })
+              : sortOptions.find((option) => {
+                  return option.value === sortQueryParam;
+                })
             : undefined
         }
       />
@@ -165,20 +172,6 @@ export default function ResourceFilters({
           }
         />
       )}
-
-      <Link
-        href={
-          "/addPDF/" +
-          urlParams?.category +
-          "/?filterModuleCode=" +
-          urlParams?.moduleCode +
-          "&" +
-          queryParams?.toString()
-        }
-        className="absolute right-16 top-12 rounded-md border border-white bg-slate-700 p-2 font-semibold text-white"
-      >
-        Contribute
-      </Link>
     </div>
   );
 }

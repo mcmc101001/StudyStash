@@ -9,14 +9,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
+import { toast } from "react-hot-toast";
 
 export interface NavOptionsProps {
+  userId: string | null;
   name: string;
   href: string;
   icon: Icon;
 }
 
-export default function NavOptions({ name, href, icon }: NavOptionsProps) {
+export default function NavOptions({
+  userId,
+  name,
+  href,
+  icon,
+}: NavOptionsProps) {
   let segment = useSelectedLayoutSegment();
   let isActive = false;
   if (!segment && href === "/") {
@@ -30,8 +37,7 @@ export default function NavOptions({ name, href, icon }: NavOptionsProps) {
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Link
-              href={href}
+            <button
               className={
                 "flex gap-3 rounded-md p-2 text-lg font-semibold leading-6 text-gray-700 dark:text-gray-300 " +
                 (isActive
@@ -39,8 +45,17 @@ export default function NavOptions({ name, href, icon }: NavOptionsProps) {
                   : "hover:bg-slate-800 hover:text-indigo-100 dark:hover:bg-slate-200 dark:hover:text-indigo-900")
               }
             >
-              <Icon className="h-7 w-7" />
-            </Link>
+              {href === "/database" || userId ? (
+                <Link href={href}>
+                  <Icon className="h-7 w-7" />
+                </Link>
+              ) : (
+                <Icon
+                  onClick={() => toast.error("You need to be logged in!")}
+                  className="h-7 w-7"
+                />
+              )}
+            </button>
           </TooltipTrigger>
           <TooltipContent side="right" asChild>
             <p>{name}</p>

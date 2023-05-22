@@ -89,13 +89,18 @@ export interface ResourceFiltersSorts {
 }
 
 export const sortOptions = [
-  { value: "rating", label: "Highest Rating" },
-  { value: "rating_flip", label: "Lowest Rating" },
   { value: "date", label: "Most recent" },
   { value: "date_flip", label: "Oldest" },
+  { value: "rating", label: "Highest Rating" },
+  { value: "rating_flip", label: "Lowest Rating" },
 ];
 
-export const examTypeOptions = [
+export const papersAdditionalSortOptions = [
+  { value: "difficulty", label: "Highest Difficulty" },
+  { value: "difficulty_flip", label: "Lowest Difficulty" },
+];
+
+export const examTypeOptions: { value: ExamType; label: ExamType }[] = [
   { value: "Midterm", label: "Midterm" },
   { value: "Final", label: "Final" },
   { value: "Quiz", label: "Quiz" },
