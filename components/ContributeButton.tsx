@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
+import Button from "./ui/Button";
 
 export default function ContributeButton() {
   const queryParams = useSearchParams();
@@ -13,9 +14,10 @@ export default function ContributeButton() {
         `/addPDF/${params?.category}` +
         `/?filterModuleCode=${params?.moduleCode}&${queryParams?.toString()}`
       }
-      className="rounded-md border border-slate-800 p-2 font-semibold dark:border-slate-200 dark:text-slate-200"
     >
-      Contribute
+      <Button variant="default" size="lg" className="text-lg">
+        Contribute
+      </Button>
     </Link>
   );
 }
