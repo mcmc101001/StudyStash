@@ -3,7 +3,7 @@ import { ResourceTypeURL } from "@/lib/content";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
-export default async function Database({
+export default async function SolutionContributePage({
   params: { resourceId, categoryURL },
 }: {
   params: { resourceId: string; categoryURL: ResourceTypeURL };

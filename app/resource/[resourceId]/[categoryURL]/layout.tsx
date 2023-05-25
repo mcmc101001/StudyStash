@@ -17,7 +17,6 @@ import {
 import {
   getCheatsheetStatus,
   getCheatsheetVote,
-  getDifficulty,
   getNotesStatus,
   getNotesVote,
   getQuestionPaperStatus,
@@ -32,13 +31,12 @@ import SolutionTab from "@/components/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
 
 export default async function ResourcePage({
-  params: { resourceId, categoryURL, solutionId },
+  params: { resourceId, categoryURL },
   children,
 }: {
   params: {
     resourceId: string;
     categoryURL: ResourceTypeURL;
-    solutionId: string;
   };
   children: React.ReactNode;
 }) {

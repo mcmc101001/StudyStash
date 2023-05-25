@@ -52,7 +52,7 @@ export default function StyledSelect({
           menuList: () =>
             "p-0 border dark:border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950",
           control: () =>
-            "bg-white dark:bg-slate-950 border border-slate-700 dark:border-slate-300",
+            "border border-slate-700 dark:border-slate-300 bg-white dark:bg-slate-950", // border colour does not apply for some reason (most likely clashing styles)
           placeholder: () => "text-slate-500 dark:text-slate-400",
           input: () => "text-slate-800 dark:text-slate-200",
           singleValue: () => "text-slate-800 dark:text-slate-200",
@@ -60,6 +60,7 @@ export default function StyledSelect({
           clearIndicator: () =>
             "text-slate-800 dark:text-slate-200 hover:text-slate-500 dark:hover:text-slate-400",
         }}
+        // does not look the best for dark mode
         styles={{
           menuList: (base) => ({
             ...base,

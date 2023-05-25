@@ -39,21 +39,23 @@ export default function NavOptions({
           <TooltipTrigger asChild>
             <button
               className={
-                "flex gap-3 rounded-md p-2 text-lg font-semibold leading-6 text-gray-700 dark:text-gray-300 " +
+                "flex gap-3 rounded-md p-0 text-lg font-semibold leading-6 text-gray-700 dark:text-gray-300 " +
                 (isActive
                   ? "outline outline-2 -outline-offset-2 outline-slate-800 dark:outline-slate-200"
                   : "hover:bg-slate-800 hover:text-indigo-100 dark:hover:bg-slate-200 dark:hover:text-indigo-900")
               }
             >
               {href === "/database" || userId ? (
-                <Link href={href}>
+                <Link className="p-2" href={href}>
                   <Icon className="h-7 w-7" />
                 </Link>
               ) : (
-                <Icon
+                <div
                   onClick={() => toast.error("You need to be logged in!")}
-                  className="h-7 w-7"
-                />
+                  className="p-2"
+                >
+                  <Icon className="h-7 w-7" />
+                </div>
               )}
             </button>
           </TooltipTrigger>

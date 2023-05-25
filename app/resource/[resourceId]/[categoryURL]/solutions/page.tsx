@@ -1,6 +1,5 @@
 import SolutionItem from "@/components/SolutionItem";
 import SolutionSort from "@/components/SolutionSort";
-import SolutionTab from "@/components/SolutionTab";
 import { ResourceFiltersSorts, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { Prisma, SolutionVote } from "@prisma/client";
@@ -48,7 +47,7 @@ export type SolutionsWithPosts = Prisma.PromiseReturnType<
   typeof getSolutionsWithPosts
 >;
 
-export default async function Database({
+export default async function SolutionPage({
   params: { resourceId, categoryURL },
   searchParams,
 }: {

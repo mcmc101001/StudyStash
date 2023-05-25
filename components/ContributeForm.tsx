@@ -64,7 +64,6 @@ const ContributeForm = (props: ContributeFormProps) => {
       queryParams?.get("filterExamType"),
       props.examTypeOptions
     ) as ExamType
-    // (queryParams?.get("filterExamType") as ExamType) ?? null
   );
   const [fileName, setFileName] = useState<string | null>(null);
   const [solutionIncluded, setSolutionIncluded] = useState<boolean | null>(
