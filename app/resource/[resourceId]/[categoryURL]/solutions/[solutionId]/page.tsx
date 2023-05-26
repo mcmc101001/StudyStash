@@ -29,7 +29,7 @@ export default async function SpecificSolutionPage({
     redirect("/404");
   }
 
-  const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${solutionId}`;
+  const PDFURL = `https://${process.env.AWS_BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${solutionId}`;
 
   return (
     <>

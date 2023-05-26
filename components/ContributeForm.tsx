@@ -299,19 +299,18 @@ const ContributeForm = (props: ContributeFormProps) => {
             option: { value: string; label: string },
             query: string
           ) => {
-            if (query.trimStart().length < 2) {
+            const trimmed_query = query.trimStart();
+            if (trimmed_query.length < 2) {
               return false;
             }
             // If matches prefix
             if (
-              option.value
-                .toLowerCase()
-                .startsWith(query.trimStart().toLowerCase())
+              option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
             ) {
               return true;
-            } else if (containsOnlyNumbers(query.trimStart())) {
+            } else if (containsOnlyNumbers(trimmed_query)) {
               // If matches number
-              if (option.value.includes(query.trimStart())) {
+              if (option.value.includes(trimmed_query)) {
                 return true;
               }
             }

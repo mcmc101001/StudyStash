@@ -2,7 +2,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { ResourceEnum, ResourceSolutionEnum } from "@/lib/content";
+import { ResourceSolutionEnum } from "@/lib/content";
 import z from "zod";
 
 const deletePDFSchema = z.object({

@@ -28,6 +28,7 @@ interface ResourceSheetLauncherProps {
   totalRating: number;
   userRating: boolean | null;
   userDifficulty: number;
+  PDFURL: string;
 }
 
 export default function ResourceSheetLauncher({
@@ -39,13 +40,13 @@ export default function ResourceSheetLauncher({
   totalRating,
   userRating,
   userDifficulty,
+  PDFURL,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
 
   const { queryParams, setQueryParams } = useQueryParams();
   const router = useRouter();
-  const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${resourceId}`;
 
   const enterSheet = () => {
     setQueryParams({ id: resourceId });
