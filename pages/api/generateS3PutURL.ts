@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { createPresignedUrlWithoutClient } from "@/lib/aws_s3_sdk";
+import { createPresignedUploadUrl } from "@/lib/aws_s3_sdk";
 import z from "zod";
 
 const generateS3PutURLSchema = z.object({
@@ -48,7 +48,7 @@ export default async function generateS3PutURL(
   try {
     let { name } = req.body;
 
-    const url = await createPresignedUrlWithoutClient({
+    const url = await createPresignedUploadUrl({
       region: process.env.AWS_REGION as string,
       bucket: process.env.AWS_BUCKET_NAME as string,
       key: name,

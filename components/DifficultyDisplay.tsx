@@ -13,7 +13,9 @@ export default function DifficultyDisplay({
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
       <div>
-        <span className="text-lg font-semibold">{difficulty.toFixed(1)} </span>
+        <span className="text-lg font-semibold">
+          {difficultyCount !== 0 ? difficulty.toFixed(1) : "-"}{" "}
+        </span>
       </div>
       <div className="flex">
         {stars.map((star) => {
