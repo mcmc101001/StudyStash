@@ -141,7 +141,7 @@ export default async function ResourcePage({
   const totalRating = resourceWithRating[0].rating;
   const userRating = userVote !== null ? userVote.value : null;
 
-  const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${resourceId}`;
+  const PDFURL = `https://${process.env.AWS_BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${resourceId}`;
 
   return (
     <div className="flex h-full overflow-hidden">

@@ -154,6 +154,7 @@ export default async function ResourceItem({
     },
   });
   const currentUser = await getCurrentUser();
+  const PDFURL = `https://${process.env.AWS_BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${resourceId}`;
 
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
   let userStatus: CheatsheetStatus | NotesStatus | QuestionPaperStatus | null;
@@ -233,6 +234,7 @@ export default async function ResourceItem({
           totalRating={rating}
           userRating={userVote !== null ? userVote.value : null}
           userDifficulty={userDifficulty}
+          PDFURL={PDFURL}
         >
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
             <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
