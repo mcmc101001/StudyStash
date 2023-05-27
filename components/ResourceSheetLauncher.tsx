@@ -18,6 +18,9 @@ import { Provider, atom } from "jotai";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { solutionTabOptions } from "@/lib/content";
+import { generateS3ShareURLType } from "@/pages/api/generateS3ShareURL";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -28,7 +31,6 @@ interface ResourceSheetLauncherProps {
   totalRating: number;
   userRating: boolean | null;
   userDifficulty: number;
-  PDFURL: string;
 }
 
 export default function ResourceSheetLauncher({
@@ -40,7 +42,6 @@ export default function ResourceSheetLauncher({
   totalRating,
   userRating,
   userDifficulty,
-  PDFURL,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -63,6 +64,30 @@ export default function ResourceSheetLauncher({
       : category === "Past Papers"
       ? "past_papers"
       : "notes";
+
+  const [shareURL, setShareURL] = useState<string>("");
+
+  useEffect(() => {
+    const fetchURL = async () => {
+      try {
+        let body: generateS3ShareURLType = {
+          userId: currentUserId as string,
+          resourceId: resourceId,
+        };
+        let { data } = await axios.post("/api/generateS3ShareURL", body);
+
+        const url = data.url;
+        setShareURL(url);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    try {
+      fetchURL();
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   return (
     <Provider>
@@ -121,7 +146,7 @@ export default function ResourceSheetLauncher({
           </SheetHeader>
           <iframe
             title="PDF Resource"
-            src={PDFURL}
+            src={shareURL}
             width="100%"
             height="80%"
           ></iframe>

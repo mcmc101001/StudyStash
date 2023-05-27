@@ -19,6 +19,7 @@ import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
+import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -155,7 +156,6 @@ export default async function ResourceItem({
     },
   });
   const currentUser = await getCurrentUser();
-  const PDFURL = `https://${process.env.AWS_BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${resourceId}`;
 
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
   let userStatus: CheatsheetStatus | NotesStatus | QuestionPaperStatus | null;
@@ -235,7 +235,6 @@ export default async function ResourceItem({
           totalRating={rating}
           userRating={userVote !== null ? userVote.value : null}
           userDifficulty={userDifficulty}
-          PDFURL={PDFURL}
         >
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
             <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
