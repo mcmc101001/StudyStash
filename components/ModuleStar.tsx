@@ -5,6 +5,7 @@ import { StarIcon } from "lucide-react";
 import { useState } from "react";
 import { updateStarredModuleType } from "@/pages/api/updateStarredModule";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ModuleStarProps {
   moduleCode: string;
@@ -17,6 +18,8 @@ export default function ModuleStar({
   userId,
   starred,
 }: ModuleStarProps) {
+  let router = useRouter();
+
   const [star, setStar] = useState(starred);
 
   const handleClick = async () => {
@@ -31,6 +34,7 @@ export default function ModuleStar({
     } catch (error) {
       toast.error("Error updating starred module, please try again later.");
     }
+    router.refresh();
   };
 
   return (
