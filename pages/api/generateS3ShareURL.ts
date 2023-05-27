@@ -1,18 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { createPresignedUploadUrl } from "@/lib/aws_s3_sdk";
+import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import z from "zod";
 
-const generateS3PutURLSchema = z.object({
+const generateS3ShareURLSchema = z.object({
   userId: z.string(),
-  name: z.string(),
+  resourceId: z.string(),
 });
 
-export type generateS3PutURLType = z.infer<typeof generateS3PutURLSchema>;
+export type generateS3ShareURLType = z.infer<typeof generateS3ShareURLSchema>;
 
-function isValidBody(body: any): body is generateS3PutURLType {
-  const { success } = generateS3PutURLSchema.safeParse(body);
+function isValidBody(body: any): body is generateS3ShareURLType {
+  const { success } = generateS3ShareURLSchema.safeParse(body);
   return success;
 }
 
@@ -24,7 +24,7 @@ export const config = {
   },
 };
 
-export default async function generateS3PutURL(
+export default async function generateS3ShareURL(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -46,12 +46,12 @@ export default async function generateS3PutURL(
   }
 
   try {
-    let { name } = req.body;
+    let { resourceId } = req.body;
 
-    const url = await createPresignedUploadUrl({
+    const url = await createPresignedShareUrl({
       region: process.env.AWS_REGION as string,
       bucket: process.env.AWS_BUCKET_NAME as string,
-      key: name,
+      key: resourceId,
     });
 
     res.status(200).json({ url });

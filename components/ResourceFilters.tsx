@@ -82,6 +82,7 @@ export default function ResourceFilters({
         onChange={handleSortChange}
         labelExists={false}
         defaultValue={
+          // choose select param accordingly based on category
           sortQueryParam
             ? category === "Past Papers"
               ? sortOptions
@@ -111,19 +112,18 @@ export default function ResourceFilters({
             option: { value: string; label: string },
             query: string
           ) => {
-            if (query.trimStart().length < 2) {
+            const trimmed_query = query.trimStart();
+            if (trimmed_query.length < 2) {
               return false;
             }
             // If matches prefix
             if (
-              option.value
-                .toLowerCase()
-                .startsWith(query.trimStart().toLowerCase())
+              option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
             ) {
               return false;
-            } else if (containsOnlyNumbers(query.trimStart())) {
+            } else if (containsOnlyNumbers(trimmed_query)) {
               // If matches number
-              if (option.value.includes(query.trimStart())) {
+              if (option.value.includes(trimmed_query)) {
                 return false;
               }
             }

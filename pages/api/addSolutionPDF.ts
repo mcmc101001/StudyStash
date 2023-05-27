@@ -31,7 +31,6 @@ export default async function addSolutionPDF(
     return;
   }
   if (!isValidBody(req.body)) {
-    console.log(req.body);
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {
@@ -45,7 +44,6 @@ export default async function addSolutionPDF(
         id: questionPaperId,
       },
     });
-    console.log(questionPaper);
     // If no question paper
     if (!questionPaper) {
       res.status(400).json({ message: "Invalid request" });

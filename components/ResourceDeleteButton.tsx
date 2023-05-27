@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/Dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import Button from "@/components/ui/Button";
+import UseAnimations from "react-useanimations";
+import trash2 from "react-useanimations/lib/trash2";
 
 interface ResourceDeleteButtonProps {
   currentUserId: string;
@@ -66,8 +68,9 @@ export default function ResourceDeleteButton({
         <Loader2 height={30} width={30} className="animate-spin" />
       ) : (
         <Dialog>
-          <DialogTrigger>
-            <Trash2 height={30} width={30} className="cursor-pointer" />
+          <DialogTrigger className="stroke-slate-800 dark:stroke-slate-200">
+            <UseAnimations animation={trash2} size={30} strokeColor="inherit" />
+            {/* <Trash2 height={30} width={30} className="cursor-pointer" /> */}
           </DialogTrigger>
           <DialogContent className="text-slate-800 dark:text-slate-200">
             <DialogHeader>

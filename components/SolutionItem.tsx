@@ -5,7 +5,8 @@ import Link from "next/link";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
-import ResourceRatingProvider from "./ResourceRatingProvider";
+import ResourceRatingProvider from "@/components/ResourceRatingProvider";
+import ClientDateTime from "@/components/ClientDateTime";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
@@ -116,13 +117,7 @@ export default async function SolutionItem({
               {name}
             </p>
             <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
-              {createdAt.toLocaleString("en-GB", {
-                minute: "2-digit",
-                hour: "2-digit",
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
+              <ClientDateTime datetime={createdAt} />
             </p>
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">

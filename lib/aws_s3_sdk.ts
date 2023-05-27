@@ -15,7 +15,7 @@ const s3 = new S3Client({
 });
 
 // Generate presigned URL where a PUT request can be used to insert a file into S3
-export const createPresignedUrlWithoutClient = async (params: {
+export const createPresignedUploadUrl = async (params: {
   region: string;
   bucket: string;
   key: string;
@@ -41,13 +41,35 @@ export const createPresignedUrlWithoutClient = async (params: {
   return formatUrl(signedUrlObject);
 };
 
+// Generate presigned URL where a PUT request can be used to share a file from S3
+export const createPresignedShareUrl = async (params: {
+  region: string;
+  bucket: string;
+  key: string;
+}) => {
+  const url = parseUrl(
+    `https://${params.bucket}.s3.${params.region}.amazonaws.com/${params.key}`
+  );
+  const presigner = new S3RequestPresigner({
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+    },
+    region: params.region,
+    sha256: Hash.bind(null, "sha256"),
+  });
+
+  const signedUrlObject = await presigner.presign(new HttpRequest(url));
+
+  return formatUrl(signedUrlObject);
+};
+
 // Delete object
 export const deleteS3ObjectLib = async (key: string) => {
   try {
     const deleteParams = { Bucket: process.env.AWS_BUCKET_NAME, Key: key };
     const deleteCommand = new DeleteObjectCommand(deleteParams);
     const deleteResponse = await s3.send(deleteCommand);
-    console.log(JSON.stringify(deleteResponse));
   } catch (error) {
     console.log(error);
   }

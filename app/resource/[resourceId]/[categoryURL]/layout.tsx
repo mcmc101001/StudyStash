@@ -29,6 +29,7 @@ import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
 import SolutionTab from "@/components/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
+import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },
@@ -141,7 +142,11 @@ export default async function ResourcePage({
   const totalRating = resourceWithRating[0].rating;
   const userRating = userVote !== null ? userVote.value : null;
 
-  const PDFURL = `https://orbital2023.s3.ap-southeast-1.amazonaws.com/${resourceId}`;
+  const PDFURL = await createPresignedShareUrl({
+    region: process.env.AWS_REGION as string,
+    bucket: process.env.AWS_BUCKET_NAME as string,
+    key: resourceId,
+  });
 
   return (
     <div className="flex h-full overflow-hidden">

@@ -18,6 +18,8 @@ import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
+import ClientDateTime from "@/components/ClientDateTime";
+import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -214,7 +216,7 @@ export default async function ResourceItem({
   }
 
   return (
-    <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+    <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
       {currentUser && (
         <ResourceStatusComponent
           category={category}
@@ -239,13 +241,7 @@ export default async function ResourceItem({
               {name}
             </p>
             <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
-              {createdAt.toLocaleString("en-GB", {
-                minute: "2-digit",
-                hour: "2-digit",
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
+              <ClientDateTime datetime={createdAt} />
             </p>
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
