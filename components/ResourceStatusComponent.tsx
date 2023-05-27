@@ -54,25 +54,25 @@ export default function ResourceStatusComponent({
       <div className="flex flex-col items-center">
         {/* Mock dropdown */}
         <div className="group relative inline-block text-left">
-          <button className="mr-2 h-6 w-6 rounded-md bg-slate-950 text-slate-200">
+          <button className="mr-2 h-6 w-6 rounded-md bg-slate-200 text-slate-800 transition-colors dark:bg-slate-800 dark:text-slate-200">
             {statusState}
           </button>
-          <div className="invisible absolute z-10 flex w-36 flex-col gap-1 rounded-lg bg-slate-900 p-2 text-slate-200 group-hover:visible">
+          <div className="invisible absolute z-10 flex w-36 flex-col gap-1 rounded-lg bg-slate-100 p-2 text-slate-800 group-hover:visible dark:bg-slate-900 dark:text-slate-200">
             <div
               onClick={() => handleClick("✓")}
-              className="flex cursor-pointer p-2 hover:bg-slate-800"
+              className="flex cursor-pointer p-2 hover:bg-slate-200 dark:hover:bg-slate-800"
             >
               <div className="w-8 pr-2 text-right">✓</div> Completed
             </div>
             <div
               onClick={() => handleClick("-")}
-              className="flex cursor-pointer p-2 hover:bg-slate-800"
+              className="flex cursor-pointer p-2 hover:bg-slate-200 dark:hover:bg-slate-800"
             >
               <div className="w-8 pr-2 text-right">-</div>Todo
             </div>
             <div
               onClick={() => handleClick("🔖")}
-              className="flex cursor-pointer p-2 hover:bg-slate-800"
+              className="flex cursor-pointer p-2 hover:bg-slate-200 dark:hover:bg-slate-800"
             >
               <div className="w-8 pr-2 text-right">🔖</div>Bookmark
             </div>

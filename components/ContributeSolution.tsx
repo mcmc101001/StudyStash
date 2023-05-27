@@ -90,11 +90,10 @@ export default function ContributeSolution({
       };
       let { data } = await axios.post("/api/addSolutionPDF", body);
 
-      const pdfEntryPrismaId = data.SolutionEntry.id;
-      console.log(data);
+      const solutionId = data.SolutionEntry.id;
 
       // If prisma does not return ID for some reason
-      if (!pdfEntryPrismaId) {
+      if (!solutionId) {
         toast.error("Error uploading PDF.");
         setIsDisabled(false);
         return;
@@ -102,7 +101,7 @@ export default function ContributeSolution({
       try {
         let body: generateS3PutURLType = {
           userId: currentUserId,
-          name: pdfEntryPrismaId,
+          name: solutionId,
         };
         let { data } = await axios.post("/api/generateS3PutURL", body);
 
@@ -122,7 +121,7 @@ export default function ContributeSolution({
         try {
           let body: deletePDFType = {
             userId: currentUserId,
-            id: pdfEntryPrismaId,
+            id: solutionId,
             category: "Solutions",
           };
           await axios.post("/api/deletePDF", body);
@@ -160,6 +159,7 @@ export default function ContributeSolution({
           fileSelectedHandler={fileSelectedHandler}
           fileName={fileName}
           inputRef={inputRef}
+          label="Select or drop pdf file"
         />
         <section className="flex w-full flex-row items-center justify-between gap-2">
           <Button
