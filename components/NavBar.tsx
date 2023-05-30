@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import NavOptions, { NavOptionsProps } from "@/components/NavOptions";
+import NavOptions from "@/components/NavOptions";
 import Link from "next/link";
 import { Icon, Icons } from "@/components/Icons";
 import UserProfilePic from "@/components/UserProfilePic";
@@ -48,21 +48,34 @@ export default async function Navbar() {
           {navOptions.map((option) => {
             if (!user && option.name === "Profile") return null; // Don't show profile tab if not signed in
             return (
-              <NavOptions
+              <Suspense
                 key={option.name}
-                userId={user?.id || null}
-                name={option.name}
-                href={option.href}
-                icon={option.icon}
-              />
+                fallback={
+                  <Loader2 className="h-7 w-7 animate-spin text-slate-800 dark:text-slate-200" />
+                }
+              >
+                <NavOptions
+                  key={option.name}
+                  userId={user?.id || null}
+                  name={option.name}
+                  href={option.href}
+                  icon={option.icon}
+                />
+              </Suspense>
             );
           })}
 
-          <DarkModeToggler />
+          <Suspense
+            fallback={
+              <Loader2 className="h-7 w-7 animate-spin text-slate-800 dark:text-slate-200" />
+            }
+          >
+            <DarkModeToggler />
+          </Suspense>
 
           <Suspense
             fallback={
-              <Loader2 className="h-6 w-6 animate-spin text-slate-800 dark:text-slate-200" />
+              <Loader2 className="h-10 w-10 animate-spin text-slate-800 dark:text-slate-200" />
             }
           >
             {/* @ts-expect-error Server Component */}

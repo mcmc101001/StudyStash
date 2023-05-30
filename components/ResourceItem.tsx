@@ -20,6 +20,7 @@ import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
+import { Suspense } from "react";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -227,39 +228,41 @@ export default async function ResourceItem({
       )}
 
       <div className="flex h-full w-full overflow-hidden">
-        <ResourceSheetLauncher
-          resourceId={resourceId}
-          title={name}
-          currentUserId={currentUser ? currentUser.id : null}
-          category={category}
-          totalRating={rating}
-          userRating={userVote !== null ? userVote.value : null}
-          userDifficulty={userDifficulty}
-        >
-          <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
-            <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
-              {name}
-            </p>
-            <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
-              <ClientDateTime datetime={createdAt} />
-            </p>
-          </div>
-          <div className="ml-auto flex h-full flex-col gap-y-2">
-            <p className="whitespace-nowrap text-end">
-              {category !== "Notes" ? `${examType}, ` : ""}
-              {`${acadYear} S${semester}`}
-            </p>
-            <p className="ml-auto w-max whitespace-nowrap text-end">
-              <Link
-                href={`/profile/${resourceUser?.id}`}
-                className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-              >
-                {resourceUser?.name}
-                <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
-              </Link>
-            </p>
-          </div>
-        </ResourceSheetLauncher>
+        <Suspense>
+          <ResourceSheetLauncher
+            resourceId={resourceId}
+            title={name}
+            currentUserId={currentUser ? currentUser.id : null}
+            category={category}
+            totalRating={rating}
+            userRating={userVote !== null ? userVote.value : null}
+            userDifficulty={userDifficulty}
+          >
+            <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
+              <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
+                {name}
+              </p>
+              <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
+                <ClientDateTime datetime={createdAt} />
+              </p>
+            </div>
+            <div className="ml-auto flex h-full flex-col gap-y-2">
+              <p className="whitespace-nowrap text-end">
+                {category !== "Notes" ? `${examType}, ` : ""}
+                {`${acadYear} S${semester}`}
+              </p>
+              <p className="ml-auto w-max whitespace-nowrap text-end">
+                <Link
+                  href={`/profile/${resourceUser?.id}`}
+                  className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                >
+                  {resourceUser?.name}
+                  <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
+                </Link>
+              </p>
+            </div>
+          </ResourceSheetLauncher>
+        </Suspense>
       </div>
       {category === "Past Papers" && (
         <div className="flex h-full items-center justify-center">

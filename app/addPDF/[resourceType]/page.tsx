@@ -9,6 +9,9 @@ import {
   ResourceType,
   ResourceTypeURL,
 } from "@/lib/content";
+import { Suspense } from "react";
+
+export const revalidate = 10;
 
 export default async function Page({
   params,
@@ -43,14 +46,16 @@ export default async function Page({
       <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-200">
         {header}
       </h1>
-      <ContributeForm
-        acadYearOptions={acadYearOptions}
-        moduleCodeOptions={moduleCodeOptions}
-        semesterOptions={semesterOptions}
-        examTypeOptions={resourceType !== "Notes" ? examTypeOptions : null}
-        resourceType={resourceType}
-        userId={user.id}
-      />
+      <Suspense>
+        <ContributeForm
+          acadYearOptions={acadYearOptions}
+          moduleCodeOptions={moduleCodeOptions}
+          semesterOptions={semesterOptions}
+          examTypeOptions={resourceType !== "Notes" ? examTypeOptions : null}
+          resourceType={resourceType}
+          userId={user.id}
+        />
+      </Suspense>
     </main>
   );
 }

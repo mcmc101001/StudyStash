@@ -16,10 +16,10 @@ export default function ResizableDiv({
     <>
       <div
         className={cn(
-          "relative transition-all duration-500",
+          "relative w-full transition-all duration-500",
           {
-            "invisible m-0 ml-8 w-0 opacity-0": minimised === true,
-            "m-10 w-full opacity-100": minimised === false,
+            "m-0 ml-8 w-0 opacity-0": minimised === true,
+            "m-10 opacity-100": minimised === false,
           },
           className
         )}

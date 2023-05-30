@@ -16,6 +16,7 @@ import {
   QuestionPaperVote,
 } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { Suspense } from "react";
 
 export function getRating(
   resources: CheatsheetWithPosts | QuestionPaperWithPosts | NotesWithPosts
@@ -300,10 +301,12 @@ export default async function Page({
         </div>
       )}
       <div className="w-1/5">
-        <ResourceFilters
-          acadYearOptions={acadYearOptions}
-          category={category}
-        />
+        <Suspense>
+          <ResourceFilters
+            acadYearOptions={acadYearOptions}
+            category={category}
+          />
+        </Suspense>
       </div>
     </div>
   );
