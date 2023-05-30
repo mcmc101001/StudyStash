@@ -20,6 +20,7 @@ import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
+import ResourceAltStatusComponent from "./ResourceAltStatusComponent";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -215,9 +216,11 @@ export default async function ResourceItem({
     redirect("/404");
   }
 
+  const statusStyle = true;
+
   return (
     <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-      {currentUser && (
+      {currentUser && !statusStyle && (
         <ResourceStatusComponent
           category={category}
           resourceId={resourceId}
@@ -240,9 +243,16 @@ export default async function ResourceItem({
             <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
               {name}
             </p>
-            <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
-              <ClientDateTime datetime={createdAt} />
-            </p>
+            {currentUser && statusStyle ? (
+              <ResourceAltStatusComponent
+                category={category}
+                solnIncluded={true}
+              />
+            ) : (
+              <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
+                <ClientDateTime datetime={createdAt} />
+              </p>
+            )}
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">
