@@ -21,17 +21,6 @@ import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import ResourceAltStatusComponent from "@/components/ResourceAltStatusComponent";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-  ContextMenuCheckboxItem,
-  ContextMenuSeparator,
-  ContextMenuSub,
-  ContextMenuSubTrigger,
-  ContextMenuSubContent,
-} from "@/components/ui/ContextMenu";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -227,114 +216,86 @@ export default async function ResourceItem({
     redirect("/404");
   }
 
-  const statusStyle = true;
-
   return (
-    <ContextMenu>
-      <ContextMenuTrigger className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-        {currentUser && !statusStyle && (
+    <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+      {/* {currentUser && 
           <ResourceStatusComponent
             category={category}
             resourceId={resourceId}
             currentUserId={currentUser.id}
             status={userStatus ? userStatus.status : null}
           />
-        )}
+        } */}
 
-        <div className="flex h-full w-full overflow-hidden">
-          <ResourceSheetLauncher
-            resourceId={resourceId}
-            title={name}
-            currentUserId={currentUser ? currentUser.id : null}
-            category={category}
-            totalRating={rating}
-            userRating={userVote !== null ? userVote.value : null}
-            userDifficulty={userDifficulty}
-          >
-            <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
-              <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
-                {name}
-              </p>
-              {currentUser && statusStyle ? (
+      <div className="flex h-full w-full overflow-hidden">
+        <ResourceSheetLauncher
+          resourceId={resourceId}
+          resourceUserId={resourceUser?.id!}
+          title={name}
+          currentUserId={currentUser ? currentUser.id : null}
+          category={category}
+          totalRating={rating}
+          userRating={userVote !== null ? userVote.value : null}
+          userDifficulty={userDifficulty}
+        >
+          <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
+            <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
+              {name}
+            </p>
+            {/* {currentUser ? (
                 <ResourceAltStatusComponent
                   category={category}
                   solnIncluded={true}
                 />
-              ) : (
-                <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
-                  <ClientDateTime datetime={createdAt} />
-                </p>
-              )}
-            </div>
-            <div className="ml-auto flex h-full flex-col gap-y-2">
-              <p className="whitespace-nowrap text-end">
-                {category !== "Notes" ? `${examType}, ` : ""}
-                {`${acadYear} S${semester}`}
-              </p>
-              <p className="ml-auto w-max whitespace-nowrap text-end">
-                <Link
-                  href={`/profile/${resourceUser?.id}`}
-                  className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                  {resourceUser?.name}
-                  <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
-                </Link>
-              </p>
-            </div>
-          </ResourceSheetLauncher>
+              ) : ( */}
+            <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
+              <ClientDateTime datetime={createdAt} />
+            </p>
+            {/* )} */}
+          </div>
+          <div className="ml-auto flex h-full flex-col gap-y-2">
+            <p className="whitespace-nowrap text-end">
+              {category !== "Notes" ? `${examType}, ` : ""}
+              {`${acadYear} S${semester}`}
+            </p>
+            <p className="ml-auto w-max whitespace-nowrap text-end">
+              <Link
+                href={`/profile/${resourceUser?.id}`}
+                className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+              >
+                {resourceUser?.name}
+                <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
+              </Link>
+            </p>
+          </div>
+        </ResourceSheetLauncher>
+      </div>
+      {category === "Past Papers" && (
+        <div className="flex h-full items-center justify-center">
+          <Separator
+            className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
+            orientation="vertical"
+          />
+          <DifficultyDisplayDialog
+            resourceId={resourceId}
+            difficulty={difficulty as number}
+            difficultyCount={difficultyCount as number}
+          />
         </div>
-        {category === "Past Papers" && (
-          <div className="flex h-full items-center justify-center">
-            <Separator
-              className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
-              orientation="vertical"
-            />
-            <DifficultyDisplayDialog
-              resourceId={resourceId}
-              difficulty={difficulty as number}
-              difficultyCount={difficultyCount as number}
-            />
-          </div>
-        )}
-        {deletable && currentUser?.id === userId && (
-          <div className="flex h-full items-center justify-center">
-            <Separator
-              className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
-              orientation="vertical"
-            />
-            <ResourceDeleteButton
-              currentUserId={currentUser.id}
-              resourceId={resourceId}
-              category={category}
-            />
-          </div>
-        )}
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem>Just visual</ContextMenuItem>
-        <ContextMenuItem>Clicking doesnt do anything yet</ContextMenuItem>
-        {/* Not sure border is correct */}
-        <ContextMenuSeparator className="border border-white" />
-        <ContextMenuCheckboxItem checked={true}>
-          Bookmark
-        </ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem>To-do</ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem>Completed</ContextMenuCheckboxItem>
-        <ContextMenuSeparator className="border border-white" />
-        <ContextMenuSub>
-          <ContextMenuSubTrigger>Report resource</ContextMenuSubTrigger>
-          <ContextMenuSubContent>
-            <ContextMenuItem>Inappropriate filename</ContextMenuItem>
-            <ContextMenuItem>Wrong module</ContextMenuItem>
-            <ContextMenuItem>Wrong category</ContextMenuItem>
-            <ContextMenuItem>Wrong academic year</ContextMenuItem>
-            <ContextMenuItem>Wrong semester</ContextMenuItem>
-            {/* Should be only for past papers */}
-            <ContextMenuItem>Wrong exam type</ContextMenuItem>
-            <ContextMenuItem>Others</ContextMenuItem>
-          </ContextMenuSubContent>
-        </ContextMenuSub>
-      </ContextMenuContent>
-    </ContextMenu>
+      )}
+      {deletable && currentUser?.id === userId && (
+        <div className="flex h-full items-center justify-center">
+          <Separator
+            className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
+            orientation="vertical"
+          />
+          <ResourceDeleteButton
+            currentUserId={currentUser.id}
+            resourceId={resourceId}
+            category={category}
+          />
+        </div>
+      )}
+    </div>
   );
 }
