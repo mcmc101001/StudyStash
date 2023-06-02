@@ -28,46 +28,25 @@
 declare global {
   namespace Cypress {
     interface Chainable {
-      loginByGoogleApi(): Chainable;
+      loginByGoogle(): Chainable;
     }
   }
 }
 
-Cypress.Commands.add("loginByGoogleApi", () => {
-  cy.log("Logging in to Google");
-  cy.request({
-    method: "POST",
-    url: "https://www.googleapis.com/oauth2/v4/token",
-    body: {
-      grant_type: "refresh_token",
-      client_id: Cypress.env("googleClientId"),
-      client_secret: Cypress.env("googleClientSecret"),
-      refresh_token: Cypress.env("googleRefreshToken"),
-    },
-  }).then(({ body }) => {
-    const { access_token, id_token } = body;
+Cypress.Commands.add("loginByGoogle", () => {
+  cy.intercept("/api/auth/session", { fixture: "session.json" }).as("session");
 
-    cy.request({
-      method: "GET",
-      url: "https://www.googleapis.com/oauth2/v3/userinfo",
-      headers: { Authorization: `Bearer ${access_token}` },
-    }).then(({ body }) => {
-      cy.log(body);
-      const userItem = {
-        token: id_token,
-        user: {
-          googleId: body.sub,
-          email: body.email,
-          givenName: body.given_name,
-          familyName: body.family_name,
-          imageUrl: body.picture,
-        },
-      };
-
-      window.localStorage.setItem("googleCypress", JSON.stringify(userItem));
-      cy.visit("/");
-    });
-  });
+  // Set the cookie for cypress.
+  // It has to be a valid cookie so next-auth can decrypt it and confirm its validity.
+  // This step can probably/hopefully be improved.
+  // We are currently unsure about this part.
+  // We need to refresh this cookie once in a while.
+  // We are unsure if this is true and if true, when it needs to be refreshed.
+  cy.setCookie(
+    "next-auth.session-token",
+    "a valid cookie from your browser session"
+  );
+  // Cypress.Cookies.preserveOnce("next-auth.session-token");
 });
 
 export {};

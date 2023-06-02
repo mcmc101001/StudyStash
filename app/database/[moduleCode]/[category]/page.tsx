@@ -286,6 +286,12 @@ export default async function Page({
                       resource._count.difficulties
                     : undefined
                 }
+                solutionIncluded={
+                  category === "Past Papers"
+                    ? // @ts-expect-error wrong type inference
+                      resource.solutionIncluded
+                    : undefined
+                }
                 // @ts-expect-error wrong type inference
                 examType={category !== "Notes" ? resource.type : undefined}
                 category={category}

@@ -53,6 +53,7 @@ export default async function addPDF(
       moduleCode,
       examType,
       resourceType,
+      solutionIncluded,
     } = req.body;
     if (resourceType === "Cheatsheets") {
       if (examType === undefined) {
@@ -82,6 +83,7 @@ export default async function addPDF(
             moduleCode: moduleCode,
             type: examType,
             name: name,
+            solutionIncluded: solutionIncluded,
           },
         });
         res.status(200).json({ PDFentry });

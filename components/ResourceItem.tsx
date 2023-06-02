@@ -21,6 +21,8 @@ import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import { Suspense } from "react";
+import { Lightbulb } from "lucide-react";
+import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -133,6 +135,7 @@ interface ResourceItemProps {
   difficulty?: number;
   difficultyCount?: number;
   examType?: ExamType;
+  solutionIncluded?: boolean;
   rating: number;
   deletable?: boolean;
 }
@@ -147,6 +150,7 @@ export default async function ResourceItem({
   difficulty,
   difficultyCount,
   examType,
+  solutionIncluded,
   category,
   rating,
   deletable,
@@ -160,9 +164,7 @@ export default async function ResourceItem({
 
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
   let userStatus: CheatsheetStatus | NotesStatus | QuestionPaperStatus | null;
-  let avgDifficultyData: Prisma.PromiseReturnType<typeof getDifficulty>;
   let userDifficultyData: Prisma.PromiseReturnType<typeof getUserDifficulty>;
-  let avgDifficulty: number = 0;
   let userDifficulty: number = 0;
 
   // If user is signed in, get user vote as well as user status
@@ -184,7 +186,6 @@ export default async function ResourceItem({
       userStatus = null;
     }
   } else if (category === "Past Papers") {
-    const avgDifficultyPromise = getDifficulty(resourceId);
     if (currentUser) {
       // Parallel data fetching
       const userVotePromise = getQuestionPaperVote(currentUser.id, resourceId);
@@ -196,18 +197,13 @@ export default async function ResourceItem({
         currentUser.id,
         resourceId
       );
-      [avgDifficultyData, userVote, userStatus, userDifficultyData] =
-        await Promise.all([
-          avgDifficultyPromise,
-          userVotePromise,
-          userStatusPromise,
-          userDifficultyPromise,
-        ]);
+      [userVote, userStatus, userDifficultyData] = await Promise.all([
+        userVotePromise,
+        userStatusPromise,
+        userDifficultyPromise,
+      ]);
       userDifficulty = userDifficultyData?.value || 0;
-      avgDifficulty = avgDifficultyData._avg.value || 0;
     } else {
-      avgDifficultyData = await avgDifficultyPromise;
-      avgDifficulty = avgDifficultyData._avg.value || 0;
       userVote = null;
       userStatus = null;
       userDifficulty = 0;
@@ -239,10 +235,13 @@ export default async function ResourceItem({
             userDifficulty={userDifficulty}
           >
             <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
-              <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
+              <p className="flex overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
                 {name}
+                {category === "Past Papers" && solutionIncluded && (
+                  <SolutionIncludedIndicator />
+                )}
               </p>
-              <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
+              <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
                 <ClientDateTime datetime={createdAt} />
               </p>
             </div>
