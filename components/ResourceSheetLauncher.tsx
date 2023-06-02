@@ -22,6 +22,7 @@ import { generateS3ShareURLType } from "@/pages/api/generateS3ShareURL";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ResourceContextMenu from "./ResourceContextMenu";
+import { ResourceStatus } from "@prisma/client";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -33,6 +34,7 @@ interface ResourceSheetLauncherProps {
   totalRating: number;
   userRating: boolean | null;
   userDifficulty: number;
+  resourceStatus: ResourceStatus | null;
 }
 
 export default function ResourceSheetLauncher({
@@ -45,6 +47,7 @@ export default function ResourceSheetLauncher({
   totalRating,
   userRating,
   userDifficulty,
+  resourceStatus,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -103,8 +106,11 @@ export default function ResourceSheetLauncher({
         <ResourceContextMenu
           category={category}
           currentUserId={currentUserId}
+          resourceId={resourceId}
           resourceUserId={resourceUserId}
+          shareURL={shareURL}
           className="h-full w-full"
+          resourceStatus={resourceStatus}
         >
           <SheetTrigger className="h-full w-full py-3">
             <div className="flex items-center">

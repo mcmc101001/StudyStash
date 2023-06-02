@@ -237,6 +237,7 @@ export default async function ResourceItem({
           totalRating={rating}
           userRating={userVote !== null ? userVote.value : null}
           userDifficulty={userDifficulty}
+          resourceStatus={userStatus ? userStatus.status : null}
         >
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
             <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
