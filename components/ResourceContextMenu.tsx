@@ -71,24 +71,24 @@ export default function ResourceContextMenu({
   ) => {
     e.preventDefault();
 
-    if (!currentUserId) {
-      toast.error("Login required.");
-      return;
-    }
+    // if (!currentUserId) {
+    //   toast.error("Login required.");
+    //   return;
+    // }
 
-    let body: updateStatusType = {
-      category: category,
-      userId: currentUserId,
-      resourceId: resourceId,
-      status: status,
-    };
+    // let body: updateStatusType = {
+    //   category: category,
+    //   userId: currentUserId,
+    //   resourceId: resourceId,
+    //   status: status,
+    // };
 
-    try {
-      let req = await axios.post("/api/updateStatus", body);
-      setStatus(status);
-    } catch {
-      toast.error("Something went wrong, please try again.");
-    }
+    // try {
+    //   let req = await axios.post("/api/updateStatus", body);
+    setStatus(status);
+    // } catch {
+    //   toast.error("Something went wrong, please try again.");
+    // }
   };
 
   const handleReportClick = async () => {
