@@ -124,18 +124,22 @@ export default function ResourceContextMenu({
         >
           Bookmark
         </ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem
-          checked={todoStatus}
-          onClick={(e) => handleStatusChange(e, ResourceStatus.Todo)}
-        >
-          To-do
-        </ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem
-          checked={completedStatus}
-          onClick={(e) => handleStatusChange(e, ResourceStatus.Completed)}
-        >
-          Completed
-        </ContextMenuCheckboxItem>
+        {category === "Past Papers" && (
+          <ContextMenuCheckboxItem
+            checked={todoStatus}
+            onClick={(e) => handleStatusChange(e, ResourceStatus.Todo)}
+          >
+            To-do
+          </ContextMenuCheckboxItem>
+        )}
+        {category === "Past Papers" && (
+          <ContextMenuCheckboxItem
+            checked={completedStatus}
+            onClick={(e) => handleStatusChange(e, ResourceStatus.Completed)}
+          >
+            Completed
+          </ContextMenuCheckboxItem>
+        )}
 
         {resourceUserId !== currentUserId && (
           <>
