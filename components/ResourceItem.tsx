@@ -24,6 +24,7 @@ import { Suspense } from "react";
 import { Lightbulb } from "lucide-react";
 import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
 import ResourceAltStatusComponent from "@/components/ResourceAltStatusComponent";
+import { ProfleVerifiedIndicator } from "./ProfileVerifiedIndicator";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -264,7 +265,10 @@ export default async function ResourceItem({
                   href={`/profile/${resourceUser?.id}`}
                   className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
                 >
-                  {resourceUser?.name}
+                  <span className="flex">
+                    {resourceUser?.name}
+                    {resourceUser?.verified && <ProfleVerifiedIndicator />}
+                  </span>
                   <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
                 </Link>
               </p>
