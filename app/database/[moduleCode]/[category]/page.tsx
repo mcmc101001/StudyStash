@@ -262,7 +262,7 @@ export default async function Page({
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
           style={{ scrollbarGutter: "stable" }}
         >
-          {sortedResources.map((resource) => {
+          {sortedResources.map((resource, index) => {
             return (
               // @ts-expect-error Server component
               <ResourceItem
@@ -295,6 +295,7 @@ export default async function Page({
                 // @ts-expect-error wrong type inference
                 examType={category !== "Notes" ? resource.type : undefined}
                 category={category}
+                designNumber={index % 3}
               />
             );
           })}

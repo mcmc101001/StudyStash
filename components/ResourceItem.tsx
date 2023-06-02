@@ -140,6 +140,7 @@ interface ResourceItemProps {
   solutionIncluded?: boolean;
   rating: number;
   deletable?: boolean;
+  designNumber?: number;
 }
 
 export default async function ResourceItem({
@@ -156,6 +157,7 @@ export default async function ResourceItem({
   category,
   rating,
   deletable,
+  designNumber,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
@@ -216,14 +218,14 @@ export default async function ResourceItem({
 
   return (
     <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-      {/* {currentUser && 
-          <ResourceStatusComponent
-            category={category}
-            resourceId={resourceId}
-            currentUserId={currentUser.id}
-            status={userStatus ? userStatus.status : null}
-          />
-        } */}
+      {currentUser && designNumber === 1 && (
+        <ResourceStatusComponent
+          category={category}
+          resourceId={resourceId}
+          currentUserId={currentUser.id}
+          status={userStatus ? userStatus.status : null}
+        />
+      )}
 
       <div className="flex h-full w-full overflow-hidden">
         <Suspense>
@@ -244,16 +246,16 @@ export default async function ResourceItem({
                   <SolutionIncludedIndicator />
                 )}
               </p>
-              {/* {currentUser ? (
+              {currentUser && designNumber === 2 ? (
                 <ResourceAltStatusComponent
                   category={category}
-                  solnIncluded={true}
+                  solnIncluded={!!solutionIncluded}
                 />
-              ) : ( */}
-              <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
-                <ClientDateTime datetime={createdAt} />
-              </p>
-              {/* )} */}
+              ) : (
+                <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
+                  <ClientDateTime datetime={createdAt} />
+                </p>
+              )}
             </div>
             <div className="ml-auto flex h-full flex-col gap-y-2">
               <p className="whitespace-nowrap text-end">

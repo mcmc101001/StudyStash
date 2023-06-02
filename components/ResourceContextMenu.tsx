@@ -34,11 +34,8 @@ export default function ResourceContextMenu({
   console.log(`curr_user_id: ${currentUserId}`);
 
   const [bookmarkStatus, setBookmarkStatus] = useState(false);
-  const [bookmarkLoading, setBookmarkLoading] = useState(false);
   const [todoStatus, setTodoStatus] = useState(false);
-  const [todoLoading, setTodoLoading] = useState(false);
   const [completedStatus, setCompletedStatus] = useState(false);
-  const [completedLoading, setCompletedLoading] = useState(false);
 
   const handleDownloadClick = () => {
     toast.success("Virus downloaded.");
@@ -50,8 +47,6 @@ export default function ResourceContextMenu({
       toast.error("Login required to bookmark.");
       return null;
     }
-    setBookmarkLoading(true);
-
     setBookmarkStatus(!bookmarkStatus);
   };
   const handleTodoClick = async (e: React.MouseEvent) => {
@@ -96,21 +91,15 @@ export default function ResourceContextMenu({
         <ContextMenuCheckboxItem
           checked={bookmarkStatus}
           onClick={handleBookmarkClick}
-          isLoading={bookmarkLoading}
         >
           Bookmark
         </ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem
-          checked={todoStatus}
-          onClick={handleTodoClick}
-          isLoading={todoLoading}
-        >
+        <ContextMenuCheckboxItem checked={todoStatus} onClick={handleTodoClick}>
           To-do
         </ContextMenuCheckboxItem>
         <ContextMenuCheckboxItem
           checked={completedStatus}
           onClick={handleCompletedClick}
-          isLoading={completedLoading}
         >
           Completed
         </ContextMenuCheckboxItem>
