@@ -21,11 +21,13 @@ import { solutionTabOptions } from "@/lib/content";
 import { generateS3ShareURLType } from "@/pages/api/generateS3ShareURL";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ResourceContextMenu from "./ResourceContextMenu";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
   title: string;
   resourceId: string;
+  resourceUserId: string;
   category: ResourceType;
   currentUserId: string | null;
   totalRating: number;
@@ -37,6 +39,7 @@ export default function ResourceSheetLauncher({
   children,
   title,
   resourceId,
+  resourceUserId,
   category,
   currentUserId,
   totalRating,
@@ -71,7 +74,7 @@ export default function ResourceSheetLauncher({
     const fetchURL = async () => {
       try {
         let body: generateS3ShareURLType = {
-          userId: currentUserId as string,
+          // userId: currentUserId as string,
           resourceId: resourceId,
         };
         let { data } = await axios.post("/api/generateS3ShareURL", body);
@@ -97,18 +100,25 @@ export default function ResourceSheetLauncher({
           queryParams?.get("id") !== resourceId ? enterSheet : undefined
         }
       >
-        <SheetTrigger className="h-full w-full py-3">
-          <div className="flex items-center">
-            <ResourceRating
-              category={category}
-              resourceId={resourceId}
-              currentUserId={currentUserId}
-              ratingAtom={ratingAtom}
-              userRatingAtom={userRatingAtom}
-            />
-            {children}
-          </div>
-        </SheetTrigger>
+        <ResourceContextMenu
+          category={category}
+          currentUserId={currentUserId}
+          resourceUserId={resourceUserId}
+          className="h-full w-full"
+        >
+          <SheetTrigger className="h-full w-full py-3">
+            <div className="flex items-center">
+              <ResourceRating
+                category={category}
+                resourceId={resourceId}
+                currentUserId={currentUserId}
+                ratingAtom={ratingAtom}
+                userRatingAtom={userRatingAtom}
+              />
+              {children}
+            </div>
+          </SheetTrigger>
+        </ResourceContextMenu>
         <SheetContent
           size={"xl"}
           onEscapeKeyDown={exitSheet}

@@ -23,6 +23,7 @@ import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import { Suspense } from "react";
 import { Lightbulb } from "lucide-react";
 import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
+import ResourceAltStatusComponent from "@/components/ResourceAltStatusComponent";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -214,19 +215,20 @@ export default async function ResourceItem({
 
   return (
     <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-      {currentUser && (
-        <ResourceStatusComponent
-          category={category}
-          resourceId={resourceId}
-          currentUserId={currentUser.id}
-          status={userStatus ? userStatus.status : null}
-        />
-      )}
+      {/* {currentUser && 
+          <ResourceStatusComponent
+            category={category}
+            resourceId={resourceId}
+            currentUserId={currentUser.id}
+            status={userStatus ? userStatus.status : null}
+          />
+        } */}
 
       <div className="flex h-full w-full overflow-hidden">
         <Suspense>
           <ResourceSheetLauncher
             resourceId={resourceId}
+            resourceUserId={resourceUser?.id!}
             title={name}
             currentUserId={currentUser ? currentUser.id : null}
             category={category}
@@ -241,9 +243,16 @@ export default async function ResourceItem({
                   <SolutionIncludedIndicator />
                 )}
               </p>
+              {/* {currentUser ? (
+                <ResourceAltStatusComponent
+                  category={category}
+                  solnIncluded={true}
+                />
+              ) : ( */}
               <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
                 <ClientDateTime datetime={createdAt} />
               </p>
+              {/* )} */}
             </div>
             <div className="ml-auto flex h-full flex-col gap-y-2">
               <p className="whitespace-nowrap text-end">
