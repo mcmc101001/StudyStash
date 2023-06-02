@@ -1,7 +1,6 @@
 "use client";
 
 import { ResourceOptionsProps } from "@/lib/content";
-import { useSelectedLayoutSegment } from "next/navigation";
 import { motion } from "framer-motion";
 import useQueryParams from "@/hooks/useQueryParams";
 

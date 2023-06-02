@@ -10,6 +10,7 @@ export default function LoginButton() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   return (
     <Button
+      id="loginButton"
       variant="ghost"
       onClick={async () => {
         setIsSigningIn(true);

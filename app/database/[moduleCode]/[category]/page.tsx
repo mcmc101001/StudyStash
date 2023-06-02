@@ -16,6 +16,7 @@ import {
   QuestionPaperVote,
 } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { Suspense } from "react";
 
 export function getRating(
   resources: CheatsheetWithPosts | QuestionPaperWithPosts | NotesWithPosts
@@ -261,7 +262,7 @@ export default async function Page({
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
           style={{ scrollbarGutter: "stable" }}
         >
-          {sortedResources.map((resource) => {
+          {sortedResources.map((resource, index) => {
             return (
               // @ts-expect-error Server component
               <ResourceItem
@@ -285,9 +286,16 @@ export default async function Page({
                       resource._count.difficulties
                     : undefined
                 }
+                solutionIncluded={
+                  category === "Past Papers"
+                    ? // @ts-expect-error wrong type inference
+                      resource.solutionIncluded
+                    : undefined
+                }
                 // @ts-expect-error wrong type inference
                 examType={category !== "Notes" ? resource.type : undefined}
                 category={category}
+                designNumber={index % 3}
               />
             );
           })}
@@ -300,10 +308,12 @@ export default async function Page({
         </div>
       )}
       <div className="w-1/5">
-        <ResourceFilters
-          acadYearOptions={acadYearOptions}
-          category={category}
-        />
+        <Suspense>
+          <ResourceFilters
+            acadYearOptions={acadYearOptions}
+            category={category}
+          />
+        </Suspense>
       </div>
     </div>
   );

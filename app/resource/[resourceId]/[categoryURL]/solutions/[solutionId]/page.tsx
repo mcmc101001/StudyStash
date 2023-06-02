@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
+import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 
 export default async function SpecificSolutionPage({
   params: { resourceId, categoryURL, solutionId },
@@ -29,7 +30,11 @@ export default async function SpecificSolutionPage({
     redirect("/404");
   }
 
-  const PDFURL = `https://${process.env.AWS_BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${solutionId}`;
+  const PDFURL = await createPresignedShareUrl({
+    region: process.env.AWS_REGION as string,
+    bucket: process.env.AWS_BUCKET_NAME as string,
+    key: solutionId,
+  });
 
   return (
     <>

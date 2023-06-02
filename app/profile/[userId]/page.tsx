@@ -43,7 +43,7 @@ export default async function ProfilePageUser({
             <h2 className="text-lg font-semibold">Bio</h2>
             <p className="max-h-[120px] overflow-y-auto scroll-smooth whitespace-break-spaces break-words scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900">
               {profileUser.bio ||
-                "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."}
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."}
             </p>
           </div>
           <div className="absolute right-6 top-6">

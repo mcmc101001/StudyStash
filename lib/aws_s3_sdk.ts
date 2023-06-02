@@ -70,7 +70,6 @@ export const deleteS3ObjectLib = async (key: string) => {
     const deleteParams = { Bucket: process.env.AWS_BUCKET_NAME, Key: key };
     const deleteCommand = new DeleteObjectCommand(deleteParams);
     const deleteResponse = await s3.send(deleteCommand);
-    console.log(JSON.stringify(deleteResponse));
   } catch (error) {
     console.log(error);
   }
