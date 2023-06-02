@@ -13,10 +13,10 @@ export function SolutionIncludedIndicator() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Lightbulb className="ml-1 cursor-auto fill-yellow-300" />
+          <Lightbulb className="ml-1 cursor-auto fill-yellow-200 text-slate-950 dark:fill-yellow-400 dark:text-white" />
         </TooltipTrigger>
         <TooltipContent>
-          <p>Solution included</p>
+          <p className="font-normal">Solution included</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
