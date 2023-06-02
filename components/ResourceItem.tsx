@@ -20,7 +20,11 @@ import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
+import { Suspense } from "react";
+import { Lightbulb } from "lucide-react";
+import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
 import ResourceAltStatusComponent from "@/components/ResourceAltStatusComponent";
+import { ProfleVerifiedIndicator } from "./ProfileVerifiedIndicator";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -133,8 +137,10 @@ interface ResourceItemProps {
   difficulty?: number;
   difficultyCount?: number;
   examType?: ExamType;
+  solutionIncluded?: boolean;
   rating: number;
   deletable?: boolean;
+  designNumber?: number;
 }
 
 export default async function ResourceItem({
@@ -147,9 +153,11 @@ export default async function ResourceItem({
   difficulty,
   difficultyCount,
   examType,
+  solutionIncluded,
   category,
   rating,
   deletable,
+  designNumber,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
@@ -160,9 +168,7 @@ export default async function ResourceItem({
 
   let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
   let userStatus: CheatsheetStatus | NotesStatus | QuestionPaperStatus | null;
-  let avgDifficultyData: Prisma.PromiseReturnType<typeof getDifficulty>;
   let userDifficultyData: Prisma.PromiseReturnType<typeof getUserDifficulty>;
-  let avgDifficulty: number = 0;
   let userDifficulty: number = 0;
 
   // If user is signed in, get user vote as well as user status
@@ -184,7 +190,6 @@ export default async function ResourceItem({
       userStatus = null;
     }
   } else if (category === "Past Papers") {
-    const avgDifficultyPromise = getDifficulty(resourceId);
     if (currentUser) {
       // Parallel data fetching
       const userVotePromise = getQuestionPaperVote(currentUser.id, resourceId);
@@ -196,18 +201,13 @@ export default async function ResourceItem({
         currentUser.id,
         resourceId
       );
-      [avgDifficultyData, userVote, userStatus, userDifficultyData] =
-        await Promise.all([
-          avgDifficultyPromise,
-          userVotePromise,
-          userStatusPromise,
-          userDifficultyPromise,
-        ]);
+      [userVote, userStatus, userDifficultyData] = await Promise.all([
+        userVotePromise,
+        userStatusPromise,
+        userDifficultyPromise,
+      ]);
       userDifficulty = userDifficultyData?.value || 0;
-      avgDifficulty = avgDifficultyData._avg.value || 0;
     } else {
-      avgDifficultyData = await avgDifficultyPromise;
-      avgDifficulty = avgDifficultyData._avg.value || 0;
       userVote = null;
       userStatus = null;
       userDifficulty = 0;
@@ -218,58 +218,66 @@ export default async function ResourceItem({
 
   return (
     <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-      {/* {currentUser && 
-          <ResourceStatusComponent
-            category={category}
-            resourceId={resourceId}
-            currentUserId={currentUser.id}
-            status={userStatus ? userStatus.status : null}
-          />
-        } */}
+      {currentUser && designNumber === 1 && (
+        <ResourceStatusComponent
+          category={category}
+          resourceId={resourceId}
+          currentUserId={currentUser.id}
+          status={userStatus ? userStatus.status : null}
+        />
+      )}
 
       <div className="flex h-full w-full overflow-hidden">
-        <ResourceSheetLauncher
-          resourceId={resourceId}
-          resourceUserId={resourceUser?.id!}
-          title={name}
-          currentUserId={currentUser ? currentUser.id : null}
-          category={category}
-          totalRating={rating}
-          userRating={userVote !== null ? userVote.value : null}
-          userDifficulty={userDifficulty}
-          resourceStatus={userStatus ? userStatus.status : null}
-        >
-          <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
-            <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
-              {name}
-            </p>
-            {/* {currentUser ? (
+        <Suspense>
+          <ResourceSheetLauncher
+            resourceId={resourceId}
+            resourceUserId={resourceUser?.id!}
+            title={name}
+            currentUserId={currentUser ? currentUser.id : null}
+            category={category}
+            totalRating={rating}
+            userRating={userVote !== null ? userVote.value : null}
+            userDifficulty={userDifficulty}
+            resourceStatus={userStatus ? userStatus.status : null}
+          >
+            <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
+              <p className="flex overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
+                {name}
+                {category === "Past Papers" && solutionIncluded && (
+                  <SolutionIncludedIndicator />
+                )}
+              </p>
+              {currentUser && designNumber === 2 ? (
                 <ResourceAltStatusComponent
                   category={category}
-                  solnIncluded={true}
+                  solnIncluded={!!solutionIncluded}
                 />
-              ) : ( */}
-            <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
-              <ClientDateTime datetime={createdAt} />
-            </p>
-            {/* )} */}
-          </div>
-          <div className="ml-auto flex h-full flex-col gap-y-2">
-            <p className="whitespace-nowrap text-end">
-              {category !== "Notes" ? `${examType}, ` : ""}
-              {`${acadYear} S${semester}`}
-            </p>
-            <p className="ml-auto w-max whitespace-nowrap text-end">
-              <Link
-                href={`/profile/${resourceUser?.id}`}
-                className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-              >
-                {resourceUser?.name}
-                <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
-              </Link>
-            </p>
-          </div>
-        </ResourceSheetLauncher>
+              ) : (
+                <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
+                  <ClientDateTime datetime={createdAt} />
+                </p>
+              )}
+            </div>
+            <div className="ml-auto flex h-full flex-col gap-y-2">
+              <p className="whitespace-nowrap text-end">
+                {category !== "Notes" ? `${examType}, ` : ""}
+                {`${acadYear} S${semester}`}
+              </p>
+              <p className="ml-auto w-max whitespace-nowrap text-end">
+                <Link
+                  href={`/profile/${resourceUser?.id}`}
+                  className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                >
+                  <span className="flex">
+                    {resourceUser?.name}
+                    {resourceUser?.verified && <ProfleVerifiedIndicator />}
+                  </span>
+                  <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
+                </Link>
+              </p>
+            </div>
+          </ResourceSheetLauncher>
+        </Suspense>
       </div>
       {category === "Past Papers" && (
         <div className="flex h-full items-center justify-center">

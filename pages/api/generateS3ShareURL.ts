@@ -5,7 +5,6 @@ import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import z from "zod";
 
 const generateS3ShareURLSchema = z.object({
-  // userId: z.string(),
   resourceId: z.string(),
 });
 
@@ -33,19 +32,9 @@ export default async function generateS3ShareURL(
   }
 
   const session = await getServerSession(req, res, authOptions);
-  // if (!session) {
-  //   res.status(401).json({ message: "You must be logged in." });
-  //   return;
-  // }
   if (!isValidBody(req.body)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
-  // if (session.user.id !== req.body.userId) {
-  //   res.status(401).json({ message: "You are not authorized." });
-  //   return;
-  // }
-
-  console.log("reload");
 
   try {
     let { resourceId } = req.body;

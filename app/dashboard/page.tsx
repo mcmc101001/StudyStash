@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import DashboardItem from "@/components/DashboardItem";
 
+export const revalidate = 10;
+
 export default async function DashboardPage() {
   const user = await getCurrentUser();
   if (!user) {
