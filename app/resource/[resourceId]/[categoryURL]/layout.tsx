@@ -6,11 +6,14 @@ import { getCurrentUser } from "@/lib/session";
 import DifficultyRating from "@/components/DifficultyRating";
 import { redirect } from "next/navigation";
 import {
+  Cheatsheet,
   CheatsheetStatus,
   CheatsheetVote,
+  Notes,
   NotesStatus,
   NotesVote,
   Prisma,
+  QuestionPaper,
   QuestionPaperStatus,
   QuestionPaperVote,
 } from "@prisma/client";
@@ -30,6 +33,7 @@ import { ChevronLeft } from "lucide-react";
 import SolutionTab from "@/components/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
+import { SolutionIncludedIndicator } from "@/components/SolutionIncludedIndicator";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },
@@ -43,7 +47,11 @@ export default async function ResourcePage({
 }) {
   const currentUser = await getCurrentUser();
 
-  let resource;
+  let resource:
+    | (Notes & { votes: NotesVote[] })
+    | (Cheatsheet & { votes: CheatsheetVote[] })
+    | (QuestionPaper & { votes: QuestionPaperVote[] })
+    | null;
   let category: ResourceType;
   if (categoryURL === "cheatsheets") {
     category = "Cheatsheets";
@@ -142,6 +150,9 @@ export default async function ResourcePage({
   const totalRating = resourceWithRating[0].rating;
   const userRating = userVote !== null ? userVote.value : null;
 
+  // @ts-expect-error Wrong type inference for category past papers
+  const solutionIncluded = resource?.solutionIncluded;
+
   const PDFURL = await createPresignedShareUrl({
     region: process.env.AWS_REGION as string,
     bucket: process.env.AWS_BUCKET_NAME as string,
@@ -169,7 +180,12 @@ export default async function ResourcePage({
             userRating={userRating}
             resourceId={resourceId}
           />
-          <div className="overflow-scroll scrollbar-none">{resource.name}</div>
+          <div className="flex overflow-scroll scrollbar-none">
+            {resource.name}
+            {category === "Past Papers" && solutionIncluded && (
+              <SolutionIncludedIndicator />
+            )}
+          </div>
           {category === "Past Papers" && (
             <div className="ml-auto flex flex-col items-center">
               <span>Rate difficulty</span>

@@ -3,6 +3,8 @@ import { getCurrentUser } from "@/lib/session";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import DashboardItem from "@/components/DashboardItem";
+import BookmarkedModules from "@/components/BookmarkedModules";
+import { getModuleCodeOptions, getModuleList } from "@/lib/nusmods";
 
 export const revalidate = 10;
 
@@ -18,10 +20,16 @@ export default async function DashboardPage() {
     },
   });
 
+  const moduleCodeOptions = await getModuleCodeOptions();
+
   return (
     <div className="m-28 text-slate-800 dark:text-slate-200">
       <div className="flex flex-row flex-wrap gap-12 overflow-hidden">
-        {starredModules.map((module, index) => {
+        <BookmarkedModules
+          starredModules={starredModules}
+          moduleCodeOptions={moduleCodeOptions}
+        />
+        {/* {starredModules.map((module, index) => {
           if (index < 12) {
             return (
               <DashboardItem
@@ -33,7 +41,7 @@ export default async function DashboardPage() {
             return null;
           }
         })}
-        {starredModules.length < 12 && <DashboardItem moduleCode={null} />}
+        {starredModules.length < 12 && <DashboardItem moduleCode={null} />} */}
       </div>
     </div>
   );
