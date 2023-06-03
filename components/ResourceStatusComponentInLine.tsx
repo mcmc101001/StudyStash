@@ -14,7 +14,11 @@ export default function ResourceStatusComponentInLine({
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
 
-  const handleClick = (clickedStatus: ResourceStatus | null) => {
+  const handleClick = (
+    e: React.MouseEvent,
+    clickedStatus: ResourceStatus | null
+  ) => {
+    e.stopPropagation();
     if (!isOpen) return;
     if (status === clickedStatus) {
       setStatus(null);
@@ -31,9 +35,10 @@ export default function ResourceStatusComponentInLine({
 
       //   }
       // }}
-      className="group w-max cursor-pointer rounded-full bg-slate-300 p-2 hover:bg-slate-300"
+      className="group w-max cursor-pointer rounded-full bg-slate-400 px-2 py-1 dark:bg-slate-600"
       onHoverStart={() => setIsOpen(true)}
       onHoverEnd={() => setIsOpen(false)}
+      onClick={(e) => e.stopPropagation()}
     >
       <AnimatePresence>
         {!isOpen ? (
@@ -73,36 +78,43 @@ function StatusIcon({
 }: {
   selected: boolean;
   status: ResourceStatus | null;
-  handleClick: (status: ResourceStatus | null) => void;
+  handleClick: (e: React.MouseEvent, status: ResourceStatus | null) => void;
 }) {
   if (status === "Completed") {
     return (
       <CheckCircle
-        onClick={() => handleClick(status)}
-        className={"h-6 w-6 " + (selected ? "text-green-500" : "text-gray-500")}
+        onClick={(e) => handleClick(e, status)}
+        className={
+          "h-6 w-6 " +
+          (selected ? "text-green-500" : "text-gray-200 dark:text-gray-400")
+        }
       />
     );
   } else if (status === "Todo") {
     return (
       <ListChecks
-        onClick={() => handleClick(status)}
+        onClick={(e) => handleClick(e, status)}
         className={
-          "h-6 w-6 " + (selected ? "text-yellow-500" : "text-gray-500")
+          "h-6 w-6 " +
+          (selected ? "text-yellow-500" : "text-gray-200 dark:text-gray-400")
         }
       />
     );
   } else if (status === "Saved") {
     return (
       <Bookmark
-        onClick={() => handleClick(status)}
-        className={"h-6 w-6 " + (selected ? "text-blue-500" : "text-gray-500")}
+        onClick={(e) => handleClick(e, status)}
+        className={
+          "h-6 w-6 " +
+          (selected ? "text-blue-500" : "text-gray-200 dark:text-gray-400")
+        }
       />
     );
   } else {
     return (
       <BsQuestion
-        onClick={() => handleClick(status)}
-        className="h-6 w-6 text-gray-500"
+        onClick={(e) => handleClick(e, status)}
+        className="h-6 w-6 text-gray-200 dark:text-gray-400"
       />
     );
   }
