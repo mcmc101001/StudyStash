@@ -16,12 +16,10 @@ interface SelectProps {
   noOptionsMessage?: (obj: { inputValue: string }) => ReactNode;
   defaultValue?: Option;
   inputLike?: boolean;
-  ref?: MutableRefObject<any>;
   value?: Option | null;
 }
 
 export default function StyledSelect({
-  ref,
   label,
   options,
   onChange,
@@ -45,7 +43,6 @@ export default function StyledSelect({
       ) : null}
       <Select
         value={value}
-        ref={ref}
         instanceId={useId()}
         id="acadYear"
         classNames={{

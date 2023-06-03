@@ -1,11 +1,11 @@
 "use client";
 
 import { StarredModules } from "@prisma/client";
-import { useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion, useIsPresent } from "framer-motion";
 import StyledSelect, { Option } from "./ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
-import { Plus, X, XSquare } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { Separator } from "./ui/Separator";
 import Link from "next/link";
 
@@ -32,8 +32,6 @@ export default function BookmarkedModules({
     }
   };
 
-  const inputRef = useRef<HTMLSelectElement>(null);
-
   function addItem(moduleCode: string | null) {
     if (moduleCode === null) return;
     const sortedModules = [...modules, moduleCode].sort();
@@ -51,7 +49,6 @@ export default function BookmarkedModules({
       <div className="mt-3 flex items-center justify-between gap-x-4 px-4">
         <StyledSelect
           value={inputValue ? { label: inputValue, value: inputValue } : null}
-          ref={inputRef}
           label="Module Code"
           labelExists={false}
           inputLike={true}
@@ -103,43 +100,67 @@ export default function BookmarkedModules({
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
         style={{ scrollbarGutter: "stable" }}
       >
-        <motion.ul layout>
+        <ul className="relative">
           <AnimatePresence initial={false}>
             {modules.map((module) => (
-              <motion.li
-                layout
-                className="flex items-center justify-between border-b py-2"
+              <BookmarkModule
                 key={module}
-                initial={{
-                  opacity: 0.2,
-                }}
-                animate={{
-                  opacity: 1,
-                }}
-                exit={{
-                  opacity: 0,
-                }}
-              >
-                <span>
-                  <Link
-                    className="text-slate-800 transition-colors hover:text-slate-600 dark:text-slate-200 dark:hover:text-slate-400"
-                    href={`/database/${module}/cheatsheets`}
-                  >
-                    {module}
-                  </Link>
-                </span>
-                <button
-                  className="group flex h-10 w-10 items-center justify-center rounded border-2 border-slate-300 p-2 transition-colors 
-                    hover:border-slate-400 dark:border-slate-500 dark:hover:border-slate-400"
-                  onClick={() => removeItem(module)}
-                >
-                  <X className="text-slate-300 transition-colors group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300" />
-                </button>
-              </motion.li>
+                moduleCode={module}
+                removeItem={removeItem}
+              />
             ))}
           </AnimatePresence>
-        </motion.ul>
+        </ul>
       </div>
     </div>
+  );
+}
+
+function BookmarkModule({
+  moduleCode,
+  removeItem,
+}: {
+  moduleCode: string;
+  removeItem: (moduleCode: string) => void;
+}) {
+  let isPresent = useIsPresent();
+
+  return (
+    <motion.li
+      layout
+      className="flex w-full items-center justify-between border-b py-2"
+      initial={{
+        opacity: 0.2,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      style={{
+        position: isPresent ? "relative" : "absolute",
+      }}
+      transition={{
+        duration: 0.8,
+        type: "spring",
+      }}
+    >
+      <span>
+        <Link
+          className="text-slate-800 transition-colors hover:text-slate-600 dark:text-slate-200 dark:hover:text-slate-400"
+          href={`/database/${moduleCode}/cheatsheets`}
+        >
+          {moduleCode}
+        </Link>
+      </span>
+      <button
+        className="group flex h-10 w-10 items-center justify-center rounded border-2 border-slate-300 p-2 transition-colors 
+                    hover:border-slate-400 dark:border-slate-500 dark:hover:border-slate-400"
+        onClick={() => removeItem(moduleCode)}
+      >
+        <X className="text-slate-300 transition-colors group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300" />
+      </button>
+    </motion.li>
   );
 }
