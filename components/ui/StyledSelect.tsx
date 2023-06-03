@@ -1,4 +1,4 @@
-import { ReactNode, useId } from "react";
+import { MutableRefObject, ReactNode, useId } from "react";
 import Select from "react-select";
 
 export interface Option {
@@ -15,6 +15,8 @@ interface SelectProps {
   filterOption?: (option: Option, query: string) => boolean;
   noOptionsMessage?: (obj: { inputValue: string }) => ReactNode;
   defaultValue?: Option;
+  inputLike?: boolean;
+  value?: Option | null;
 }
 
 export default function StyledSelect({
@@ -26,6 +28,8 @@ export default function StyledSelect({
   filterOption,
   noOptionsMessage,
   defaultValue,
+  value,
+  inputLike = false,
 }: SelectProps) {
   return (
     <div className="flex w-full flex-col gap-y-1">
@@ -38,6 +42,7 @@ export default function StyledSelect({
         </label>
       ) : null}
       <Select
+        value={value}
         instanceId={useId()}
         id="acadYear"
         classNames={{
@@ -56,9 +61,13 @@ export default function StyledSelect({
           placeholder: () => "text-slate-500 dark:text-slate-400",
           input: () => "text-slate-800 dark:text-slate-200",
           singleValue: () => "text-slate-800 dark:text-slate-200",
-          dropdownIndicator: () => "text-slate-800 dark:text-slate-200",
+          indicatorSeparator: () => (inputLike ? " invisible" : ""),
+          dropdownIndicator: () =>
+            "text-slate-800 dark:text-slate-200" +
+            (inputLike ? " invisible" : ""),
           clearIndicator: () =>
-            "text-slate-800 dark:text-slate-200 hover:text-slate-500 dark:hover:text-slate-400",
+            "text-slate-800 dark:text-slate-200 hover:text-slate-500 dark:hover:text-slate-400" +
+            (inputLike ? " disabled invisible" : ""),
         }}
         // does not look the best for dark mode
         styles={{

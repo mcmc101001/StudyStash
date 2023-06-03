@@ -23,6 +23,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ResourceContextMenu from "./ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
+import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -35,6 +36,7 @@ interface ResourceSheetLauncherProps {
   userRating: boolean | null;
   userDifficulty: number;
   resourceStatus: ResourceStatus | null;
+  solutionIncluded?: boolean;
 }
 
 export default function ResourceSheetLauncher({
@@ -48,6 +50,7 @@ export default function ResourceSheetLauncher({
   userRating,
   userDifficulty,
   resourceStatus,
+  solutionIncluded,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -139,7 +142,12 @@ export default function ResourceSheetLauncher({
                 userRatingAtom={userRatingAtom}
                 resourceId={resourceId}
               />
-              <div className="overflow-scroll scrollbar-none">{title}</div>
+              <div className="flex overflow-scroll scrollbar-none">
+                {title}
+                {category === "Past Papers" && solutionIncluded && (
+                  <SolutionIncludedIndicator />
+                )}
+              </div>
               {category === "Past Papers" && (
                 <div className="ml-auto mr-4 flex flex-col items-center">
                   <span>Rate difficulty</span>

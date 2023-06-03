@@ -23,6 +23,7 @@ import { Suspense } from "react";
 import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
 import ResourceAltStatusComponent from "@/components/ResourceAltStatusComponent";
 import { ProfleVerifiedIndicator } from "./ProfileVerifiedIndicator";
+import ResourceStatusComponentInLine from "./ResourceStatusComponentInLine";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -237,12 +238,16 @@ export default async function ResourceItem({
             userRating={userVote !== null ? userVote.value : null}
             userDifficulty={userDifficulty}
             resourceStatus={userStatus ? userStatus.status : null}
+            solutionIncluded={solutionIncluded}
           >
             <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
-              <p className="flex overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
+              <p className="flex items-center gap-x-2 overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
                 {name}
                 {category === "Past Papers" && solutionIncluded && (
                   <SolutionIncludedIndicator />
+                )}
+                {currentUser && designNumber === 3 && (
+                  <ResourceStatusComponentInLine resourceStatus={null} />
                 )}
               </p>
               {currentUser && designNumber === 2 ? (

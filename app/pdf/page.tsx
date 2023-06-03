@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
+import ResourceStatusComponentInLine from "@/components/ResourceStatusComponentInLine";
 
 export default async function PDFPage() {
   const user = await getCurrentUser();
@@ -13,6 +14,7 @@ export default async function PDFPage() {
       <div className="text-slate-800 dark:text-slate-200">
         Under development
       </div>
+      <ResourceStatusComponentInLine resourceStatus="Completed" />
     </>
   );
 }
