@@ -85,7 +85,7 @@ function StatusIcon({
       <CheckCircle
         onClick={(e) => handleClick(e, status)}
         className={
-          "h-6 w-6 " +
+          "h-5 w-5 " +
           (selected ? "text-green-500" : "text-gray-200 dark:text-gray-400")
         }
       />
@@ -95,7 +95,7 @@ function StatusIcon({
       <ListChecks
         onClick={(e) => handleClick(e, status)}
         className={
-          "h-6 w-6 " +
+          "h-5 w-5 " +
           (selected ? "text-yellow-500" : "text-gray-200 dark:text-gray-400")
         }
       />
@@ -105,7 +105,7 @@ function StatusIcon({
       <Bookmark
         onClick={(e) => handleClick(e, status)}
         className={
-          "h-6 w-6 " +
+          "h-5 w-5 " +
           (selected ? "text-blue-500" : "text-gray-200 dark:text-gray-400")
         }
       />
@@ -114,7 +114,7 @@ function StatusIcon({
     return (
       <BsQuestion
         onClick={(e) => handleClick(e, status)}
-        className="h-6 w-6 text-gray-200 dark:text-gray-400"
+        className="h-5 w-5 text-gray-200 dark:text-gray-400"
       />
     );
   }
