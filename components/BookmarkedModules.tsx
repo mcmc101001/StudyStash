@@ -24,10 +24,11 @@ export default function BookmarkedModules({
   moduleCodeOptions,
   starredModules,
 }: BookmarkedModulesProps) {
+  let router = useRouter();
+
   const [modules, setModules] = useState<string[]>(
     starredModules.map((module) => module.moduleCode).sort()
   );
-
   const [inputValue, setInputValue] = useState<string | null>(null);
 
   const handleInputChange = (option: Option | null) => {
@@ -67,6 +68,7 @@ export default function BookmarkedModules({
     } catch (error) {
       toast.error("Error updating bookmarked module, please try again later.");
     }
+    router.refresh();
   }
 
   return (

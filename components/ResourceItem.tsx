@@ -241,8 +241,10 @@ export default async function ResourceItem({
             solutionIncluded={solutionIncluded}
           >
             <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
-              <div className="flex items-center gap-x-2 overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
-                {name}
+              <div className="flex items-center gap-x-2 text-left font-semibold">
+                <span className="overflow-scroll whitespace-nowrap scrollbar-none">
+                  {name}
+                </span>
                 {category === "Past Papers" && solutionIncluded && (
                   <SolutionIncludedIndicator />
                 )}
