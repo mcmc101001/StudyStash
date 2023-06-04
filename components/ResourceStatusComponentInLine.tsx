@@ -40,8 +40,8 @@ export default function ResourceStatusComponentInLine({
       className="group w-max cursor-pointer rounded-full bg-slate-400 px-2 py-1 dark:bg-slate-600"
       onHoverEnd={() => setIsOpen(false)}
       onClick={(e) => e.stopPropagation()}
-      layout="position"
-      transition={{ duration: 1 }}
+      layout="size"
+      transition={{ duration: 0.1 }}
     >
       {!isOpen ? (
         <StatusIcon selected={true} handleClick={handleClick} status={status} />
