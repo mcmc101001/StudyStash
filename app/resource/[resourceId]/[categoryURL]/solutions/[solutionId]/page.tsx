@@ -40,7 +40,7 @@ export default async function SpecificSolutionPage({
     <>
       <Link
         href={`/resource/${resourceId}/past_papers/solutions`}
-        className="absolute top-10"
+        className="absolute top-10 w-max"
       >
         <Button variant="default">
           <span>

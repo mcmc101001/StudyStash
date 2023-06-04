@@ -164,6 +164,7 @@ export default async function ResourcePage({
       <ResizableDiv className="flex max-w-[40vw] flex-col text-slate-800 dark:text-slate-200">
         <Link
           href={`/database/${resource.moduleCode}/${categoryURL}?id=${resourceId}`}
+          className="w-max"
         >
           <Button variant="default">
             <span>

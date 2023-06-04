@@ -44,7 +44,7 @@ export default function StyledSelect({
       <Select
         value={value}
         instanceId={useId()}
-        id="acadYear"
+        aria-labelledby={label}
         classNames={{
           option: (state) =>
             `text-slate-800 dark:text-slate-200 ` +
