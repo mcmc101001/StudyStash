@@ -240,7 +240,7 @@ export default async function ResourceItem({
             resourceStatus={userStatus ? userStatus.status : null}
             solutionIncluded={solutionIncluded}
           >
-            <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
+            <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
               <div className="flex items-center gap-x-2 overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
                 {name}
                 {category === "Past Papers" && solutionIncluded && (

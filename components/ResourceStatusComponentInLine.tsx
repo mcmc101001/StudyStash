@@ -2,7 +2,7 @@
 
 import { ResourceStatus } from "@prisma/client";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Bookmark, CheckCircle, Inspect, ListChecks } from "lucide-react";
 import {
   Tooltip,
