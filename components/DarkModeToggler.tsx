@@ -45,7 +45,10 @@ export default function DarkModeToggler() {
 
   return (
     <li className="mb-2 mt-auto flex flex-col items-center justify-center gap-y-4">
-      <Button onClick={() => handleDarkModeChange()}>
+      <Button
+        aria-label="dark mode toggler"
+        onClick={() => handleDarkModeChange()}
+      >
         {theme === "dark" ? (
           <Sun className="h-6 w-6" />
         ) : (
