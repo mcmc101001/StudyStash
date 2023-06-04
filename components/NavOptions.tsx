@@ -46,7 +46,7 @@ export default function NavOptions({
               }
             >
               {href === "/database" || userId ? (
-                <Link className="p-2" href={href}>
+                <Link aria-label={href} className="p-2" href={href}>
                   <Icon className="h-7 w-7" />
                 </Link>
               ) : (

@@ -23,6 +23,7 @@ export default function ModuleList(props: ModuleListProps) {
   return (
     <ul role="list" className="flex flex-1 flex-col gap-y-7">
       {props.moduleCodes.map((mod) => {
+        if (!mod) return null;
         return (
           <li key={mod}>
             <Link
