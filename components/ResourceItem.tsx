@@ -268,10 +268,10 @@ export default async function ResourceItem({
                 {category !== "Notes" ? `${examType}, ` : ""}
                 {`${acadYear} S${semester}`}
               </p>
-              <p className="ml-auto w-max whitespace-nowrap text-end">
+              <div className="ml-auto w-max whitespace-nowrap text-end">
                 <Link
                   href={`/profile/${resourceUser?.id}`}
-                  className="group ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                  className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                   <div className="flex items-center">
                     <span className="truncate">{resourceUser?.name}</span>
@@ -283,7 +283,7 @@ export default async function ResourceItem({
                   </div>
                   <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
                 </Link>
-              </p>
+              </div>
             </div>
           </ResourceSheetLauncher>
         </Suspense>
