@@ -241,7 +241,7 @@ export default async function ResourceItem({
             solutionIncluded={solutionIncluded}
           >
             <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
-              <p className="flex items-center gap-x-2 overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
+              <div className="flex items-center gap-x-2 overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
                 {name}
                 {category === "Past Papers" && solutionIncluded && (
                   <SolutionIncludedIndicator />
@@ -249,7 +249,7 @@ export default async function ResourceItem({
                 {currentUser && designNumber === 3 && (
                   <ResourceStatusComponentInLine resourceStatus={null} />
                 )}
-              </p>
+              </div>
               {currentUser && designNumber === 2 ? (
                 <ResourceAltStatusComponent
                   category={category}
