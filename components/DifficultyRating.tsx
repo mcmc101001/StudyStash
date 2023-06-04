@@ -31,8 +31,6 @@ export default function RateDifficulty({
     return req;
   }
 
-  let router = useRouter();
-
   const [difficulty, setDifficulty] = useState(userDifficulty);
   const [hovered, setHovered] = useState(0);
 
@@ -56,7 +54,6 @@ export default function RateDifficulty({
         }
       }
     }
-    router.refresh();
   };
 
   const stars = [1, 2, 3, 4, 5];

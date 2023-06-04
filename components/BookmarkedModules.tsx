@@ -8,13 +8,19 @@ import { containsOnlyNumbers } from "@/lib/utils";
 import { Plus, X } from "lucide-react";
 import { Separator } from "./ui/Separator";
 import Link from "next/link";
+import { updateStarredModuleType } from "@/pages/api/updateStarredModule";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface BookmarkedModulesProps {
+  userId: string;
   moduleCodeOptions: Option[];
   starredModules: StarredModules[];
 }
 
 export default function BookmarkedModules({
+  userId,
   moduleCodeOptions,
   starredModules,
 }: BookmarkedModulesProps) {
@@ -32,15 +38,35 @@ export default function BookmarkedModules({
     }
   };
 
-  function addItem(moduleCode: string | null) {
+  async function addItem(moduleCode: string | null) {
     if (moduleCode === null) return;
     const sortedModules = [...modules, moduleCode].sort();
     setModules(sortedModules);
     setInputValue(null);
+    let body: updateStarredModuleType = {
+      moduleCode: moduleCode,
+      userId: userId,
+      value: true,
+    };
+    try {
+      const res = await axios.post("/api/updateStarredModule", body);
+    } catch (error) {
+      toast.error("Error updating bookmarked module, please try again later.");
+    }
   }
 
-  function removeItem(moduleCode: string) {
+  async function removeItem(moduleCode: string) {
     setModules(modules.filter((module) => module !== moduleCode));
+    let body: updateStarredModuleType = {
+      moduleCode: moduleCode,
+      userId: userId,
+      value: false,
+    };
+    try {
+      const res = await axios.post("/api/updateStarredModule", body);
+    } catch (error) {
+      toast.error("Error updating bookmarked module, please try again later.");
+    }
   }
 
   return (
