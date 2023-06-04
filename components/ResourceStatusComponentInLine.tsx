@@ -36,9 +36,9 @@ export default function ResourceStatusComponentInLine({
       //   }
       // }}
       className="group w-max cursor-pointer rounded-full bg-slate-400 px-2 py-1 dark:bg-slate-600"
-      onHoverStart={() => setIsOpen(true)}
       onHoverEnd={() => setIsOpen(false)}
       onClick={(e) => e.stopPropagation()}
+      onClickCapture={() => setIsOpen(true)}
     >
       <AnimatePresence>
         {!isOpen ? (
