@@ -69,7 +69,12 @@ export default function ResourceDeleteButton({
       ) : (
         <Dialog>
           <DialogTrigger className="stroke-slate-800 dark:stroke-slate-200">
-            <UseAnimations animation={trash2} size={30} strokeColor="inherit" />
+            <UseAnimations
+              aria-label="Delete resource"
+              animation={trash2}
+              size={30}
+              strokeColor="inherit"
+            />
             {/* <Trash2 height={30} width={30} className="cursor-pointer" /> */}
           </DialogTrigger>
           <DialogContent className="text-slate-800 dark:text-slate-200">

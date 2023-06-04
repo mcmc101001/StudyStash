@@ -39,6 +39,7 @@ export default function ModuleStar({
 
   return (
     <StarIcon
+      aria-label="Bookmark module"
       onClick={handleClick}
       className={
         "h-8 w-8 cursor-pointer text-slate-900 transition-colors dark:text-slate-100 " +

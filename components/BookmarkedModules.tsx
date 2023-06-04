@@ -54,6 +54,7 @@ export default function BookmarkedModules({
     } catch (error) {
       toast.error("Error updating bookmarked module, please try again later.");
     }
+    router.refresh();
   }
 
   async function removeItem(moduleCode: string) {
@@ -118,6 +119,7 @@ export default function BookmarkedModules({
           className="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-slate-300 p-2 
             transition-colors hover:border-slate-400 dark:border-slate-500 dark:hover:border-slate-400"
           onClick={() => addItem(inputValue)}
+          aria-label="Add bookmarked module"
         >
           <Plus className="text-slate-300 transition-colors group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300" />
         </button>
@@ -183,6 +185,7 @@ function BookmarkModule({
         </Link>
       </span>
       <button
+        aria-label={`Delete ${moduleCode}`}
         className="group flex h-10 w-10 items-center justify-center rounded border-2 border-slate-300 p-2 transition-colors 
                     hover:border-slate-400 dark:border-slate-500 dark:hover:border-slate-400"
         onClick={() => removeItem(moduleCode)}
