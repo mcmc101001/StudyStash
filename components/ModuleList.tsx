@@ -22,24 +22,24 @@ export default function ModuleList(props: ModuleListProps) {
 
   return (
     <ul role="list" className="flex flex-1 flex-col gap-y-7">
-      {props.moduleCodes.length !== 0 &&
-        props.moduleCodes.map((mod) => {
-          return (
-            <li key={mod}>
-              <Link
-                className={
-                  "p-2 text-slate-800 transition-colors dark:text-slate-200 " +
-                  (mod === props.selectedModule
-                    ? "border border-slate-800 dark:border-slate-200 "
-                    : "hover:text-slate-600 dark:hover:text-slate-400 ")
-                }
-                href={`/database/${mod}/${linkExtension}`}
-              >
-                {mod}
-              </Link>
-            </li>
-          );
-        })}
+      {props.moduleCodes.map((mod) => {
+        if (!mod) return null;
+        return (
+          <li key={mod}>
+            <Link
+              className={
+                "p-2 text-slate-800 transition-colors dark:text-slate-200 " +
+                (mod === props.selectedModule
+                  ? "border border-slate-800 dark:border-slate-200 "
+                  : "hover:text-slate-600 dark:hover:text-slate-400 ")
+              }
+              href={`/database/${mod}/${linkExtension}`}
+            >
+              {mod}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }
