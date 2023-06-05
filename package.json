@@ -9,6 +9,7 @@
     "lint": "next lint",
     "watch": "jest --watch",
     "test": "jest",
+    "e2e": "cypress run",
     "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
