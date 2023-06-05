@@ -18,6 +18,7 @@ export default function UserResourceTab({
         return (
           <div
             key={option.name}
+            aria-label={option.href}
             onClick={() => setQueryParams({ filterCategory: option.href })}
             className={
               "relative w-1/3 cursor-pointer rounded-md bg-inherit p-3 text-center text-xl font-medium transition duration-300 " +

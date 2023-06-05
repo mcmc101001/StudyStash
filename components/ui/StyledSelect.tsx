@@ -42,9 +42,11 @@ export default function StyledSelect({
         </label>
       ) : null}
       <Select
+        id={label}
         value={value}
         instanceId={useId()}
-        aria-labelledby={label}
+        aria-labelledby={placeholderText}
+        classNamePrefix={label}
         classNames={{
           option: (state) =>
             `text-slate-800 dark:text-slate-200 ` +

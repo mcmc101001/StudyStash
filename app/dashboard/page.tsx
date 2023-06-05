@@ -26,6 +26,7 @@ export default async function DashboardPage() {
     <div className="m-28 text-slate-800 dark:text-slate-200">
       <div className="flex flex-row flex-wrap gap-12 overflow-hidden">
         <BookmarkedModules
+          userId={user.id}
           starredModules={starredModules}
           moduleCodeOptions={moduleCodeOptions}
         />

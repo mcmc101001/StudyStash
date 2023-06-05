@@ -1,13 +1,15 @@
 import { defineConfig } from "cypress";
-require("dotenv").config();
-const { GoogleSocialLogin } = require("cypress-social-logins").plugins;
+
+import { plugins } from "cypress-social-logins";
+
+const googleSocialLogin = plugins.GoogleSocialLogin;
 
 export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on("task", {
-        GoogleSocialLogin: GoogleSocialLogin,
+        GoogleSocialLogin: googleSocialLogin,
       });
     },
     baseUrl: "http://localhost:3000",

@@ -242,7 +242,7 @@ const ContributeForm = (props: ContributeFormProps) => {
         });
 
         if (solutionIncluded !== "Included in separate file") {
-          toast.success("PDF uploaded successfully");
+          toast.success("PDF uploaded successfully!");
         }
       } catch (error) {
         // Delete the database entry if s3 upload fails
@@ -550,7 +550,7 @@ const ContributeForm = (props: ContributeFormProps) => {
               <Button
                 variant="dangerous"
                 type="button"
-                className="w-1/2 gap-1 text-lg"
+                className="w-1/2 gap-1 truncate text-lg"
                 onClick={() => {
                   setFileName(null);
                   setFile(null);
@@ -565,7 +565,10 @@ const ContributeForm = (props: ContributeFormProps) => {
                   }
                 }}
               >
-                <Trash2 size={25} /> <p>Clear PDF</p>
+                <div>
+                  <Trash2 size={25} />
+                </div>
+                <p>Clear PDF</p>
               </Button>
             </section>
           </div>

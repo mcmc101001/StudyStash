@@ -10,6 +10,7 @@ export default function LogoutButton() {
   const [isSigningOut, setIsSigningOut] = useState(false);
   return (
     <Button
+      id="logoutButton"
       variant="ghost"
       onClick={async () => {
         setIsSigningOut(true);

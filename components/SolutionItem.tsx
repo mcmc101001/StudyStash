@@ -7,6 +7,7 @@ import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
+import ResourceStatusComponentInLine from "./ResourceStatusComponentInLine";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
@@ -112,10 +113,15 @@ export default async function SolutionItem({
             totalRating={rating}
             userRating={userVote?.value || null}
           />
-          <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
-            <p className="overflow-scroll whitespace-nowrap text-left font-semibold scrollbar-none">
-              {name}
-            </p>
+          <div className="z-10 ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
+            <div className="flex items-center gap-x-2 text-left font-semibold">
+              <span className="overflow-scroll whitespace-nowrap scrollbar-none">
+                {name}
+              </span>
+              {currentUser && (
+                <ResourceStatusComponentInLine resourceStatus={null} />
+              )}
+            </div>
             <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
               <ClientDateTime datetime={createdAt} />
             </p>
