@@ -38,6 +38,7 @@ export default function NavOptions({
         <Tooltip>
           <TooltipTrigger asChild>
             <button
+              aria-label={href}
               className={
                 "flex gap-3 rounded-md p-0 text-lg font-semibold leading-6 text-gray-700 dark:text-gray-300 " +
                 (isActive

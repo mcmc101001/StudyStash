@@ -102,7 +102,7 @@ describe("Login to dashboard", () => {
     cy.visit("/profile");
     cy.get("h1").should("contain", "StudyStash");
     cy.get("div[type='button']").contains("Edit Profile").click();
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get("#name", { timeout: 10000 })
       .click()
       .type("{selectall}{backspace}Test");
