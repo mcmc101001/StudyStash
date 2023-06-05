@@ -14,17 +14,17 @@ jobs:
           npm run test
           npm run lint
 
-    e2e:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: cypress-io/github-action@v5
-          with:
-            build: npm run build
-            start: npm run start
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
-            GOOGLE_PW: ${{ secrets.GOOGLE_PW }}
-            COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
-            SITE_NAME: ${{ secrets.SITE_NAME }}
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cypress-io/github-action@v5
+        with:
+          build: npm run build
+          start: npm run start
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
+          GOOGLE_PW: ${{ secrets.GOOGLE_PW }}
+          COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
+          SITE_NAME: ${{ secrets.SITE_NAME }}
