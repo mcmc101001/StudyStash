@@ -24,10 +24,10 @@ jobs:
           start: npm run start
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
-          GOOGLE_PW: ${{ secrets.GOOGLE_PW }}
-          COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
-          SITE_NAME: ${{ secrets.SITE_NAME }}
+          CYPRESS_GOOGLE_USER: ${{ secrets.CYPRESS_GOOGLE_USER }}
+          CYPRESS_GOOGLE_PW: ${{ secrets.CYPRESS_GOOGLE_PW }}
+          CYPRESS_COOKIE_NAME: ${{ secrets.CYPRESS_COOKIE_NAME }}
+          CYPRESS_SITE_NAME: ${{ secrets.CYPRESS_SITE_NAME }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
