@@ -2,7 +2,7 @@ import SolutionItem from "@/components/SolutionItem";
 import SolutionSort from "@/components/SolutionSort";
 import { ResourceFiltersSorts, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
-import { Prisma, SolutionVote } from "@prisma/client";
+import { ExamType, Prisma, SolutionVote } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 function getSolutionRating(resources: SolutionsWithPosts) {
@@ -20,21 +20,36 @@ function getSolutionRating(resources: SolutionsWithPosts) {
   return new_resources;
 }
 
-async function getSolutionsWithPosts({
+export async function getSolutionsWithPosts({
   userId,
   questionPaperId,
+  moduleCode,
+  FilterSemester,
+  FilterAcadYear,
+  FilterExamType,
 }: {
   userId: string | undefined;
   questionPaperId: string | undefined;
+  moduleCode: string | undefined;
+  FilterSemester: string | undefined;
+  FilterAcadYear: string | undefined;
+  FilterExamType: ExamType | undefined;
 }) {
   try {
     const resource = await prisma.solution.findMany({
       where: {
+        questionPaper: {
+          ...(moduleCode ? { moduleCode: moduleCode } : {}),
+          ...(FilterSemester ? { semester: FilterSemester } : {}),
+          ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
+          ...(FilterExamType ? { type: FilterExamType } : {}),
+        },
         ...(userId ? { userId: userId } : {}),
         ...(questionPaperId ? { questionPaperId: questionPaperId } : {}),
       },
       include: {
         votes: true,
+        questionPaper: true,
       },
     });
     return resource;
@@ -63,6 +78,10 @@ export default async function SolutionPage({
   const solutions = await getSolutionsWithPosts({
     userId: undefined,
     questionPaperId: resourceId,
+    moduleCode: undefined,
+    FilterSemester: undefined,
+    FilterAcadYear: undefined,
+    FilterExamType: undefined,
   });
 
   let sortedSolutions = getSolutionRating(solutions);

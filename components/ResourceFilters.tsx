@@ -7,13 +7,14 @@ import {
   ResourceType,
   sortOptions,
   papersAdditionalSortOptions,
+  ResourceSolutionType,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
 import { containsOnlyNumbers } from "@/lib/utils";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
-  category: ResourceType;
+  category: ResourceSolutionType;
   moduleCodeOptions?: Option[];
 }
 

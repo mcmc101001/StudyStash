@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
 import ResourceStatusComponentInLine from "./ResourceStatusComponentInLine";
+import { ProfleVerifiedIndicator } from "./ProfileVerifiedIndicator";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
@@ -128,15 +129,22 @@ export default async function SolutionItem({
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">idk what to put here</p>
-            <p className="z-10 ml-auto w-max whitespace-nowrap text-end">
+            <div className="z-10 ml-auto flex w-max whitespace-nowrap text-end">
               <Link
                 href={`/profile/${resourceUser?.id}`}
-                className="group z-10 ml-auto block max-w-[180px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
               >
-                {resourceUser?.name}
+                <div className="flex items-center">
+                  <span className="truncate">{resourceUser?.name}</span>
+                </div>
                 <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
               </Link>
-            </p>
+              {resourceUser?.verified && (
+                <div>
+                  <ProfleVerifiedIndicator />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
