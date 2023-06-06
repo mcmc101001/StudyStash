@@ -4,13 +4,12 @@ import useQueryParams from "@/hooks/useQueryParams";
 import {
   semesterOptions,
   examTypeOptions,
-  ResourceType,
   sortOptions,
   papersAdditionalSortOptions,
   ResourceSolutionType,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
-import { containsOnlyNumbers } from "@/lib/utils";
+import { startsWithNumbers } from "@/lib/utils";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
@@ -122,9 +121,11 @@ export default function ResourceFilters({
               option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
             ) {
               return false;
-            } else if (containsOnlyNumbers(trimmed_query)) {
+            } else if (startsWithNumbers(trimmed_query)) {
               // If matches number
-              if (option.value.includes(trimmed_query)) {
+              if (
+                option.value.toLowerCase().includes(trimmed_query.toLowerCase())
+              ) {
                 return false;
               }
             }

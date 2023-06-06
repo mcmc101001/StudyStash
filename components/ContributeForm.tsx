@@ -1,6 +1,6 @@
 "use client";
 
-import { containsOnlyNumbers } from "@/lib/utils";
+import { startsWithNumbers } from "@/lib/utils";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -463,7 +463,7 @@ const ContributeForm = (props: ContributeFormProps) => {
                     .startsWith(trimmed_query.toLowerCase())
                 ) {
                   return true;
-                } else if (containsOnlyNumbers(trimmed_query)) {
+                } else if (startsWithNumbers(trimmed_query)) {
                   // If matches number
                   if (option.value.includes(trimmed_query)) {
                     return true;

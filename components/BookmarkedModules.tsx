@@ -4,7 +4,7 @@ import { StarredModules } from "@prisma/client";
 import { useState } from "react";
 import { AnimatePresence, motion, useIsPresent } from "framer-motion";
 import StyledSelect, { Option } from "./ui/StyledSelect";
-import { containsOnlyNumbers } from "@/lib/utils";
+import { startsWithNumbers } from "@/lib/utils";
 import { Plus, X } from "lucide-react";
 import { Separator } from "./ui/Separator";
 import Link from "next/link";
@@ -106,7 +106,7 @@ export default function BookmarkedModules({
               option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
             ) {
               return true;
-            } else if (containsOnlyNumbers(trimmed_query)) {
+            } else if (startsWithNumbers(trimmed_query)) {
               // If matches number
               if (option.value.includes(trimmed_query)) {
                 return true;
