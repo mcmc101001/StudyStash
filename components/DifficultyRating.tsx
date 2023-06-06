@@ -2,7 +2,6 @@
 
 import { updateDifficultyType } from "@/pages/api/updateDifficulty";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsStarFill, BsStar } from "react-icons/bs";

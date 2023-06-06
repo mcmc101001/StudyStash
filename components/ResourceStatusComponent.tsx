@@ -1,10 +1,7 @@
 "use client";
 
 import { ResourceSolutionType } from "@/lib/content";
-import { updateStatusType } from "@/pages/api/updateStatus";
 import { ResourceStatus } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useState } from "react";
 
 interface ResourceStatusComponentProps {

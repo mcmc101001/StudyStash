@@ -1,4 +1,3 @@
-import { ResourceType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import ResourceSheetLauncher from "@/components/ResourceSheetLauncher";
@@ -17,17 +16,23 @@ import {
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
-import ResourceDeleteButton from "@/components/ResourceDeleteButton";
+// import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { Suspense } from "react";
-import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
+import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import ResourceAltStatusComponent from "@/components/ResourceAltStatusComponent";
-import { ProfleVerifiedIndicator } from "./ProfileVerifiedIndicator";
-import ResourceStatusComponentInLine from "./ResourceStatusComponentInLine";
+import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import ResourceStatusComponentInLine from "@/components/ResourceStatusComponentInLine";
 import { ResourceSolutionType } from "@/lib/content";
-import { getSolutionStatus, getSolutionVote } from "./SolutionItem";
+import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
+import dynamic from "next/dynamic";
+
+const DynamicResourceDeleteButton = dynamic(
+  () => import("@/components/ResourceDeleteButton"),
+  { ssr: false }
+);
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -346,7 +351,7 @@ export default async function ResourceItem({
             className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
             orientation="vertical"
           />
-          <ResourceDeleteButton
+          <DynamicResourceDeleteButton
             currentUserId={currentUser.id}
             resourceId={resourceId}
             category={category}

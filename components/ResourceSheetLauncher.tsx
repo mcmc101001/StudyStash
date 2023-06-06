@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
 import ResourceRating from "@/components/ResourceRating";
-import { ResourceSolutionType, ResourceType } from "@/lib/content";
+import { ResourceSolutionType } from "@/lib/content";
 import DifficultyRating from "@/components/DifficultyRating";
 import { Provider, atom } from "jotai";
 import Button from "@/components/ui/Button";
@@ -21,9 +21,9 @@ import { solutionTabOptions } from "@/lib/content";
 import { generateS3ShareURLType } from "@/pages/api/generateS3ShareURL";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ResourceContextMenu from "./ResourceContextMenu";
+import ResourceContextMenu from "@/components/ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
-import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
+import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;

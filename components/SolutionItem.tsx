@@ -7,8 +7,8 @@ import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
-import ResourceStatusComponentInLine from "./ResourceStatusComponentInLine";
-import { ProfleVerifiedIndicator } from "./ProfileVerifiedIndicator";
+import ResourceStatusComponentInLine from "@/components/ResourceStatusComponentInLine";
+import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
