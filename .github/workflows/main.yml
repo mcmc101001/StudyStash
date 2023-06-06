@@ -22,6 +22,7 @@ jobs:
         with:
           build: npm run build
           start: npm run start
+          browser: chrome
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_GOOGLE_USER: ${{ secrets.CYPRESS_GOOGLE_USER }}
