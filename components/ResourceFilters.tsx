@@ -67,6 +67,7 @@ export default function ResourceFilters({
   const sortQueryParam = queryParams?.get("sort");
   const acadYearQueryParam = queryParams?.get("filterAcadYear");
   const semesterQueryParam = queryParams?.get("filterSemester");
+  const moduleCodeQueryParam = queryParams?.get("filterModuleCode");
   const examTypeQueryParam = queryParams?.get("filterExamType");
 
   return (
@@ -131,6 +132,11 @@ export default function ResourceFilters({
             }
             return false;
           }}
+          defaultValue={
+            moduleCodeQueryParam
+              ? { value: moduleCodeQueryParam, label: moduleCodeQueryParam }
+              : undefined
+          }
         />
       )}
       <StyledSelect
