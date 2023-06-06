@@ -108,7 +108,9 @@ export default function BookmarkedModules({
               return true;
             } else if (startsWithNumbers(trimmed_query)) {
               // If matches number
-              if (option.value.includes(trimmed_query)) {
+              if (
+                option.value.toLowerCase().includes(trimmed_query.toLowerCase())
+              ) {
                 return true;
               }
             }

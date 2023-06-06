@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
 import UserResourceTab from "@/components/UserResourceTab";
 import {
-  ResourceOptions,
   ResourceSolutionOptions,
   ResourceSolutionType,
   ResourceSolutionTypeURL,
@@ -18,7 +17,6 @@ import {
   getRating,
 } from "@/app/database/[moduleCode]/[category]/page";
 import { Suspense } from "react";
-import { prisma } from "@/lib/prisma";
 import { getSolutionsWithPosts } from "@/app/resource/[resourceId]/[categoryURL]/solutions/page";
 
 interface UserResourcesSectionProps {

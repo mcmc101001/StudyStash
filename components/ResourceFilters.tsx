@@ -120,13 +120,13 @@ export default function ResourceFilters({
             if (
               option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
             ) {
-              return false;
+              return true;
             } else if (startsWithNumbers(trimmed_query)) {
               // If matches number
               if (
                 option.value.toLowerCase().includes(trimmed_query.toLowerCase())
               ) {
-                return false;
+                return true;
               }
             }
             return false;
