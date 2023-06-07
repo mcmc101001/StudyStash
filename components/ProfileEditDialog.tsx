@@ -76,7 +76,7 @@ export default function ProfileEditDialog({
       >
         {/* manually set button style here, as cant use button tag with as child, need to accept forward passing of ref, and cant nest buttons in dom */}
         <div className="inline-flex cursor-pointer items-center justify-center rounded-md bg-transparent text-sm font-medium text-slate-800 transition-colors hover:bg-slate-200 hover:text-slate-700 disabled:pointer-events-none disabled:opacity-50 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-slate-300">
-          Edit Profile{" "}
+          <span className="truncate">Edit Profile</span>
           <span className="pl-2">
             <UserCog></UserCog>
           </span>

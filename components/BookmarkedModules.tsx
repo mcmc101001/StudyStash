@@ -74,7 +74,7 @@ export default function BookmarkedModules({
           className={
             "group flex h-9 w-9 items-center justify-center rounded-full border-2 p-2 transition-colors " +
             (inputIsOpen
-              ? "border-green-500 dark:border-green-300"
+              ? "border-green-500 hover:border-green-600 dark:border-green-300 dark:hover:border-green-400"
               : "border-slate-400 hover:border-slate-500 dark:border-slate-500 dark:hover:border-slate-400")
           }
           onClick={() => setInputIsOpen(!inputIsOpen)}
@@ -83,7 +83,7 @@ export default function BookmarkedModules({
           <Plus
             className={
               inputIsOpen
-                ? "text-green-600 dark:text-green-300"
+                ? "text-green-600 group-hover:text-green-700 dark:text-green-300 dark:group-hover:text-green-400"
                 : "text-slate-400 transition-colors group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300"
             }
           />
