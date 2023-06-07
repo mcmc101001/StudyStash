@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
 import ResourceRating from "@/components/ResourceRating";
-import { ResourceType } from "@/lib/content";
+import { ResourceSolutionType } from "@/lib/content";
 import DifficultyRating from "@/components/DifficultyRating";
 import { Provider, atom } from "jotai";
 import Button from "@/components/ui/Button";
@@ -21,9 +21,9 @@ import { solutionTabOptions } from "@/lib/content";
 import { generateS3ShareURLType } from "@/pages/api/generateS3ShareURL";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ResourceContextMenu from "./ResourceContextMenu";
+import ResourceContextMenu from "@/components/ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
-import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
+import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import PDFViewer from "./PDFViewer";
 
 interface ResourceSheetLauncherProps {
@@ -31,13 +31,14 @@ interface ResourceSheetLauncherProps {
   title: string;
   resourceId: string;
   resourceUserId: string;
-  category: ResourceType;
+  category: ResourceSolutionType;
   currentUserId: string | null;
   totalRating: number;
   userRating: boolean | null;
   userDifficulty: number;
   resourceStatus: ResourceStatus | null;
   solutionIncluded?: boolean;
+  questionPaperId?: string;
 }
 
 export default function ResourceSheetLauncher({
@@ -52,6 +53,7 @@ export default function ResourceSheetLauncher({
   userDifficulty,
   resourceStatus,
   solutionIncluded,
+  questionPaperId,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -73,7 +75,9 @@ export default function ResourceSheetLauncher({
       ? "cheatsheets"
       : category === "Past Papers"
       ? "past_papers"
-      : "notes";
+      : category === "Notes"
+      ? "notes"
+      : "solutions";
 
   const [shareURL, setShareURL] = useState<string>("");
 
@@ -178,18 +182,16 @@ export default function ResourceSheetLauncher({
           ></iframe> */}
           <div className="mt-5 flex h-max gap-x-4">
             {solutionTabOptions.map((option) => {
-              if (
-                categoryURL !== "past_papers" &&
-                (option.tabName === "Solutions" ||
-                  option.tabName === "Submit solution")
-              ) {
-                return null;
-              }
+              if (!option.assignedCategory.includes(category)) return null;
               return (
                 <Link
                   className="flex-1"
                   key={option.tabName}
-                  href={`/resource/${resourceId}/${categoryURL}/${option.href}`}
+                  href={
+                    categoryURL === "solutions"
+                      ? `/resource/${questionPaperId}/past_papers/solutions/${resourceId}`
+                      : `/resource/${resourceId}/${categoryURL}/${option.href}`
+                  }
                 >
                   <Button
                     variant="default"

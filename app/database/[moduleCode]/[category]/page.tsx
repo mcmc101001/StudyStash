@@ -17,9 +17,14 @@ import {
 } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
+import { SolutionsWithPosts } from "@/app/resource/[resourceId]/[categoryURL]/solutions/page";
 
 export function getRating(
-  resources: CheatsheetWithPosts | QuestionPaperWithPosts | NotesWithPosts
+  resources:
+    | CheatsheetWithPosts
+    | QuestionPaperWithPosts
+    | NotesWithPosts
+    | SolutionsWithPosts
 ) {
   const new_resources = resources.map((resource) => {
     const rating = resource.votes.reduce(
@@ -271,7 +276,9 @@ export default async function Page({
                 name={resource.name}
                 userId={resource.userId}
                 createdAt={resource.createdAt}
+                // @ts-expect-error wrong type inference
                 acadYear={resource.acadYear}
+                // @ts-expect-error wrong type inference
                 semester={resource.semester}
                 rating={resource.rating}
                 difficulty={

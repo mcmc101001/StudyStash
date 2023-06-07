@@ -5,6 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function containsOnlyNumbers(str: string) {
-  return /^[0-9]+$/.test(str);
+export function startsWithNumbers(str: string) {
+  return /^[0-9].*$/.test(str);
 }

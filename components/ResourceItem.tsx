@@ -1,4 +1,3 @@
-import { ResourceType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import ResourceSheetLauncher from "@/components/ResourceSheetLauncher";
@@ -11,19 +10,29 @@ import {
   QuestionPaperStatus,
   ExamType,
   Prisma,
+  SolutionVote,
+  SolutionStatus,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
-import ResourceDeleteButton from "@/components/ResourceDeleteButton";
+// import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { Suspense } from "react";
-import { SolutionIncludedIndicator } from "./SolutionIncludedIndicator";
+import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import ResourceAltStatusComponent from "@/components/ResourceAltStatusComponent";
-import { ProfleVerifiedIndicator } from "./ProfileVerifiedIndicator";
-import ResourceStatusComponentInLine from "./ResourceStatusComponentInLine";
+import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import ResourceStatusComponentInLine from "@/components/ResourceStatusComponentInLine";
+import { ResourceSolutionType } from "@/lib/content";
+import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
+import dynamic from "next/dynamic";
+
+const DynamicResourceDeleteButton = dynamic(
+  () => import("@/components/ResourceDeleteButton"),
+  { ssr: false }
+);
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -132,14 +141,16 @@ interface ResourceItemProps {
   createdAt: Date;
   acadYear: string;
   semester: string;
-  category: ResourceType;
+  category: ResourceSolutionType;
   difficulty?: number;
   difficultyCount?: number;
   examType?: ExamType;
   solutionIncluded?: boolean;
   rating: number;
-  deletable?: boolean;
+  isProfile?: boolean;
+  moduleCode?: string;
   designNumber?: number;
+  questionPaperId?: string;
 }
 
 export default async function ResourceItem({
@@ -155,8 +166,10 @@ export default async function ResourceItem({
   solutionIncluded,
   category,
   rating,
-  deletable,
+  isProfile,
+  moduleCode,
   designNumber,
+  questionPaperId,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
@@ -165,8 +178,18 @@ export default async function ResourceItem({
   });
   const currentUser = await getCurrentUser();
 
-  let userVote: CheatsheetVote | NotesVote | QuestionPaperVote | null;
-  let userStatus: CheatsheetStatus | NotesStatus | QuestionPaperStatus | null;
+  let userVote:
+    | CheatsheetVote
+    | NotesVote
+    | QuestionPaperVote
+    | SolutionVote
+    | null;
+  let userStatus:
+    | CheatsheetStatus
+    | NotesStatus
+    | QuestionPaperStatus
+    | SolutionStatus
+    | null;
   let userDifficultyData: Prisma.PromiseReturnType<typeof getUserDifficulty>;
   let userDifficulty: number = 0;
 
@@ -184,6 +207,20 @@ export default async function ResourceItem({
     if (currentUser) {
       userVote = await getNotesVote(currentUser.id, resourceId);
       userStatus = await getNotesStatus(currentUser.id, resourceId);
+    } else {
+      userVote = null;
+      userStatus = null;
+    }
+  } else if (category === "Solutions") {
+    if (currentUser) {
+      userVote = await getSolutionVote({
+        userId: currentUser.id,
+        solutionId: resourceId,
+      });
+      userStatus = await getSolutionStatus({
+        userId: currentUser.id,
+        solutionId: resourceId,
+      });
     } else {
       userVote = null;
       userStatus = null;
@@ -239,6 +276,7 @@ export default async function ResourceItem({
             userDifficulty={userDifficulty}
             resourceStatus={userStatus ? userStatus.status : null}
             solutionIncluded={solutionIncluded}
+            questionPaperId={questionPaperId}
           >
             <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
               <div className="flex items-center gap-x-2 text-left font-semibold">
@@ -268,21 +306,27 @@ export default async function ResourceItem({
                 {category !== "Notes" ? `${examType}, ` : ""}
                 {`${acadYear} S${semester}`}
               </p>
-              <div className="ml-auto w-max whitespace-nowrap text-end">
-                <Link
-                  href={`/profile/${resourceUser?.id}`}
-                  className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                  <div className="flex items-center">
-                    <span className="truncate">{resourceUser?.name}</span>
+              <div className="ml-auto flex w-max whitespace-nowrap text-end">
+                {isProfile ? (
+                  <span className="truncate">{moduleCode}</span>
+                ) : (
+                  <>
+                    <Link
+                      href={`/profile/${resourceUser?.id}`}
+                      className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                    >
+                      <div className="flex items-center">
+                        <span className="truncate">{resourceUser?.name}</span>
+                      </div>
+                      <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
+                    </Link>
                     {resourceUser?.verified && (
                       <div>
                         <ProfleVerifiedIndicator />
                       </div>
                     )}
-                  </div>
-                  <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
-                </Link>
+                  </>
+                )}
               </div>
             </div>
           </ResourceSheetLauncher>
@@ -301,13 +345,13 @@ export default async function ResourceItem({
           />
         </div>
       )}
-      {deletable && currentUser?.id === userId && (
+      {isProfile && currentUser?.id === userId && (
         <div className="flex h-full items-center justify-center">
           <Separator
             className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
             orientation="vertical"
           />
-          <ResourceDeleteButton
+          <DynamicResourceDeleteButton
             currentUserId={currentUser.id}
             resourceId={resourceId}
             category={category}

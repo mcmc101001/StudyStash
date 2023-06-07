@@ -2,7 +2,7 @@
 
 import { ResourceSolutionType } from "@/lib/content";
 import axios from "axios";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { deleteS3ObjectType } from "@/pages/api/deleteS3Object";

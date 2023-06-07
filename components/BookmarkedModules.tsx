@@ -3,10 +3,10 @@
 import { StarredModules } from "@prisma/client";
 import { useState } from "react";
 import { AnimatePresence, motion, useIsPresent } from "framer-motion";
-import StyledSelect, { Option } from "./ui/StyledSelect";
-import { containsOnlyNumbers } from "@/lib/utils";
+import StyledSelect, { Option } from "@/components/ui/StyledSelect";
+import { startsWithNumbers } from "@/lib/utils";
 import { Plus, X } from "lucide-react";
-import { Separator } from "./ui/Separator";
+import { Separator } from "@/components/ui/Separator";
 import Link from "next/link";
 import { updateStarredModuleType } from "@/pages/api/updateStarredModule";
 import axios from "axios";
@@ -106,9 +106,11 @@ export default function BookmarkedModules({
               option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
             ) {
               return true;
-            } else if (containsOnlyNumbers(trimmed_query)) {
+            } else if (startsWithNumbers(trimmed_query)) {
               // If matches number
-              if (option.value.includes(trimmed_query)) {
+              if (
+                option.value.toLowerCase().includes(trimmed_query.toLowerCase())
+              ) {
                 return true;
               }
             }

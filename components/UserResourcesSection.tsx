@@ -1,7 +1,11 @@
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
 import UserResourceTab from "@/components/UserResourceTab";
-import { ResourceOptions, ResourceType, ResourceTypeURL } from "@/lib/content";
+import {
+  ResourceSolutionOptions,
+  ResourceSolutionType,
+  ResourceSolutionTypeURL,
+} from "@/lib/content";
 import ResourceFilters from "@/components/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
 import { ExamType } from "@prisma/client";
@@ -13,11 +17,12 @@ import {
   getRating,
 } from "@/app/database/[moduleCode]/[category]/page";
 import { Suspense } from "react";
+import { getSolutionsWithPosts } from "@/app/resource/[resourceId]/[categoryURL]/solutions/page";
 
 interface UserResourcesSectionProps {
   profileUserId: string;
   filterModuleCode: string | undefined;
-  filterCategory: ResourceTypeURL | undefined;
+  filterCategory: ResourceSolutionTypeURL | undefined;
   filterSemester: string | undefined;
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
@@ -35,7 +40,7 @@ export default async function UserResourcesSection({
   sort,
   isProfile,
 }: UserResourcesSectionProps) {
-  let category: ResourceType = "Cheatsheets";
+  let category: ResourceSolutionType = "Cheatsheets";
   let resources;
   if (filterCategory === "cheatsheets") {
     category = "Cheatsheets";
@@ -61,6 +66,16 @@ export default async function UserResourcesSection({
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
+      userId: profileUserId,
+    });
+  } else if (filterCategory === "solutions") {
+    category = "Solutions";
+    resources = await getSolutionsWithPosts({
+      questionPaperId: undefined,
+      moduleCode: filterModuleCode,
+      FilterSemester: filterSemester,
+      FilterAcadYear: filterAcadYear,
+      FilterExamType: filterExamType,
       userId: profileUserId,
     });
   } else if (filterCategory !== undefined) {
@@ -108,7 +123,7 @@ export default async function UserResourcesSection({
   return (
     <>
       <Suspense>
-        <UserResourceTab resourceOptions={ResourceOptions} />
+        <UserResourceTab resourceOptions={ResourceSolutionOptions} />
       </Suspense>
       <div className="flex h-[70vh] w-full flex-row justify-between gap-x-4">
         {filterCategory === undefined ? (
@@ -134,8 +149,20 @@ export default async function UserResourcesSection({
                         name={resource.name}
                         userId={resource.userId}
                         createdAt={resource.createdAt}
-                        acadYear={resource.acadYear}
-                        semester={resource.semester}
+                        acadYear={
+                          category === "Solutions"
+                            ? // @ts-expect-error wrong type inference
+                              resource.questionPaper.acadYear
+                            : // @ts-expect-error wrong type inference
+                              resource.acadYear
+                        }
+                        semester={
+                          category === "Solutions"
+                            ? // @ts-expect-error wrong type inference
+                              resource.questionPaper.semester
+                            : // @ts-expect-error wrong type inference
+                              resource.semester
+                        }
                         rating={resource.rating}
                         difficulty={
                           category === "Past Papers"
@@ -150,11 +177,29 @@ export default async function UserResourcesSection({
                             : undefined
                         }
                         examType={
-                          // @ts-expect-error wrong type inference
-                          filterCategory !== "notes" ? resource.type : null
+                          category === "Solutions"
+                            ? // @ts-expect-error wrong type inference
+                              resource.questionPaper.type
+                            : filterCategory !== "notes"
+                            ? // @ts-expect-error wrong type inference
+                              resource.type
+                            : null
                         }
                         category={category}
-                        deletable={isProfile}
+                        isProfile={isProfile}
+                        moduleCode={
+                          category === "Solutions"
+                            ? // @ts-expect-error wrong type inference
+                              resource.questionPaper.moduleCode
+                            : // @ts-expect-error wrong type inference
+                              resource.moduleCode
+                        }
+                        questionPaperId={
+                          category === "Solutions"
+                            ? // @ts-expect-error wrong type inference
+                              resource.questionPaperId
+                            : undefined
+                        }
                       />
                     );
                   })}

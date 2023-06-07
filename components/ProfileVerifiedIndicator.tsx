@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 
-export function ProfleVerifiedIndicator() {
+export default function ProfleVerifiedIndicator() {
   return (
     <TooltipProvider>
       <Tooltip>

@@ -4,16 +4,16 @@ import useQueryParams from "@/hooks/useQueryParams";
 import {
   semesterOptions,
   examTypeOptions,
-  ResourceType,
   sortOptions,
   papersAdditionalSortOptions,
+  ResourceSolutionType,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
-import { containsOnlyNumbers } from "@/lib/utils";
+import { startsWithNumbers } from "@/lib/utils";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
-  category: ResourceType;
+  category: ResourceSolutionType;
   moduleCodeOptions?: Option[];
 }
 
@@ -67,6 +67,7 @@ export default function ResourceFilters({
   const sortQueryParam = queryParams?.get("sort");
   const acadYearQueryParam = queryParams?.get("filterAcadYear");
   const semesterQueryParam = queryParams?.get("filterSemester");
+  const moduleCodeQueryParam = queryParams?.get("filterModuleCode");
   const examTypeQueryParam = queryParams?.get("filterExamType");
 
   return (
@@ -120,15 +121,22 @@ export default function ResourceFilters({
             if (
               option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
             ) {
-              return false;
-            } else if (containsOnlyNumbers(trimmed_query)) {
+              return true;
+            } else if (startsWithNumbers(trimmed_query)) {
               // If matches number
-              if (option.value.includes(trimmed_query)) {
-                return false;
+              if (
+                option.value.toLowerCase().includes(trimmed_query.toLowerCase())
+              ) {
+                return true;
               }
             }
             return false;
           }}
+          defaultValue={
+            moduleCodeQueryParam
+              ? { value: moduleCodeQueryParam, label: moduleCodeQueryParam }
+              : undefined
+          }
         />
       )}
       <StyledSelect

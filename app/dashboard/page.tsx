@@ -2,9 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import DashboardItem from "@/components/DashboardItem";
 import BookmarkedModules from "@/components/BookmarkedModules";
-import { getModuleCodeOptions, getModuleList } from "@/lib/nusmods";
+import { getModuleCodeOptions } from "@/lib/nusmods";
 
 export const revalidate = 10;
 

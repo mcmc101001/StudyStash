@@ -33,7 +33,7 @@ import { ChevronLeft } from "lucide-react";
 import SolutionTab from "@/components/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
-import { SolutionIncludedIndicator } from "@/components/SolutionIncludedIndicator";
+import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },

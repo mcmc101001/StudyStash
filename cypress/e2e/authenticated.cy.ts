@@ -101,7 +101,8 @@ describe("Login to dashboard", () => {
   it("should be able to edit profile", () => {
     cy.visit("/profile");
     cy.get("h1").should("contain", "StudyStash");
-    cy.contains("Edit Profile").click();
+    cy.get("div[type='button']").contains("Edit Profile").click();
+    cy.wait(2000);
     cy.get("#name", { timeout: 10000 })
       .click()
       .type("{selectall}{backspace}Test");
@@ -113,7 +114,8 @@ describe("Login to dashboard", () => {
     cy.contains("Please work, I am begging you!").should("exist");
 
     // Switch back
-    cy.contains("Edit Profile").click();
+    cy.get("div[type='button']").contains("Edit Profile").click();
+    cy.wait(1000);
     cy.get("#name", { timeout: 10000 })
       .click()
       .type("{selectall}{backspace}StudyStash");

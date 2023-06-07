@@ -23,6 +23,12 @@ export default function SolutionTab({ solutionTabOptions }: SolutionTabProps) {
   return (
     <div className="mb-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
       {solutionTabOptions.map((option) => {
+        if (
+          option.assignedCategory.includes("Solutions") &&
+          option.assignedCategory.length === 1
+        ) {
+          return null;
+        }
         return (
           <Link
             key={option.tabName}
