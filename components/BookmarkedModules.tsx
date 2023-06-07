@@ -26,24 +26,17 @@ export default function BookmarkedModules({
 }: BookmarkedModulesProps) {
   let router = useRouter();
 
+  const [inputIsOpen, setInputIsOpen] = useState(false);
+
   const [modules, setModules] = useState<string[]>(
     starredModules.map((module) => module.moduleCode).sort()
   );
-  const [inputValue, setInputValue] = useState<string | null>(null);
 
-  const handleInputChange = (option: Option | null) => {
-    if (option) {
-      setInputValue(option.value);
-    } else {
-      setInputValue(null);
-    }
-  };
-
-  async function addItem(moduleCode: string | null) {
-    if (moduleCode === null) return;
+  async function addItem(option: Option | null) {
+    if (option === null) return;
+    const moduleCode = option.value;
     const sortedModules = [...modules, moduleCode].sort();
     setModules(sortedModules);
-    setInputValue(null);
     let body: updateStarredModuleType = {
       moduleCode: moduleCode,
       userId: userId,
@@ -54,6 +47,7 @@ export default function BookmarkedModules({
     } catch (error) {
       toast.error("Error updating bookmarked module, please try again later.");
     }
+    setInputIsOpen(false);
     router.refresh();
   }
 
@@ -73,76 +67,69 @@ export default function BookmarkedModules({
   }
 
   return (
-    <div className="h-full w-96 border py-4">
-      <h1 className="px-4 text-2xl font-medium">Bookmarked Modules</h1>
-      <div className="mt-3 flex items-center justify-between gap-x-4 px-4">
-        <StyledSelect
-          value={inputValue ? { label: inputValue, value: inputValue } : null}
-          label="Module Code"
-          labelExists={false}
-          inputLike={true}
-          placeholderText="Add modules"
-          onChange={handleInputChange}
-          options={moduleCodeOptions}
-          noOptionsMessage={({ inputValue }) =>
-            inputValue.trimStart().length < 2
-              ? "Type to search..."
-              : "No options"
-          }
-          filterOption={(
-            option: { value: string; label: string },
-            query: string
-          ) => {
-            const trimmed_query = query.trimStart();
-            if (trimmed_query.length < 2) {
-              return false;
-            }
-            // If already in list
-            if (modules.includes(option.value)) {
-              return false;
-            }
-            // If matches prefix
-            if (
-              option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
-            ) {
-              return true;
-            } else if (startsWithNumbers(trimmed_query)) {
-              // If matches number
-              if (
-                option.value.toLowerCase().includes(trimmed_query.toLowerCase())
-              ) {
-                return true;
-              }
-            }
-            return false;
-          }}
-        />
+    <div className="h-full w-96 overflow-hidden border py-4">
+      <div className="flex items-center justify-between px-4">
+        <h1 className="text-2xl font-medium">Bookmarked Modules</h1>
         <button
-          className="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-slate-300 p-2 
-            transition-colors hover:border-slate-400 dark:border-slate-500 dark:hover:border-slate-400"
-          onClick={() => addItem(inputValue)}
+          className={
+            "group flex h-9 w-9 items-center justify-center rounded-full border-2 p-2 transition-colors " +
+            (inputIsOpen
+              ? "border-green-500 dark:border-green-300"
+              : "border-slate-400 hover:border-slate-500 dark:border-slate-500 dark:hover:border-slate-400")
+          }
+          onClick={() => setInputIsOpen(!inputIsOpen)}
           aria-label="Add bookmarked module"
         >
-          <Plus className="text-slate-300 transition-colors group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300" />
+          <Plus
+            className={
+              inputIsOpen
+                ? "text-green-600 dark:text-green-300"
+                : "text-slate-400 transition-colors group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300"
+            }
+          />
         </button>
       </div>
-      <Separator className="mx-auto my-4 h-[2px] w-[92%] bg-slate-200" />
       <div
-        className="h-72 overflow-y-auto pl-4 pr-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200
+        className="h-96 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
         style={{ scrollbarGutter: "stable" }}
       >
-        <ul className="relative">
+        <div className="relative flex w-full items-center justify-between gap-x-4 px-4">
           <AnimatePresence initial={false}>
-            {modules.map((module) => (
-              <BookmarkModule
-                key={module}
-                moduleCode={module}
-                removeItem={removeItem}
+            {inputIsOpen && (
+              <ModuleCodeSearcher
+                moduleCodeOptions={moduleCodeOptions}
+                addItem={addItem}
+                inputIsOpen={inputIsOpen}
+                modules={modules}
               />
-            ))}
+            )}
           </AnimatePresence>
-        </ul>
+        </div>
+        <AnimatePresence initial={false}>
+          <motion.div
+            transition={{
+              duration: 0.8,
+              type: "spring",
+            }}
+            layout
+          >
+            <Separator className="mx-auto my-4 h-[2px] w-[92%] bg-slate-200" />
+          </motion.div>
+        </AnimatePresence>
+        <div className="pl-4 pr-2">
+          <ul className="relative">
+            <AnimatePresence initial={false}>
+              {modules.map((module) => (
+                <BookmarkModule
+                  key={module}
+                  moduleCode={module}
+                  removeItem={removeItem}
+                />
+              ))}
+            </AnimatePresence>
+          </ul>
+        </div>
       </div>
     </div>
   );
@@ -188,12 +175,89 @@ function BookmarkModule({
       </span>
       <button
         aria-label={`Delete ${moduleCode}`}
-        className="group flex h-10 w-10 items-center justify-center rounded border-2 border-slate-300 p-2 transition-colors 
-                    hover:border-slate-400 dark:border-slate-500 dark:hover:border-slate-400"
+        className="group flex h-10 w-10 items-center justify-center rounded border-2 border-slate-400 p-2 transition-colors 
+                    hover:border-slate-500 dark:border-slate-500 dark:hover:border-slate-400"
         onClick={() => removeItem(moduleCode)}
       >
-        <X className="text-slate-300 transition-colors group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300" />
+        <X className="text-slate-400 transition-colors group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300" />
       </button>
     </motion.li>
+  );
+}
+
+function ModuleCodeSearcher({
+  moduleCodeOptions,
+  addItem,
+  modules,
+}: {
+  moduleCodeOptions: Option[];
+  addItem: (option: Option | null) => void;
+  inputIsOpen: boolean;
+  modules: string[];
+}) {
+  let isPresent = useIsPresent();
+
+  return (
+    <motion.div
+      key="searchBar"
+      layout
+      initial={{
+        opacity: 0.2,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      style={{
+        position: isPresent ? "relative" : "absolute",
+        width: isPresent ? "100%" : "calc(100% - 2rem)", // 2rem being padding of parent contianer
+      }}
+      transition={{
+        duration: 0.8,
+        type: "spring",
+      }}
+      className="mt-2 w-full"
+    >
+      <StyledSelect
+        label="Module Code"
+        labelExists={false}
+        inputLike={true}
+        placeholderText="Add modules"
+        onChange={addItem}
+        options={moduleCodeOptions}
+        noOptionsMessage={({ inputValue }) =>
+          inputValue.trimStart().length < 2 ? "Type to search..." : "No options"
+        }
+        filterOption={(
+          option: { value: string; label: string },
+          query: string
+        ) => {
+          const trimmed_query = query.trimStart();
+          if (trimmed_query.length < 2) {
+            return false;
+          }
+          // If already in list
+          if (modules.includes(option.value)) {
+            return false;
+          }
+          // If matches prefix
+          if (
+            option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
+          ) {
+            return true;
+          } else if (startsWithNumbers(trimmed_query)) {
+            // If matches number
+            if (
+              option.value.toLowerCase().includes(trimmed_query.toLowerCase())
+            ) {
+              return true;
+            }
+          }
+          return false;
+        }}
+      />
+    </motion.div>
   );
 }

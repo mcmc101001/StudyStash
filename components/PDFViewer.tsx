@@ -102,11 +102,11 @@ export default function PDFViewer({ className, url }: PDFViewerProps) {
 
       <div className="flex h-full justify-center overflow-auto bg-slate-800">
         <Document
-          file={"/sample.pdf"}
+          file={{ url: url }}
           onLoadSuccess={onDocumentLoadSuccess}
           loading=""
         >
-          {isLoading && renderedPage ? (
+          {/* {isLoading && renderedPage ? (
             <Page
               key={renderedPage}
               className="absolute z-10"
@@ -115,7 +115,7 @@ export default function PDFViewer({ className, url }: PDFViewerProps) {
               renderAnnotationLayer={false}
               scale={zoom}
             />
-          ) : null}
+          ) : null} */}
           <Page
             className={isLoading ? "hidden" : ""}
             key={currPage}
