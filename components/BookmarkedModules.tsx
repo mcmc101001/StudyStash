@@ -224,7 +224,7 @@ function ModuleCodeSearcher({
         label="Module Code"
         labelExists={false}
         inputLike={true}
-        placeholderText="Add modules"
+        placeholderText="Search module code"
         onChange={addItem}
         options={moduleCodeOptions}
         noOptionsMessage={({ inputValue }) =>

@@ -40,11 +40,29 @@ describe("Filter and sort database", () => {
     // sort
     cy.get("[aria-labelledby='Sort']").click();
     cy.get(".Sort__menu").find(".Sort__option").contains("Most recent").click();
-    cy.get("[data-cy='resourceItem']").should("have.length", 1);
+    cy.get("[data-cy='resourceItem']").should("have.length", 3);
+    cy.get("[data-cy='resourceItem']").each((item, index) => {
+      if (index !== 2) {
+        cy.wrap(item).should(
+          "contain.text",
+          `cypress database seed DO NOT INTERACT #${3 - index}`
+        );
+      }
+    });
+
+    // retain sorts on navigation
+    cy.contains("a", "Notes").should("exist").click();
+    cy.get("[data-cy='resourceItem']").should("have.length", 2);
+    cy.get("[data-cy='resourceItem']").each((item, index) => {
+      if (index !== 1) {
+        cy.wrap(item).should(
+          "contain.text",
+          `cypress database seed DO NOT INTERACT #${2 - index}`
+        );
+      }
+    });
     cy.get("[aria-labelledby='Sort']")
       .click()
       .type("{selectall}{backspace}{esc}");
-
-    // retain sorts on navigation
   });
 });

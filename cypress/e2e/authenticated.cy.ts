@@ -101,8 +101,11 @@ describe("Login to dashboard", () => {
   it("should be able to edit profile", () => {
     cy.visit("/profile");
     cy.get("h1").should("contain", "StudyStash");
-    cy.get("div[type='button']").contains("Edit Profile").click();
-    cy.wait(2000);
+    cy.get("div[type='button']")
+      .contains("Edit Profile")
+      .should("exist")
+      .click();
+    cy.get("div[role='dialog']").should("exist");
     cy.get("#name", { timeout: 10000 })
       .click()
       .type("{selectall}{backspace}Test");
@@ -115,8 +118,9 @@ describe("Login to dashboard", () => {
 
     // Switch back
     cy.get("div[type='button']").contains("Edit Profile").click();
-    cy.wait(1000);
+    cy.get("div[role='dialog']").should("exist");
     cy.get("#name", { timeout: 10000 })
+      .should("exist")
       .click()
       .type("{selectall}{backspace}StudyStash");
     cy.get("#bio").click().type("{selectall}{backspace}Pre cypress test!");
@@ -131,16 +135,16 @@ describe("Login to dashboard", () => {
     cy.get('[href="/dashboard"]').parent().should("have.class", "outline");
 
     // Add module
-    cy.get("[aria-labelledby='Add modules']").type("CP");
+    cy.get("[aria-label='Add bookmarked module']").should("exist").click();
+    cy.get("[aria-labelledby='Search module code']", { timeout: 10000 })
+      .should("exist")
+      .type("CP");
     cy.get(".Code__menu").find(".Code__option").contains("CP2106").click();
-    cy.get("[aria-label='Add bookmarked module']").click();
-    cy.wait(1000);
-    cy.contains("CP2106").should("exist").click();
+    cy.contains("a", "CP2106").should("exist").click();
 
     // Navigate and unstar
     cy.get("[aria-label='Bookmark module']").click();
-    cy.wait(1000);
-    cy.get("a[href='/dashboard']").click();
+    cy.get("a[href='/dashboard']").should("exist").click();
     cy.contains("CP2106").should("not.exist");
 
     // Navigate to database page and star
@@ -148,13 +152,11 @@ describe("Login to dashboard", () => {
     cy.get("input").type("CP");
     cy.contains("CP2106").click();
     cy.get("[aria-label='Bookmark module']").click();
-    cy.wait(1000);
 
     // Navigate to dashboard and unstar
-    cy.get("a[href='/dashboard']").click();
+    cy.get("a[href='/dashboard']").should("exist").click();
     cy.contains("CP2106").should("exist");
     cy.get("[aria-label='Delete CP2106']").click();
-    cy.wait(1000);
     cy.contains("CP2106").should("not.exist");
   });
 });
