@@ -17,7 +17,7 @@ interface PDFViewerProps {
 }
 
 export default function PDFViewer({ className, url }: PDFViewerProps) {
-  const [numPages, setNumPages] = useState<number | null>(null);
+  const [numPages, setNumPages] = useState<number>(0);
   const [currPage, setCurrPage] = useState(1);
   const [zoom, setZoom] = useState(1.0);
   const [renderedPage, setRenderedPage] = useState<number | null>(null);
@@ -102,7 +102,7 @@ export default function PDFViewer({ className, url }: PDFViewerProps) {
 
       <div className="flex h-full justify-center overflow-auto bg-slate-800">
         <Document
-          file={{ url: url }}
+          file={"/sample.pdf"}
           onLoadSuccess={onDocumentLoadSuccess}
           loading=""
         >
