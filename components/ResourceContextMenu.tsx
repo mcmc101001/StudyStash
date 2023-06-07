@@ -166,7 +166,9 @@ export default function ResourceContextMenu({
                   Incorrect semester
                 </ContextMenuItem>
                 {category === "Past Papers" && (
-                  <ContextMenuItem>Incorrect exam type</ContextMenuItem>
+                  <ContextMenuItem onClick={handleReportClick}>
+                    Incorrect exam type
+                  </ContextMenuItem>
                 )}
               </ContextMenuSubContent>
             </ContextMenuSub>

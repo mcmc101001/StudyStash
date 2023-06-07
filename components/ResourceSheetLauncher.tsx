@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import ResourceContextMenu from "@/components/ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
+import PDFViewer from "./PDFViewer";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -172,13 +173,14 @@ export default function ResourceSheetLauncher({
               <span className="sr-only">Close</span>
             </div>
           </SheetHeader>
-          <iframe
+          <PDFViewer url={shareURL} />
+          {/* <iframe
             title="PDF Resource"
             src={shareURL}
             width="100%"
             height="80%"
-          ></iframe>
-          <div className="mt-5 flex gap-x-4">
+          ></iframe> */}
+          <div className="mt-5 flex h-max gap-x-4">
             {solutionTabOptions.map((option) => {
               if (!option.assignedCategory.includes(category)) return null;
               return (

@@ -13,6 +13,14 @@ const nextConfig = {
       },
     ],
   },
+  webpack: (config, options) => {
+    // Important: return the modified config
+    config.module.rules.push({
+      test: /\.node/,
+      use: "raw-loader",
+    });
+    return config;
+  },
 };
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
@@ -22,25 +30,25 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 module.exports = withBundleAnalyzer(nextConfig);
 
 // module.exports = {
-//   future: {
-//     webpack5: true,
-//   },
-//   webpack: (config) => {
-//     // load worker files as a urls with `file-loader`
-//     config.module.rules.unshift({
-//       test: /pdf\.worker\.(min\.)?js/,
-//       use: [
-//         {
-//           loader: "file-loader",
-//           options: {
-//             name: "[contenthash].[ext]",
-//             publicPath: "_next/static/worker",
-//             outputPath: "static/worker",
-//           },
+// future: {
+//   webpack5: true,
+// },
+// webpack: (config) => {
+//   // load worker files as a urls with `file-loader`
+//   config.module.rules.unshift({
+//     test: /pdf\.worker\.(min\.)?js/,
+//     use: [
+//       {
+//         loader: "file-loader",
+//         options: {
+//           name: "[contenthash].[ext]",
+//           publicPath: "_next/static/worker",
+//           outputPath: "static/worker",
 //         },
-//       ],
-//     });
+//       },
+//     ],
+//   });
 
-//     return config;
-//   },
+//   return config;
+// },
 // };
