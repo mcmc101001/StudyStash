@@ -1,7 +1,11 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import ResourceStatusComponentInLine from "@/components/ResourceStatusComponentInLine";
+
+import dynamic from "next/dynamic";
+const PDFViewer = dynamic(() => import("@/components/PDFViewer"), {
+  ssr: false,
+});
 
 export default async function PDFPage() {
   const user = await getCurrentUser();
@@ -11,10 +15,11 @@ export default async function PDFPage() {
 
   return (
     <>
-      <div className="text-slate-800 dark:text-slate-200">
-        Under development
+      <div className="flex flex-col items-center dark:text-white">
+        <div className="text-slate-800 dark:text-slate-200">
+          Under development
+        </div>
       </div>
-      <ResourceStatusComponentInLine resourceStatus="Completed" />
     </>
   );
 }
