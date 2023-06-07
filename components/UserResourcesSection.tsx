@@ -139,7 +139,7 @@ export default async function UserResourcesSection({
               style={{ scrollbarGutter: "stable" }}
             >
               {resourcesWithRating.length !== 0 ? (
-                <div className="flex flex-col gap-y-6">
+                <ul className="flex flex-col gap-y-6">
                   {resourcesWithRating.map((resource) => {
                     return (
                       /* @ts-expect-error Server Component */
@@ -203,7 +203,7 @@ export default async function UserResourcesSection({
                       />
                     );
                   })}
-                </div>
+                </ul>
               ) : (
                 <div className="flex h-1/2 w-full items-center justify-center text-3xl">
                   No resources found!

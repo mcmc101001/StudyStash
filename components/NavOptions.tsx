@@ -52,7 +52,7 @@ export default function NavOptions({
                 </Link>
               ) : (
                 <div
-                  onClick={() => toast.error("You need to be logged in!")}
+                  onClick={() => toast.error("You must be logged in!")}
                   className="p-2"
                 >
                   <Icon className="h-7 w-7" />

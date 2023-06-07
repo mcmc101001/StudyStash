@@ -16,7 +16,7 @@ describe("Login to dashboard", () => {
       username,
       password,
       loginUrl,
-      headless: false,
+      headless: true,
       logs: false,
       isPopup: true,
       loginSelector: "#loginButton",
