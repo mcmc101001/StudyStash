@@ -119,7 +119,7 @@ export default function ResourceRating({
             className={
               " " +
               (userRatingState === true
-                ? "fill-orange-500 text-orange-500"
+                ? "fill-orange-500 text-orange-500 hover:fill-orange-600 hover:text-orange-600"
                 : "fill-none hover:text-orange-500")
             }
           />
@@ -133,7 +133,7 @@ export default function ResourceRating({
             className={
               " " +
               (userRatingState === false
-                ? "fill-blue-600 text-blue-600"
+                ? "fill-blue-600 text-blue-600 hover:fill-blue-700 hover:text-blue-700"
                 : "fill-none hover:text-blue-600")
             }
           />
