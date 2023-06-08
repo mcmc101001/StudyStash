@@ -2,6 +2,7 @@
 
 import { updateDifficultyType } from "@/pages/api/updateDifficulty";
 import axios from "axios";
+import { stagger, useAnimate } from "framer-motion";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsStarFill, BsStar } from "react-icons/bs";
@@ -33,12 +34,19 @@ export default function RateDifficulty({
   const [difficulty, setDifficulty] = useState(userDifficulty);
   const [hovered, setHovered] = useState(0);
 
+  let [ref, animate] = useAnimate();
+
   const handleClick = async (star: number) => {
     if (!currentUserId) {
       toast.error("You must be logged in!");
     } else {
       if (star === difficulty) {
         setDifficulty(0);
+        animate(
+          ".star",
+          { scale: [1, 1.25, 1] },
+          { duration: 0.3, delay: stagger(0.1) }
+        );
         try {
           updateDifficulty(0);
         } catch (error) {
@@ -46,6 +54,11 @@ export default function RateDifficulty({
         }
       } else {
         setDifficulty(star);
+        animate(
+          ".star",
+          { scale: [1, 1.25, 1] },
+          { duration: 0.3, delay: stagger(0.1) }
+        );
         try {
           updateDifficulty(star);
         } catch (error) {
@@ -57,7 +70,7 @@ export default function RateDifficulty({
 
   const stars = [1, 2, 3, 4, 5];
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div ref={ref} className="flex h-full w-full items-center justify-center">
       {stars.map((star) => {
         return (
           <div
@@ -65,7 +78,7 @@ export default function RateDifficulty({
             onMouseLeave={() => setHovered(0)}
             onClick={() => handleClick(star)}
             key={star}
-            className={"cursor-pointer p-1 " + (star === hovered ? "" : "")}
+            className={"cursor-pointer p-1 " + (star <= hovered ? "star" : " ")}
           >
             {hovered === 0 ? (
               star <= difficulty ? (
