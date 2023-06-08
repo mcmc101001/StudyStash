@@ -5,6 +5,8 @@ import {
   QuestionPaper,
   QuestionPaperDifficulty,
   QuestionPaperVote,
+  ResourceStatus,
+  SemesterType,
 } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
@@ -61,12 +63,16 @@ export async function getCheatsheetsWithPosts({
   FilterAcadYear,
   FilterExamType,
   userId,
+  statusUserId,
+  statusType,
 }: {
   moduleCode: string | undefined;
-  FilterSemester: string | undefined;
+  FilterSemester: SemesterType | undefined;
   FilterAcadYear: string | undefined;
   FilterExamType: ExamType | undefined;
   userId: string | undefined;
+  statusUserId: string | undefined;
+  statusType: ResourceStatus | undefined;
 }) {
   try {
     const resource = await prisma.cheatsheet.findMany({
@@ -76,6 +82,12 @@ export async function getCheatsheetsWithPosts({
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(FilterExamType ? { type: FilterExamType } : {}),
         ...(userId ? { userId: userId } : {}),
+        statuses: {
+          some: {
+            ...(statusUserId ? { userId: statusUserId } : {}),
+            ...(statusUserId && statusType ? { type: statusType } : {}),
+          },
+        },
       },
       include: {
         votes: true,
@@ -93,12 +105,16 @@ export async function getQuestionPapersWithPosts({
   FilterAcadYear,
   FilterExamType,
   userId,
+  statusUserId,
+  statusType,
 }: {
   moduleCode: string | undefined;
-  FilterSemester: string | undefined;
+  FilterSemester: SemesterType | undefined;
   FilterAcadYear: string | undefined;
   FilterExamType: ExamType | undefined;
   userId: string | undefined;
+  statusUserId: string | undefined;
+  statusType: ResourceStatus | undefined;
 }) {
   try {
     const resource = await prisma.questionPaper.findMany({
@@ -108,6 +124,12 @@ export async function getQuestionPapersWithPosts({
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(FilterExamType ? { type: FilterExamType } : {}),
         ...(userId ? { userId: userId } : {}),
+        statuses: {
+          some: {
+            ...(statusUserId ? { userId: statusUserId } : {}),
+            ...(statusUserId && statusType ? { type: statusType } : {}),
+          },
+        },
       },
       include: {
         votes: true,
@@ -128,11 +150,15 @@ export async function getNotesWithPosts({
   FilterSemester,
   FilterAcadYear,
   userId,
+  statusUserId,
+  statusType,
 }: {
   moduleCode: string | undefined;
-  FilterSemester: string | undefined;
+  FilterSemester: SemesterType | undefined;
   FilterAcadYear: string | undefined;
   userId: string | undefined;
+  statusUserId: string | undefined;
+  statusType: ResourceStatus | undefined;
 }) {
   try {
     const resource = await prisma.notes.findMany({
@@ -141,6 +167,12 @@ export async function getNotesWithPosts({
         ...(FilterSemester ? { semester: FilterSemester } : {}),
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(userId ? { userId: userId } : {}),
+        statuses: {
+          some: {
+            ...(statusUserId ? { userId: statusUserId } : {}),
+            ...(statusUserId && statusType ? { type: statusType } : {}),
+          },
+        },
       },
       include: {
         votes: true,
@@ -159,13 +191,17 @@ export async function getSolutionsWithPosts({
   FilterSemester,
   FilterAcadYear,
   FilterExamType,
+  statusUserId,
+  statusType,
 }: {
   userId: string | undefined;
   questionPaperId: string | undefined;
   moduleCode: string | undefined;
-  FilterSemester: string | undefined;
+  FilterSemester: SemesterType | undefined;
   FilterAcadYear: string | undefined;
   FilterExamType: ExamType | undefined;
+  statusUserId: string | undefined;
+  statusType: ResourceStatus | undefined;
 }) {
   try {
     const resource = await prisma.solution.findMany({
@@ -175,6 +211,12 @@ export async function getSolutionsWithPosts({
           ...(FilterSemester ? { semester: FilterSemester } : {}),
           ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
           ...(FilterExamType ? { type: FilterExamType } : {}),
+        },
+        statuses: {
+          some: {
+            ...(statusUserId ? { userId: statusUserId } : {}),
+            ...(statusUserId && statusType ? { type: statusType } : {}),
+          },
         },
         ...(userId ? { userId: userId } : {}),
         ...(questionPaperId ? { questionPaperId: questionPaperId } : {}),

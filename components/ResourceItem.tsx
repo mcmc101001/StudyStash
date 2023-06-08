@@ -12,6 +12,7 @@ import {
   Prisma,
   SolutionVote,
   SolutionStatus,
+  SemesterType,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
@@ -140,7 +141,7 @@ interface ResourceItemProps {
   userId: string;
   createdAt: Date;
   acadYear: string;
-  semester: string;
+  semester: SemesterType;
   category: ResourceSolutionType;
   difficulty?: number;
   difficultyCount?: number;
@@ -252,6 +253,19 @@ export default async function ResourceItem({
     redirect("/404");
   }
 
+  let semesterString: string;
+  if (semester === "semester1") {
+    semesterString = "S1";
+  } else if (semester === "semester2") {
+    semesterString = "S2";
+  } else if (semester === "specialTerm1") {
+    semesterString = "ST1";
+  } else if (semester === "specialTerm2") {
+    semesterString = "ST2";
+  } else {
+    semesterString = "ERROR";
+  }
+
   return (
     <li
       data-cy="resourceItem"
@@ -307,7 +321,7 @@ export default async function ResourceItem({
             <div className="ml-auto flex h-full flex-col gap-y-2">
               <p className="whitespace-nowrap text-end">
                 {category !== "Notes" ? `${examType}, ` : ""}
-                {`${acadYear} S${semester}`}
+                {`${acadYear} ${semesterString}`}
               </p>
               <div className="ml-auto flex w-max whitespace-nowrap text-end">
                 {isProfile ? (

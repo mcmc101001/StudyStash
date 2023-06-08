@@ -8,7 +8,7 @@ import {
 } from "@/lib/content";
 import ResourceFilters from "@/components/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
-import { ExamType } from "@prisma/client";
+import { ExamType, SemesterType } from "@prisma/client";
 import {
   getAvgDifficulty,
   getCheatsheetsWithPosts,
@@ -23,7 +23,7 @@ interface UserResourcesSectionProps {
   profileUserId: string;
   filterModuleCode: string | undefined;
   filterCategory: ResourceSolutionTypeURL | undefined;
-  filterSemester: string | undefined;
+  filterSemester: SemesterType | undefined;
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
   sort: string | undefined;
@@ -50,6 +50,8 @@ export default async function UserResourcesSection({
       FilterAcadYear: filterAcadYear,
       FilterExamType: filterExamType,
       userId: profileUserId,
+      statusUserId: undefined,
+      statusType: undefined,
     });
   } else if (filterCategory === "past_papers") {
     category = "Past Papers";
@@ -59,6 +61,8 @@ export default async function UserResourcesSection({
       FilterAcadYear: filterAcadYear,
       FilterExamType: filterExamType,
       userId: profileUserId,
+      statusUserId: undefined,
+      statusType: undefined,
     });
   } else if (filterCategory === "notes") {
     category = "Notes";
@@ -67,6 +71,8 @@ export default async function UserResourcesSection({
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
       userId: profileUserId,
+      statusUserId: undefined,
+      statusType: undefined,
     });
   } else if (filterCategory === "solutions") {
     category = "Solutions";
@@ -77,6 +83,8 @@ export default async function UserResourcesSection({
       FilterAcadYear: filterAcadYear,
       FilterExamType: filterExamType,
       userId: profileUserId,
+      statusUserId: undefined,
+      statusType: undefined,
     });
   } else if (filterCategory !== undefined) {
     redirect("/404");

@@ -42,6 +42,8 @@ export default async function SolutionPage({
     FilterSemester: undefined,
     FilterAcadYear: undefined,
     FilterExamType: undefined,
+    statusUserId: undefined,
+    statusType: undefined,
   });
 
   let sortedSolutions = getSolutionRating(solutions);
