@@ -31,7 +31,7 @@ export default function ModuleList(props: ModuleListProps) {
                 "p-2 text-slate-800 transition-colors dark:text-slate-200 " +
                 (mod === props.selectedModule
                   ? "border border-slate-800 dark:border-slate-200 "
-                  : "hover:text-slate-600 dark:hover:text-slate-400 ")
+                  : "hover:text-slate-500 dark:hover:text-slate-400 ")
               }
               href={`/database/${mod}/${linkExtension}`}
             >
