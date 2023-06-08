@@ -44,8 +44,8 @@ export default function RateDifficulty({
         setDifficulty(0);
         animate(
           ".star",
-          { scale: [1, 1.25, 1] },
-          { duration: 0.3, delay: stagger(0.1) }
+          { rotate: [0, -10, 10, 0], opacity: [1, 0.5, 1] },
+          { duration: 0.3, delay: stagger(0.075) }
         );
         try {
           updateDifficulty(0);
@@ -57,7 +57,7 @@ export default function RateDifficulty({
         animate(
           ".star",
           { scale: [1, 1.25, 1] },
-          { duration: 0.3, delay: stagger(0.1) }
+          { duration: 0.3, delay: stagger(0.075) }
         );
         try {
           updateDifficulty(star);
