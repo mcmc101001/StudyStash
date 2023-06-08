@@ -104,7 +104,7 @@ export default async function SolutionItem({
         {/* positioned as such to prevent nesting anchor tags (use z-index to make internal link clickable) */}
         <Link
           href={`/resource/${questionPaperId}/past_papers/solutions/${solutionId}`}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-10"
         ></Link>
         <div className="flex w-full items-center">
           <ResourceRatingProvider
@@ -114,7 +114,7 @@ export default async function SolutionItem({
             totalRating={rating}
             userRating={userVote?.value || null}
           />
-          <div className="z-10 ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
+          <div className="z-0 ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">
               <span className="overflow-scroll whitespace-nowrap scrollbar-none">
                 {name}
@@ -129,10 +129,10 @@ export default async function SolutionItem({
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">idk what to put here</p>
-            <div className="z-10 ml-auto flex w-max whitespace-nowrap text-end">
+            <div className="ml-auto flex w-max whitespace-nowrap text-end">
               <Link
                 href={`/profile/${resourceUser?.id}`}
-                className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                className="group z-20 ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
               >
                 <div className="flex items-center">
                   <span className="truncate">{resourceUser?.name}</span>

@@ -15,9 +15,9 @@ import {
   getNotesWithPosts,
   getQuestionPapersWithPosts,
   getRating,
-} from "@/app/database/[moduleCode]/[category]/page";
+} from "@/lib/dataFetching";
 import { Suspense } from "react";
-import { getSolutionsWithPosts } from "@/app/resource/[resourceId]/[categoryURL]/solutions/page";
+import { getSolutionsWithPosts } from "@/lib/dataFetching";
 
 interface UserResourcesSectionProps {
   profileUserId: string;

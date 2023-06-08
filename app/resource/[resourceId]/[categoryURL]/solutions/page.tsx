@@ -2,9 +2,9 @@ import ContributeSolutionDialog from "@/components/ContributeSolutionDialog";
 import SolutionItem from "@/components/SolutionItem";
 import SolutionSort from "@/components/SolutionSort";
 import { ResourceFiltersSorts, ResourceTypeURL } from "@/lib/content";
-import { prisma } from "@/lib/prisma";
+import { SolutionsWithPosts, getSolutionsWithPosts } from "@/lib/dataFetching";
 import { getCurrentUser } from "@/lib/session";
-import { ExamType, Prisma, SolutionVote } from "@prisma/client";
+import { SolutionVote } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 function getSolutionRating(resources: SolutionsWithPosts) {
@@ -21,48 +21,6 @@ function getSolutionRating(resources: SolutionsWithPosts) {
   });
   return new_resources;
 }
-
-export async function getSolutionsWithPosts({
-  userId,
-  questionPaperId,
-  moduleCode,
-  FilterSemester,
-  FilterAcadYear,
-  FilterExamType,
-}: {
-  userId: string | undefined;
-  questionPaperId: string | undefined;
-  moduleCode: string | undefined;
-  FilterSemester: string | undefined;
-  FilterAcadYear: string | undefined;
-  FilterExamType: ExamType | undefined;
-}) {
-  try {
-    const resource = await prisma.solution.findMany({
-      where: {
-        questionPaper: {
-          ...(moduleCode ? { moduleCode: moduleCode } : {}),
-          ...(FilterSemester ? { semester: FilterSemester } : {}),
-          ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-          ...(FilterExamType ? { type: FilterExamType } : {}),
-        },
-        ...(userId ? { userId: userId } : {}),
-        ...(questionPaperId ? { questionPaperId: questionPaperId } : {}),
-      },
-      include: {
-        votes: true,
-        questionPaper: true,
-      },
-    });
-    return resource;
-  } catch (error) {
-    return [];
-  }
-}
-
-export type SolutionsWithPosts = Prisma.PromiseReturnType<
-  typeof getSolutionsWithPosts
->;
 
 export default async function SolutionPage({
   params: { resourceId, categoryURL },
