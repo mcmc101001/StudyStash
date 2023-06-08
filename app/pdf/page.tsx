@@ -15,10 +15,15 @@ export default async function PDFPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center dark:text-white">
+      <div className="flex h-5/6 flex-col items-center dark:text-white">
         <div className="text-slate-800 dark:text-slate-200">
           Under development
         </div>
+
+        <object
+          data="https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK"
+          className="h-full w-5/6"
+        ></object>
       </div>
     </>
   );

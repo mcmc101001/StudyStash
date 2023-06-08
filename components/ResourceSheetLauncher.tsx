@@ -173,13 +173,26 @@ export default function ResourceSheetLauncher({
               <span className="sr-only">Close</span>
             </div>
           </SheetHeader>
-          <PDFViewer url={shareURL} />
-          {/* <iframe
+          {/* <PDFViewer url={shareURL} /> */}
+          {/* <object
+            className="h-5/6 w-full"
+            data={shareURL}
+            type="application/pdf"
+            width="100%"
+            height="85%"
+          /> */}
+          {/* <embed
+            src={shareURL}
+            type="application/pdf"
+            width="100%"
+            height="85%"
+          /> */}
+          <iframe
             title="PDF Resource"
             src={shareURL}
             width="100%"
             height="80%"
-          ></iframe> */}
+          ></iframe>
           <div className="mt-5 flex h-max gap-x-4">
             {solutionTabOptions.map((option) => {
               if (!option.assignedCategory.includes(category)) return null;
