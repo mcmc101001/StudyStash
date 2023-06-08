@@ -1,7 +1,9 @@
+import ContributeSolutionDialog from "@/components/ContributeSolutionDialog";
 import SolutionItem from "@/components/SolutionItem";
 import SolutionSort from "@/components/SolutionSort";
 import { ResourceFiltersSorts, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/session";
 import { ExamType, Prisma, SolutionVote } from "@prisma/client";
 import { redirect } from "next/navigation";
 
@@ -105,10 +107,20 @@ export default async function SolutionPage({
     });
   }
 
+  let currentUser = await getCurrentUser();
+
   return (
     <>
-      <div className="mb-3 w-64">
-        <SolutionSort />
+      <div className="mb-3 flex items-center justify-between">
+        <div className="w-64">
+          <SolutionSort />
+        </div>
+        {currentUser && (
+          <ContributeSolutionDialog
+            questionPaperId={resourceId}
+            currentUserId={currentUser.id}
+          />
+        )}
       </div>
       {sortedSolutions.length !== 0 ? (
         <div
