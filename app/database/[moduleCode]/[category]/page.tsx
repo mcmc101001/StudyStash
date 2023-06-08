@@ -2,6 +2,7 @@ import {
   ResourceFiltersSorts,
   ResourceType,
   ResourceTypeURL,
+  statusOptions,
 } from "@/lib/content";
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
@@ -18,6 +19,7 @@ import {
   getRating,
   getAvgDifficulty,
 } from "@/lib/dataFetching";
+import { getCurrentUser } from "@/lib/session";
 
 export default async function Page({
   params,
@@ -26,6 +28,8 @@ export default async function Page({
   params: { moduleCode: string; category: ResourceTypeURL };
   searchParams: ResourceFiltersSorts;
 }) {
+  const currentUser = await getCurrentUser();
+
   /************  FETCH OPTIONS FOR SELECT ************/
   const acadYearOptions = getAcadYearOptions();
 
@@ -33,6 +37,7 @@ export default async function Page({
   const FilterSemester = searchParams.filterSemester;
   const FilterAcadYear = searchParams.filterAcadYear;
   const FilterExamType = searchParams.filterExamType;
+  const FilterStatus = searchParams.filterStatus;
   const Sort = searchParams.sort;
   let parsedResources:
     | CheatsheetWithPosts
@@ -48,8 +53,8 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType,
       userId: undefined,
-      statusUserId: undefined,
-      statusType: undefined,
+      statusUserId: currentUser?.id,
+      statusType: FilterStatus,
     });
   } else if (params.category === "notes") {
     category = "Notes";
@@ -58,8 +63,8 @@ export default async function Page({
       FilterSemester,
       FilterAcadYear,
       userId: undefined,
-      statusUserId: undefined,
-      statusType: undefined,
+      statusUserId: currentUser?.id,
+      statusType: FilterStatus,
     });
   } else if (params.category === "past_papers") {
     category = "Past Papers";
@@ -69,8 +74,8 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType,
       userId: undefined,
-      statusUserId: undefined,
-      statusType: undefined,
+      statusUserId: currentUser?.id,
+      statusType: FilterStatus,
     });
   } else {
     redirect("/404");
@@ -171,6 +176,8 @@ export default async function Page({
           <ResourceFilters
             acadYearOptions={acadYearOptions}
             category={category}
+            currentUserId={currentUser?.id}
+            statusOptions={statusOptions}
           />
         </Suspense>
       </div>

@@ -85,7 +85,7 @@ export async function getCheatsheetsWithPosts({
         statuses: {
           some: {
             ...(statusUserId ? { userId: statusUserId } : {}),
-            ...(statusUserId && statusType ? { type: statusType } : {}),
+            ...(statusUserId && statusType ? { status: statusType } : {}),
           },
         },
       },
@@ -127,7 +127,7 @@ export async function getQuestionPapersWithPosts({
         statuses: {
           some: {
             ...(statusUserId ? { userId: statusUserId } : {}),
-            ...(statusUserId && statusType ? { type: statusType } : {}),
+            ...(statusUserId && statusType ? { status: statusType } : {}),
           },
         },
       },
@@ -170,7 +170,7 @@ export async function getNotesWithPosts({
         statuses: {
           some: {
             ...(statusUserId ? { userId: statusUserId } : {}),
-            ...(statusUserId && statusType ? { type: statusType } : {}),
+            ...(statusUserId && statusType ? { status: statusType } : {}),
           },
         },
       },
@@ -215,7 +215,7 @@ export async function getSolutionsWithPosts({
         statuses: {
           some: {
             ...(statusUserId ? { userId: statusUserId } : {}),
-            ...(statusUserId && statusType ? { type: statusType } : {}),
+            ...(statusUserId && statusType ? { status: statusType } : {}),
           },
         },
         ...(userId ? { userId: userId } : {}),

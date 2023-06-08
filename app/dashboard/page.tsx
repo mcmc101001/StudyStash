@@ -6,10 +6,15 @@ import BookmarkedModules from "@/components/BookmarkedModules";
 import { getModuleCodeOptions } from "@/lib/nusmods";
 import UserResourceTab from "@/components/UserResourceTab";
 import DashboardResourcesSection from "@/components/DashboardResourcesSection";
+import { ResourceFiltersSorts } from "@/lib/content";
 
 export const revalidate = 10;
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: ResourceFiltersSorts;
+}) {
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
@@ -35,7 +40,16 @@ export default async function DashboardPage() {
         </section>
         <section className="h-full w-3/4">
           {/* @ts-expect-error Server components */}
-          <DashboardResourcesSection />
+          <DashboardResourcesSection
+            filterModuleCode={searchParams.filterModuleCode}
+            filterCategory={searchParams.filterCategory}
+            filterSemester={searchParams.filterSemester}
+            filterAcadYear={searchParams.filterAcadYear}
+            filterExamType={searchParams.filterExamType}
+            filterStatus={searchParams.filterStatus}
+            sort={searchParams.sort}
+            currentUserId={user.id}
+          />
         </section>
       </div>
     </div>
