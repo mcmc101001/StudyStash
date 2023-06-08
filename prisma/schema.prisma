@@ -265,12 +265,12 @@ model StarredModules {
 }
 
 model CheatsheetReport {
-  id         String       @id @default(cuid())
-  createdAt  DateTime     @default(now())
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  status     ReportStatus
-  resource   Cheatsheet   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resolved   Boolean    @default(false)
+  resource   Cheatsheet @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
   @@index([userId])
@@ -282,7 +282,7 @@ model QuestionPaperReport {
   createdAt  DateTime      @default(now())
   user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  status     ReportStatus
+  resolved   Boolean       @default(false)
   resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
@@ -291,12 +291,12 @@ model QuestionPaperReport {
 }
 
 model NotesReport {
-  id         String       @id @default(cuid())
-  createdAt  DateTime     @default(now())
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  status     ReportStatus
-  resource   Notes        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resolved   Boolean  @default(false)
+  resource   Notes    @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
   @@index([userId])
@@ -304,13 +304,14 @@ model NotesReport {
 }
 
 model SolutionReport {
-  id         String       @id @default(cuid())
-  createdAt  DateTime     @default(now())
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  status     ReportStatus
-  resource   Solution     @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  type       ReportType
+  resource   Solution   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
+  resolved   Boolean    @default(false)
 
   @@index([userId])
   @@index([resourceId])
@@ -332,7 +333,7 @@ enum ResourceStatus {
   Saved
 }
 
-enum ReportStatus {
+enum ReportType {
   inappropriateFilename
   inappropriateUsername
   incorrectModule
