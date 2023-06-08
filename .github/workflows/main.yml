@@ -7,9 +7,35 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 'latest'
+          node-version: "latest"
       - run: |
-              npm ci
-              npm run build
-              npm run test
-              npm run lint
+          npm ci
+          npm run build
+          npm run test
+          npm run lint
+
+  # e2e:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: cypress-io/github-action@v5
+  #       with:
+  #         build: npm run build
+  #         start: npm run start
+  #         browser: chrome
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         CYPRESS_GOOGLE_USER: ${{ secrets.CYPRESS_GOOGLE_USER }}
+  #         CYPRESS_GOOGLE_PW: ${{ secrets.CYPRESS_GOOGLE_PW }}
+  #         CYPRESS_COOKIE_NAME: ${{ secrets.CYPRESS_COOKIE_NAME }}
+  #         CYPRESS_SITE_NAME: ${{ secrets.CYPRESS_SITE_NAME }}
+  #         DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  #         SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
+  #         GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  #         GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  #         NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+  #         NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+  #         AWS_REGION: ${{ secrets.AWS_REGION }}

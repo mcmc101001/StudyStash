@@ -13,6 +13,7 @@ interface PDFUploaderProps {
 export default function PDFUploader(props: PDFUploaderProps) {
   return (
     <div
+      aria-label="PDF drop area"
       className="flex h-full min-h-[16rem] w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-indigo-600 py-10 dark:border-indigo-500"
       onClick={() => props.inputRef.current?.click()}
       onDrop={(e) => props.fileDropHandler(e)}

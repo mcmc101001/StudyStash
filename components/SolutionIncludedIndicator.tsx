@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 
-export function SolutionIncludedIndicator() {
+export default function SolutionIncludedIndicator() {
   return (
     <TooltipProvider>
       <Tooltip>

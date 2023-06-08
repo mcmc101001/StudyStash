@@ -32,13 +32,14 @@ export default function ModuleStar({
     try {
       const res = await axios.post("/api/updateStarredModule", body);
     } catch (error) {
-      toast.error("Error updating starred module, please try again later.");
+      toast.error("Error updating bookmarked module, please try again later.");
     }
     router.refresh();
   };
 
   return (
     <StarIcon
+      aria-label="Bookmark module"
       onClick={handleClick}
       className={
         "h-8 w-8 cursor-pointer text-slate-900 transition-colors dark:text-slate-100 " +

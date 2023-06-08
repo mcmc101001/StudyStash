@@ -132,6 +132,7 @@ export default function ProfileEditDialog({
         </div>
 
         <Button
+          aria-label="Edit Profile"
           isLoading={isLoading}
           className={isDisabled ? "pointer-events-none opacity-50" : ""}
           variant="default"

@@ -18,7 +18,7 @@ export default async function SolutionContributePage({
     <div className="flex w-full items-center justify-center">
       {!currentUser ? (
         <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-200">
-          You need to be logged in.
+          You must be logged in.
         </h1>
       ) : (
         <ContributeSolution

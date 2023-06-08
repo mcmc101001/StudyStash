@@ -8,12 +8,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 
-export function ProfleVerifiedIndicator() {
+export default function ProfleVerifiedIndicator() {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <BadgeCheck className="ml-1 cursor-auto text-blue-500" />
+          <BadgeCheck className="ml-1 h-6 w-6 cursor-auto text-blue-500" />
         </TooltipTrigger>
         <TooltipContent>
           <p className="font-normal">Verified user</p>

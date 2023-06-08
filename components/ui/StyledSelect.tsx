@@ -1,4 +1,4 @@
-import { MutableRefObject, ReactNode, useId } from "react";
+import { ReactNode, useId } from "react";
 import Select from "react-select";
 
 export interface Option {
@@ -42,9 +42,12 @@ export default function StyledSelect({
         </label>
       ) : null}
       <Select
+        id={label}
         value={value}
         instanceId={useId()}
-        aria-labelledby={label}
+        aria-label={placeholderText}
+        aria-labelledby={placeholderText}
+        classNamePrefix={label}
         classNames={{
           option: (state) =>
             `text-slate-800 dark:text-slate-200 ` +

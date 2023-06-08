@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Button from "./ui/Button";
 import { ResourceSolutionType } from "@/lib/content";
 
 interface ResourceAltStatusComponentProps {
@@ -20,16 +19,20 @@ export default function ResourceAltStatusComponent({
   const handleSaveClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setSaveState(!saveState);
+    setTodoState(false);
+    setCompletedState(false);
   };
 
   const handleTodoClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    setSaveState(false);
     setTodoState(!todoState);
     setCompletedState(false);
   };
 
   const handleCompletedClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    setSaveState(false);
     setCompletedState(!completedState);
     setTodoState(false);
   };

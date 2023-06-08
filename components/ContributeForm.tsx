@@ -1,6 +1,6 @@
 "use client";
 
-import { containsOnlyNumbers } from "@/lib/utils";
+import { startsWithNumbers } from "@/lib/utils";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -242,7 +242,7 @@ const ContributeForm = (props: ContributeFormProps) => {
         });
 
         if (solutionIncluded !== "Included in separate file") {
-          toast.success("PDF uploaded successfully");
+          toast.success("PDF uploaded successfully!");
         }
       } catch (error) {
         // Delete the database entry if s3 upload fails
@@ -463,9 +463,13 @@ const ContributeForm = (props: ContributeFormProps) => {
                     .startsWith(trimmed_query.toLowerCase())
                 ) {
                   return true;
-                } else if (containsOnlyNumbers(trimmed_query)) {
+                } else if (startsWithNumbers(trimmed_query)) {
                   // If matches number
-                  if (option.value.includes(trimmed_query)) {
+                  if (
+                    option.value
+                      .toLowerCase()
+                      .includes(trimmed_query.toLowerCase())
+                  ) {
                     return true;
                   }
                 }
@@ -550,7 +554,7 @@ const ContributeForm = (props: ContributeFormProps) => {
               <Button
                 variant="dangerous"
                 type="button"
-                className="w-1/2 gap-1 text-lg"
+                className="w-1/2 gap-1 truncate text-lg"
                 onClick={() => {
                   setFileName(null);
                   setFile(null);
@@ -565,7 +569,10 @@ const ContributeForm = (props: ContributeFormProps) => {
                   }
                 }}
               >
-                <Trash2 size={25} /> <p>Clear PDF</p>
+                <div>
+                  <Trash2 size={25} />
+                </div>
+                <p>Clear PDF</p>
               </Button>
             </section>
           </div>

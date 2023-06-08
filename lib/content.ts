@@ -16,9 +16,17 @@ export type ResourceSolutionType = z.infer<typeof ResourceSolutionEnum>;
 export const ResourceEnumURL = z.enum(["cheatsheets", "past_papers", "notes"]);
 export type ResourceTypeURL = z.infer<typeof ResourceEnumURL>;
 
+export const ResourceSolutionEnumURL = z.enum([
+  "cheatsheets",
+  "past_papers",
+  "notes",
+  "solutions",
+]);
+export type ResourceSolutionTypeURL = z.infer<typeof ResourceSolutionEnumURL>;
+
 export interface ResourceOptionsProps {
-  name: ResourceType;
-  href: ResourceTypeURL;
+  name: ResourceSolutionType;
+  href: ResourceSolutionTypeURL;
   icon: Icon;
 }
 
@@ -36,6 +44,29 @@ export const ResourceOptions: ResourceOptionsProps[] = [
   {
     name: "Notes",
     href: "notes",
+    icon: "FileSignature",
+  },
+];
+
+export const ResourceSolutionOptions: ResourceOptionsProps[] = [
+  {
+    name: "Cheatsheets",
+    href: "cheatsheets",
+    icon: "Calculator",
+  },
+  {
+    name: "Past Papers",
+    href: "past_papers",
+    icon: "Files",
+  },
+  {
+    name: "Notes",
+    href: "notes",
+    icon: "FileSignature",
+  },
+  {
+    name: "Solutions",
+    href: "solutions",
     icon: "FileSignature",
   },
 ];
@@ -58,6 +89,7 @@ export type solutionTabURLType = z.infer<typeof solutionTabURLEnum>;
 export interface solutionOptionsProps {
   buttonName: string;
   tabName: solutionTabType;
+  assignedCategory: ResourceSolutionType[];
   href: solutionTabURLType;
 }
 
@@ -65,16 +97,25 @@ export const solutionTabOptions: solutionOptionsProps[] = [
   {
     buttonName: "View Solutions",
     tabName: "Solutions",
+    assignedCategory: ["Past Papers"],
+    href: "solutions",
+  },
+  {
+    buttonName: "View Question Paper/Comments",
+    tabName: "Solutions",
+    assignedCategory: ["Solutions"],
     href: "solutions",
   },
   {
     buttonName: "View Comments",
     tabName: "Comments",
+    assignedCategory: ["Past Papers", "Notes", "Cheatsheets"],
     href: "comments",
   },
   {
     buttonName: "Submit solution",
     tabName: "Submit solution",
+    assignedCategory: ["Past Papers"],
     href: "contribute",
   },
 ];

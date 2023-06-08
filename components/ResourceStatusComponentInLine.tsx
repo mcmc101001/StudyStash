@@ -2,8 +2,13 @@
 
 import { ResourceStatus } from "@prisma/client";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Bookmark, CheckCircle, Inspect, ListChecks } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  Bookmark,
+  CheckCircle,
+  ListChecks,
+  MoreHorizontal,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -116,7 +121,7 @@ function StatusIcon({
     );
   } else {
     icon = (
-      <Inspect
+      <MoreHorizontal
         onClick={(e) => handleClick(e, status)}
         className="h-5 w-5 text-gray-200 dark:text-gray-400"
       />
@@ -127,7 +132,7 @@ function StatusIcon({
       <Tooltip>
         <TooltipTrigger asChild>{icon}</TooltipTrigger>
         <TooltipContent>
-          <p className="font-normal">{status ? status : "Click me"}</p>
+          <p className="font-normal">{status ? status : "Add status"}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

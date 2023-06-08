@@ -11,7 +11,7 @@ import {
   ContextMenuSubTrigger,
   ContextMenuSubContent,
 } from "@/components/ui/ContextMenu";
-import { ResourceType } from "@/lib/content";
+import { ResourceSolutionType, ResourceType } from "@/lib/content";
 import { updateStatusType } from "@/pages/api/updateStatus";
 import { ResourceStatus } from "@prisma/client";
 import axios from "axios";
@@ -20,7 +20,7 @@ import { toast } from "react-hot-toast";
 
 interface ResourceContextMenuProps {
   children: React.ReactNode;
-  category: ResourceType;
+  category: ResourceSolutionType;
   currentUserId: string | null;
   resourceId: string;
   resourceUserId: string;
@@ -166,7 +166,9 @@ export default function ResourceContextMenu({
                   Incorrect semester
                 </ContextMenuItem>
                 {category === "Past Papers" && (
-                  <ContextMenuItem>Incorrect exam type</ContextMenuItem>
+                  <ContextMenuItem onClick={handleReportClick}>
+                    Incorrect exam type
+                  </ContextMenuItem>
                 )}
               </ContextMenuSubContent>
             </ContextMenuSub>

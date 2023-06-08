@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/Input";
 import { useEffect, useState } from "react";
 import ModuleList from "@/components/ModuleList";
-import { containsOnlyNumbers } from "@/lib/utils";
+import { startsWithNumbers } from "@/lib/utils";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { useSelectedLayoutSegments } from "next/navigation";
 
@@ -45,9 +45,9 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
       // if module name shares prefix with query
       if (mod.toLowerCase().startsWith(queryModified)) {
         filteredModules.push(mod);
-      } else if (containsOnlyNumbers(queryModified)) {
+      } else if (startsWithNumbers(queryModified)) {
         // if module name contains query as number
-        if (mod.includes(queryModified)) {
+        if (mod.toLowerCase().includes(queryModified.toLowerCase())) {
           filteredModules.push(mod);
         }
       }

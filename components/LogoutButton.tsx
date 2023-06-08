@@ -10,11 +10,14 @@ export default function LogoutButton() {
   const [isSigningOut, setIsSigningOut] = useState(false);
   return (
     <Button
+      id="logoutButton"
       variant="ghost"
       onClick={async () => {
         setIsSigningOut(true);
         try {
-          await signOut();
+          await signOut({
+            callbackUrl: "/",
+          });
         } catch (error) {
           toast.error("There was an error signing out");
         } finally {

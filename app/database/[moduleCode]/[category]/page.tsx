@@ -17,9 +17,14 @@ import {
 } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
+import { SolutionsWithPosts } from "@/app/resource/[resourceId]/[categoryURL]/solutions/page";
 
 export function getRating(
-  resources: CheatsheetWithPosts | QuestionPaperWithPosts | NotesWithPosts
+  resources:
+    | CheatsheetWithPosts
+    | QuestionPaperWithPosts
+    | NotesWithPosts
+    | SolutionsWithPosts
 ) {
   const new_resources = resources.map((resource) => {
     const rating = resource.votes.reduce(
@@ -256,7 +261,7 @@ export default async function Page({
   return (
     <div className="flex h-[70vh] flex-row gap-x-4 text-slate-800 dark:text-slate-200">
       {sortedResources.length !== 0 ? (
-        <div
+        <ul
           className="flex h-full w-4/5 flex-col gap-y-6 overflow-y-scroll scroll-smooth pr-5 
           scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
@@ -271,7 +276,9 @@ export default async function Page({
                 name={resource.name}
                 userId={resource.userId}
                 createdAt={resource.createdAt}
+                // @ts-expect-error wrong type inference
                 acadYear={resource.acadYear}
+                // @ts-expect-error wrong type inference
                 semester={resource.semester}
                 rating={resource.rating}
                 difficulty={
@@ -299,7 +306,7 @@ export default async function Page({
               />
             );
           })}
-        </div>
+        </ul>
       ) : (
         <div className="flex h-full w-4/5 flex-col items-center justify-center gap-y-6 pt-10 text-2xl">
           <h1 className="text-slate-800 dark:text-slate-200">
