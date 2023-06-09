@@ -87,7 +87,7 @@ model Cheatsheet {
   userId        String
   moduleCode    String
   acadYear      String
-  semester      String
+  semester      SemesterType
   type          ExamType
   votes         CheatsheetVote[]
   statuses      CheatsheetStatus[]
@@ -104,7 +104,7 @@ model QuestionPaper {
   userId           String
   moduleCode       String
   acadYear         String
-  semester         String
+  semester         SemesterType
   solutionIncluded Boolean                   @default(false)
   type             ExamType
   votes            QuestionPaperVote[]
@@ -124,7 +124,7 @@ model Notes {
   userId        String
   moduleCode    String
   acadYear      String
-  semester      String
+  semester      SemesterType
   votes         NotesVote[]
   statuses      NotesStatus[]
   reports       NotesReport[]
@@ -317,7 +317,14 @@ model SolutionReport {
   @@index([resourceId])
 }
 
-/// WARNING: CHANGE ADD PDF FUNCTION IF CHANGING THIS
+/// WARNING: CHANGE CONTENT.TS IF CHANGING THIS
+enum SemesterType {
+  semester1
+  semester2
+  specialTerm1
+  specialTerm2
+}
+
 enum ExamType {
   Midterm
   Final

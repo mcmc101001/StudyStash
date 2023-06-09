@@ -10,7 +10,7 @@ import { Trash2, Upload } from "lucide-react";
 import { addPDFType } from "@/pages/api/addPDF";
 import { ResourceType } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
-import { ExamType } from "@prisma/client";
+import { ExamType, SemesterType } from "@prisma/client";
 import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
 import { deletePDFType } from "@/pages/api/deletePDF";
 import { useSearchParams } from "next/navigation";
@@ -49,11 +49,11 @@ const ContributeForm = (props: ContributeFormProps) => {
       props.acadYearOptions
     )
   );
-  const [semester, setSemester] = useState<string | null>(
+  const [semester, setSemester] = useState<SemesterType | null>(
     validQueryParamOrNull(
       queryParams?.get("filterSemester"),
       props.semesterOptions
-    )
+    ) as SemesterType
   );
   const [moduleCode, setModuleCode] = useState<string | null>(
     validQueryParamOrNull(
@@ -366,7 +366,7 @@ const ContributeForm = (props: ContributeFormProps) => {
 
   const semesterSelectHandler = (option: Option | null) => {
     if (option) {
-      setSemester(option.value);
+      setSemester(option.value as SemesterType);
     } else {
       setSemester(null);
     }

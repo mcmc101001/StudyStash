@@ -17,7 +17,7 @@ import {
   getQuestionPapersWithPosts,
   getRating,
   getAvgDifficulty,
-} from "../../../../lib/dataFetching";
+} from "@/lib/dataFetching";
 
 export default async function Page({
   params,
@@ -48,6 +48,8 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType,
       userId: undefined,
+      statusUserId: undefined,
+      statusType: undefined,
     });
   } else if (params.category === "notes") {
     category = "Notes";
@@ -56,6 +58,8 @@ export default async function Page({
       FilterSemester,
       FilterAcadYear,
       userId: undefined,
+      statusUserId: undefined,
+      statusType: undefined,
     });
   } else if (params.category === "past_papers") {
     category = "Past Papers";
@@ -65,6 +69,8 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType,
       userId: undefined,
+      statusUserId: undefined,
+      statusType: undefined,
     });
   } else {
     redirect("/404");

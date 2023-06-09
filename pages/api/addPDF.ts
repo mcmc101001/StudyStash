@@ -2,14 +2,14 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { ExamType } from "@prisma/client";
+import { ExamType, SemesterType } from "@prisma/client";
 import { ResourceEnum } from "@/lib/content";
 import z from "zod";
 
 const addPDFSchema = z.object({
   name: z.string(),
   acadYear: z.string(),
-  semester: z.string(),
+  semester: z.nativeEnum(SemesterType),
   moduleCode: z.string(),
   examType: z.nativeEnum(ExamType).optional(),
   userId: z.string(),

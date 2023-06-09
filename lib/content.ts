@@ -1,5 +1,5 @@
 import { Icon } from "@/components/Icons";
-import { ExamType } from "@prisma/client";
+import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
 import { z } from "zod";
 
 export const ResourceEnum = z.enum(["Cheatsheets", "Past Papers", "Notes"]);
@@ -117,7 +117,7 @@ export const solutionTabOptions: solutionOptionsProps[] = [
 export interface ResourceFiltersSorts {
   filterModuleCode?: string | undefined;
   filterCategory?: ResourceTypeURL | undefined;
-  filterSemester?: string | undefined;
+  filterSemester?: SemesterType | undefined;
   filterAcadYear?: string | undefined;
   filterExamType?: ExamType | undefined;
   sort?: string | undefined;
@@ -144,7 +144,16 @@ export const examTypeOptions: { value: ExamType; label: ExamType }[] = [
   { value: "Other", label: "Other" },
 ];
 
-export const semesterOptions = [
-  { value: "1", label: "Semester 1" },
-  { value: "2", label: "Semester 2" },
+export const semesterOptions: { value: SemesterType; label: string }[] = [
+  { value: "semester1", label: "Semester 1" },
+  { value: "semester2", label: "Semester 2" },
+  { value: "specialTerm1", label: "Special Term 1" },
+  { value: "specialTerm2", label: "Special Term 2" },
 ];
+
+export const statusOptions: { value: ResourceStatus; label: ResourceStatus }[] =
+  [
+    { value: "Saved", label: "Saved" },
+    { value: "Todo", label: "Todo" },
+    { value: "Completed", label: "Completed" },
+  ];
