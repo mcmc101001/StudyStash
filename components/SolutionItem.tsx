@@ -8,6 +8,8 @@ import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import ResourceContextMenu from "./ResourceContextMenu";
+import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
@@ -88,8 +90,24 @@ export default async function SolutionItem({
     userStatus = null;
   }
 
+  // Not sure if this is the best way to do this, with couldfront will be better?
+  async function generatePDFURL() {
+    const PDFURL = await createPresignedShareUrl({
+      region: process.env.AWS_REGION as string,
+      bucket: process.env.AWS_BUCKET_NAME as string,
+      key: solutionId,
+    });
+    return PDFURL;
+  }
+
   return (
-    <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
+    <ResourceContextMenu
+      className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800"
+      category="Solutions"
+      currentUserId={currentUser?.id || null}
+      resourceUserId={resourceUser?.id!}
+      shareURL={await generatePDFURL()}
+    >
       <div className="relative flex h-full w-full items-center overflow-hidden py-3">
         {/* positioned as such to prevent nesting anchor tags (use z-index to make internal link clickable) */}
         <Link
@@ -157,6 +175,6 @@ export default async function SolutionItem({
           />
         </div>
       )}
-    </div>
+    </ResourceContextMenu>
   );
 }

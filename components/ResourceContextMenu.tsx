@@ -23,24 +23,24 @@ interface ResourceContextMenuProps {
   children: React.ReactNode;
   category: ResourceSolutionType;
   currentUserId: string | null;
-  resourceId: string;
+  // resourceId: string;
   resourceUserId: string;
   shareURL: string;
   className?: string;
-  resourceStatus: ResourceStatus | null;
+  // resourceStatus: ResourceStatus | null;
 }
 
 export default function ResourceContextMenu({
   children,
   category,
   currentUserId,
-  resourceId,
+  // resourceId,
   resourceUserId,
   shareURL,
   className,
-  resourceStatus,
-}: ResourceContextMenuProps) {
-  const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
+}: // resourceStatus,
+ResourceContextMenuProps) {
+  // const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
 
   let router = useRouter();
 

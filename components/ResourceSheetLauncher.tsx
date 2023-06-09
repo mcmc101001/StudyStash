@@ -114,11 +114,11 @@ export default function ResourceSheetLauncher({
         <ResourceContextMenu
           category={category}
           currentUserId={currentUserId}
-          resourceId={resourceId}
+          // resourceId={resourceId}
           resourceUserId={resourceUserId}
           shareURL={shareURL}
           className="h-full w-full"
-          resourceStatus={resourceStatus}
+          // resourceStatus={resourceStatus}
         >
           <SheetTrigger className="h-full w-full py-3">
             <div className="flex items-center">
