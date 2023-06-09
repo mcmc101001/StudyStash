@@ -65,6 +65,18 @@ model User {
   questionPaperStatuses   QuestionPaperStatus[]
   notesStatuses           NotesStatus[]
   solutionStatuses        SolutionStatus[]
+  cheatsheetReports       CheatsheetReport[]
+  questionPaperReports    QuestionPaperReport[]
+  notesReports            NotesReport[]
+  solutionReports         SolutionReport[]
+  cheatsheetComments      CheatsheetComment[]
+  questionPaperComments   QuestionPaperComment[]
+  notesComments           NotesComment[]
+  solutionComments        SolutionComment[]
+  cheatsheetReplies       CheatsheetReply[]
+  questionPaperReplies    QuestionPaperReply[]
+  notesReplies            NotesReply[]
+  solutionReplies         SolutionReply[]
 }
 
 model VerificationToken {
@@ -76,17 +88,19 @@ model VerificationToken {
 }
 
 model Cheatsheet {
-  id            String             @id @default(cuid())
+  id            String              @id @default(cuid())
   name          String
-  createdAt     DateTime           @default(now())
-  userSubmitted User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime            @default(now())
+  userSubmitted User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
   moduleCode    String
   acadYear      String
-  semester      String
+  semester      SemesterType
   type          ExamType
   votes         CheatsheetVote[]
   statuses      CheatsheetStatus[]
+  reports       CheatsheetReport[]
+  comments      CheatsheetComment[]
 
   @@index([userId])
 }
@@ -99,42 +113,48 @@ model QuestionPaper {
   userId           String
   moduleCode       String
   acadYear         String
-  semester         String
+  semester         SemesterType
   solutionIncluded Boolean                   @default(false)
   type             ExamType
   votes            QuestionPaperVote[]
   difficulties     QuestionPaperDifficulty[]
   statuses         QuestionPaperStatus[]
+  reports          QuestionPaperReport[]
   solutions        Solution[]
+  comments         QuestionPaperComment[]
 
   @@index([userId])
 }
 
 model Notes {
-  id            String        @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String
-  createdAt     DateTime      @default(now())
-  userSubmitted User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime       @default(now())
+  userSubmitted User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
   moduleCode    String
   acadYear      String
-  semester      String
+  semester      SemesterType
   votes         NotesVote[]
   statuses      NotesStatus[]
+  reports       NotesReport[]
+  comments      NotesComment[]
 
   @@index([userId])
 }
 
 model Solution {
-  id              String           @id @default(cuid())
+  id              String            @id @default(cuid())
   name            String
-  createdAt       DateTime         @default(now())
-  userSubmitted   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime          @default(now())
+  userSubmitted   User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
-  questionPaper   QuestionPaper    @relation(fields: [questionPaperId], references: [id], onDelete: Cascade)
+  questionPaper   QuestionPaper     @relation(fields: [questionPaperId], references: [id], onDelete: Cascade)
   questionPaperId String
   votes           SolutionVote[]
   statuses        SolutionStatus[]
+  reports         SolutionReport[]
+  comments        SolutionComment[]
 
   @@index([userId])
   @@index([questionPaperId])
@@ -256,7 +276,175 @@ model StarredModules {
   @@unique([userId, moduleCode])
 }
 
-/// WARNING: CHANGE ADD PDF FUNCTION IF CHANGING THIS
+model CheatsheetReport {
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resolved   Boolean    @default(false)
+  resource   Cheatsheet @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model QuestionPaperReport {
+  id         String        @id @default(cuid())
+  createdAt  DateTime      @default(now())
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resolved   Boolean       @default(false)
+  resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model NotesReport {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resolved   Boolean  @default(false)
+  resource   Notes    @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model SolutionReport {
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  type       ReportType
+  resource   Solution   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+  resolved   Boolean    @default(false)
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model CheatsheetComment {
+  id         String            @id @default(cuid())
+  createdAt  DateTime          @default(now())
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   Cheatsheet        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+  content    String            @db.Text
+  replies    CheatsheetReply[]
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model QuestionPaperComment {
+  id         String               @id @default(cuid())
+  createdAt  DateTime             @default(now())
+  user       User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   QuestionPaper        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+  content    String               @db.Text
+  replies    QuestionPaperReply[]
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model NotesComment {
+  id         String       @id @default(cuid())
+  createdAt  DateTime     @default(now())
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   Notes        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+  content    String       @db.Text
+  replies    NotesReply[]
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model SolutionComment {
+  id         String          @id @default(cuid())
+  createdAt  DateTime        @default(now())
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resource   Solution        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+  content    String          @db.Text
+  replies    SolutionReply[]
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model CheatsheetReply {
+  id        String            @id @default(cuid())
+  createdAt DateTime          @default(now())
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   CheatsheetComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+  content   String            @db.Text
+
+  @@index([userId])
+  @@index([commentId])
+}
+
+model QuestionPaperReply {
+  id        String               @id @default(cuid())
+  createdAt DateTime             @default(now())
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   QuestionPaperComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+  content   String               @db.Text
+
+  @@index([userId])
+  @@index([commentId])
+}
+
+model NotesReply {
+  id        String       @id @default(cuid())
+  createdAt DateTime     @default(now())
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   NotesComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+  content   String       @db.Text
+
+  @@index([userId])
+  @@index([commentId])
+}
+
+model SolutionReply {
+  id        String          @id @default(cuid())
+  createdAt DateTime        @default(now())
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   SolutionComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+  content   String          @db.Text
+
+  @@index([userId])
+  @@index([commentId])
+}
+
+/// WARNING: CHANGE CONTENT.TS IF CHANGING THIS
+enum SemesterType {
+  semester1
+  semester2
+  specialTerm1
+  specialTerm2
+}
+
 enum ExamType {
   Midterm
   Final
@@ -270,4 +458,14 @@ enum ResourceStatus {
   Completed
   Todo
   Saved
+}
+
+enum ReportType {
+  inappropriateFilename
+  inappropriateUsername
+  incorrectModule
+  incorrectCategory
+  incorrectAcadYear
+  incorrectSemester
+  incorrectExamType
 }

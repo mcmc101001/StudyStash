@@ -1,4 +1,4 @@
-import { getRating } from "@/app/database/[moduleCode]/[category]/page";
+import { getRating } from "@/lib/dataFetching";
 import ResizableDiv from "@/components/ui/ResizableDiv";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";

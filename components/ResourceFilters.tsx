@@ -15,12 +15,16 @@ interface ResourceFiltersProps {
   acadYearOptions: Option[];
   category: ResourceSolutionType;
   moduleCodeOptions?: Option[];
+  statusOptions?: Option[];
+  currentUserId?: string;
 }
 
 export default function ResourceFilters({
   acadYearOptions,
   category,
   moduleCodeOptions,
+  statusOptions,
+  currentUserId,
 }: ResourceFiltersProps) {
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -64,11 +68,20 @@ export default function ResourceFilters({
     }
   };
 
+  const handleStatusChange = (option: Option | null) => {
+    if (option) {
+      setQueryParams({ filterStatus: option.value });
+    } else {
+      setQueryParams({ filterStatus: null });
+    }
+  };
+
   const sortQueryParam = queryParams?.get("sort");
   const acadYearQueryParam = queryParams?.get("filterAcadYear");
   const semesterQueryParam = queryParams?.get("filterSemester");
   const moduleCodeQueryParam = queryParams?.get("filterModuleCode");
   const examTypeQueryParam = queryParams?.get("filterExamType");
+  const statusQueryParam = queryParams?.get("filterStatus");
 
   return (
     <div className="flex w-full flex-col items-center gap-x-4 gap-y-4">
@@ -176,6 +189,20 @@ export default function ResourceFilters({
           defaultValue={
             examTypeQueryParam
               ? { value: examTypeQueryParam, label: examTypeQueryParam }
+              : undefined
+          }
+        />
+      )}
+      {currentUserId && statusOptions && (
+        <StyledSelect
+          label="Select Status"
+          placeholderText="Status"
+          options={statusOptions}
+          onChange={handleStatusChange}
+          labelExists={false}
+          defaultValue={
+            statusQueryParam
+              ? { value: statusQueryParam, label: statusQueryParam }
               : undefined
           }
         />

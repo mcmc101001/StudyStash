@@ -3,12 +3,13 @@ import { SolutionVote, SolutionStatus } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
-import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
-import ResourceStatusComponentInLine from "@/components/ResourceStatusComponentInLine";
+import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import ResourceContextMenu from "./ResourceContextMenu";
+import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
@@ -89,22 +90,26 @@ export default async function SolutionItem({
     userStatus = null;
   }
 
-  return (
-    <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-      {currentUser && (
-        <ResourceStatusComponent
-          category="Solutions"
-          resourceId={solutionId}
-          currentUserId={currentUser.id}
-          status={userStatus ? userStatus.status : null}
-        />
-      )}
+  // Not sure if this is the best way to do this, with couldfront will be better?
+  const PDFURL = await createPresignedShareUrl({
+    region: process.env.AWS_REGION as string,
+    bucket: process.env.AWS_BUCKET_NAME as string,
+    key: solutionId,
+  });
 
+  return (
+    <ResourceContextMenu
+      className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800"
+      category="Solutions"
+      currentUserId={currentUser?.id || null}
+      resourceUserId={resourceUser?.id!}
+      shareURL={PDFURL}
+    >
       <div className="relative flex h-full w-full items-center overflow-hidden py-3">
         {/* positioned as such to prevent nesting anchor tags (use z-index to make internal link clickable) */}
         <Link
           href={`/resource/${questionPaperId}/past_papers/solutions/${solutionId}`}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-10"
         ></Link>
         <div className="flex w-full items-center">
           <ResourceRatingProvider
@@ -114,25 +119,30 @@ export default async function SolutionItem({
             totalRating={rating}
             userRating={userVote?.value || null}
           />
-          <div className="z-10 ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
+          <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">
-              <span className="overflow-scroll whitespace-nowrap scrollbar-none">
+              <span className="z-0 overflow-scroll whitespace-nowrap scrollbar-none">
                 {name}
               </span>
               {currentUser && (
-                <ResourceStatusComponentInLine resourceStatus={null} />
+                <ResourceStatusComponent
+                  category="Solutions"
+                  resourceId={solutionId}
+                  currentUserId={currentUser.id}
+                  resourceStatus={userStatus ? userStatus.status : null}
+                />
               )}
             </div>
-            <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
+            <p className="z-0 overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
               <ClientDateTime datetime={createdAt} />
             </p>
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">idk what to put here</p>
-            <div className="z-10 ml-auto flex w-max whitespace-nowrap text-end">
+            <div className="ml-auto flex w-max whitespace-nowrap text-end">
               <Link
                 href={`/profile/${resourceUser?.id}`}
-                className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                className="group z-20 ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
               >
                 <div className="flex items-center">
                   <span className="truncate">{resourceUser?.name}</span>
@@ -162,6 +172,6 @@ export default async function SolutionItem({
           />
         </div>
       )}
-    </div>
+    </ResourceContextMenu>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { ZoomIn, ZoomOut, RotateCw, RotateCcw, FileDown } from "lucide-react";
+// import useKeyPress from "@/hooks/useKeyPress";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -20,7 +21,6 @@ export default function PDFViewer({ className, url }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
   const [currPage, setCurrPage] = useState(1);
   const [zoom, setZoom] = useState(1.0);
-  const [renderedPage, setRenderedPage] = useState<number | null>(null);
   const [rotate, setRotate] = useState(0);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
@@ -32,10 +32,11 @@ export default function PDFViewer({ className, url }: PDFViewerProps) {
   const rotateRight = () => setRotate(rotate + 90);
   const rotateLeft = () => setRotate(rotate - 90);
 
+  const [renderedPage, setRenderedPage] = useState<number | null>(null);
   const isLoading = renderedPage !== currPage;
 
-  console.log(`renderedPage: ${renderedPage}, currPage: ${currPage}`);
-  console.log(`isLoading: ${isLoading}`);
+  // console.log(`renderedPage: ${renderedPage}, currPage: ${currPage}`);
+  // console.log(`isLoading: ${isLoading}`);
 
   return (
     <div
@@ -117,7 +118,7 @@ export default function PDFViewer({ className, url }: PDFViewerProps) {
             />
           ) : null} */}
           <Page
-            className={isLoading ? "hidden" : ""}
+            // className={isLoading ? "hidden" : ""}
             key={currPage}
             pageNumber={currPage}
             renderTextLayer={false}

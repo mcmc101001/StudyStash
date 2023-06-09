@@ -15,7 +15,11 @@ export default function ContributeButton() {
         `/?filterModuleCode=${params?.moduleCode}&${queryParams?.toString()}`
       }
     >
-      <Button variant="default" size="lg" className="text-lg">
+      <Button
+        variant="ghost"
+        size="lg"
+        className="border border-slate-800 text-lg dark:border-slate-200"
+      >
         Contribute
       </Button>
     </Link>

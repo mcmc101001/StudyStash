@@ -1,14 +1,14 @@
-import { redirect } from "next/navigation";
-import ResourceItem from "@/components/ResourceItem";
-import UserResourceTab from "@/components/UserResourceTab";
 import {
   ResourceSolutionOptions,
-  ResourceSolutionType,
   ResourceSolutionTypeURL,
+  statusOptions,
 } from "@/lib/content";
+import UserResourceTab from "./UserResourceTab";
+import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
+import { redirect } from "next/navigation";
+import ResourceItem from "@/components/ResourceItem";
 import ResourceFilters from "@/components/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
-import { ExamType, SemesterType } from "@prisma/client";
 import {
   getAvgDifficulty,
   getCheatsheetsWithPosts,
@@ -18,28 +18,29 @@ import {
 } from "@/lib/dataFetching";
 import { Suspense } from "react";
 import { getSolutionsWithPosts } from "@/lib/dataFetching";
+import { ResourceSolutionType } from "@/lib/content";
 
-interface UserResourcesSectionProps {
-  profileUserId: string;
+interface DashboardResourcesSectionProps {
+  currentUserId: string;
   filterModuleCode: string | undefined;
   filterCategory: ResourceSolutionTypeURL | undefined;
   filterSemester: SemesterType | undefined;
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
+  filterStatus: ResourceStatus | undefined;
   sort: string | undefined;
-  isProfile: boolean;
 }
 
-export default async function UserResourcesSection({
-  profileUserId,
+export default async function DashboardResourcesSection({
+  currentUserId,
   filterModuleCode,
   filterCategory,
   filterSemester,
   filterAcadYear,
   filterExamType,
+  filterStatus,
   sort,
-  isProfile,
-}: UserResourcesSectionProps) {
+}: DashboardResourcesSectionProps) {
   let category: ResourceSolutionType = "Cheatsheets";
   let resources;
   if (filterCategory === "cheatsheets") {
@@ -49,9 +50,9 @@ export default async function UserResourcesSection({
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
       FilterExamType: filterExamType,
-      userId: profileUserId,
-      statusUserId: undefined,
-      statusType: undefined,
+      userId: undefined,
+      statusUserId: currentUserId,
+      statusType: filterStatus,
     });
   } else if (filterCategory === "past_papers") {
     category = "Past Papers";
@@ -60,9 +61,9 @@ export default async function UserResourcesSection({
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
       FilterExamType: filterExamType,
-      userId: profileUserId,
-      statusUserId: undefined,
-      statusType: undefined,
+      userId: undefined,
+      statusUserId: currentUserId,
+      statusType: filterStatus,
     });
   } else if (filterCategory === "notes") {
     category = "Notes";
@@ -70,9 +71,9 @@ export default async function UserResourcesSection({
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
-      userId: profileUserId,
-      statusUserId: undefined,
-      statusType: undefined,
+      userId: undefined,
+      statusUserId: currentUserId,
+      statusType: filterStatus,
     });
   } else if (filterCategory === "solutions") {
     category = "Solutions";
@@ -82,9 +83,9 @@ export default async function UserResourcesSection({
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
       FilterExamType: filterExamType,
-      userId: profileUserId,
-      statusUserId: undefined,
-      statusType: undefined,
+      userId: undefined,
+      statusUserId: currentUserId,
+      statusType: filterStatus,
     });
   } else if (filterCategory !== undefined) {
     redirect("/404");
@@ -130,6 +131,7 @@ export default async function UserResourcesSection({
 
   return (
     <>
+      <h1 className="text-3xl font-semibold">Saved resources</h1>
       <Suspense>
         <UserResourceTab resourceOptions={ResourceSolutionOptions} />
       </Suspense>
@@ -194,7 +196,6 @@ export default async function UserResourcesSection({
                             : null
                         }
                         category={category}
-                        isProfile={isProfile}
                         moduleCode={
                           category === "Solutions"
                             ? // @ts-expect-error wrong type inference
@@ -224,6 +225,8 @@ export default async function UserResourcesSection({
                   acadYearOptions={acadYearOptions}
                   category={category}
                   moduleCodeOptions={moduleCodeOptions}
+                  currentUserId={currentUserId}
+                  statusOptions={statusOptions}
                 />
               </Suspense>
             </div>

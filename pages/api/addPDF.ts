@@ -2,14 +2,21 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { ExamType } from "@prisma/client";
+import {
+  Cheatsheet,
+  ExamType,
+  Notes,
+  QuestionPaper,
+  SemesterType,
+  Solution,
+} from "@prisma/client";
 import { ResourceEnum } from "@/lib/content";
 import z from "zod";
 
 const addPDFSchema = z.object({
   name: z.string(),
   acadYear: z.string(),
-  semester: z.string(),
+  semester: z.nativeEnum(SemesterType),
   moduleCode: z.string(),
   examType: z.nativeEnum(ExamType).optional(),
   userId: z.string(),
@@ -55,11 +62,12 @@ export default async function addPDF(
       resourceType,
       solutionIncluded,
     } = req.body;
+    let PDFentry: Cheatsheet | QuestionPaper | Notes;
     if (resourceType === "Cheatsheets") {
       if (examType === undefined) {
         res.status(400).json({ message: "Invalid request" });
       } else {
-        const PDFentry = await prisma.cheatsheet.create({
+        PDFentry = await prisma.cheatsheet.create({
           data: {
             acadYear: acadYear,
             semester: semester,
@@ -75,7 +83,7 @@ export default async function addPDF(
       if (examType === undefined) {
         res.status(400).json({ message: "Invalid request" });
       } else {
-        const PDFentry = await prisma.questionPaper.create({
+        PDFentry = await prisma.questionPaper.create({
           data: {
             acadYear: acadYear,
             semester: semester,
@@ -89,7 +97,7 @@ export default async function addPDF(
         res.status(200).json({ PDFentry });
       }
     } else if (resourceType === "Notes") {
-      const PDFentry = await prisma.notes.create({
+      PDFentry = await prisma.notes.create({
         data: {
           acadYear: acadYear,
           semester: semester,

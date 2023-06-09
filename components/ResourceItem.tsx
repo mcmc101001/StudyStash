@@ -12,6 +12,7 @@ import {
   Prisma,
   SolutionVote,
   SolutionStatus,
+  SemesterType,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
@@ -22,9 +23,7 @@ import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { Suspense } from "react";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
-import ResourceAltStatusComponent from "@/components/ResourceAltStatusComponent";
 import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
-import ResourceStatusComponentInLine from "@/components/ResourceStatusComponentInLine";
 import { ResourceSolutionType } from "@/lib/content";
 import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
 import dynamic from "next/dynamic";
@@ -140,7 +139,7 @@ interface ResourceItemProps {
   userId: string;
   createdAt: Date;
   acadYear: string;
-  semester: string;
+  semester: SemesterType;
   category: ResourceSolutionType;
   difficulty?: number;
   difficultyCount?: number;
@@ -252,20 +251,24 @@ export default async function ResourceItem({
     redirect("/404");
   }
 
+  let semesterString: string;
+  if (semester === "semester1") {
+    semesterString = "S1";
+  } else if (semester === "semester2") {
+    semesterString = "S2";
+  } else if (semester === "specialTerm1") {
+    semesterString = "ST1";
+  } else if (semester === "specialTerm2") {
+    semesterString = "ST2";
+  } else {
+    semesterString = "ERROR";
+  }
+
   return (
     <li
       data-cy="resourceItem"
       className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800"
     >
-      {currentUser && designNumber === 1 && (
-        <ResourceStatusComponent
-          category={category}
-          resourceId={resourceId}
-          currentUserId={currentUser.id}
-          status={userStatus ? userStatus.status : null}
-        />
-      )}
-
       <div className="flex h-full w-full overflow-hidden">
         <Suspense>
           <ResourceSheetLauncher
@@ -289,25 +292,23 @@ export default async function ResourceItem({
                 {category === "Past Papers" && solutionIncluded && (
                   <SolutionIncludedIndicator />
                 )}
-                {currentUser && designNumber === 3 && (
-                  <ResourceStatusComponentInLine resourceStatus={null} />
+                {currentUser && (
+                  <ResourceStatusComponent
+                    category={category}
+                    resourceId={resourceId}
+                    currentUserId={currentUser.id}
+                    resourceStatus={userStatus ? userStatus.status : null}
+                  />
                 )}
               </div>
-              {currentUser && designNumber === 2 ? (
-                <ResourceAltStatusComponent
-                  category={category}
-                  solnIncluded={!!solutionIncluded}
-                />
-              ) : (
-                <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
-                  <ClientDateTime datetime={createdAt} />
-                </p>
-              )}
+              <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
+                <ClientDateTime datetime={createdAt} />
+              </p>
             </div>
             <div className="ml-auto flex h-full flex-col gap-y-2">
               <p className="whitespace-nowrap text-end">
                 {category !== "Notes" ? `${examType}, ` : ""}
-                {`${acadYear} S${semester}`}
+                {`${acadYear} ${semesterString}`}
               </p>
               <div className="ml-auto flex w-max whitespace-nowrap text-end">
                 {isProfile ? (

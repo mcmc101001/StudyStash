@@ -4,10 +4,17 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import BookmarkedModules from "@/components/BookmarkedModules";
 import { getModuleCodeOptions } from "@/lib/nusmods";
+import UserResourceTab from "@/components/UserResourceTab";
+import DashboardResourcesSection from "@/components/DashboardResourcesSection";
+import { ResourceFiltersSorts } from "@/lib/content";
 
 export const revalidate = 10;
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: ResourceFiltersSorts;
+}) {
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
@@ -22,13 +29,28 @@ export default async function DashboardPage() {
   const moduleCodeOptions = await getModuleCodeOptions();
 
   return (
-    <div className="m-28 text-slate-800 dark:text-slate-200">
-      <div className="h-full">
-        <BookmarkedModules
-          userId={user.id}
-          starredModules={starredModules}
-          moduleCodeOptions={moduleCodeOptions}
-        />
+    <div className="m-20 text-slate-800 dark:text-slate-200">
+      <div className="flex h-full w-full">
+        <section className="h-full w-[30%] pr-8">
+          <BookmarkedModules
+            userId={user.id}
+            starredModules={starredModules}
+            moduleCodeOptions={moduleCodeOptions}
+          />
+        </section>
+        <section className="h-full w-[70%]">
+          {/* @ts-expect-error Server components */}
+          <DashboardResourcesSection
+            filterModuleCode={searchParams.filterModuleCode}
+            filterCategory={searchParams.filterCategory}
+            filterSemester={searchParams.filterSemester}
+            filterAcadYear={searchParams.filterAcadYear}
+            filterExamType={searchParams.filterExamType}
+            filterStatus={searchParams.filterStatus}
+            sort={searchParams.sort}
+            currentUserId={user.id}
+          />
+        </section>
       </div>
     </div>
   );

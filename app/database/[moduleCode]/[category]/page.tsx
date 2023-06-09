@@ -2,176 +2,26 @@ import {
   ResourceFiltersSorts,
   ResourceType,
   ResourceTypeURL,
+  statusOptions,
 } from "@/lib/content";
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/ResourceFilters";
-import {
-  ExamType,
-  NotesVote,
-  Prisma,
-  QuestionPaper,
-  QuestionPaperDifficulty,
-  QuestionPaperVote,
-} from "@prisma/client";
-import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
-import { SolutionsWithPosts } from "@/app/resource/[resourceId]/[categoryURL]/solutions/page";
+import {
+  CheatsheetWithPosts,
+  QuestionPaperWithPosts,
+  NotesWithPosts,
+  getCheatsheetsWithPosts,
+  getNotesWithPosts,
+  getQuestionPapersWithPosts,
+  getRating,
+  getAvgDifficulty,
+} from "@/lib/dataFetching";
+import { getCurrentUser } from "@/lib/session";
 
-export function getRating(
-  resources:
-    | CheatsheetWithPosts
-    | QuestionPaperWithPosts
-    | NotesWithPosts
-    | SolutionsWithPosts
-) {
-  const new_resources = resources.map((resource) => {
-    const rating = resource.votes.reduce(
-      (total: number, vote: NotesVote) => (vote.value ? total + 1 : total - 1),
-      0
-    );
-    return {
-      ...resource,
-      rating: rating,
-    };
-  });
-  return new_resources;
-}
-
-export function getAvgDifficulty(
-  resources: (QuestionPaper & {
-    _count: {
-      difficulties: number;
-    };
-    votes: QuestionPaperVote[];
-    difficulties: QuestionPaperDifficulty[];
-    rating: number;
-  })[]
-) {
-  const new_resources = resources.map((resource) => {
-    const difficulty = resource.difficulties.reduce(
-      (total: number, difficulty: QuestionPaperDifficulty) =>
-        total + difficulty.value,
-      0
-    );
-    return {
-      ...resource,
-      difficulty:
-        resource._count.difficulties !== 0
-          ? difficulty / resource._count.difficulties
-          : 0,
-    };
-  });
-  return new_resources;
-}
-
-export async function getCheatsheetsWithPosts({
-  moduleCode,
-  FilterSemester,
-  FilterAcadYear,
-  FilterExamType,
-  userId,
-}: {
-  moduleCode: string | undefined;
-  FilterSemester: string | undefined;
-  FilterAcadYear: string | undefined;
-  FilterExamType: ExamType | undefined;
-  userId: string | undefined;
-}) {
-  try {
-    const resource = await prisma.cheatsheet.findMany({
-      where: {
-        ...(moduleCode ? { moduleCode: moduleCode } : {}),
-        ...(FilterSemester ? { semester: FilterSemester } : {}),
-        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-        ...(FilterExamType ? { type: FilterExamType } : {}),
-        ...(userId ? { userId: userId } : {}),
-      },
-      include: {
-        votes: true,
-      },
-    });
-    return resource;
-  } catch (error) {
-    return [];
-  }
-}
-
-export async function getQuestionPapersWithPosts({
-  moduleCode,
-  FilterSemester,
-  FilterAcadYear,
-  FilterExamType,
-  userId,
-}: {
-  moduleCode: string | undefined;
-  FilterSemester: string | undefined;
-  FilterAcadYear: string | undefined;
-  FilterExamType: ExamType | undefined;
-  userId: string | undefined;
-}) {
-  try {
-    const resource = await prisma.questionPaper.findMany({
-      where: {
-        ...(moduleCode ? { moduleCode: moduleCode } : {}),
-        ...(FilterSemester ? { semester: FilterSemester } : {}),
-        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-        ...(FilterExamType ? { type: FilterExamType } : {}),
-        ...(userId ? { userId: userId } : {}),
-      },
-      include: {
-        votes: true,
-        difficulties: true,
-        _count: {
-          select: { difficulties: true },
-        },
-      },
-    });
-    return resource;
-  } catch (error) {
-    return [];
-  }
-}
-
-export async function getNotesWithPosts({
-  moduleCode,
-  FilterSemester,
-  FilterAcadYear,
-  userId,
-}: {
-  moduleCode: string | undefined;
-  FilterSemester: string | undefined;
-  FilterAcadYear: string | undefined;
-  userId: string | undefined;
-}) {
-  try {
-    const resource = await prisma.notes.findMany({
-      where: {
-        ...(moduleCode ? { moduleCode: moduleCode } : {}),
-        ...(FilterSemester ? { semester: FilterSemester } : {}),
-        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-        ...(userId ? { userId: userId } : {}),
-      },
-      include: {
-        votes: true,
-      },
-    });
-    return resource;
-  } catch (error) {
-    return [];
-  }
-}
-
-export type CheatsheetWithPosts = Prisma.PromiseReturnType<
-  typeof getCheatsheetsWithPosts
->;
-
-export type QuestionPaperWithPosts = Prisma.PromiseReturnType<
-  typeof getQuestionPapersWithPosts
->;
-
-export type NotesWithPosts = Prisma.PromiseReturnType<typeof getNotesWithPosts>;
+export const revalidate = 60;
 
 export default async function Page({
   params,
@@ -180,6 +30,8 @@ export default async function Page({
   params: { moduleCode: string; category: ResourceTypeURL };
   searchParams: ResourceFiltersSorts;
 }) {
+  const currentUser = await getCurrentUser();
+
   /************  FETCH OPTIONS FOR SELECT ************/
   const acadYearOptions = getAcadYearOptions();
 
@@ -187,6 +39,7 @@ export default async function Page({
   const FilterSemester = searchParams.filterSemester;
   const FilterAcadYear = searchParams.filterAcadYear;
   const FilterExamType = searchParams.filterExamType;
+  const FilterStatus = searchParams.filterStatus;
   const Sort = searchParams.sort;
   let parsedResources:
     | CheatsheetWithPosts
@@ -202,6 +55,8 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType,
       userId: undefined,
+      statusUserId: FilterStatus ? currentUser?.id : undefined,
+      statusType: FilterStatus,
     });
   } else if (params.category === "notes") {
     category = "Notes";
@@ -210,6 +65,8 @@ export default async function Page({
       FilterSemester,
       FilterAcadYear,
       userId: undefined,
+      statusUserId: FilterStatus ? currentUser?.id : undefined,
+      statusType: FilterStatus,
     });
   } else if (params.category === "past_papers") {
     category = "Past Papers";
@@ -219,6 +76,8 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType,
       userId: undefined,
+      statusUserId: FilterStatus ? currentUser?.id : undefined,
+      statusType: FilterStatus,
     });
   } else {
     redirect("/404");
@@ -319,6 +178,8 @@ export default async function Page({
           <ResourceFilters
             acadYearOptions={acadYearOptions}
             category={category}
+            currentUserId={currentUser?.id}
+            statusOptions={statusOptions}
           />
         </Suspense>
       </div>

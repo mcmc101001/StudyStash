@@ -1,81 +1,178 @@
 "use client";
 
-import { ResourceSolutionType } from "@/lib/content";
 import { ResourceStatus } from "@prisma/client";
 import { useState } from "react";
-
-interface ResourceStatusComponentProps {
-  category: ResourceSolutionType;
-  resourceId: string;
-  currentUserId: string;
-  status: ResourceStatus | null;
-}
+import { motion } from "framer-motion";
+import {
+  Bookmark,
+  CheckCircle,
+  ListChecks,
+  MoreHorizontal,
+} from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
+import { updateStatusType } from "@/pages/api/updateStatus";
+import { ResourceSolutionType } from "@/lib/content";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function ResourceStatusComponent({
+  currentUserId,
   category,
   resourceId,
-  currentUserId,
-  status,
-}: ResourceStatusComponentProps) {
-  // async function updateStatus(status: ResourceStatus | null) {
-  //   if (!currentUserId) {
-  //     return null;
-  //   }
-  //   let body: updateStatusType = {
-  //     category: category,
-  //     resourceId: resourceId,
-  //     userId: currentUserId,
-  //     status: status,
-  //   };
-  //   let req = await axios.post("/api/updateStatus", body);
-  //   return req;
-  // }
+  resourceStatus,
+}: {
+  currentUserId: string;
+  category: ResourceSolutionType;
+  resourceId: string;
+  resourceStatus: ResourceStatus | null;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
 
-  // let router = useRouter();
+  let router = useRouter();
 
-  let [statusState, setStatusState] = useState("✓");
+  const handleClick = async (
+    e: React.MouseEvent,
+    clickedStatus: ResourceStatus | null
+  ) => {
+    e.stopPropagation();
+    if (!isOpen) {
+      setIsOpen(true);
+      return;
+    }
+    if (status === clickedStatus) {
+      setStatus(null);
+      let body: updateStatusType = {
+        category: category,
+        userId: currentUserId,
+        resourceId: resourceId,
+        status: null,
+      };
 
-  const handleClick = (value: string) => {
-    setStatusState(value);
-    // e.stopPropagation(); // stops button click from propogating up parent
-    // try {
-    //   let req = await updateStatus(statusState);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // router.refresh();
+      try {
+        let req = await axios.post("/api/updateStatus", body);
+      } catch {
+        toast.error("Something went wrong, please try again.");
+      }
+    } else {
+      setStatus(clickedStatus);
+      let body: updateStatusType = {
+        category: category,
+        userId: currentUserId,
+        resourceId: resourceId,
+        status: clickedStatus,
+      };
+
+      try {
+        let req = await axios.post("/api/updateStatus", body);
+      } catch {
+        toast.error("Something went wrong, please try again.");
+      }
+    }
+    router.refresh();
   };
 
   return (
-    <div className="flex flex-row items-center">
-      <div className="flex flex-col items-center">
-        {/* Mock dropdown */}
-        <div className="group relative inline-block text-left">
-          <button className="mr-2 h-6 w-6 rounded-md bg-slate-200 text-slate-800 transition-colors dark:bg-slate-800 dark:text-slate-200">
-            {statusState}
-          </button>
-          <div className="invisible absolute z-10 flex w-36 flex-col gap-1 rounded-lg bg-slate-100 p-2 text-slate-800 group-hover:visible dark:bg-slate-900 dark:text-slate-200">
-            <div
-              onClick={() => handleClick("✓")}
-              className="flex cursor-pointer p-2 hover:bg-slate-200 dark:hover:bg-slate-800"
-            >
-              <div className="w-8 pr-2 text-right">✓</div> Completed
-            </div>
-            <div
-              onClick={() => handleClick("-")}
-              className="flex cursor-pointer p-2 hover:bg-slate-200 dark:hover:bg-slate-800"
-            >
-              <div className="w-8 pr-2 text-right">-</div>Todo
-            </div>
-            <div
-              onClick={() => handleClick("🔖")}
-              className="flex cursor-pointer p-2 hover:bg-slate-200 dark:hover:bg-slate-800"
-            >
-              <div className="w-8 pr-2 text-right">🔖</div>Bookmark
-            </div>
-          </div>
+    <motion.div
+      className="group z-20 w-max cursor-pointer rounded-full bg-slate-400 px-2 py-1 dark:bg-slate-600"
+      onHoverEnd={() => setIsOpen(false)}
+      onClick={(e) => e.stopPropagation()}
+      layout="size"
+      transition={{ duration: 0.1 }}
+    >
+      {!isOpen ? (
+        <StatusIcon selected={true} handleClick={handleClick} status={status} />
+      ) : (
+        <div className="flex justify-between gap-x-2">
+          <StatusIcon
+            selected={status === "Completed"}
+            handleClick={handleClick}
+            status="Completed"
+          />
+          <StatusIcon
+            selected={status === "Saved"}
+            handleClick={handleClick}
+            status="Saved"
+          />
+          <StatusIcon
+            selected={status === "Todo"}
+            handleClick={handleClick}
+            status="Todo"
+          />
         </div>
-      </div>
-    </div>
+      )}
+    </motion.div>
+  );
+}
+
+function StatusIcon({
+  selected,
+  status,
+  handleClick,
+}: {
+  selected: boolean;
+  status: ResourceStatus | null;
+  handleClick: (e: React.MouseEvent, status: ResourceStatus | null) => void;
+}) {
+  let icon: JSX.Element;
+  if (status === "Completed") {
+    icon = (
+      <CheckCircle
+        onClick={(e) => handleClick(e, status)}
+        className={
+          "h-5 w-5 " +
+          (selected
+            ? "text-green-500"
+            : "text-gray-200 hover:text-green-300 dark:text-gray-400 dark:hover:text-green-300")
+        }
+      />
+    );
+  } else if (status === "Todo") {
+    icon = (
+      <ListChecks
+        onClick={(e) => handleClick(e, status)}
+        className={
+          "h-5 w-5 " +
+          (selected
+            ? "text-yellow-500"
+            : "text-gray-200 hover:text-yellow-300 dark:text-gray-400 dark:hover:text-yellow-300")
+        }
+      />
+    );
+  } else if (status === "Saved") {
+    icon = (
+      <Bookmark
+        onClick={(e) => handleClick(e, status)}
+        className={
+          "h-5 w-5 " +
+          (selected
+            ? "text-blue-500"
+            : "text-gray-200 hover:text-blue-300 dark:text-gray-400 dark:hover:text-blue-300")
+        }
+      />
+    );
+  } else {
+    icon = (
+      <MoreHorizontal
+        onClick={(e) => handleClick(e, status)}
+        className="h-5 w-5 text-gray-200 dark:text-gray-400"
+      />
+    );
+  }
+  return (
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>{icon}</TooltipTrigger>
+        <TooltipContent>
+          <p className="font-normal">{status ? status : "Add status"}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
