@@ -17,6 +17,7 @@ interface SelectProps {
   defaultValue?: Option;
   inputLike?: boolean;
   value?: Option | null;
+  autofocus?: boolean;
 }
 
 export default function StyledSelect({
@@ -30,6 +31,7 @@ export default function StyledSelect({
   defaultValue,
   value,
   inputLike = false,
+  autofocus,
 }: SelectProps) {
   return (
     <div className="flex w-full flex-col gap-y-1">
@@ -48,6 +50,7 @@ export default function StyledSelect({
         aria-label={placeholderText}
         aria-labelledby={placeholderText}
         classNamePrefix={label}
+        autoFocus={autofocus}
         classNames={{
           option: (state) =>
             `text-slate-800 dark:text-slate-200 ` +

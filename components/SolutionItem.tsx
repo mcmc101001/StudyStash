@@ -91,14 +91,11 @@ export default async function SolutionItem({
   }
 
   // Not sure if this is the best way to do this, with couldfront will be better?
-  async function generatePDFURL() {
-    const PDFURL = await createPresignedShareUrl({
-      region: process.env.AWS_REGION as string,
-      bucket: process.env.AWS_BUCKET_NAME as string,
-      key: solutionId,
-    });
-    return PDFURL;
-  }
+  const PDFURL = await createPresignedShareUrl({
+    region: process.env.AWS_REGION as string,
+    bucket: process.env.AWS_BUCKET_NAME as string,
+    key: solutionId,
+  });
 
   return (
     <ResourceContextMenu
@@ -106,7 +103,7 @@ export default async function SolutionItem({
       category="Solutions"
       currentUserId={currentUser?.id || null}
       resourceUserId={resourceUser?.id!}
-      shareURL={await generatePDFURL()}
+      shareURL={PDFURL}
     >
       <div className="relative flex h-full w-full items-center overflow-hidden py-3">
         {/* positioned as such to prevent nesting anchor tags (use z-index to make internal link clickable) */}

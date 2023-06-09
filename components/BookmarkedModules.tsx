@@ -227,6 +227,7 @@ function ModuleCodeSearcher({
         placeholderText="Search module code"
         onChange={addItem}
         options={moduleCodeOptions}
+        autofocus={true}
         noOptionsMessage={({ inputValue }) =>
           inputValue.trimStart().length < 2 ? "Type to search..." : "No options"
         }
