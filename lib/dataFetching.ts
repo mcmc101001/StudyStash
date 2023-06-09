@@ -82,12 +82,16 @@ export async function getCheatsheetsWithPosts({
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(FilterExamType ? { type: FilterExamType } : {}),
         ...(userId ? { userId: userId } : {}),
-        statuses: {
-          some: {
-            ...(statusUserId ? { userId: statusUserId } : {}),
-            ...(statusUserId && statusType ? { type: statusType } : {}),
-          },
-        },
+        ...(statusUserId
+          ? {
+              statuses: {
+                some: {
+                  userId: statusUserId,
+                  ...(statusUserId && statusType ? { status: statusType } : {}),
+                },
+              },
+            }
+          : {}),
       },
       include: {
         votes: true,
@@ -124,12 +128,16 @@ export async function getQuestionPapersWithPosts({
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(FilterExamType ? { type: FilterExamType } : {}),
         ...(userId ? { userId: userId } : {}),
-        statuses: {
-          some: {
-            ...(statusUserId ? { userId: statusUserId } : {}),
-            ...(statusUserId && statusType ? { type: statusType } : {}),
-          },
-        },
+        ...(statusUserId
+          ? {
+              statuses: {
+                some: {
+                  userId: statusUserId,
+                  ...(statusUserId && statusType ? { status: statusType } : {}),
+                },
+              },
+            }
+          : {}),
       },
       include: {
         votes: true,
@@ -167,12 +175,16 @@ export async function getNotesWithPosts({
         ...(FilterSemester ? { semester: FilterSemester } : {}),
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(userId ? { userId: userId } : {}),
-        statuses: {
-          some: {
-            ...(statusUserId ? { userId: statusUserId } : {}),
-            ...(statusUserId && statusType ? { type: statusType } : {}),
-          },
-        },
+        ...(statusUserId
+          ? {
+              statuses: {
+                some: {
+                  userId: statusUserId,
+                  ...(statusUserId && statusType ? { status: statusType } : {}),
+                },
+              },
+            }
+          : {}),
       },
       include: {
         votes: true,
@@ -212,12 +224,16 @@ export async function getSolutionsWithPosts({
           ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
           ...(FilterExamType ? { type: FilterExamType } : {}),
         },
-        statuses: {
-          some: {
-            ...(statusUserId ? { userId: statusUserId } : {}),
-            ...(statusUserId && statusType ? { type: statusType } : {}),
-          },
-        },
+        ...(statusUserId
+          ? {
+              statuses: {
+                some: {
+                  userId: statusUserId,
+                  ...(statusUserId && statusType ? { status: statusType } : {}),
+                },
+              },
+            }
+          : {}),
         ...(userId ? { userId: userId } : {}),
         ...(questionPaperId ? { questionPaperId: questionPaperId } : {}),
       },

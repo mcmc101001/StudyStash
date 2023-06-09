@@ -120,6 +120,7 @@ export interface ResourceFiltersSorts {
   filterSemester?: SemesterType | undefined;
   filterAcadYear?: string | undefined;
   filterExamType?: ExamType | undefined;
+  filterStatus?: ResourceStatus | undefined;
   sort?: string | undefined;
 }
 
