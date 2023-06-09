@@ -30,15 +30,15 @@ export default async function DashboardPage({
 
   return (
     <div className="m-20 text-slate-800 dark:text-slate-200">
-      <div className="flex h-full gap-x-12">
-        <section className="h-full w-1/4">
+      <div className="flex h-full w-full">
+        <section className="h-full w-[30%] pr-8">
           <BookmarkedModules
             userId={user.id}
             starredModules={starredModules}
             moduleCodeOptions={moduleCodeOptions}
           />
         </section>
-        <section className="h-full w-3/4">
+        <section className="h-full w-[70%]">
           {/* @ts-expect-error Server components */}
           <DashboardResourcesSection
             filterModuleCode={searchParams.filterModuleCode}

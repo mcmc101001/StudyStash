@@ -3,11 +3,10 @@ import { SolutionVote, SolutionStatus } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
-import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
-import ResourceStatusComponentInLine from "@/components/ResourceStatusComponentInLine";
+import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 
 /*************** DATA FETCHING CODE ****************/
@@ -91,15 +90,6 @@ export default async function SolutionItem({
 
   return (
     <div className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800">
-      {currentUser && (
-        <ResourceStatusComponent
-          category="Solutions"
-          resourceId={solutionId}
-          currentUserId={currentUser.id}
-          status={userStatus ? userStatus.status : null}
-        />
-      )}
-
       <div className="relative flex h-full w-full items-center overflow-hidden py-3">
         {/* positioned as such to prevent nesting anchor tags (use z-index to make internal link clickable) */}
         <Link
@@ -114,16 +104,18 @@ export default async function SolutionItem({
             totalRating={rating}
             userRating={userVote?.value || null}
           />
-          <div className="z-0 ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
+          <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">
-              <span className="overflow-scroll whitespace-nowrap scrollbar-none">
+              <span className="z-0 overflow-scroll whitespace-nowrap scrollbar-none">
                 {name}
               </span>
               {currentUser && (
-                <ResourceStatusComponentInLine resourceStatus={null} />
+                <ResourceStatusComponent
+                  resourceStatus={userStatus ? userStatus.status : null}
+                />
               )}
             </div>
-            <p className="overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
+            <p className="z-0 overflow-hidden whitespace-nowrap text-left text-slate-600 dark:text-slate-400">
               <ClientDateTime datetime={createdAt} />
             </p>
           </div>
