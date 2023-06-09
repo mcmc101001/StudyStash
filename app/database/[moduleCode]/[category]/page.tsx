@@ -53,7 +53,7 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType,
       userId: undefined,
-      statusUserId: currentUser?.id,
+      statusUserId: FilterStatus ? currentUser?.id : undefined,
       statusType: FilterStatus,
     });
   } else if (params.category === "notes") {
@@ -63,7 +63,7 @@ export default async function Page({
       FilterSemester,
       FilterAcadYear,
       userId: undefined,
-      statusUserId: currentUser?.id,
+      statusUserId: FilterStatus ? currentUser?.id : undefined,
       statusType: FilterStatus,
     });
   } else if (params.category === "past_papers") {
@@ -74,7 +74,7 @@ export default async function Page({
       FilterAcadYear,
       FilterExamType,
       userId: undefined,
-      statusUserId: currentUser?.id,
+      statusUserId: FilterStatus ? currentUser?.id : undefined,
       statusType: FilterStatus,
     });
   } else {
