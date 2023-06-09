@@ -15,16 +15,29 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
+import { updateStatusType } from "@/pages/api/updateStatus";
+import { ResourceSolutionType } from "@/lib/content";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function ResourceStatusComponent({
+  currentUserId,
+  category,
+  resourceId,
   resourceStatus,
 }: {
+  currentUserId: string;
+  category: ResourceSolutionType;
+  resourceId: string;
   resourceStatus: ResourceStatus | null;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
 
-  const handleClick = (
+  let router = useRouter();
+
+  const handleClick = async (
     e: React.MouseEvent,
     clickedStatus: ResourceStatus | null
   ) => {
@@ -35,9 +48,34 @@ export default function ResourceStatusComponent({
     }
     if (status === clickedStatus) {
       setStatus(null);
+      let body: updateStatusType = {
+        category: category,
+        userId: currentUserId,
+        resourceId: resourceId,
+        status: null,
+      };
+
+      try {
+        let req = await axios.post("/api/updateStatus", body);
+      } catch {
+        toast.error("Something went wrong, please try again.");
+      }
     } else {
       setStatus(clickedStatus);
+      let body: updateStatusType = {
+        category: category,
+        userId: currentUserId,
+        resourceId: resourceId,
+        status: clickedStatus,
+      };
+
+      try {
+        let req = await axios.post("/api/updateStatus", body);
+      } catch {
+        toast.error("Something went wrong, please try again.");
+      }
     }
+    router.refresh();
   };
 
   return (

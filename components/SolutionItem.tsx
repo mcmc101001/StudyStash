@@ -111,6 +111,9 @@ export default async function SolutionItem({
               </span>
               {currentUser && (
                 <ResourceStatusComponent
+                  category="Solutions"
+                  resourceId={solutionId}
+                  currentUserId={currentUser.id}
                   resourceStatus={userStatus ? userStatus.status : null}
                 />
               )}

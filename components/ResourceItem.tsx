@@ -294,6 +294,9 @@ export default async function ResourceItem({
                 )}
                 {currentUser && (
                   <ResourceStatusComponent
+                    category={category}
+                    resourceId={resourceId}
+                    currentUserId={currentUser.id}
                     resourceStatus={userStatus ? userStatus.status : null}
                   />
                 )}

@@ -15,6 +15,7 @@ import { ResourceSolutionType, ResourceType } from "@/lib/content";
 import { updateStatusType } from "@/pages/api/updateStatus";
 import { ResourceStatus } from "@prisma/client";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -39,57 +40,51 @@ export default function ResourceContextMenu({
   className,
   resourceStatus,
 }: ResourceContextMenuProps) {
-  const [bookmarkStatus, setBookmarkStatus] = useState(
-    resourceStatus === "Saved" ? true : false
-  );
-  const [todoStatus, setTodoStatus] = useState(
-    resourceStatus === "Todo" ? true : false
-  );
-  const [completedStatus, setCompletedStatus] = useState(
-    resourceStatus === "Completed" ? true : false
-  );
+  const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
 
-  const setStatus = (status: ResourceStatus | null) => {
-    if (status === ResourceStatus.Saved) {
-      setBookmarkStatus(!bookmarkStatus);
-      setTodoStatus(false);
-      setCompletedStatus(false);
-    } else if (status === ResourceStatus.Todo) {
-      setBookmarkStatus(false);
-      setTodoStatus(!todoStatus);
-      setCompletedStatus(false);
-    } else if (status === ResourceStatus.Completed) {
-      setBookmarkStatus(false);
-      setTodoStatus(false);
-      setCompletedStatus(!completedStatus);
-    }
-  };
+  let router = useRouter();
 
-  const handleStatusChange = async (
-    e: React.MouseEvent,
-    status: ResourceStatus
-  ) => {
-    e.preventDefault();
+  // const handleStatusChange = async (
+  //   e: React.MouseEvent,
+  //   clickedStatus: ResourceStatus
+  // ) => {
+  //   e.preventDefault();
 
-    // if (!currentUserId) {
-    //   toast.error("Login required.");
-    //   return;
-    // }
+  //   if (!currentUserId) {
+  //     toast.error("Login required.");
+  //     return;
+  //   }
+  //   if (clickedStatus === status) {
+  //     setStatus(null);
+  //     let body: updateStatusType = {
+  //       category: category,
+  //       userId: currentUserId,
+  //       resourceId: resourceId,
+  //       status: null,
+  //     };
 
-    // let body: updateStatusType = {
-    //   category: category,
-    //   userId: currentUserId,
-    //   resourceId: resourceId,
-    //   status: status,
-    // };
+  //     try {
+  //       let req = await axios.post("/api/updateStatus", body);
+  //     } catch {
+  //       toast.error("Something went wrong, please try again.");
+  //     }
+  //   } else {
+  //     setStatus(clickedStatus);
+  //     let body: updateStatusType = {
+  //       category: category,
+  //       userId: currentUserId,
+  //       resourceId: resourceId,
+  //       status: clickedStatus,
+  //     };
 
-    // try {
-    //   let req = await axios.post("/api/updateStatus", body);
-    setStatus(status);
-    // } catch {
-    //   toast.error("Something went wrong, please try again.");
-    // }
-  };
+  //     try {
+  //       let req = await axios.post("/api/updateStatus", body);
+  //     } catch {
+  //       toast.error("Something went wrong, please try again.");
+  //     }
+  //     router.refresh();
+  //   }
+  // };
 
   const handleReportClick = async () => {
     toast.success("Reported.");
@@ -116,30 +111,30 @@ export default function ResourceContextMenu({
           </a>
         </ContextMenuItem>
 
-        <ContextMenuSeparator />
+        {/* <ContextMenuSeparator />
 
         <ContextMenuCheckboxItem
-          checked={bookmarkStatus}
+          checked={status === "Saved"}
           onClick={(e) => handleStatusChange(e, ResourceStatus.Saved)}
         >
           Bookmark
         </ContextMenuCheckboxItem>
         {category === "Past Papers" && (
           <ContextMenuCheckboxItem
-            checked={todoStatus}
+            checked={status === "Todo"}
             onClick={(e) => handleStatusChange(e, ResourceStatus.Todo)}
           >
-            To-do
+            Todo
           </ContextMenuCheckboxItem>
         )}
         {category === "Past Papers" && (
           <ContextMenuCheckboxItem
-            checked={completedStatus}
+            checked={status === "Completed"}
             onClick={(e) => handleStatusChange(e, ResourceStatus.Completed)}
           >
             Completed
           </ContextMenuCheckboxItem>
-        )}
+        )} */}
 
         {resourceUserId !== currentUserId && (
           <>
