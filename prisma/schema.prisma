@@ -65,6 +65,10 @@ model User {
   questionPaperStatuses   QuestionPaperStatus[]
   notesStatuses           NotesStatus[]
   solutionStatuses        SolutionStatus[]
+  cheatsheetReports       CheatsheetReport[]
+  questionPaperReports    QuestionPaperReport[]
+  notesReports            NotesReport[]
+  solutionReports         SolutionReport[]
 }
 
 model VerificationToken {
@@ -87,6 +91,7 @@ model Cheatsheet {
   type          ExamType
   votes         CheatsheetVote[]
   statuses      CheatsheetStatus[]
+  reports       CheatsheetReport[]
 
   @@index([userId])
 }
@@ -105,6 +110,7 @@ model QuestionPaper {
   votes            QuestionPaperVote[]
   difficulties     QuestionPaperDifficulty[]
   statuses         QuestionPaperStatus[]
+  reports          QuestionPaperReport[]
   solutions        Solution[]
 
   @@index([userId])
@@ -121,6 +127,7 @@ model Notes {
   semester      String
   votes         NotesVote[]
   statuses      NotesStatus[]
+  reports       NotesReport[]
 
   @@index([userId])
 }
@@ -135,6 +142,7 @@ model Solution {
   questionPaperId String
   votes           SolutionVote[]
   statuses        SolutionStatus[]
+  reports         SolutionReport[]
 
   @@index([userId])
   @@index([questionPaperId])
@@ -256,6 +264,59 @@ model StarredModules {
   @@unique([userId, moduleCode])
 }
 
+model CheatsheetReport {
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resolved   Boolean    @default(false)
+  resource   Cheatsheet @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model QuestionPaperReport {
+  id         String        @id @default(cuid())
+  createdAt  DateTime      @default(now())
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resolved   Boolean       @default(false)
+  resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model NotesReport {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  resolved   Boolean  @default(false)
+  resource   Notes    @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
+model SolutionReport {
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  type       ReportType
+  resource   Solution   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+  resolved   Boolean    @default(false)
+
+  @@index([userId])
+  @@index([resourceId])
+}
+
 /// WARNING: CHANGE ADD PDF FUNCTION IF CHANGING THIS
 enum ExamType {
   Midterm
@@ -270,4 +331,14 @@ enum ResourceStatus {
   Completed
   Todo
   Saved
+}
+
+enum ReportType {
+  inappropriateFilename
+  inappropriateUsername
+  incorrectModule
+  incorrectCategory
+  incorrectAcadYear
+  incorrectSemester
+  incorrectExamType
 }

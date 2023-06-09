@@ -2,11 +2,6 @@ import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 
-import dynamic from "next/dynamic";
-const PDFViewer = dynamic(() => import("@/components/PDFViewer"), {
-  ssr: false,
-});
-
 export default async function PDFPage() {
   const user = await getCurrentUser();
   if (!user) {
@@ -20,10 +15,7 @@ export default async function PDFPage() {
           Under development
         </div>
 
-        <object
-          data="https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK"
-          className="h-full w-5/6"
-        ></object>
+        <object data={""} className="h-full w-5/6"></object>
       </div>
     </>
   );

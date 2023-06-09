@@ -6,6 +6,7 @@ import axios from "axios";
 import { updateVoteType } from "@/pages/api/updateVote";
 import { toast } from "react-hot-toast";
 import { PrimitiveAtom, useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 
 interface ResourceRatingProps {
   category: ResourceSolutionType;
@@ -35,6 +36,8 @@ export default function ResourceRating({
     let req = await axios.post("/api/updateVote", body);
     return req;
   }
+
+  let router = useRouter();
 
   let [ratingState, setRatingState] = useAtom(ratingAtom);
   let [userRatingState, setUserRatingState] = useAtom(userRatingAtom);
@@ -71,6 +74,7 @@ export default function ResourceRating({
         toast.error("Error updating vote, please try again later.");
       }
     }
+    router.refresh();
   };
 
   const handleDownvote = async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -104,6 +108,7 @@ export default function ResourceRating({
         toast.error("Error updating vote, please try again later.");
       }
     }
+    router.refresh();
   };
 
   return (
@@ -114,7 +119,7 @@ export default function ResourceRating({
             className={
               " " +
               (userRatingState === true
-                ? "fill-orange-500 text-orange-500"
+                ? "fill-orange-500 text-orange-500 hover:fill-orange-600 hover:text-orange-600"
                 : "fill-none hover:text-orange-500")
             }
           />
@@ -128,7 +133,7 @@ export default function ResourceRating({
             className={
               " " +
               (userRatingState === false
-                ? "fill-blue-600 text-blue-600"
+                ? "fill-blue-600 text-blue-600 hover:fill-blue-700 hover:text-blue-700"
                 : "fill-none hover:text-blue-600")
             }
           />

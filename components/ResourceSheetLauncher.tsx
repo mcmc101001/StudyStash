@@ -175,7 +175,6 @@ export default function ResourceSheetLauncher({
           </SheetHeader>
           {/* <PDFViewer url={shareURL} /> */}
           {/* <object
-            className="h-5/6 w-full"
             data={shareURL}
             type="application/pdf"
             width="100%"

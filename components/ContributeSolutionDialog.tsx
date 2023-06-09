@@ -9,6 +9,14 @@ import { Trash2, Upload } from "lucide-react";
 import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
 import { deletePDFType } from "@/pages/api/deletePDF";
 import { addSolutionPDFType } from "@/pages/api/addSolutionPDF";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -17,7 +25,7 @@ interface ContributeSolutionProps {
   questionPaperId: string;
 }
 
-export default function ContributeSolution({
+export default function ContributeSolutionDialog({
   currentUserId,
   questionPaperId,
 }: ContributeSolutionProps) {
@@ -144,50 +152,65 @@ export default function ContributeSolution({
     }
     setFileName(null);
     setFile(null);
+    setIsOpen(false);
     setIsDisabled(false);
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <form
-      id="contributeForm"
-      onSubmit={(e) => uploadFile(e)}
-      className="m-10 flex h-full w-full items-center justify-center"
-    >
-      <div className="flex h-[50vh] w-full flex-col items-center justify-center gap-y-3 pt-7">
-        <PDFUploader
-          fileDropHandler={fileDropHandler}
-          fileSelectedHandler={fileSelectedHandler}
-          fileName={fileName}
-          inputRef={inputRef}
-          label="Select or drop pdf file"
-        />
-        <section className="flex w-full flex-row items-center justify-between gap-2">
-          <Button
-            variant="default"
-            isLoading={isDisabled}
-            type="submit"
-            form="contributeForm"
-            className="w-1/2 gap-1 text-lg"
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button>Submit solution</Button>
+      </DialogTrigger>
+      <DialogContent className="text-slate-800 dark:text-slate-200">
+        <DialogHeader>
+          <DialogTitle>Submit solution</DialogTitle>
+        </DialogHeader>
+        <div className="flex items-center justify-center">
+          <form
+            id="contributeForm"
+            onSubmit={(e) => uploadFile(e)}
+            className="mx-10 flex h-full w-full items-center justify-center"
           >
-            <Upload size={25} /> <p>Upload</p>
-          </Button>
-          <Button
-            variant="dangerous"
-            type="button"
-            className="w-1/2 gap-1 text-lg"
-            onClick={() => {
-              setFileName(null);
-              setFile(null);
-              setIsDisabled(false);
-              if (inputRef.current) {
-                inputRef.current.value = "";
-              }
-            }}
-          >
-            <Trash2 size={25} /> <p>Clear PDF</p>
-          </Button>
-        </section>
-      </div>
-    </form>
+            <div className="flex h-full w-full flex-col items-center justify-center gap-y-3 pt-7">
+              <PDFUploader
+                fileDropHandler={fileDropHandler}
+                fileSelectedHandler={fileSelectedHandler}
+                fileName={fileName}
+                inputRef={inputRef}
+                label="Select or drop pdf file"
+              />
+              <section className="flex w-full flex-row items-center justify-between gap-2">
+                <Button
+                  variant="default"
+                  isLoading={isDisabled}
+                  type="submit"
+                  form="contributeForm"
+                  className="w-1/2 gap-1 text-lg"
+                >
+                  <Upload size={25} /> <p>Upload</p>
+                </Button>
+                <Button
+                  variant="dangerous"
+                  type="button"
+                  className="w-1/2 gap-1 text-lg"
+                  onClick={() => {
+                    setFileName(null);
+                    setFile(null);
+                    setIsDisabled(false);
+                    if (inputRef.current) {
+                      inputRef.current.value = "";
+                    }
+                  }}
+                >
+                  <Trash2 size={25} /> <p>Clear PDF</p>
+                </Button>
+              </section>
+            </div>
+          </form>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

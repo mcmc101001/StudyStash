@@ -30,12 +30,23 @@ export default async function ProfilePageUser({
     <div className="flex w-full p-20 text-slate-800 dark:text-slate-200">
       <div className="h-full w-1/3 pr-5">
         <section className="relative rounded-xl bg-slate-300 p-6 dark:bg-slate-700">
-          <Image
-            src={profileUser.image!}
-            width={75}
-            height={75}
-            alt="Profile pic"
-          ></Image>
+          <div className="flex">
+            <Image
+              src={profileUser.image!}
+              width={75}
+              height={75}
+              alt="Profile pic"
+            ></Image>
+            {isProfile && (
+              <div className="ml-auto">
+                <ProfileEditDialog
+                  userId={profileUser.id}
+                  username={profileUser.name ?? "ERROR: name not found"}
+                  bio={profileUser.bio}
+                />
+              </div>
+            )}
+          </div>
           <h1 className="mt-2 overflow-x-scroll whitespace-nowrap text-xl font-bold scrollbar-none">
             {profileUser.name}
           </h1>
@@ -45,15 +56,6 @@ export default async function ProfilePageUser({
               {profileUser.bio ||
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."}
             </p>
-          </div>
-          <div className="absolute right-6 top-6">
-            {isProfile && (
-              <ProfileEditDialog
-                userId={profileUser.id}
-                username={profileUser.name ?? "ERROR: name not found"}
-                bio={profileUser.bio}
-              />
-            )}
           </div>
         </section>
         <section className="mt-6 flex items-center justify-center bg-slate-400 text-center text-xl dark:bg-slate-600">

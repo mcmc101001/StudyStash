@@ -112,12 +112,6 @@ export const solutionTabOptions: solutionOptionsProps[] = [
     assignedCategory: ["Past Papers", "Notes", "Cheatsheets"],
     href: "comments",
   },
-  {
-    buttonName: "Submit solution",
-    tabName: "Submit solution",
-    assignedCategory: ["Past Papers"],
-    href: "contribute",
-  },
 ];
 
 export interface ResourceFiltersSorts {

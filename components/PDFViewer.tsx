@@ -107,7 +107,7 @@ export default function PDFViewer({ className, url }: PDFViewerProps) {
           onLoadSuccess={onDocumentLoadSuccess}
           loading=""
         >
-          {isLoading && renderedPage ? (
+          {/* {isLoading && renderedPage ? (
             <Page
               key={renderedPage}
               className="absolute z-10"
@@ -116,7 +116,7 @@ export default function PDFViewer({ className, url }: PDFViewerProps) {
               renderAnnotationLayer={false}
               scale={zoom}
             />
-          ) : null}
+          ) : null} */}
           <Page
             // className={isLoading ? "hidden" : ""}
             key={currPage}

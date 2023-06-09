@@ -7,171 +7,17 @@ import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/ResourceFilters";
-import {
-  ExamType,
-  NotesVote,
-  Prisma,
-  QuestionPaper,
-  QuestionPaperDifficulty,
-  QuestionPaperVote,
-} from "@prisma/client";
-import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
-import { SolutionsWithPosts } from "@/app/resource/[resourceId]/[categoryURL]/solutions/page";
-
-export function getRating(
-  resources:
-    | CheatsheetWithPosts
-    | QuestionPaperWithPosts
-    | NotesWithPosts
-    | SolutionsWithPosts
-) {
-  const new_resources = resources.map((resource) => {
-    const rating = resource.votes.reduce(
-      (total: number, vote: NotesVote) => (vote.value ? total + 1 : total - 1),
-      0
-    );
-    return {
-      ...resource,
-      rating: rating,
-    };
-  });
-  return new_resources;
-}
-
-export function getAvgDifficulty(
-  resources: (QuestionPaper & {
-    _count: {
-      difficulties: number;
-    };
-    votes: QuestionPaperVote[];
-    difficulties: QuestionPaperDifficulty[];
-    rating: number;
-  })[]
-) {
-  const new_resources = resources.map((resource) => {
-    const difficulty = resource.difficulties.reduce(
-      (total: number, difficulty: QuestionPaperDifficulty) =>
-        total + difficulty.value,
-      0
-    );
-    return {
-      ...resource,
-      difficulty:
-        resource._count.difficulties !== 0
-          ? difficulty / resource._count.difficulties
-          : 0,
-    };
-  });
-  return new_resources;
-}
-
-export async function getCheatsheetsWithPosts({
-  moduleCode,
-  FilterSemester,
-  FilterAcadYear,
-  FilterExamType,
-  userId,
-}: {
-  moduleCode: string | undefined;
-  FilterSemester: string | undefined;
-  FilterAcadYear: string | undefined;
-  FilterExamType: ExamType | undefined;
-  userId: string | undefined;
-}) {
-  try {
-    const resource = await prisma.cheatsheet.findMany({
-      where: {
-        ...(moduleCode ? { moduleCode: moduleCode } : {}),
-        ...(FilterSemester ? { semester: FilterSemester } : {}),
-        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-        ...(FilterExamType ? { type: FilterExamType } : {}),
-        ...(userId ? { userId: userId } : {}),
-      },
-      include: {
-        votes: true,
-      },
-    });
-    return resource;
-  } catch (error) {
-    return [];
-  }
-}
-
-export async function getQuestionPapersWithPosts({
-  moduleCode,
-  FilterSemester,
-  FilterAcadYear,
-  FilterExamType,
-  userId,
-}: {
-  moduleCode: string | undefined;
-  FilterSemester: string | undefined;
-  FilterAcadYear: string | undefined;
-  FilterExamType: ExamType | undefined;
-  userId: string | undefined;
-}) {
-  try {
-    const resource = await prisma.questionPaper.findMany({
-      where: {
-        ...(moduleCode ? { moduleCode: moduleCode } : {}),
-        ...(FilterSemester ? { semester: FilterSemester } : {}),
-        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-        ...(FilterExamType ? { type: FilterExamType } : {}),
-        ...(userId ? { userId: userId } : {}),
-      },
-      include: {
-        votes: true,
-        difficulties: true,
-        _count: {
-          select: { difficulties: true },
-        },
-      },
-    });
-    return resource;
-  } catch (error) {
-    return [];
-  }
-}
-
-export async function getNotesWithPosts({
-  moduleCode,
-  FilterSemester,
-  FilterAcadYear,
-  userId,
-}: {
-  moduleCode: string | undefined;
-  FilterSemester: string | undefined;
-  FilterAcadYear: string | undefined;
-  userId: string | undefined;
-}) {
-  try {
-    const resource = await prisma.notes.findMany({
-      where: {
-        ...(moduleCode ? { moduleCode: moduleCode } : {}),
-        ...(FilterSemester ? { semester: FilterSemester } : {}),
-        ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
-        ...(userId ? { userId: userId } : {}),
-      },
-      include: {
-        votes: true,
-      },
-    });
-    return resource;
-  } catch (error) {
-    return [];
-  }
-}
-
-export type CheatsheetWithPosts = Prisma.PromiseReturnType<
-  typeof getCheatsheetsWithPosts
->;
-
-export type QuestionPaperWithPosts = Prisma.PromiseReturnType<
-  typeof getQuestionPapersWithPosts
->;
-
-export type NotesWithPosts = Prisma.PromiseReturnType<typeof getNotesWithPosts>;
+import {
+  CheatsheetWithPosts,
+  QuestionPaperWithPosts,
+  NotesWithPosts,
+  getCheatsheetsWithPosts,
+  getNotesWithPosts,
+  getQuestionPapersWithPosts,
+  getRating,
+  getAvgDifficulty,
+} from "../../../../lib/dataFetching";
 
 export default async function Page({
   params,
@@ -261,7 +107,7 @@ export default async function Page({
   return (
     <div className="flex h-[70vh] flex-row gap-x-4 text-slate-800 dark:text-slate-200">
       {sortedResources.length !== 0 ? (
-        <div
+        <ul
           className="flex h-full w-4/5 flex-col gap-y-6 overflow-y-scroll scroll-smooth pr-5 
           scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
@@ -306,7 +152,7 @@ export default async function Page({
               />
             );
           })}
-        </div>
+        </ul>
       ) : (
         <div className="flex h-full w-4/5 flex-col items-center justify-center gap-y-6 pt-10 text-2xl">
           <h1 className="text-slate-800 dark:text-slate-200">
