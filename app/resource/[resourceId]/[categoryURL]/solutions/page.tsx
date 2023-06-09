@@ -71,7 +71,7 @@ export default async function SolutionPage({
 
   return (
     <>
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-3 mr-5 flex items-center justify-between">
         <div className="w-64">
           <SolutionSort />
         </div>

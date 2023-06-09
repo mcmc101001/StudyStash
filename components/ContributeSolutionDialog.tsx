@@ -161,7 +161,12 @@ export default function ContributeSolutionDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>Submit solution</Button>
+        <Button
+          variant="ghost"
+          className="border border-slate-800 dark:border-slate-200"
+        >
+          Submit solution
+        </Button>
       </DialogTrigger>
       <DialogContent className="text-slate-800 dark:text-slate-200">
         <DialogHeader>

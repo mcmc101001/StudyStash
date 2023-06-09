@@ -136,39 +136,37 @@ export default function ResourceContextMenu({
           </ContextMenuCheckboxItem>
         )} */}
 
-        {resourceUserId !== currentUserId && (
-          <>
-            <ContextMenuSeparator className="" />
-            <ContextMenuSub>
-              <ContextMenuSubTrigger>Report resource</ContextMenuSubTrigger>
-              <ContextMenuSubContent>
-                <ContextMenuItem onClick={handleReportClick}>
-                  Inappropriate filename
-                </ContextMenuItem>
-                <ContextMenuItem onClick={handleReportClick}>
-                  Inappropriate username
-                </ContextMenuItem>
-                <ContextMenuItem onClick={handleReportClick}>
-                  Incorrect module
-                </ContextMenuItem>
-                <ContextMenuItem onClick={handleReportClick}>
-                  Incorrect category
-                </ContextMenuItem>
-                <ContextMenuItem onClick={handleReportClick}>
-                  Incorrect academic year
-                </ContextMenuItem>
-                <ContextMenuItem onClick={handleReportClick}>
-                  Incorrect semester
-                </ContextMenuItem>
-                {category === "Past Papers" && (
-                  <ContextMenuItem onClick={handleReportClick}>
-                    Incorrect exam type
-                  </ContextMenuItem>
-                )}
-              </ContextMenuSubContent>
-            </ContextMenuSub>
-          </>
-        )}
+        <ContextMenuSeparator className="" />
+        <ContextMenuSub>
+          <ContextMenuSubTrigger disabled={resourceUserId === currentUserId}>
+            Report resource
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem onClick={handleReportClick}>
+              Inappropriate filename
+            </ContextMenuItem>
+            <ContextMenuItem onClick={handleReportClick}>
+              Inappropriate username
+            </ContextMenuItem>
+            <ContextMenuItem onClick={handleReportClick}>
+              Incorrect module
+            </ContextMenuItem>
+            <ContextMenuItem onClick={handleReportClick}>
+              Incorrect category
+            </ContextMenuItem>
+            <ContextMenuItem onClick={handleReportClick}>
+              Incorrect academic year
+            </ContextMenuItem>
+            <ContextMenuItem onClick={handleReportClick}>
+              Incorrect semester
+            </ContextMenuItem>
+            {category === "Past Papers" && (
+              <ContextMenuItem onClick={handleReportClick}>
+                Incorrect exam type
+              </ContextMenuItem>
+            )}
+          </ContextMenuSubContent>
+        </ContextMenuSub>
       </ContextMenuContent>
     </ContextMenu>
   );
