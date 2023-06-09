@@ -21,6 +21,8 @@ import {
 } from "@/lib/dataFetching";
 import { getCurrentUser } from "@/lib/session";
 
+export const revalidate = 60;
+
 export default async function Page({
   params,
   searchParams,
