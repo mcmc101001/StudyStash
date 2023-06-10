@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 
-export default function ProfleVerifiedIndicator() {
+export default function ProfileVerifiedIndicator() {
   return (
     <TooltipProvider>
       <Tooltip>

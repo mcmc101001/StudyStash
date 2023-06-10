@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
-import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import ResourceContextMenu from "./ResourceContextMenu";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 
@@ -101,6 +101,7 @@ export default async function SolutionItem({
     <ResourceContextMenu
       className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800"
       category="Solutions"
+      resourceId={solutionId}
       currentUserId={currentUser?.id || null}
       resourceUserId={resourceUser?.id!}
       shareURL={PDFURL}
@@ -151,7 +152,7 @@ export default async function SolutionItem({
               </Link>
               {resourceUser?.verified && (
                 <div>
-                  <ProfleVerifiedIndicator />
+                  <ProfileVerifiedIndicator />
                 </div>
               )}
             </div>

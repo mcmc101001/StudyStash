@@ -281,6 +281,7 @@ model CheatsheetReport {
   createdAt  DateTime   @default(now())
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
+  type       ReportType
   resolved   Boolean    @default(false)
   resource   Cheatsheet @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
@@ -294,6 +295,7 @@ model QuestionPaperReport {
   createdAt  DateTime      @default(now())
   user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
+  type       ReportType
   resolved   Boolean       @default(false)
   resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
@@ -303,12 +305,13 @@ model QuestionPaperReport {
 }
 
 model NotesReport {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  resolved   Boolean  @default(false)
-  resource   Notes    @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  type       ReportType
+  resolved   Boolean    @default(false)
+  resource   Notes      @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
   @@index([userId])

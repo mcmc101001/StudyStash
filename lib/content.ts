@@ -1,5 +1,10 @@
 import { Icon } from "@/components/Icons";
-import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
+import {
+  ExamType,
+  ReportType,
+  ResourceStatus,
+  SemesterType,
+} from "@prisma/client";
 import { z } from "zod";
 
 export const ResourceEnum = z.enum(["Cheatsheets", "Past Papers", "Notes"]);
@@ -158,3 +163,17 @@ export const statusOptions: { value: ResourceStatus; label: ResourceStatus }[] =
     { value: "Todo", label: "Todo" },
     { value: "Completed", label: "Completed" },
   ];
+
+export const reportOptions: { value: ReportType; label: string }[] = [
+  { value: "inappropriateFilename", label: "Inappropriate filename" },
+  { value: "inappropriateUsername", label: "Inappropriate username" },
+  { value: "incorrectModule", label: "Incorrect module" },
+  { value: "incorrectCategory", label: "Incorrect category" },
+  { value: "incorrectSemester", label: "Incorrect semester" },
+  { value: "incorrectAcadYear", label: "Incorrect academic year" },
+];
+
+export const papersAdditionalReportOptions: {
+  value: ReportType;
+  label: string;
+}[] = [{ value: "incorrectExamType", label: "Incorrect exam type" }];

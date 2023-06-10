@@ -23,7 +23,7 @@ import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import { Suspense } from "react";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
-import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
 import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
 import dynamic from "next/dynamic";
@@ -326,7 +326,7 @@ export default async function ResourceItem({
                     </Link>
                     {resourceUser?.verified && (
                       <div>
-                        <ProfleVerifiedIndicator />
+                        <ProfileVerifiedIndicator />
                       </div>
                     )}
                   </>

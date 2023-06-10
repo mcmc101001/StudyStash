@@ -114,7 +114,7 @@ export default function ResourceSheetLauncher({
         <ResourceContextMenu
           category={category}
           currentUserId={currentUserId}
-          // resourceId={resourceId}
+          resourceId={resourceId}
           resourceUserId={resourceUserId}
           shareURL={shareURL}
           className="h-full w-full"
