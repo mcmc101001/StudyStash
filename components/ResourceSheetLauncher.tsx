@@ -40,6 +40,7 @@ interface ResourceSheetLauncherProps {
   resourceStatus: ResourceStatus | null;
   solutionIncluded?: boolean;
   questionPaperId?: string;
+  PDFURL: string;
 }
 
 export default function ResourceSheetLauncher({
@@ -55,6 +56,7 @@ export default function ResourceSheetLauncher({
   resourceStatus,
   solutionIncluded,
   questionPaperId,
+  PDFURL,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -80,29 +82,29 @@ export default function ResourceSheetLauncher({
       ? "notes"
       : "solutions";
 
-  const [shareURL, setShareURL] = useState<string>("");
+  // const [shareURL, setShareURL] = useState<string>("");
 
-  useEffect(() => {
-    const fetchURL = async () => {
-      try {
-        let body: generateS3ShareURLType = {
-          // userId: currentUserId as string,
-          resourceId: resourceId,
-        };
-        let { data } = await axios.post("/api/generateS3ShareURL", body);
+  // useEffect(() => {
+  //   const fetchURL = async () => {
+  //     try {
+  //       let body: generateS3ShareURLType = {
+  //         // userId: currentUserId as string,
+  //         resourceId: resourceId,
+  //       };
+  //       let { data } = await axios.post("/api/generateS3ShareURL", body);
 
-        const url = data.url;
-        setShareURL(url);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    try {
-      fetchURL();
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  //       const url = data.url;
+  //       setShareURL(url);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   try {
+  //     fetchURL();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // });
 
   return (
     <Provider>
@@ -117,7 +119,7 @@ export default function ResourceSheetLauncher({
           currentUserId={currentUserId}
           // resourceId={resourceId}
           resourceUserId={resourceUserId}
-          shareURL={shareURL}
+          shareURL={PDFURL}
           className="h-full w-full"
           // resourceStatus={resourceStatus}
         >
@@ -187,7 +189,7 @@ export default function ResourceSheetLauncher({
             width="100%"
             height="85%"
           /> */}
-          <IFrame src={shareURL} />
+          <IFrame title="PDF Resource" src={PDFURL} width="100%" height="80%" />
           <div className="mt-5 flex h-max gap-x-4">
             {solutionTabOptions.map((option) => {
               if (!option.assignedCategory.includes(category)) return null;

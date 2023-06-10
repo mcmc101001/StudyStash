@@ -1,13 +1,13 @@
+"use client";
+
 import { useState } from "react";
 
-export function IFrame({ src }: { src: string }) {
+export interface IFrameProps
+  extends React.IframeHTMLAttributes<HTMLIFrameElement> {
+  src: string;
+}
+
+export function IFrame({ src, ...props }: IFrameProps) {
   const [shareURL, setShareURL] = useState<string>(src);
-  return (
-    <iframe
-      title="PDF Resource"
-      src={shareURL}
-      width="100%"
-      height="80%"
-    ></iframe>
-  );
+  return <iframe src={shareURL} {...props}></iframe>;
 }
