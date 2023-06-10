@@ -34,7 +34,7 @@ import SolutionTab from "@/components/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
-import { IFrame } from "@/components/IFrame";
+import { IFrame } from "@/components/ui/IFrame";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },
@@ -154,11 +154,7 @@ export default async function ResourcePage({
   // @ts-expect-error Wrong type inference for category past papers
   const solutionIncluded = resource?.solutionIncluded;
 
-  const PDFURL = await createPresignedShareUrl({
-    region: process.env.AWS_REGION as string,
-    bucket: process.env.AWS_BUCKET_NAME as string,
-    key: resourceId,
-  });
+  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
 
   return (
     <div className="flex h-full overflow-hidden">

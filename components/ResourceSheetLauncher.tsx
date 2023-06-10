@@ -18,14 +18,11 @@ import { Provider, atom } from "jotai";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { solutionTabOptions } from "@/lib/content";
-import { generateS3ShareURLType } from "@/pages/api/generateS3ShareURL";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import ResourceContextMenu from "@/components/ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import PDFViewer from "./PDFViewer";
-import { IFrame } from "./IFrame";
+import { IFrame } from "@/components/ui/IFrame";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -81,30 +78,6 @@ export default function ResourceSheetLauncher({
       : category === "Notes"
       ? "notes"
       : "solutions";
-
-  // const [shareURL, setShareURL] = useState<string>("");
-
-  // useEffect(() => {
-  //   const fetchURL = async () => {
-  //     try {
-  //       let body: generateS3ShareURLType = {
-  //         // userId: currentUserId as string,
-  //         resourceId: resourceId,
-  //       };
-  //       let { data } = await axios.post("/api/generateS3ShareURL", body);
-
-  //       const url = data.url;
-  //       setShareURL(url);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   try {
-  //     fetchURL();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // });
 
   return (
     <Provider>
@@ -176,7 +149,7 @@ export default function ResourceSheetLauncher({
               <span className="sr-only">Close</span>
             </div>
           </SheetHeader>
-          {/* <PDFViewer url={shareURL} /> */}
+          {/* <PDFViewer url={PDFURL} /> */}
           {/* <object
             data={shareURL}
             type="application/pdf"
@@ -184,7 +157,7 @@ export default function ResourceSheetLauncher({
             height="85%"
           /> */}
           {/* <embed
-            src={shareURL}
+            src={PDFURL}
             type="application/pdf"
             width="100%"
             height="85%"

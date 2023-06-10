@@ -265,11 +265,7 @@ export default async function ResourceItem({
     semesterString = "ERROR";
   }
 
-  const PDFURL = await createPresignedShareUrl({
-    region: process.env.AWS_REGION as string,
-    bucket: process.env.AWS_BUCKET_NAME as string,
-    key: resourceId,
-  });
+  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
 
   return (
     <li
