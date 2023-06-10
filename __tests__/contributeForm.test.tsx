@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import ContributeForm from "@/components/ContributeForm";
 import "@testing-library/jest-dom/extend-expect";
 import { ResourceType } from "@/lib/content";
-import { Toaster } from "react-hot-toast";
+import { expect } from "@jest/globals";
 import { useSearchParams } from "next/navigation";
 
 const mock_acadYearOptions = [

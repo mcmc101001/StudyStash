@@ -3,6 +3,7 @@ import NavBar from "@/components/NavBar";
 import { getCurrentUser } from "@/lib/session";
 import { useSelectedLayoutSegment } from "next/navigation";
 import "@testing-library/jest-dom/extend-expect";
+import { expect } from "@jest/globals";
 import { navOptions } from "@/components/NavBar";
 
 const mock_user = {
