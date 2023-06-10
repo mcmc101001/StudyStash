@@ -7,8 +7,6 @@ const mock_module_codes = ["CS1010", "CS1231", "CS2040C", "CS2113"];
 
 jest.mock("next/navigation", () => ({
   useSelectedLayoutSegments: jest.fn(),
-}));
-jest.mock("next/navigation", () => ({
   usePathname: jest.fn(),
 }));
 
