@@ -90,12 +90,7 @@ export default async function SolutionItem({
     userStatus = null;
   }
 
-  // Not sure if this is the best way to do this, with couldfront will be better?
-  const PDFURL = await createPresignedShareUrl({
-    region: process.env.AWS_REGION as string,
-    bucket: process.env.AWS_BUCKET_NAME as string,
-    key: solutionId,
-  });
+  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${solutionId}`;
 
   return (
     <ResourceContextMenu

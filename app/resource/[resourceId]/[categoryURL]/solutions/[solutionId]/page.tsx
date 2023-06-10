@@ -5,6 +5,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
+import { IFrame } from "@/components/ui/IFrame";
 
 export default async function SpecificSolutionPage({
   params: { resourceId, categoryURL, solutionId },
@@ -30,11 +31,7 @@ export default async function SpecificSolutionPage({
     redirect("/404");
   }
 
-  const PDFURL = await createPresignedShareUrl({
-    region: process.env.AWS_REGION as string,
-    bucket: process.env.AWS_BUCKET_NAME as string,
-    key: solutionId,
-  });
+  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
 
   return (
     <>
@@ -49,13 +46,13 @@ export default async function SpecificSolutionPage({
           <span>Back to solutions</span>
         </Button>
       </Link>
-      <iframe
+      <IFrame
         title="PDF Resource"
         className="mt-6"
         src={PDFURL}
         width="100%"
         height="80%"
-      ></iframe>
+      ></IFrame>
     </>
   );
 }

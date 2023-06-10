@@ -3,7 +3,7 @@ import {
   ResourceSolutionTypeURL,
   statusOptions,
 } from "@/lib/content";
-import UserResourceTab from "./UserResourceTab";
+import UserResourceTab from "@/components/UserResourceTab";
 import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
