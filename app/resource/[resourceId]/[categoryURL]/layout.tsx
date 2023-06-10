@@ -34,6 +34,7 @@ import SolutionTab from "@/components/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
+import { IFrame } from "@/components/IFrame";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },
@@ -198,13 +199,13 @@ export default async function ResourcePage({
             </div>
           )}
         </div>
-        <iframe
+        <IFrame
           title="PDF Resource"
           className="mt-5"
           src={PDFURL}
           width="100%"
           height="80%"
-        ></iframe>
+        ></IFrame>
       </ResizableDiv>
       <div className="m-10 w-full overflow-hidden">
         {categoryURL === "past_papers" ? (

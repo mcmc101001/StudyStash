@@ -5,6 +5,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
+import { IFrame } from "@/components/IFrame";
 
 export default async function SpecificSolutionPage({
   params: { resourceId, categoryURL, solutionId },
@@ -49,13 +50,13 @@ export default async function SpecificSolutionPage({
           <span>Back to solutions</span>
         </Button>
       </Link>
-      <iframe
+      <IFrame
         title="PDF Resource"
         className="mt-6"
         src={PDFURL}
         width="100%"
         height="80%"
-      ></iframe>
+      ></IFrame>
     </>
   );
 }
