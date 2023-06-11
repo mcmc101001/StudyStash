@@ -7,7 +7,7 @@ interface ClientDateTimeProps {
 export default function ClientDateTime({ datetime }: ClientDateTimeProps) {
   return (
     <time>
-      {datetime.toLocaleString("en-GB", {
+      {datetime.toLocaleString("en-SG", {
         minute: "2-digit",
         hour: "2-digit",
         day: "numeric",

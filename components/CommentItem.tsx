@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/Dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { deleteCommentType } from "@/pages/api/deleteComment";
+import { formatTimeAgo } from "@/lib/utils";
 
 interface CommentItemProps {
   category: ResourceSolutionType;
@@ -143,7 +144,7 @@ export default function CommentItem({
             {comment.user.verified && <ProfileVerifiedIndicator />}
           </div>
           <div className="flex flex-1 justify-end text-sm font-light text-slate-700">
-            {comment.createdAt.toUTCString()}
+            {formatTimeAgo(comment.createdAt)}
           </div>
         </div>
         <p className="mt-2 whitespace-break-spaces break-words">
@@ -176,48 +177,12 @@ export default function CommentItem({
             <Reply /> Reply
           </div>
           {currentUser?.id === comment.user.id && (
-            <Dialog
-              open={isDeleteDialogOpen}
-              onOpenChange={setIsDeleteDialogOpen}
-            >
-              <DialogTrigger>
-                <div
-                  className="flex items-center gap-x-1"
-                  role="button"
-                  onClick={() => {}}
-                >
-                  <Trash2 /> Delete
-                </div>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                  <DialogDescription>
-                    This action cannot be undone.
-                  </DialogDescription>
-                  <div className="flex w-full gap-x-2 pt-5">
-                    <div
-                      onClick={() => setIsDeleteDialogOpen(false)}
-                      className="flex-1"
-                    >
-                      <div className="inline-flex h-full w-full items-center justify-center rounded-md bg-slate-900 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-100 dark:text-slate-700 dark:hover:bg-slate-300">
-                        Cancel
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <Button
-                        className="w-full"
-                        variant="dangerous"
-                        isLoading={isDeleteLoading}
-                        onClick={handleDelete}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </div>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+            <DeleteCommentDialog
+              isDeleteDialogOpen={isDeleteDialogOpen}
+              setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+              isDeleteLoading={isDeleteLoading}
+              handleDelete={handleDelete}
+            />
           )}
         </div>
       </div>
@@ -269,5 +234,57 @@ export default function CommentItem({
         })}
       </ul>
     </div>
+  );
+}
+
+function DeleteCommentDialog({
+  isDeleteDialogOpen,
+  setIsDeleteDialogOpen,
+  isDeleteLoading,
+  handleDelete,
+}: {
+  isDeleteDialogOpen: boolean;
+  setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isDeleteLoading: boolean;
+  handleDelete: () => void;
+}) {
+  return (
+    <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+      <DialogTrigger>
+        <div
+          className="flex items-center gap-x-1"
+          role="button"
+          onClick={() => {}}
+        >
+          <Trash2 /> Delete
+        </div>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+          <DialogDescription>This action cannot be undone.</DialogDescription>
+          <div className="flex w-full gap-x-2 pt-5">
+            <div
+              onClick={() => setIsDeleteDialogOpen(false)}
+              className="flex-1"
+            >
+              <div className="inline-flex h-full w-full items-center justify-center rounded-md bg-slate-900 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-100 dark:text-slate-700 dark:hover:bg-slate-300">
+                Cancel
+              </div>
+            </div>
+            <div className="flex-1">
+              <Button
+                className="w-full"
+                variant="dangerous"
+                isLoading={isDeleteLoading}
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   );
 }
