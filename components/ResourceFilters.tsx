@@ -97,17 +97,13 @@ export default function ResourceFilters({
         labelExists={false}
         defaultValue={
           // choose select param accordingly based on category
-          sortQueryParam
-            ? category === "Past Papers"
-              ? sortOptions
-                  .concat(papersAdditionalSortOptions)
-                  .find((option) => {
-                    return option.value === sortQueryParam;
-                  })
-              : sortOptions.find((option) => {
-                  return option.value === sortQueryParam;
-                })
-            : undefined
+          category === "Past Papers"
+            ? sortOptions.concat(papersAdditionalSortOptions).find((option) => {
+                return option.value === sortQueryParam;
+              })
+            : sortOptions.find((option) => {
+                return option.value === sortQueryParam;
+              })
         }
       />
       {moduleCodeOptions !== undefined && (
@@ -145,11 +141,9 @@ export default function ResourceFilters({
             }
             return false;
           }}
-          defaultValue={
-            moduleCodeQueryParam
-              ? { value: moduleCodeQueryParam, label: moduleCodeQueryParam }
-              : undefined
-          }
+          defaultValue={moduleCodeOptions.find((option) => {
+            return option.value === moduleCodeQueryParam;
+          })}
         />
       )}
       <StyledSelect
@@ -158,11 +152,9 @@ export default function ResourceFilters({
         options={acadYearOptions}
         onChange={handleAcadYearChange}
         labelExists={false}
-        defaultValue={
-          acadYearQueryParam
-            ? { value: acadYearQueryParam, label: acadYearQueryParam }
-            : undefined
-        }
+        defaultValue={acadYearOptions.find((option) => {
+          return option.value === acadYearQueryParam;
+        })}
       />
       <StyledSelect
         label="Select Semester"
@@ -170,14 +162,9 @@ export default function ResourceFilters({
         options={semesterOptions}
         onChange={handleSemesterChange}
         labelExists={false}
-        defaultValue={
-          semesterQueryParam
-            ? {
-                value: semesterQueryParam,
-                label: `Semester ${semesterQueryParam}`,
-              }
-            : undefined
-        }
+        defaultValue={semesterOptions.find((option) => {
+          return option.value === semesterQueryParam;
+        })}
       />
       {category !== "Notes" && (
         <StyledSelect
@@ -186,11 +173,9 @@ export default function ResourceFilters({
           options={examTypeOptions}
           onChange={handleExamTypeChange}
           labelExists={false}
-          defaultValue={
-            examTypeQueryParam
-              ? { value: examTypeQueryParam, label: examTypeQueryParam }
-              : undefined
-          }
+          defaultValue={examTypeOptions.find((option) => {
+            return option.value === examTypeQueryParam;
+          })}
         />
       )}
       {currentUserId && statusOptions && (
@@ -200,11 +185,9 @@ export default function ResourceFilters({
           options={statusOptions}
           onChange={handleStatusChange}
           labelExists={false}
-          defaultValue={
-            statusQueryParam
-              ? { value: statusQueryParam, label: statusQueryParam }
-              : undefined
-          }
+          defaultValue={statusOptions.find((option) => {
+            return option.value === statusQueryParam;
+          })}
         />
       )}
     </div>

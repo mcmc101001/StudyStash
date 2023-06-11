@@ -78,6 +78,8 @@ export default function ProfileEditDialog({
         <div
           className="inline-flex cursor-pointer items-center justify-center rounded-md bg-transparent text-sm font-medium 
           text-slate-800 transition-colors hover:bg-slate-200 hover:text-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+          role="button"
+          aria-label="Edit Profile Dialog"
         >
           <span className="truncate">Edit Profile</span>
           <span className="pl-2">
