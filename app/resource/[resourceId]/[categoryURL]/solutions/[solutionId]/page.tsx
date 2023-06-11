@@ -31,7 +31,7 @@ export default async function SpecificSolutionPage({
     redirect("/404");
   }
 
-  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
+  const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
 
   return (
     <>

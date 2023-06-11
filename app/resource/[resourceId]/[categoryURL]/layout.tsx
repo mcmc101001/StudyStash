@@ -154,7 +154,7 @@ export default async function ResourcePage({
   // @ts-expect-error Wrong type inference for category past papers
   const solutionIncluded = resource?.solutionIncluded;
 
-  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
+  const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
 
   return (
     <div className="flex h-full overflow-hidden">

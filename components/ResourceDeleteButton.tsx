@@ -68,8 +68,12 @@ export default function ResourceDeleteButton({
         <Loader2 height={30} width={30} className="animate-spin" />
       ) : (
         <Dialog>
-          <DialogTrigger className="stroke-slate-800 dark:stroke-slate-200">
+          <DialogTrigger
+            asChild
+            className="stroke-slate-800 dark:stroke-slate-200"
+          >
             <UseAnimations
+              role="button"
               aria-label="Delete resource"
               animation={trash2}
               size={30}

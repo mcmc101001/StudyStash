@@ -26,13 +26,7 @@ import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
 import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
-import dynamic from "next/dynamic";
-import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
-
-const DynamicResourceDeleteButton = dynamic(
-  () => import("@/components/ResourceDeleteButton"),
-  { ssr: false }
-);
+import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -265,8 +259,6 @@ export default async function ResourceItem({
     semesterString = "ERROR";
   }
 
-  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
-
   return (
     <li
       data-cy="resourceItem"
@@ -286,7 +278,6 @@ export default async function ResourceItem({
             resourceStatus={userStatus ? userStatus.status : null}
             solutionIncluded={solutionIncluded}
             questionPaperId={questionPaperId}
-            PDFURL={PDFURL}
           >
             <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
               <div className="flex items-center gap-x-2 text-left font-semibold">
@@ -359,7 +350,7 @@ export default async function ResourceItem({
             className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"
             orientation="vertical"
           />
-          <DynamicResourceDeleteButton
+          <ResourceDeleteButton
             currentUserId={currentUser.id}
             resourceId={resourceId}
             category={category}
