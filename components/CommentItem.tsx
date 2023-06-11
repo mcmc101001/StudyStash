@@ -302,7 +302,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
         width={40}
         height={40}
       />
-      <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 dark:bg-slate-800">
+      <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 dark:bg-slate-900">
         <div className="flex items-center">
           <div className="flex items-center">
             <p className="truncate text-lg font-medium">{reply.user.name}</p>
