@@ -265,8 +265,6 @@ export default async function ResourceItem({
     semesterString = "ERROR";
   }
 
-  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
-
   return (
     <li
       data-cy="resourceItem"
@@ -286,7 +284,6 @@ export default async function ResourceItem({
             resourceStatus={userStatus ? userStatus.status : null}
             solutionIncluded={solutionIncluded}
             questionPaperId={questionPaperId}
-            PDFURL={PDFURL}
           >
             <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
               <div className="flex items-center gap-x-2 text-left font-semibold">
