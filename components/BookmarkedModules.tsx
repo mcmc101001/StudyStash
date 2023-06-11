@@ -229,14 +229,14 @@ function ModuleCodeSearcher({
         options={moduleCodeOptions}
         autofocus={true}
         noOptionsMessage={({ inputValue }) =>
-          inputValue.trimStart().length < 2 ? "Type to search..." : "No options"
+          inputValue.trimStart().length < 1 ? "Type to search..." : "No options"
         }
         filterOption={(
           option: { value: string; label: string },
           query: string
         ) => {
           const trimmed_query = query.trimStart();
-          if (trimmed_query.length < 2) {
+          if (trimmed_query.length < 1) {
             return false;
           }
           // If already in list

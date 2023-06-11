@@ -58,7 +58,7 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
     if (query.trimStart().length > 1) {
       setFilterMods(filteredModules);
     }
-    if (query.trimStart().length < 2) {
+    if (query.trimStart().length < 1) {
       setFilterMods([""]);
     }
   }, [query, modules]);

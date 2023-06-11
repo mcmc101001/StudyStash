@@ -114,7 +114,7 @@ export default function ResourceFilters({
           options={moduleCodeOptions}
           labelExists={false}
           noOptionsMessage={({ inputValue }) =>
-            inputValue.trimStart().length < 2
+            inputValue.trimStart().length < 1
               ? "Type to search..."
               : "No options"
           }
@@ -123,7 +123,7 @@ export default function ResourceFilters({
             query: string
           ) => {
             const trimmed_query = query.trimStart();
-            if (trimmed_query.length < 2) {
+            if (trimmed_query.length < 1) {
               return false;
             }
             // If matches prefix
