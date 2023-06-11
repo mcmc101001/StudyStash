@@ -122,7 +122,7 @@ export default async function SolutionCommentsPage({
         <ul className="flex flex-col gap-y-2">
           {comments.map((comment) => {
             return (
-              <li>
+              <li key={comment.id}>
                 <CommentItem
                   category={category}
                   currentUser={currentUser}

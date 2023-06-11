@@ -11,7 +11,7 @@ import {
 } from "@prisma/client";
 import ReplyItem from "@/components/ReplyItem";
 import Image from "next/image";
-import { MessageCircle, Reply } from "lucide-react";
+import { MessageCircle, Reply, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { setInputHeight } from "@/components/AddCommentSection";
 import { toast } from "react-hot-toast";
@@ -21,6 +21,16 @@ import axios from "axios";
 import { ResourceSolutionType } from "@/lib/content";
 import Button from "@/components/ui/Button";
 import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { deleteCommentType } from "@/pages/api/deleteComment";
 
 interface CommentItemProps {
   category: ResourceSolutionType;
@@ -56,7 +66,9 @@ export default function CommentItem({
 
   const [replyValue, setReplyValue] = useState("");
   let inputRef = useRef<HTMLTextAreaElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isReplyLoading, setIsReplyLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   let router = useRouter();
 
@@ -70,7 +82,7 @@ export default function CommentItem({
       toast.error("Comment cannot be empty.");
       return;
     }
-    setIsLoading(true);
+    setIsReplyLoading(true);
     let body: addReplyType = {
       category: category,
       content: reply,
@@ -87,7 +99,29 @@ export default function CommentItem({
     } catch (error) {
       toast.error("Error uploading comment.");
     }
-    setIsLoading(false);
+    setIsReplyLoading(false);
+    router.refresh();
+  }
+
+  async function handleDelete() {
+    if (!currentUser) {
+      toast.error("Please log in first!");
+      return;
+    }
+    setIsDeleteLoading(true);
+    let body: deleteCommentType = {
+      category: category,
+      commentId: comment.id,
+      userId: currentUser.id,
+    };
+    try {
+      const res = await axios.post("/api/deleteComment", body);
+      toast.success("Comment deleted successfully!");
+    } catch (error) {
+      toast.error("Error deleting comment.");
+    }
+    setIsDeleteLoading(false);
+    setIsDeleteDialogOpen(false);
     router.refresh();
   }
 
@@ -141,6 +175,50 @@ export default function CommentItem({
           >
             <Reply /> Reply
           </div>
+          {currentUser?.id === comment.user.id && (
+            <Dialog
+              open={isDeleteDialogOpen}
+              onOpenChange={setIsDeleteDialogOpen}
+            >
+              <DialogTrigger>
+                <div
+                  className="flex items-center gap-x-1"
+                  role="button"
+                  onClick={() => {}}
+                >
+                  <Trash2 /> Delete
+                </div>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone.
+                  </DialogDescription>
+                  <div className="flex w-full gap-x-2 pt-5">
+                    <div
+                      onClick={() => setIsDeleteDialogOpen(false)}
+                      className="flex-1"
+                    >
+                      <div className="inline-flex h-full w-full items-center justify-center rounded-md bg-slate-900 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-100 dark:text-slate-700 dark:hover:bg-slate-300">
+                        Cancel
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <Button
+                        className="w-full"
+                        variant="dangerous"
+                        isLoading={isDeleteLoading}
+                        onClick={handleDelete}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
       {showOwnReply && (
@@ -172,7 +250,7 @@ export default function CommentItem({
           </div>
           <div className="flex w-full justify-end">
             <Button
-              isLoading={isLoading}
+              isLoading={isReplyLoading}
               disabled={replyValue.trim() === ""}
               onClick={() => handleClick()}
             >
@@ -184,7 +262,7 @@ export default function CommentItem({
       <ul className={showReplies ? "" : "hidden"}>
         {comment.replies.map((reply) => {
           return (
-            <li className="ml-10 mt-2">
+            <li key={reply.id} className="ml-10 mt-2">
               <ReplyItem reply={reply} />
             </li>
           );
