@@ -8,6 +8,14 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/Sheet";
+import {
+  NBSheet,
+  NBSheetTrigger,
+  NBSheetContent,
+  NBSheetHeader,
+  NBSheetTitle,
+  NBSheetDescription,
+} from "@/components/ui/NoBlurSheet";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
@@ -23,6 +31,7 @@ import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import PDFViewer from "@/components/PDFViewer";
 import { IFrame } from "@/components/ui/IFrame";
+import AddCommentSection from "@/components/AddCommentSection";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -186,6 +195,26 @@ export default function ResourceSheetLauncher({
                 </Link>
               );
             })}
+            <NBSheet>
+              <NBSheetTrigger asChild>
+                <Button variant="default" size="lg" className="w-1/2 text-lg">
+                  Commentsv2
+                </Button>
+              </NBSheetTrigger>
+              <NBSheetContent size="default" position="left">
+                <div className="flex flex-col justify-center gap-3">
+                  <div className="text-center text-2xl font-bold text-slate-800 dark:text-slate-200">
+                    Comments
+                  </div>
+                  <AddCommentSection
+                    category={category}
+                    resourceId={resourceId}
+                    currentUserId={currentUserId ?? undefined}
+                  />
+                  <div> all the comments </div>
+                </div>
+              </NBSheetContent>
+            </NBSheet>
           </div>
         </SheetContent>
       </Sheet>

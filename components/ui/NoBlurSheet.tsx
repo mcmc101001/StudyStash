@@ -6,9 +6,9 @@ import { VariantProps, cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const Sheet = SheetPrimitive.Root;
+const NBSheet = SheetPrimitive.Root;
 
-const SheetTrigger = SheetPrimitive.Trigger;
+const NBSheetTrigger = SheetPrimitive.Trigger;
 
 const portalVariants = cva("fixed inset-0 z-50 flex", {
   variants: {
@@ -26,7 +26,7 @@ interface SheetPortalProps
   extends SheetPrimitive.DialogPortalProps,
     VariantProps<typeof portalVariants> {}
 
-const SheetPortal = ({
+const NBSheetPortal = ({
   position,
   className,
   children,
@@ -36,26 +36,22 @@ const SheetPortal = ({
     <div className={portalVariants({ position })}>{children}</div>
   </SheetPrimitive.Portal>
 );
-SheetPortal.displayName = SheetPrimitive.Portal.displayName;
+NBSheetPortal.displayName = SheetPrimitive.Portal.displayName;
 
-const SheetOverlay = React.forwardRef<
+const NBSheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
 >(({ className, children, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50 backdrop-blur-sm transition-all duration-100 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in",
+      "fixed inset-0 z-50 transition-all duration-100 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in",
       className
     )}
-    // className={cn(cn(
-    //   "fixed inset-0 z-50 backdrop-blur-sm transition-all duration-100 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in",
-    //   className
-    // ), blur ? "backdrop-blur-sm" : "")}
     {...props}
     ref={ref}
   />
 ));
-SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
+NBSheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
   "fixed z-50 scale-100 gap-4 bg-background p-6 opacity-100 shadow-lg border-none bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200",
@@ -148,17 +144,13 @@ const sheetVariants = cva(
 export interface DialogContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {}
-// VariantProps<typeof sheetVariants> {blur : boolean}
 
-const SheetContent = React.forwardRef<
+const NBSheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   DialogContentProps
 >(({ position, size, className, children, ...props }, ref) => (
-  // >(({ blur, position, size, className, children, ...props }, ref) => (
-
-  <SheetPortal position={position}>
-    <SheetOverlay />
-    {/* <SheetOverlay blur={blur}/> */}
+  <NBSheetPortal position={position}>
+    <NBSheetOverlay />
     <SheetPrimitive.Content
       ref={ref}
       className={cn(sheetVariants({ position, size }), className)}
@@ -170,11 +162,11 @@ const SheetContent = React.forwardRef<
         <span className="sr-only">Close</span>
       </SheetPrimitive.Close> */}
     </SheetPrimitive.Content>
-  </SheetPortal>
+  </NBSheetPortal>
 ));
-SheetContent.displayName = SheetPrimitive.Content.displayName;
+NBSheetContent.displayName = SheetPrimitive.Content.displayName;
 
-const SheetHeader = ({
+const NBSheetHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -186,9 +178,9 @@ const SheetHeader = ({
     {...props}
   />
 );
-SheetHeader.displayName = "SheetHeader";
+NBSheetHeader.displayName = "SheetHeader";
 
-const SheetFooter = ({
+const NBSheetFooter = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -200,9 +192,9 @@ const SheetFooter = ({
     {...props}
   />
 );
-SheetFooter.displayName = "SheetFooter";
+NBSheetFooter.displayName = "SheetFooter";
 
-const SheetTitle = React.forwardRef<
+const NBSheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
 >(({ className, ...props }, ref) => (
@@ -212,9 +204,9 @@ const SheetTitle = React.forwardRef<
     {...props}
   />
 ));
-SheetTitle.displayName = SheetPrimitive.Title.displayName;
+NBSheetTitle.displayName = SheetPrimitive.Title.displayName;
 
-const SheetDescription = React.forwardRef<
+const NBSheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
 >(({ className, ...props }, ref) => (
@@ -224,14 +216,14 @@ const SheetDescription = React.forwardRef<
     {...props}
   />
 ));
-SheetDescription.displayName = SheetPrimitive.Description.displayName;
+NBSheetDescription.displayName = SheetPrimitive.Description.displayName;
 
 export {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
+  NBSheet,
+  NBSheetTrigger,
+  NBSheetContent,
+  NBSheetHeader,
+  NBSheetFooter,
+  NBSheetTitle,
+  NBSheetDescription,
 };
