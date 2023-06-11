@@ -79,13 +79,16 @@ export default function AddCommentSection({
           setInputHeight(inputRef, 105);
         }}
       />
-      <Button
-        isLoading={isLoading}
-        disabled={value.trim() === ""}
-        onClick={() => handleClick()}
-      >
-        Comment
-      </Button>
+      <div className="mt-2 flex w-full justify-end">
+        <Button
+          variant="good"
+          isLoading={isLoading}
+          disabled={value.trim() === ""}
+          onClick={() => handleClick()}
+        >
+          Comment
+        </Button>
+      </div>
     </>
   );
 }

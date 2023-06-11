@@ -9,7 +9,6 @@ import {
   QuestionPaperReply,
   User,
 } from "@prisma/client";
-import ReplyItem from "@/components/ReplyItem";
 import Image from "next/image";
 import { MessageCircle, Reply, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
@@ -29,9 +28,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { deleteCommentType } from "@/pages/api/deleteComment";
 import { formatTimeAgo } from "@/lib/utils";
+import { deleteReplyType } from "@/pages/api/deleteReply";
 
 interface CommentItemProps {
   category: ResourceSolutionType;
@@ -177,7 +176,7 @@ export default function CommentItem({
             <Reply /> Reply
           </div>
           {currentUser?.id === comment.user.id && (
-            <DeleteCommentDialog
+            <DeleteDialog
               isDeleteDialogOpen={isDeleteDialogOpen}
               setIsDeleteDialogOpen={setIsDeleteDialogOpen}
               isDeleteLoading={isDeleteLoading}
@@ -213,13 +212,21 @@ export default function CommentItem({
               />
             </div>
           </div>
-          <div className="flex w-full justify-end">
+          <div className="mt-2 flex w-full justify-end gap-x-2">
             <Button
+              onClick={() => {
+                setShowOwnReply(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="good"
               isLoading={isReplyLoading}
               disabled={replyValue.trim() === ""}
               onClick={() => handleClick()}
             >
-              Comment
+              Reply
             </Button>
           </div>
         </>
@@ -228,7 +235,11 @@ export default function CommentItem({
         {comment.replies.map((reply) => {
           return (
             <li key={reply.id} className="ml-10 mt-2">
-              <ReplyItem reply={reply} />
+              <ReplyItem
+                category={category}
+                currentUser={currentUser}
+                reply={reply}
+              />
             </li>
           );
         })}
@@ -237,7 +248,89 @@ export default function CommentItem({
   );
 }
 
-function DeleteCommentDialog({
+interface ReplyItemProps {
+  category: ResourceSolutionType;
+  currentUser: User | null;
+  reply:
+    | (CheatsheetReply & {
+        user: User;
+      })
+    | (QuestionPaperReply & {
+        user: User;
+      })
+    | (NotesReply & {
+        user: User;
+      });
+}
+
+function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  let router = useRouter();
+
+  async function handleDelete() {
+    if (!currentUser) {
+      toast.error("Please log in first!");
+      return;
+    }
+    setIsDeleteLoading(true);
+    let body: deleteReplyType = {
+      category: category,
+      replyId: reply.id,
+      userId: currentUser.id,
+    };
+    try {
+      const res = await axios.post("/api/deleteReply", body);
+      toast.success("Reply deleted successfully!");
+    } catch (error) {
+      toast.error("Error deleting reply.");
+    }
+    setIsDeleteLoading(false);
+    setIsDeleteDialogOpen(false);
+    router.refresh();
+  }
+
+  return (
+    <div className="flex">
+      <Image
+        loading="lazy"
+        src={reply.user.image!}
+        alt={reply.user.name ?? "profile image"}
+        referrerPolicy="no-referrer"
+        className="h-8 w-8 rounded-full"
+        width={40}
+        height={40}
+      />
+      <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 dark:bg-slate-800 dark:text-slate-200">
+        <div className="flex items-center">
+          <div className="flex items-center">
+            <p className="truncate text-lg font-medium">{reply.user.name}</p>
+            {reply.user.verified && <ProfileVerifiedIndicator />}
+          </div>
+          <div className="flex flex-1 justify-end text-sm font-light text-slate-700">
+            {reply.createdAt.toUTCString()}
+          </div>
+        </div>
+        <p className="mt-2 whitespace-break-spaces break-words">
+          {reply.content}
+        </p>
+        <div className="mt-3 flex gap-x-4 text-slate-600">
+          {currentUser?.id === reply.user.id && (
+            <DeleteDialog
+              isDeleteDialogOpen={isDeleteDialogOpen}
+              setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+              isDeleteLoading={isDeleteLoading}
+              handleDelete={handleDelete}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DeleteDialog({
   isDeleteDialogOpen,
   setIsDeleteDialogOpen,
   isDeleteLoading,
