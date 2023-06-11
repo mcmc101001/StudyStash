@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/Table";
 import { ReportType } from "@prisma/client";
 
-export interface reportElementType {
+export interface ReportElementType {
   reportId: string;
   type: ReportType;
   createdAt: Date;
@@ -17,15 +17,15 @@ export interface reportElementType {
   resolved: boolean;
 }
 
-interface reportTableProps {
+interface ReportTableProps {
   className?: string;
-  reportArr: reportElementType[];
+  reportArr: ReportElementType[];
 }
 
 export default function ReportTable({
   className,
   reportArr,
-}: reportTableProps) {
+}: ReportTableProps) {
   return (
     <Table className={className}>
       <TableHeader>
@@ -39,7 +39,7 @@ export default function ReportTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {reportArr.map((report: reportElementType) => (
+        {reportArr.map((report: ReportElementType) => (
           <TableRow key={report.reportId}>
             <TableCell>{reportArr.indexOf(report) + 1}</TableCell>
             <TableCell>{report.reportId}</TableCell>

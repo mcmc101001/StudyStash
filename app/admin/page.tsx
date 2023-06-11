@@ -2,7 +2,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
-import ReportTable, { reportElementType } from "@/components/ReportTable";
+import ReportTable, { ReportElementType } from "@/components/ReportTable";
 import ReportFilters from "@/components/ReportFilters";
 
 export default async function AdminPage() {
@@ -18,7 +18,7 @@ export default async function AdminPage() {
     })
     .then((user) => user?.verified);
 
-  let reportArr: reportElementType[] = [];
+  let reportArr: ReportElementType[] = [];
 
   const cheatsheets = await prisma.cheatsheetReport.findMany();
   if (cheatsheets) {
