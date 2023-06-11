@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import {
   ContextMenu,
@@ -11,7 +11,12 @@ import {
   ContextMenuSubTrigger,
   ContextMenuSubContent,
 } from "@/components/ui/ContextMenu";
-import { ResourceSolutionType, ResourceType } from "@/lib/content";
+import {
+  ResourceSolutionType,
+  ResourceType,
+  papersAdditionalReportOptions,
+  reportOptions,
+} from "@/lib/content";
 import { addReportType } from "@/pages/api/addReport";
 import { updateStatusType } from "@/pages/api/updateStatus";
 import { ReportType, ResourceStatus } from "@prisma/client";
@@ -19,6 +24,13 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+
+// export class RepeatReportError extends Error {
+//   constructor(message: string) {
+//     super(message);
+//     this.name = "RepeatReportError";
+//   }
+// }
 
 interface ResourceContextMenuProps {
   children: React.ReactNode;
@@ -103,10 +115,22 @@ ResourceContextMenuProps) {
     try {
       let req = await axios.post("/api/addReport", body);
       toast.success("Report successful!");
-    } catch {
-      toast.error("Report unsuccessful, please try again.");
+    } catch (e: unknown) {
+      if (
+        e instanceof Error &&
+        e.message === "Request failed with status code 419"
+      ) {
+        toast.success("Repeated report.");
+      } else {
+        toast.error("Something went wrong, please try again.");
+      }
     }
   };
+
+  let reportChoices = reportOptions;
+  if (category === "Past Papers") {
+    reportChoices.concat(papersAdditionalReportOptions);
+  }
 
   return (
     <ContextMenu>
@@ -154,53 +178,22 @@ ResourceContextMenuProps) {
           </ContextMenuCheckboxItem>
         )} */}
 
-        <ContextMenuSeparator className="" />
+        <ContextMenuSeparator />
         <ContextMenuSub>
           <ContextMenuSubTrigger disabled={resourceUserId === currentUserId}>
             Report resource
           </ContextMenuSubTrigger>
           <ContextMenuSubContent>
-            <ContextMenuItem
-              onClick={() =>
-                handleReportClick(ReportType.inappropriateFilename)
-              }
-            >
-              Inappropriate filename
-            </ContextMenuItem>
-            <ContextMenuItem
-              onClick={() =>
-                handleReportClick(ReportType.inappropriateUsername)
-              }
-            >
-              Inappropriate username
-            </ContextMenuItem>
-            <ContextMenuItem
-              onClick={() => handleReportClick(ReportType.incorrectModule)}
-            >
-              Incorrect module
-            </ContextMenuItem>
-            <ContextMenuItem
-              onClick={() => handleReportClick(ReportType.incorrectCategory)}
-            >
-              Incorrect category
-            </ContextMenuItem>
-            <ContextMenuItem
-              onClick={() => handleReportClick(ReportType.incorrectAcadYear)}
-            >
-              Incorrect academic year
-            </ContextMenuItem>
-            <ContextMenuItem
-              onClick={() => handleReportClick(ReportType.incorrectSemester)}
-            >
-              Incorrect semester
-            </ContextMenuItem>
-            {category === "Past Papers" && (
-              <ContextMenuItem
-                onClick={() => handleReportClick(ReportType.incorrectExamType)}
-              >
-                Incorrect exam type
-              </ContextMenuItem>
-            )}
+            {reportChoices.map((option) => {
+              return (
+                <ContextMenuItem
+                  key={option.value}
+                  onClick={() => handleReportClick(option.value)}
+                >
+                  {option.label}
+                </ContextMenuItem>
+              );
+            })}
           </ContextMenuSubContent>
         </ContextMenuSub>
       </ContextMenuContent>

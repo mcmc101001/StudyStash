@@ -11,6 +11,7 @@ import {
 } from "@prisma/client";
 import { ResourceSolutionEnum, ResourceSolutionType } from "@/lib/content";
 import z from "zod";
+// import { RepeatReportError } from "@/components/ResourceContextMenu";
 
 const addReportSchema = z.object({
   category: ResourceSolutionEnum,
@@ -46,6 +47,51 @@ export default async function addReport(
     res.status(401).json({ message: "You are not authorized." });
     return;
   }
+
+  let checkRepeat;
+  if (req.body.category === "Cheatsheets") {
+    checkRepeat = await prisma.cheatsheetReport.findFirst({
+      where: {
+        userId: req.body.reporterId,
+        resourceId: req.body.resourceId,
+        type: req.body.reportType,
+        resolved: false,
+      },
+    });
+  } else if (req.body.category === "Past Papers") {
+    checkRepeat = await prisma.questionPaperReport.findFirst({
+      where: {
+        userId: req.body.reporterId,
+        resourceId: req.body.resourceId,
+        type: req.body.reportType,
+        resolved: false,
+      },
+    });
+  } else if (req.body.category === "Notes") {
+    checkRepeat = await prisma.notesReport.findFirst({
+      where: {
+        userId: req.body.reporterId,
+        resourceId: req.body.resourceId,
+        type: req.body.reportType,
+        resolved: false,
+      },
+    });
+  } else if (req.body.category === "Solutions") {
+    checkRepeat = await prisma.solutionReport.findFirst({
+      where: {
+        userId: req.body.reporterId,
+        resourceId: req.body.resourceId,
+        type: req.body.reportType,
+        resolved: false,
+      },
+    });
+  } else {
+    return res.status(400).json({ message: "Invalid category" });
+  }
+  if (checkRepeat !== null) {
+    return res.status(419).json({ message: "Repeated report." });
+  }
+
   try {
     let { category, reporterId, resourceId, reportType } = req.body;
     let report:
@@ -62,7 +108,6 @@ export default async function addReport(
         },
       });
     } else if (category === "Past Papers") {
-      console.log("heloperino");
       report = await prisma.questionPaperReport.create({
         data: {
           userId: reporterId,
