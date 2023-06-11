@@ -109,7 +109,11 @@ export default async function SolutionCommentsPage({
   }
 
   return (
-    <div className="h-[75vh] w-full overflow-y-auto p-2">
+    <div
+      className="h-[75vh] w-full overflow-y-auto p-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
+          hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+      style={{ scrollbarGutter: "stable" }}
+    >
       <h1 className="mb-2 text-4xl font-bold text-slate-800 dark:text-slate-200">
         {`Comments (${comments.length})`}
       </h1>
