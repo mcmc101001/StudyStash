@@ -37,7 +37,6 @@ interface ResourceSheetLauncherProps {
   resourceStatus: ResourceStatus | null;
   solutionIncluded?: boolean;
   questionPaperId?: string;
-  PDFURL: string;
 }
 
 export default function ResourceSheetLauncher({
@@ -53,7 +52,6 @@ export default function ResourceSheetLauncher({
   resourceStatus,
   solutionIncluded,
   questionPaperId,
-  PDFURL,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -69,6 +67,8 @@ export default function ResourceSheetLauncher({
   const exitSheet = () => {
     setQueryParams({ id: null });
   };
+
+  const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
 
   const categoryURL =
     category === "Cheatsheets"

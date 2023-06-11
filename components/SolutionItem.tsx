@@ -90,7 +90,7 @@ export default async function SolutionItem({
     userStatus = null;
   }
 
-  const PDFURL = `${process.env.AWS_CLOUDFRONT_DOMAIN}/${solutionId}`;
+  const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${solutionId}`;
 
   return (
     <ResourceContextMenu
