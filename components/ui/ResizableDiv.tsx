@@ -31,9 +31,9 @@ export default function ResizableDiv({
         className="top-1/2 h-full"
       >
         {minimised ? (
-          <ChevronsRight className="text-white" size={24} />
+          <ChevronsRight className="text-slate-950 dark:text-white" size={24} />
         ) : (
-          <ChevronsLeft className="text-white" size={24} />
+          <ChevronsLeft className="text-slate-950 dark:text-white" size={24} />
         )}
       </button>
     </>

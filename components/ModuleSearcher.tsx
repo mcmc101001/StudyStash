@@ -70,7 +70,7 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
         onChange={(e) => handleQueryChange(e)}
         value={query}
         placeholder="Search modules..."
-        className="my-2 rounded-sm border-none ring-0 focus:ring-0 enabled:bg-slate-200 dark:enabled:bg-slate-800"
+        className="my-2 rounded-sm border-none ring-0 focus:ring-0"
         autoFocus={usePathname() === "/database"}
       ></Input>
       <hr className="border bg-slate-700 dark:bg-slate-300"></hr>
