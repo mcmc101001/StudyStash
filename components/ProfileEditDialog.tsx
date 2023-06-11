@@ -106,7 +106,7 @@ export default function ProfileEditDialog({
             }}
             className="rounded-md bg-slate-300 p-2 dark:bg-slate-700"
             id="name"
-            defaultValue={nameState}
+            value={nameState}
             maxLength={30}
             spellCheck={false}
             autoFocus={false}
@@ -127,7 +127,7 @@ export default function ProfileEditDialog({
             }}
             className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-2 scrollbar-thin dark:bg-slate-700"
             id="bio"
-            defaultValue={bioState}
+            value={bioState}
             maxLength={255}
             spellCheck={false}
           />
