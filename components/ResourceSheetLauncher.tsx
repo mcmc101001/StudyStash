@@ -21,7 +21,7 @@ import { solutionTabOptions } from "@/lib/content";
 import ResourceContextMenu from "@/components/ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
-import PDFViewer from "./PDFViewer";
+import PDFViewer from "@/components/PDFViewer";
 import { IFrame } from "@/components/ui/IFrame";
 
 interface ResourceSheetLauncherProps {

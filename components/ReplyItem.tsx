@@ -5,6 +5,7 @@ import {
   User,
 } from "@prisma/client";
 import Image from "next/image";
+import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 
 interface ReplyItemProps {
   reply:
@@ -33,8 +34,9 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
       />
       <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 dark:bg-slate-800 dark:text-slate-200">
         <div className="flex items-center">
-          <div>
+          <div className="flex items-center">
             <p className="truncate text-lg font-medium">{reply.user.name}</p>
+            {reply.user.verified && <ProfileVerifiedIndicator />}
           </div>
           <div className="flex flex-1 justify-end text-sm font-light text-slate-700">
             {reply.createdAt.toUTCString()}

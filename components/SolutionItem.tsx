@@ -8,7 +8,7 @@ import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
-import ResourceContextMenu from "./ResourceContextMenu";
+import ResourceContextMenu from "@/components/ResourceContextMenu";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 
 /*************** DATA FETCHING CODE ****************/

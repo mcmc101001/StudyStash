@@ -9,17 +9,18 @@ import {
   QuestionPaperReply,
   User,
 } from "@prisma/client";
-import ReplyItem from "./ReplyItem";
+import ReplyItem from "@/components/ReplyItem";
 import Image from "next/image";
 import { MessageCircle, Reply } from "lucide-react";
 import { useRef, useState } from "react";
-import { setInputHeight } from "./AddCommentSection";
+import { setInputHeight } from "@/components/AddCommentSection";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { addReplyType } from "@/pages/api/addReply";
 import axios from "axios";
 import { ResourceSolutionType } from "@/lib/content";
-import Button from "./ui/Button";
+import Button from "@/components/ui/Button";
+import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 
 interface CommentItemProps {
   category: ResourceSolutionType;
@@ -103,8 +104,9 @@ export default function CommentItem({
             width={40}
             height={40}
           />
-          <div>
+          <div className="flex items-center">
             <p className="truncate text-lg font-medium">{comment.user.name}</p>
+            {comment.user.verified && <ProfileVerifiedIndicator />}
           </div>
           <div className="flex flex-1 justify-end text-sm font-light text-slate-700">
             {comment.createdAt.toUTCString()}
