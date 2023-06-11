@@ -87,7 +87,7 @@ export default function ProfileEditDialog({
           </span>
         </div>
       </DialogTrigger>
-      <DialogContent className="text-slate-800 dark:text-slate-200">
+      <DialogContent>
         <DialogTitle asChild className="text-xl font-bold">
           <p>Edit Profile</p>
         </DialogTitle>

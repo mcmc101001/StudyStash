@@ -20,6 +20,7 @@ export function setInputHeight(
 ) {
   if (element.current) {
     element.current.style.height = defaultHeight + "px";
+    if (element.current.value === "") return;
     element.current.style.height =
       Math.max(element.current.scrollHeight, defaultHeight) + "px";
   }
@@ -57,7 +58,10 @@ export default function AddCommentSection({
       const res = await axios.post("/api/addComment", body);
       toast.success("Comment uploaded successfully!");
       setValue("");
-      setInputHeight(inputRef, 105);
+      if (inputRef.current) {
+        console.log("please");
+        inputRef.current.style.height = 105 + "px";
+      }
     } catch (error) {
       toast.error("Error uploading comment.");
     }

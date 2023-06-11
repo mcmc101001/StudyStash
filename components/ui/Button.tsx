@@ -54,7 +54,7 @@ export default function Button({
     >
       {children}
       {isLoading ? (
-        <Loader2 className="ml-1 h-4 w-4 animate-spin text-slate-200 dark:text-slate-800" />
+        <Loader2 className="ml-1 h-4 w-4 animate-spin text-inherit" />
       ) : null}
     </button>
   );

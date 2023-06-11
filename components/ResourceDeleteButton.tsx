@@ -81,7 +81,7 @@ export default function ResourceDeleteButton({
             />
             {/* <Trash2 height={30} width={30} className="cursor-pointer" /> */}
           </DialogTrigger>
-          <DialogContent className="text-slate-800 dark:text-slate-200">
+          <DialogContent>
             <DialogHeader>
               <DialogTitle>Are you sure you want to delete this?</DialogTitle>
               <DialogDescription>
