@@ -168,10 +168,7 @@ export default function ResourceSheetLauncher({
             <SheetDescription></SheetDescription>
             <div
               className="absolute right-4 top-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
-              onClick={() => {
-                setCommentsOpen(false);
-                exitSheet();
-              }}
+              onClick={exitSheet}
             >
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -216,6 +213,7 @@ export default function ResourceSheetLauncher({
                 className="relative"
                 size="default"
                 position="left"
+                onEscapeKeyDown={() => setCommentsOpen(false)}
               >
                 <div
                   className="mb-2 flex w-full cursor-pointer justify-end rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"

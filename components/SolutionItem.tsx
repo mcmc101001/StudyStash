@@ -9,6 +9,7 @@ import ClientDateTime from "@/components/ClientDateTime";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import ResourceContextMenu from "@/components/ResourceContextMenu";
+import ResourceStatusProvider from "./ResourceStatusProvider";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
@@ -121,11 +122,11 @@ export default async function SolutionItem({
                 {name}
               </span>
               {currentUser && (
-                <ResourceStatusComponent
+                <ResourceStatusProvider
                   category="Solutions"
                   resourceId={solutionId}
                   currentUserId={currentUser.id}
-                  resourceStatus={userStatus ? userStatus.status : null}
+                  userStatus={userStatus ? userStatus.status : null}
                 />
               )}
             </div>

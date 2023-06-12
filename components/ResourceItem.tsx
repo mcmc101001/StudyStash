@@ -17,11 +17,8 @@ import {
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
-// import ResourceDeleteButton from "@/components/ResourceDeleteButton";
-import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
-import { Suspense } from "react";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
