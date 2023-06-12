@@ -195,7 +195,11 @@ export default function ResourceSheetLauncher({
                   {commentsOpen ? "Close comments" : "View comments v2"}
                 </Button>
               </NBSheetTrigger>
-              <NBSheetContent size="default" position="left">
+              <NBSheetContent
+                className="bg-slate-950"
+                size="default"
+                position="left"
+              >
                 <Button onClick={() => setCommentsOpen(false)}>
                   <X />
                 </Button>
