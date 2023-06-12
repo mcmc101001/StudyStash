@@ -268,6 +268,7 @@ export default async function ResourceItem({
       <div className="flex h-full w-full overflow-hidden">
         <ResourceSheetLauncher
           commentsSection={
+            // @ts-expect-error Server component
             <CommentsSection resourceId={resourceId} category={category} />
           }
           resourceId={resourceId}

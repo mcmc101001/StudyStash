@@ -53,7 +53,7 @@ export default async function CommentsSection({
         user: User;
       })[] = [];
 
-  if ((category = "Cheatsheets")) {
+  if (category === "Cheatsheets") {
     comments = await prisma.cheatsheetComment.findMany({
       where: {
         resourceId: resourceId,
@@ -70,7 +70,7 @@ export default async function CommentsSection({
         createdAt: "desc",
       },
     });
-  } else if ((category = "Past Papers")) {
+  } else if (category === "Past Papers") {
     comments = await prisma.questionPaperComment.findMany({
       where: {
         resourceId: resourceId,
@@ -87,7 +87,7 @@ export default async function CommentsSection({
         createdAt: "desc",
       },
     });
-  } else if ((category = "Notes")) {
+  } else if (category === "Notes") {
     comments = await prisma.notesComment.findMany({
       where: {
         resourceId: resourceId,
