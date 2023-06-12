@@ -80,7 +80,7 @@ export default function ResourceStatusComponent({
 
   return (
     <motion.div
-      className="group z-20 w-max cursor-pointer rounded-full bg-slate-400 px-2 py-1 dark:bg-slate-600"
+      className="group z-10 w-max cursor-pointer rounded-full bg-slate-400 px-2 py-1 dark:bg-slate-600"
       onHoverEnd={() => setIsOpen(false)}
       onClick={(e) => e.stopPropagation()}
       layout="size"
