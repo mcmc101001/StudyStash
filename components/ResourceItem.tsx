@@ -269,7 +269,11 @@ export default async function ResourceItem({
         <ResourceSheetLauncher
           commentsSection={
             // @ts-expect-error Server component
-            <CommentsSection resourceId={resourceId} category={category} />
+            <CommentsSection
+              className="h-[85vh]"
+              resourceId={resourceId}
+              category={category}
+            />
           }
           resourceId={resourceId}
           resourceUserId={resourceUser?.id!}

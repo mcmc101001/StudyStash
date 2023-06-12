@@ -13,6 +13,7 @@ import {
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import CommentItem from "@/components/CommentItem";
+import CommentsSection from "@/components/CommentsSection";
 
 export default async function SolutionCommentsPage({
   params: { resourceId, categoryURL },
@@ -109,35 +110,11 @@ export default async function SolutionCommentsPage({
   }
 
   return (
-    <div
-      className="h-[75vh] w-full overflow-y-auto p-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
-          hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
-      style={{ scrollbarGutter: "stable" }}
-    >
-      <h1 className="mb-2 text-4xl font-bold text-slate-800 dark:text-slate-200">
-        {`Comments (${comments.length})`}
-      </h1>
-      <AddCommentSection
-        category={category}
-        resourceId={resourceId}
-        currentUserId={currentUser?.id}
-      />
-      <div className="mt-4 w-full">
-        <ul className="flex flex-col gap-y-2">
-          {comments.map((comment) => {
-            return (
-              <li key={comment.id}>
-                <CommentItem
-                  category={category}
-                  currentUser={currentUser}
-                  comment={comment}
-                />
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </div>
+    // @ts-expect-error Server Component
+    <CommentsSection
+      className="h-[75vh]"
+      category={category}
+      resourceId={resourceId}
+    />
   );
 }
-``;

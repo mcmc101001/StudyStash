@@ -196,13 +196,17 @@ export default function ResourceSheetLauncher({
                 </Button>
               </NBSheetTrigger>
               <NBSheetContent
-                className="bg-slate-950"
+                className="relative"
                 size="default"
                 position="left"
               >
-                <Button onClick={() => setCommentsOpen(false)}>
-                  <X />
-                </Button>
+                <div
+                  className="mb-2 flex w-full cursor-pointer justify-end rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+                  onClick={() => setCommentsOpen(false)}
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close</span>
+                </div>
                 {commentsSection}
               </NBSheetContent>
             </NBSheet>

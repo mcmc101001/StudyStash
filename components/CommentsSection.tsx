@@ -13,13 +13,16 @@ import {
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import CommentItem from "@/components/CommentItem";
+import { cn } from "@/lib/utils";
 
-interface CommentsSectionProps {
+export interface CommentsSectionProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   resourceId: string;
   category: ResourceSolutionType;
 }
 
 export default async function CommentsSection({
+  className,
   resourceId,
   category,
 }: CommentsSectionProps) {
@@ -110,8 +113,11 @@ export default async function CommentsSection({
 
   return (
     <div
-      className="h-[75vh] w-full overflow-y-auto p-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
-          hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+      className={cn(
+        `w-full overflow-y-auto p-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
+      hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700`,
+        className
+      )}
       style={{ scrollbarGutter: "stable" }}
     >
       <h1 className="mb-2 text-4xl font-bold text-slate-800 dark:text-slate-200">
