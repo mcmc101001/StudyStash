@@ -73,6 +73,7 @@ export default function ResourceSheetLauncher({
   };
 
   const exitSheet = () => {
+    setCommentsOpen(false);
     setQueryParams({ id: null });
   };
 
