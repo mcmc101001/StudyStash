@@ -223,7 +223,7 @@ export default async function ResourcePage({
         }
         // </ResizableDiv>
         rightPanel={
-          <div className="w-full overflow-hidden p-10">
+          <div className="h-full w-full overflow-hidden p-10">
             {categoryURL === "past_papers" && (
               <div className="mx-auto mt-14 w-5/6">
                 <SolutionTab solutionTabOptions={solutionTabOptions} />
