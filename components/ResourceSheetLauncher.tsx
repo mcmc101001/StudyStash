@@ -105,6 +105,7 @@ export default function ResourceSheetLauncher({
           category={category}
           currentUserId={currentUserId}
           resourceId={resourceId}
+          resourceTitle={title}
           resourceUserId={resourceUserId}
           shareURL={PDFURL}
           className="h-full w-full"
@@ -212,6 +213,7 @@ export default function ResourceSheetLauncher({
                 className="relative"
                 size="default"
                 position="left"
+                onEscapeKeyDown={() => setCommentsOpen(false)}
               >
                 <div
                   className="mb-2 flex w-full cursor-pointer justify-end rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"

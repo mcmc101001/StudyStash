@@ -21,9 +21,12 @@ import { addReportType } from "@/pages/api/addReport";
 import { updateStatusType } from "@/pages/api/updateStatus";
 import { ReportType, ResourceStatus } from "@prisma/client";
 import axios from "axios";
+import fileDownload from "js-file-download";
 import { useRouter } from "next/navigation";
+import { title } from "process";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { blob } from "stream/consumers";
 
 // export class RepeatReportError extends Error {
 //   constructor(message: string) {
@@ -37,6 +40,7 @@ interface ResourceContextMenuProps {
   category: ResourceSolutionType;
   currentUserId: string | null;
   resourceId: string;
+  resourceTitle: string;
   resourceUserId: string;
   shareURL: string;
   className?: string;
@@ -48,6 +52,7 @@ export default function ResourceContextMenu({
   category,
   currentUserId,
   resourceId,
+  resourceTitle,
   resourceUserId,
   shareURL,
   className,
@@ -132,20 +137,43 @@ ResourceContextMenuProps) {
     reportChoices.concat(papersAdditionalReportOptions);
   }
 
+  // const onDownloadClick = () => {
+  //   fetch(shareURL)
+  //     .then((response) => response.blob())
+  //     .then((blob) => {
+  //       const blobURL = URL.createObjectURL(blob);
+  //       const a = document.createElement("a");
+  //       a.href = blobURL;
+  //       a.download = resourceTitle + ".pdf";
+
+  //       document.body.appendChild(a);
+  //       a.click();
+  //     });
+  // };
+
+  const onDownloadClick = () => {
+    axios.get(shareURL, { responseType: "blob" }).then((res) => {
+      fileDownload(res.data, resourceTitle + ".pdf");
+    });
+  };
+
   return (
     <ContextMenu>
       <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
       <ContextMenuContent className="border border-slate-300 dark:border-slate-600">
         <ContextMenuItem asChild>
-          <a
-            href={shareURL}
-            download="filename.pdf"
+          {/* <a
+            href={shareURL.slice(8)}
+            download={resourceTitle + ".pdf"}
             rel="noopener noreferrer"
             target="_blank"
             className="h-full w-full"
           >
             Download
-          </a>
+          </a> */}
+          <button onClick={onDownloadClick} className="h-full w-full">
+            Download
+          </button>
         </ContextMenuItem>
         <ContextMenuItem asChild>
           <a href={shareURL} rel="noopener noreferrer" target="_blank">

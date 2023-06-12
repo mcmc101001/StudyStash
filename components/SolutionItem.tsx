@@ -97,6 +97,7 @@ export default async function SolutionItem({
       className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800"
       category="Solutions"
       resourceId={solutionId}
+      resourceTitle={name}
       currentUserId={currentUser?.id || null}
       resourceUserId={resourceUser?.id!}
       shareURL={PDFURL}
