@@ -77,7 +77,7 @@ export default function AddCommentSection({
         autoComplete="off"
         value={value}
         ref={inputRef}
-        className="min-h-[105px] w-full resize-none overflow-hidden rounded-xl bg-slate-200 p-4 text-slate-800 shadow-md outline-none scrollbar-none dark:bg-slate-800 dark:text-slate-200 dark:caret-white"
+        className="overflow-scroll-y min-h-[105px] w-full resize-none rounded-xl bg-slate-200 p-4 text-slate-800 shadow-md outline-none scrollbar-none dark:bg-slate-800 dark:text-slate-200 dark:caret-white"
         onChange={() => {
           setValue(inputRef.current?.value || "");
           setInputHeight(inputRef, 105);
