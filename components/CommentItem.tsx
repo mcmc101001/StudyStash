@@ -357,7 +357,7 @@ function DeleteDialog({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>This action cannot be undone.</DialogDescription>
           <div className="flex w-full gap-x-2 pt-5">
             <div

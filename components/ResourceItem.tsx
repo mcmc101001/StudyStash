@@ -27,6 +27,7 @@ import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
 import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
+import CommentsSection from "./CommentsSection";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -265,71 +266,72 @@ export default async function ResourceItem({
       className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800"
     >
       <div className="flex h-full w-full overflow-hidden">
-        <Suspense>
-          <ResourceSheetLauncher
-            resourceId={resourceId}
-            resourceUserId={resourceUser?.id!}
-            title={name}
-            currentUserId={currentUser ? currentUser.id : null}
-            category={category}
-            totalRating={rating}
-            userRating={userVote !== null ? userVote.value : null}
-            userDifficulty={userDifficulty}
-            resourceStatus={userStatus ? userStatus.status : null}
-            solutionIncluded={solutionIncluded}
-            questionPaperId={questionPaperId}
-          >
-            <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
-              <div className="flex items-center gap-x-2 text-left font-semibold">
-                <span className="overflow-scroll whitespace-nowrap scrollbar-none">
-                  {name}
-                </span>
-                {category === "Past Papers" && solutionIncluded && (
-                  <SolutionIncludedIndicator />
-                )}
-                {currentUser && (
-                  <ResourceStatusComponent
-                    category={category}
-                    resourceId={resourceId}
-                    currentUserId={currentUser.id}
-                    resourceStatus={userStatus ? userStatus.status : null}
-                  />
-                )}
-              </div>
-              <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
-                <ClientDateTime datetime={createdAt} />
-              </p>
+        <ResourceSheetLauncher
+          commentsSection={
+            <CommentsSection resourceId={resourceId} category={category} />
+          }
+          resourceId={resourceId}
+          resourceUserId={resourceUser?.id!}
+          title={name}
+          currentUserId={currentUser ? currentUser.id : null}
+          category={category}
+          totalRating={rating}
+          userRating={userVote !== null ? userVote.value : null}
+          userDifficulty={userDifficulty}
+          resourceStatus={userStatus ? userStatus.status : null}
+          solutionIncluded={solutionIncluded}
+          questionPaperId={questionPaperId}
+        >
+          <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
+            <div className="flex items-center gap-x-2 text-left font-semibold">
+              <span className="overflow-scroll whitespace-nowrap scrollbar-none">
+                {name}
+              </span>
+              {category === "Past Papers" && solutionIncluded && (
+                <SolutionIncludedIndicator />
+              )}
+              {currentUser && (
+                <ResourceStatusComponent
+                  category={category}
+                  resourceId={resourceId}
+                  currentUserId={currentUser.id}
+                  resourceStatus={userStatus ? userStatus.status : null}
+                />
+              )}
             </div>
-            <div className="ml-auto flex h-full flex-col gap-y-2">
-              <p className="whitespace-nowrap text-end">
-                {category !== "Notes" ? `${examType}, ` : ""}
-                {`${acadYear} ${semesterString}`}
-              </p>
-              <div className="ml-auto flex w-max whitespace-nowrap text-end">
-                {isProfile ? (
-                  <span className="truncate">{moduleCode}</span>
-                ) : (
-                  <>
-                    <Link
-                      href={`/profile/${resourceUser?.id}`}
-                      className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-                    >
-                      <div className="flex items-center">
-                        <span className="truncate">{resourceUser?.name}</span>
-                      </div>
-                      <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
-                    </Link>
-                    {resourceUser?.verified && (
-                      <div>
-                        <ProfileVerifiedIndicator />
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
+            <p className="overflow-hidden overflow-x-scroll whitespace-nowrap text-left text-slate-600 scrollbar-none dark:text-slate-400">
+              <ClientDateTime datetime={createdAt} />
+            </p>
+          </div>
+          <div className="ml-auto flex h-full flex-col gap-y-2">
+            <p className="whitespace-nowrap text-end">
+              {category !== "Notes" ? `${examType}, ` : ""}
+              {`${acadYear} ${semesterString}`}
+            </p>
+            <div className="ml-auto flex w-max whitespace-nowrap text-end">
+              {isProfile ? (
+                <span className="truncate">{moduleCode}</span>
+              ) : (
+                <>
+                  <Link
+                    href={`/profile/${resourceUser?.id}`}
+                    className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                  >
+                    <div className="flex items-center">
+                      <span className="truncate">{resourceUser?.name}</span>
+                    </div>
+                    <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
+                  </Link>
+                  {resourceUser?.verified && (
+                    <div>
+                      <ProfileVerifiedIndicator />
+                    </div>
+                  )}
+                </>
+              )}
             </div>
-          </ResourceSheetLauncher>
-        </Suspense>
+          </div>
+        </ResourceSheetLauncher>
       </div>
       {category === "Past Papers" && (
         <div className="flex h-full items-center justify-center">

@@ -29,13 +29,12 @@ import { solutionTabOptions } from "@/lib/content";
 import ResourceContextMenu from "@/components/ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
-import PDFViewer from "@/components/PDFViewer";
 import { IFrame } from "@/components/ui/IFrame";
-import AddCommentSection from "@/components/AddCommentSection";
 import { useState } from "react";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
+  commentsSection: React.ReactNode;
   title: string;
   resourceId: string;
   resourceUserId: string;
@@ -51,6 +50,7 @@ interface ResourceSheetLauncherProps {
 
 export default function ResourceSheetLauncher({
   children,
+  commentsSection,
   title,
   resourceId,
   resourceUserId,
@@ -159,19 +159,6 @@ export default function ResourceSheetLauncher({
               <span className="sr-only">Close</span>
             </div>
           </SheetHeader>
-          {/* <PDFViewer url={PDFURL} /> */}
-          {/* <object
-            data={shareURL}
-            type="application/pdf"
-            width="100%"
-            height="85%"
-          /> */}
-          {/* <embed
-            src={PDFURL}
-            type="application/pdf"
-            width="100%"
-            height="85%"
-          /> */}
           <IFrame title="PDF Resource" src={PDFURL} width="100%" height="80%" />
           <div className="mt-5 flex h-max gap-x-4">
             {solutionTabOptions.map((option) => {
@@ -201,27 +188,17 @@ export default function ResourceSheetLauncher({
                 <Button
                   variant="default"
                   size="lg"
-                  className="w-1/2 text-lg"
+                  className="flex-1 text-lg"
                   onClick={() => setCommentsOpen(!commentsOpen)}
                 >
                   {commentsOpen ? "Close comments" : "View comments v2"}
                 </Button>
               </NBSheetTrigger>
               <NBSheetContent size="default" position="left">
-                <div className="flex flex-col justify-center gap-3">
-                  <div className="flex flex-row justify-between text-2xl font-bold text-slate-800 dark:text-slate-200">
-                    <p>Comments</p>
-                    <Button onClick={() => setCommentsOpen(false)}>
-                      <X />
-                    </Button>
-                  </div>
-                  <AddCommentSection
-                    category={category}
-                    resourceId={resourceId}
-                    currentUserId={currentUserId ?? undefined}
-                  />
-                  <div> all the comments </div>
-                </div>
+                <Button onClick={() => setCommentsOpen(false)}>
+                  <X />
+                </Button>
+                {commentsSection}
               </NBSheetContent>
             </NBSheet>
           </div>
