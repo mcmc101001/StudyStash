@@ -31,6 +31,8 @@ import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
 import { useState } from "react";
+import ResourceStatusComponent from "./ResourceStatusComponent";
+import ResourceStatusProvider from "./ResourceStatusProvider";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -65,6 +67,7 @@ export default function ResourceSheetLauncher({
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
+  // const resourceStatusAtom = atom<ResourceStatus | null>(resourceStatus);
 
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -138,6 +141,16 @@ export default function ResourceSheetLauncher({
                 {title}
                 {category === "Past Papers" && solutionIncluded && (
                   <SolutionIncludedIndicator />
+                )}
+              </div>
+              <div>
+                {currentUserId && (
+                  <ResourceStatusProvider
+                    category={category}
+                    resourceId={resourceId}
+                    currentUserId={currentUserId}
+                    userStatus={resourceStatus}
+                  />
                 )}
               </div>
               {category === "Past Papers" && (

@@ -35,6 +35,7 @@ import { solutionTabOptions } from "@/lib/content";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
+import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },
@@ -150,6 +151,7 @@ export default async function ResourcePage({
   const resourceWithRating = getRating([resource]);
   const totalRating = resourceWithRating[0].rating;
   const userRating = userVote !== null ? userVote.value : null;
+  const userStatusValue = userStatus !== null ? userStatus.status : null;
 
   // @ts-expect-error Wrong type inference for category past papers
   const solutionIncluded = resource?.solutionIncluded;
@@ -167,7 +169,7 @@ export default async function ResourcePage({
             <span>
               <ChevronLeft className="-ml-1" size={20} />
             </span>
-            <span>Back to resource</span>
+            <span>Back to database</span>
           </Button>
         </Link>
         <div className="mx-2 mt-4 flex flex-row items-center gap-x-4 text-lg font-semibold">
@@ -182,6 +184,16 @@ export default async function ResourcePage({
             {resource.name}
             {category === "Past Papers" && solutionIncluded && (
               <SolutionIncludedIndicator />
+            )}
+          </div>
+          <div>
+            {currentUser && (
+              <ResourceStatusComponent
+                category={category}
+                resourceId={resourceId}
+                currentUserId={currentUser.id}
+                resourceStatus={userStatusValue}
+              />
             )}
           </div>
           {category === "Past Papers" && (
@@ -204,14 +216,10 @@ export default async function ResourcePage({
         ></IFrame>
       </ResizableDiv>
       <div className="m-10 w-full overflow-hidden">
-        {categoryURL === "past_papers" ? (
+        {categoryURL === "past_papers" && (
           <div className="mx-auto mt-14 w-5/6">
             <SolutionTab solutionTabOptions={solutionTabOptions} />
           </div>
-        ) : (
-          <h1 className="text-2xl text-slate-800 dark:text-slate-200">
-            Comments
-          </h1>
         )}
         {children}
       </div>

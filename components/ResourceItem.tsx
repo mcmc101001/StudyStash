@@ -28,6 +28,7 @@ import { ResourceSolutionType } from "@/lib/content";
 import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import CommentsSection from "./CommentsSection";
+import ResourceStatusProvider from "./ResourceStatusProvider";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -296,11 +297,11 @@ export default async function ResourceItem({
                 <SolutionIncludedIndicator />
               )}
               {currentUser && (
-                <ResourceStatusComponent
+                <ResourceStatusProvider
                   category={category}
                   resourceId={resourceId}
                   currentUserId={currentUser.id}
-                  resourceStatus={userStatus ? userStatus.status : null}
+                  userStatus={userStatus ? userStatus.status : null}
                 />
               )}
             </div>

@@ -20,20 +20,21 @@ import { ResourceSolutionType } from "@/lib/content";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { PrimitiveAtom, useAtom } from "jotai";
 
 export default function ResourceStatusComponent({
   currentUserId,
   category,
   resourceId,
-  resourceStatus,
+  resourceStatusAtom,
 }: {
   currentUserId: string;
   category: ResourceSolutionType;
   resourceId: string;
-  resourceStatus: ResourceStatus | null;
+  resourceStatusAtom: PrimitiveAtom<ResourceStatus | null>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
+  let [status, setStatus] = useAtom(resourceStatusAtom);
 
   let router = useRouter();
 
