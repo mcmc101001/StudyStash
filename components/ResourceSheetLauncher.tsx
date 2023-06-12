@@ -209,11 +209,20 @@ export default function ResourceSheetLauncher({
                   {commentsOpen ? "Close comments" : "View comments v2"}
                 </Button>
               </NBSheetTrigger>
-              <NBSheetContent size="default" position="left">
+              <NBSheetContent
+                size="default"
+                position="left"
+                onEscapeKeyDown={() => setCommentsOpen(false)}
+                onOpenAutoFocus={(event) => event.preventDefault()}
+              >
                 <div className="flex flex-col justify-center gap-3">
-                  <div className="flex flex-row justify-between text-2xl font-bold text-slate-800 dark:text-slate-200">
+                  <div className="flex flex-row items-center justify-between text-2xl font-bold text-slate-800 dark:text-slate-200">
                     <p>Comments</p>
-                    <Button onClick={() => setCommentsOpen(false)}>
+                    <Button
+                      variant="ghost"
+                      onClick={() => setCommentsOpen(false)}
+                      className="rounded-full p-2"
+                    >
                       <X />
                     </Button>
                   </div>
