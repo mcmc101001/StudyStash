@@ -107,6 +107,23 @@ export default async function CommentsSection({
         createdAt: "desc",
       },
     });
+  } else if (category === "Solutions") {
+    comments = await prisma.solutionComment.findMany({
+      where: {
+        resourceId: resourceId,
+      },
+      include: {
+        replies: {
+          include: {
+            user: true,
+          },
+        },
+        user: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
   } else {
     redirect("/404");
   }

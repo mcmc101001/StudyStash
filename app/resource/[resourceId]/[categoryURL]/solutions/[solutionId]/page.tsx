@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
-import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import { IFrame } from "@/components/ui/IFrame";
 
 export default async function SpecificSolutionPage({
@@ -43,7 +42,7 @@ export default async function SpecificSolutionPage({
           <span>
             <ChevronLeft className="-ml-1" size={20} />
           </span>
-          <span>Back to solutions</span>
+          <span>View all solutions</span>
         </Button>
       </Link>
       <IFrame

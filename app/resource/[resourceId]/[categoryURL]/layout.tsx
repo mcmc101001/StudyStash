@@ -32,10 +32,9 @@ import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
 import SolutionTab from "@/components/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
-import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
-import ResourceStatusComponent from "@/components/ResourceStatusComponent";
+import ResourceStatusProvider from "@/components/ResourceStatusProvider";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },
@@ -188,11 +187,11 @@ export default async function ResourcePage({
           </div>
           <div>
             {currentUser && (
-              <ResourceStatusComponent
+              <ResourceStatusProvider
                 category={category}
                 resourceId={resourceId}
                 currentUserId={currentUser.id}
-                resourceStatus={userStatusValue}
+                userStatus={userStatusValue}
               />
             )}
           </div>
