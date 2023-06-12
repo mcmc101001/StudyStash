@@ -66,11 +66,9 @@ export default function ResourceSheetLauncher({
   const userRatingAtom = atom<boolean | null>(userRating);
 
   const { queryParams, setQueryParams } = useQueryParams();
-  const router = useRouter();
 
   const enterSheet = () => {
     setQueryParams({ id: resourceId });
-    router.refresh(); // to sync any upvotes before entering dialog with dialog's state
   };
 
   const exitSheet = () => {

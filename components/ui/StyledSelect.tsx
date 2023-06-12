@@ -93,6 +93,10 @@ export default function StyledSelect({
               background: "#64748b", // slate-500
             },
           }),
+          menu: (base) => ({
+            ...base,
+            zIndex: 100,
+          }),
         }}
         placeholder={placeholderText}
         closeMenuOnSelect={true}
