@@ -112,9 +112,9 @@ export const solutionTabOptions: solutionOptionsProps[] = [
     href: "solutions",
   },
   {
-    buttonName: "View Comments",
+    buttonName: "Resizable view",
     tabName: "Comments",
-    assignedCategory: ["Past Papers", "Notes", "Cheatsheets"],
+    assignedCategory: ["Notes", "Cheatsheets"],
     href: "comments",
   },
 ];
