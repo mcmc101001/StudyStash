@@ -29,13 +29,14 @@ import { solutionTabOptions } from "@/lib/content";
 import ResourceContextMenu from "@/components/ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
-import PDFViewer from "@/components/PDFViewer";
 import { IFrame } from "@/components/ui/IFrame";
-import AddCommentSection from "@/components/AddCommentSection";
 import { useState } from "react";
+import ResourceStatusComponent from "./ResourceStatusComponent";
+import ResourceStatusProvider from "./ResourceStatusProvider";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
+  commentsSection: React.ReactNode;
   title: string;
   resourceId: string;
   resourceUserId: string;
@@ -51,6 +52,7 @@ interface ResourceSheetLauncherProps {
 
 export default function ResourceSheetLauncher({
   children,
+  commentsSection,
   title,
   resourceId,
   resourceUserId,
@@ -65,6 +67,7 @@ export default function ResourceSheetLauncher({
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
+  // const resourceStatusAtom = atom<ResourceStatus | null>(resourceStatus);
 
   const { queryParams, setQueryParams } = useQueryParams();
 
@@ -73,6 +76,7 @@ export default function ResourceSheetLauncher({
   };
 
   const exitSheet = () => {
+    setCommentsOpen(false);
     setQueryParams({ id: null });
   };
 
@@ -140,6 +144,16 @@ export default function ResourceSheetLauncher({
                   <SolutionIncludedIndicator />
                 )}
               </div>
+              <div>
+                {currentUserId && (
+                  <ResourceStatusProvider
+                    category={category}
+                    resourceId={resourceId}
+                    currentUserId={currentUserId}
+                    userStatus={resourceStatus}
+                  />
+                )}
+              </div>
               {category === "Past Papers" && (
                 <div className="ml-auto mr-4 flex flex-col items-center">
                   <span>Rate difficulty</span>
@@ -163,19 +177,6 @@ export default function ResourceSheetLauncher({
               <span className="sr-only">Close</span>
             </div>
           </SheetHeader>
-          {/* <PDFViewer url={PDFURL} /> */}
-          {/* <object
-            data={shareURL}
-            type="application/pdf"
-            width="100%"
-            height="85%"
-          /> */}
-          {/* <embed
-            src={PDFURL}
-            type="application/pdf"
-            width="100%"
-            height="85%"
-          /> */}
           <IFrame title="PDF Resource" src={PDFURL} width="100%" height="80%" />
           <div className="mt-5 flex h-max gap-x-4">
             {solutionTabOptions.map((option) => {
@@ -205,36 +206,25 @@ export default function ResourceSheetLauncher({
                 <Button
                   variant="default"
                   size="lg"
-                  className="w-1/2 text-lg"
+                  className="flex-1 text-lg"
                   onClick={() => setCommentsOpen(!commentsOpen)}
                 >
                   {commentsOpen ? "Close comments" : "View comments v2"}
                 </Button>
               </NBSheetTrigger>
               <NBSheetContent
+                className="relative"
                 size="default"
                 position="left"
-                onEscapeKeyDown={() => setCommentsOpen(false)}
-                onOpenAutoFocus={(event) => event.preventDefault()}
               >
-                <div className="flex flex-col justify-center gap-3">
-                  <div className="flex flex-row items-center justify-between text-2xl font-bold text-slate-800 dark:text-slate-200">
-                    <p>Comments</p>
-                    <Button
-                      variant="ghost"
-                      onClick={() => setCommentsOpen(false)}
-                      className="rounded-full p-2"
-                    >
-                      <X />
-                    </Button>
-                  </div>
-                  <AddCommentSection
-                    category={category}
-                    resourceId={resourceId}
-                    currentUserId={currentUserId ?? undefined}
-                  />
-                  <div> all the comments </div>
+                <div
+                  className="mb-2 flex w-full cursor-pointer justify-end rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+                  onClick={() => setCommentsOpen(false)}
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close</span>
                 </div>
+                {commentsSection}
               </NBSheetContent>
             </NBSheet>
           </div>

@@ -42,7 +42,7 @@ const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
 >(({ className, children, ...props }, ref) => (
-  <SheetPrimitive.Overlay
+  <div
     className={cn(
       "fixed inset-0 z-50 backdrop-blur-sm transition-all duration-100 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in",
       className
@@ -157,7 +157,7 @@ const SheetContent = React.forwardRef<
   // >(({ blur, position, size, className, children, ...props }, ref) => (
 
   <SheetPortal position={position}>
-    <SheetOverlay />
+    <SheetOverlay></SheetOverlay>
     {/* <SheetOverlay blur={blur}/> */}
     <SheetPrimitive.Content
       ref={ref}
