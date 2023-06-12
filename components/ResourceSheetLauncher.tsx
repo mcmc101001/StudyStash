@@ -32,6 +32,7 @@ import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import PDFViewer from "@/components/PDFViewer";
 import { IFrame } from "@/components/ui/IFrame";
 import AddCommentSection from "@/components/AddCommentSection";
+import { useState } from "react";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -85,6 +86,8 @@ export default function ResourceSheetLauncher({
       : category === "Notes"
       ? "notes"
       : "solutions";
+
+  const [commentsOpen, setCommentsOpen] = useState(false);
 
   return (
     <Provider>
@@ -193,16 +196,24 @@ export default function ResourceSheetLauncher({
                 </Link>
               );
             })}
-            <NBSheet>
+            <NBSheet modal={false} open={commentsOpen}>
               <NBSheetTrigger asChild>
-                <Button variant="default" size="lg" className="w-1/2 text-lg">
-                  Commentsv2
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="w-1/2 text-lg"
+                  onClick={() => setCommentsOpen(!commentsOpen)}
+                >
+                  {commentsOpen ? "Close comments" : "View comments v2"}
                 </Button>
               </NBSheetTrigger>
               <NBSheetContent size="default" position="left">
                 <div className="flex flex-col justify-center gap-3">
-                  <div className="text-center text-2xl font-bold text-slate-800 dark:text-slate-200">
-                    Comments
+                  <div className="flex flex-row justify-between text-2xl font-bold text-slate-800 dark:text-slate-200">
+                    <p>Comments</p>
+                    <Button onClick={() => setCommentsOpen(false)}>
+                      <X />
+                    </Button>
                   </div>
                   <AddCommentSection
                     category={category}
