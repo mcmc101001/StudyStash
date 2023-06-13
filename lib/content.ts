@@ -136,6 +136,8 @@ export const sortOptions = [
   { value: "rating_flip", label: "Lowest Rating" },
 ];
 
+export type sortValue = "date" | "date_flip" | "rating" | "rating_flip";
+
 export const papersAdditionalSortOptions = [
   { value: "difficulty", label: "Highest Difficulty" },
   { value: "difficulty_flip", label: "Lowest Difficulty" },

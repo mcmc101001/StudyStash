@@ -194,7 +194,7 @@ export default function CommentItem({
         <p className="mt-2 whitespace-break-spaces break-words">
           {comment.content}
         </p>
-        <div className="mt-3 flex gap-x-4 text-slate-600 dark:text-slate-400">
+        <div className="mt-3 flex w-full gap-x-4 text-slate-600 dark:text-slate-400">
           <CommentRating
             commentId={comment.id}
             category={category}
@@ -204,18 +204,20 @@ export default function CommentItem({
           />
           {comment.replies.length !== 0 && (
             <div
-              className="flex items-center gap-x-1"
+              className="flex select-none items-center gap-x-1"
               role="button"
               onClick={() => setShowReplies(!showReplies)}
             >
               <MessageCircle />
-              {showReplies
-                ? "Hide replies"
-                : `Show replies (${comment.replies.length})`}
+              <span className="overflow-clip">
+                {showReplies
+                  ? "Hide replies"
+                  : `Show replies (${comment.replies.length})`}
+              </span>
             </div>
           )}
           <div
-            className="flex items-center gap-x-1"
+            className="flex select-none items-center gap-x-1"
             role="button"
             onClick={() => {
               if (!currentUser) {
@@ -410,7 +412,7 @@ function DeleteDialog({
     <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
       <DialogTrigger>
         <div
-          className="flex items-center gap-x-1"
+          className="flex select-none items-center gap-x-1"
           role="button"
           onClick={() => {}}
         >

@@ -87,7 +87,7 @@ export default function ResourceFilters({
     <div className="flex w-full flex-col items-center gap-x-4 gap-y-4">
       <StyledSelect
         label="Sort"
-        placeholderText="Sort"
+        placeholderText="Sort by"
         options={
           category === "Past Papers"
             ? sortOptions.concat(papersAdditionalSortOptions)

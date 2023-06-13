@@ -24,6 +24,7 @@ import {
 import { getCurrentUser } from "@/lib/session";
 import CommentItem from "@/components/CommentItem";
 import { cn } from "@/lib/utils";
+import CommentsSorter from "./CommentsSorter";
 
 export interface CommentsSectionProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -195,7 +196,7 @@ export default async function CommentsSection({
   return (
     <div
       className={cn(
-        `w-full overflow-y-auto p-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
+        `w-full overflow-y-auto overflow-x-hidden p-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
       hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700`,
         className
       )}
@@ -210,19 +211,11 @@ export default async function CommentsSection({
         currentUserId={currentUser?.id}
       />
       <div className="mt-4 w-full">
-        <ul className="flex flex-col gap-y-2">
-          {commentsWithRating.map((comment) => {
-            return (
-              <li key={comment.id}>
-                <CommentItem
-                  category={category}
-                  currentUser={currentUser}
-                  comment={comment}
-                />
-              </li>
-            );
-          })}
-        </ul>
+        <CommentsSorter
+          category={category}
+          currentUser={currentUser}
+          comments={commentsWithRating}
+        />
       </div>
     </div>
   );
