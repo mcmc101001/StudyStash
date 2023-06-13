@@ -163,7 +163,7 @@ function StatusIcon({
     icon = (
       <MoreHorizontal
         onClick={(e) => handleClick(e, status)}
-        className="h-5 w-5 text-gray-200 dark:text-gray-400"
+        className="h-5 w-5 text-gray-400 dark:text-gray-400"
       />
     );
   }

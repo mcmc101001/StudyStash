@@ -4,8 +4,13 @@ import Link from "next/link";
 import { Icon, Icons } from "@/components/Icons";
 import UserProfilePic from "@/components/UserProfilePic";
 import { Loader2 } from "lucide-react";
-import DarkModeToggler from "@/components/DarkModeToggler";
+import dynamic from "next/dynamic";
 import { getCurrentUser } from "@/lib/session";
+
+const DarkModeTogglerNoSSR = dynamic(
+  () => import("@/components/DarkModeToggler"),
+  { ssr: false }
+);
 
 export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
   {
@@ -68,23 +73,19 @@ export default async function Navbar() {
               </Suspense>
             );
           })}
-
-          <Suspense
-            fallback={
-              <Loader2 className="h-7 w-7 animate-spin text-slate-800 dark:text-slate-200" />
-            }
-          >
-            <DarkModeToggler />
-          </Suspense>
-
-          <Suspense
-            fallback={
-              <Loader2 className="h-10 w-10 animate-spin text-slate-800 dark:text-slate-200" />
-            }
-          >
-            {/* @ts-expect-error Server Component */}
-            <UserProfilePic user={user} />
-          </Suspense>
+          <div className="mb-2 mt-auto">
+            <DarkModeTogglerNoSSR />
+            <div className="mt-10">
+              <Suspense
+                fallback={
+                  <Loader2 className="h-10 w-10 animate-spin text-slate-800 dark:text-slate-200" />
+                }
+              >
+                {/* @ts-expect-error Server Component */}
+                <UserProfilePic user={user} />
+              </Suspense>
+            </div>
+          </div>
         </ul>
       </nav>
     </div>
