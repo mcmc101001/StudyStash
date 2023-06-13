@@ -33,6 +33,8 @@ import { IFrame } from "@/components/ui/IFrame";
 import { useState } from "react";
 import ResourceStatusComponent from "./ResourceStatusComponent";
 import ResourceStatusProvider from "./ResourceStatusProvider";
+import { ResourceItemProps } from "@/components/ResourceItem";
+import { addRecentResource } from "@/lib/localStorage";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -48,6 +50,7 @@ interface ResourceSheetLauncherProps {
   resourceStatus: ResourceStatus | null;
   solutionIncluded?: boolean;
   questionPaperId?: string;
+  resourceItemProps: ResourceItemProps;
 }
 
 export default function ResourceSheetLauncher({
@@ -64,6 +67,7 @@ export default function ResourceSheetLauncher({
   resourceStatus,
   solutionIncluded,
   questionPaperId,
+  resourceItemProps,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -72,6 +76,7 @@ export default function ResourceSheetLauncher({
   const { queryParams, setQueryParams } = useQueryParams();
 
   const enterSheet = () => {
+    addRecentResource(resourceItemProps);
     setQueryParams({ id: resourceId });
   };
 
@@ -206,7 +211,7 @@ export default function ResourceSheetLauncher({
                   className="flex-1 text-lg"
                   onClick={() => setCommentsOpen(!commentsOpen)}
                 >
-                  {commentsOpen ? "Close comments" : "View comments v2"}
+                  {commentsOpen ? "Close comments" : "View comments"}
                 </Button>
               </NBSheetTrigger>
               <NBSheetContent

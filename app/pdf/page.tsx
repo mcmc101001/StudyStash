@@ -1,7 +1,8 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import DraggableResizableDiv from "@/components/ui/DraggableResizableDiv";
+import { getRecentResources } from "@/lib/localStorage";
+import VisitedResources from "@/components/VisitedResources";
 
 export default async function PDFPage() {
   const user = await getCurrentUser();
@@ -15,11 +16,10 @@ export default async function PDFPage() {
         <div className="text-slate-800 dark:text-slate-200">
           Under development
         </div>
+
+        {/* @ts-expect-error Server component */}
+        <VisitedResources userId={user.id} />
       </div>
-      <DraggableResizableDiv
-        leftPanel={<div>hello</div>}
-        rightPanel={<div>hello</div>}
-      />
     </>
   );
 }

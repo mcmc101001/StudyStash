@@ -49,6 +49,7 @@ model User {
   image                   String?
   bio                     String                    @default("") @db.VarChar(255)
   verified                Boolean                   @default(false)
+  visitedData             String?                   @default("")
   accounts                Account[]
   sessions                Session[]
   cheatsheets             Cheatsheet[]
