@@ -155,7 +155,7 @@ export default function CommentsSorter({
 
   return (
     <>
-      {sortedComments.length !== 0 && (
+      {sortedComments.length !== 0 ? (
         <>
           <div className="w-56">
             <StyledSelect
@@ -185,6 +185,10 @@ export default function CommentsSorter({
             })}
           </ul>
         </>
+      ) : (
+        <div className="mt-16 flex justify-center text-4xl font-semibold text-slate-800 dark:text-slate-200">
+          Start Commenting!
+        </div>
       )}
     </>
   );
