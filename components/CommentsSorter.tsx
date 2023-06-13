@@ -131,7 +131,7 @@ export default function CommentsSorter({
         votes: SolutionCommentVote[];
         rating: number;
         userRating: boolean | null;
-      })[];
+      })[] = comments;
 
   const [sort, setSort] = useState<sortValue>("rating"); // default sort by rating
 
@@ -155,33 +155,37 @@ export default function CommentsSorter({
 
   return (
     <>
-      <div className="w-56">
-        <StyledSelect
-          label="Sort"
-          placeholderText="Sort by"
-          options={sortOptions}
-          onChange={(option) =>
-            setSort((option?.value as sortValue) ?? "rating")
-          } // default sort by rating
-          labelExists={false}
-          defaultValue={sortOptions.find((option) => {
-            return option.value === sort;
-          })}
-        />
-      </div>
-      <ul className="flex flex-col gap-y-2">
-        {comments.map((comment) => {
-          return (
-            <li key={comment.id}>
-              <CommentItem
-                category={category}
-                currentUser={currentUser}
-                comment={comment}
-              />
-            </li>
-          );
-        })}
-      </ul>
+      {sortedComments.length !== 0 && (
+        <>
+          <div className="w-56">
+            <StyledSelect
+              label="Sort"
+              placeholderText="Sort by"
+              options={sortOptions}
+              onChange={(option) =>
+                setSort((option?.value as sortValue) ?? "rating")
+              } // default sort by rating
+              labelExists={false}
+              defaultValue={sortOptions.find((option) => {
+                return option.value === sort;
+              })}
+            />
+          </div>
+          <ul className="mt- flex flex-col gap-y-2">
+            {sortedComments.map((comment) => {
+              return (
+                <li key={comment.id}>
+                  <CommentItem
+                    category={category}
+                    currentUser={currentUser}
+                    comment={comment}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
     </>
   );
 }
