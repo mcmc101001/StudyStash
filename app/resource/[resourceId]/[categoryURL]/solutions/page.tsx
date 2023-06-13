@@ -1,7 +1,11 @@
 import ContributeSolutionDialog from "@/components/ContributeSolutionDialog";
 import SolutionItem from "@/components/SolutionItem";
 import SolutionSort from "@/components/SolutionSort";
-import { ResourceFiltersSorts, ResourceTypeURL } from "@/lib/content";
+import {
+  ResourceFiltersSorts,
+  ResourceTypeURL,
+  sortValue,
+} from "@/lib/content";
 import { SolutionsWithPosts, getSolutionsWithPosts } from "@/lib/dataFetching";
 import { getCurrentUser } from "@/lib/session";
 import { SolutionVote } from "@prisma/client";
@@ -33,7 +37,7 @@ export default async function SolutionPage({
     redirect("/404");
   }
 
-  const Sort = searchParams.sort;
+  const Sort = searchParams.sort as sortValue | undefined;
 
   const solutions = await getSolutionsWithPosts({
     userId: undefined,

@@ -1,6 +1,7 @@
 import {
   ResourceSolutionOptions,
   ResourceSolutionTypeURL,
+  sortValue,
   statusOptions,
 } from "@/lib/content";
 import UserResourceTab from "@/components/UserResourceTab";
@@ -28,7 +29,7 @@ interface DashboardResourcesSectionProps {
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
   filterStatus: ResourceStatus | undefined;
-  sort: string | undefined;
+  sort: sortValue | undefined;
 }
 
 export default async function DashboardResourcesSection({

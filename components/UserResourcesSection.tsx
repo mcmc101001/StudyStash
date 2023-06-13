@@ -5,6 +5,7 @@ import {
   ResourceSolutionOptions,
   ResourceSolutionType,
   ResourceSolutionTypeURL,
+  sortValue,
 } from "@/lib/content";
 import ResourceFilters from "@/components/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
@@ -26,7 +27,7 @@ interface UserResourcesSectionProps {
   filterSemester: SemesterType | undefined;
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
-  sort: string | undefined;
+  sort: sortValue | undefined;
   isProfile: boolean;
 }
 

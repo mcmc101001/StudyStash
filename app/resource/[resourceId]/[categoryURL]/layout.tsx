@@ -1,5 +1,4 @@
 import { getRating } from "@/lib/dataFetching";
-import ResizableDiv from "@/components/ui/ResizableDiv";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
@@ -160,7 +159,6 @@ export default async function ResourcePage({
 
   return (
     <div className="flex h-full w-full overflow-hidden">
-      {/* <ResizableDiv className="flex max-w-[40vw] flex-col text-slate-800 dark:text-slate-200"> */}
       <DraggableResizableDiv
         leftPanel={
           <div className="h-full w-full overflow-hidden">
@@ -221,9 +219,8 @@ export default async function ResourcePage({
             </div>
           </div>
         }
-        // </ResizableDiv>
         rightPanel={
-          <div className="w-full overflow-hidden p-10">
+          <div className="h-full w-full overflow-hidden p-10">
             {categoryURL === "past_papers" && (
               <div className="mx-auto mt-14 w-5/6">
                 <SolutionTab solutionTabOptions={solutionTabOptions} />
