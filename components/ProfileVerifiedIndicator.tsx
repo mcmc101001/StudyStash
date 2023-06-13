@@ -13,7 +13,7 @@ export default function ProfileVerifiedIndicator() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <BadgeCheck className="ml-1 h-6 w-6 cursor-auto text-blue-500" />
+          <BadgeCheck className="ml-2 h-6 w-6 cursor-auto text-blue-500" />
         </TooltipTrigger>
         <TooltipContent>
           <p className="font-normal">Verified user</p>

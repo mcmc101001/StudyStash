@@ -155,7 +155,7 @@ export default function CommentsSorter({
 
   return (
     <>
-      <div className="w-1/2">
+      <div className="w-56">
         <StyledSelect
           label="Sort"
           placeholderText="Sort by"

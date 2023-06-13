@@ -194,7 +194,7 @@ export default function CommentItem({
         <p className="mt-2 whitespace-break-spaces break-words">
           {comment.content}
         </p>
-        <div className="mt-3 flex w-full gap-x-4 text-slate-600 dark:text-slate-400">
+        <div className="mt-3 flex w-full gap-x-4 text-slate-500 dark:text-slate-400">
           <CommentRating
             commentId={comment.id}
             category={category}
@@ -204,7 +204,7 @@ export default function CommentItem({
           />
           {comment.replies.length !== 0 && (
             <div
-              className="flex select-none items-center gap-x-1"
+              className="flex select-none items-center gap-x-1 hover:text-slate-700 dark:hover:text-slate-300"
               role="button"
               onClick={() => setShowReplies(!showReplies)}
             >
@@ -217,7 +217,7 @@ export default function CommentItem({
             </div>
           )}
           <div
-            className="flex select-none items-center gap-x-1"
+            className="flex select-none items-center gap-x-1 hover:text-slate-700 dark:hover:text-slate-300"
             role="button"
             onClick={() => {
               if (!currentUser) {
@@ -412,7 +412,7 @@ function DeleteDialog({
     <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
       <DialogTrigger>
         <div
-          className="flex select-none items-center gap-x-1"
+          className="flex select-none items-center gap-x-1 hover:text-slate-700 dark:hover:text-slate-300"
           role="button"
           onClick={() => {}}
         >
@@ -428,7 +428,7 @@ function DeleteDialog({
               onClick={() => setIsDeleteDialogOpen(false)}
               className="flex-1"
             >
-              <div className="inline-flex h-full w-full items-center justify-center rounded-md bg-slate-900 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-100 dark:text-slate-700 dark:hover:bg-slate-300">
+              <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-md bg-slate-900 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-100 dark:text-slate-700 dark:hover:bg-slate-300">
                 Cancel
               </div>
             </div>
