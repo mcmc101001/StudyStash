@@ -2,11 +2,21 @@
 
 import {
   CheatsheetComment,
+  CheatsheetCommentVote,
   CheatsheetReply,
+  CheatsheetReplyVote,
   NotesComment,
+  NotesCommentVote,
   NotesReply,
+  NotesReplyVote,
   QuestionPaperComment,
+  QuestionPaperCommentVote,
   QuestionPaperReply,
+  QuestionPaperReplyVote,
+  SolutionComment,
+  SolutionCommentVote,
+  SolutionReply,
+  SolutionReplyVote,
   User,
 } from "@prisma/client";
 import Image from "next/image";
@@ -31,28 +41,60 @@ import {
 import { deleteCommentType } from "@/pages/api/deleteComment";
 import { formatTimeAgo } from "@/lib/utils";
 import { deleteReplyType } from "@/pages/api/deleteReply";
+import CommentRating from "./CommentRating";
+import ReplyRating from "./ReplyRating";
 
 interface CommentItemProps {
   category: ResourceSolutionType;
   currentUser: User | null;
   comment:
     | (CheatsheetComment & {
-        user: User;
         replies: (CheatsheetReply & {
           user: User;
+          votes: CheatsheetReplyVote[];
+          rating: number;
+          userRating: boolean | null;
         })[];
+        user: User;
+        votes: CheatsheetCommentVote[];
+        rating: number;
+        userRating: boolean | null;
       })
     | (QuestionPaperComment & {
         replies: (QuestionPaperReply & {
           user: User;
+          votes: QuestionPaperReplyVote[];
+          rating: number;
+          userRating: boolean | null;
         })[];
         user: User;
+        votes: QuestionPaperCommentVote[];
+        rating: number;
+        userRating: boolean | null;
       })
     | (NotesComment & {
         replies: (NotesReply & {
           user: User;
+          votes: NotesReplyVote[];
+          rating: number;
+          userRating: boolean | null;
         })[];
         user: User;
+        votes: NotesCommentVote[];
+        rating: number;
+        userRating: boolean | null;
+      })
+    | (SolutionComment & {
+        replies: (SolutionReply & {
+          user: User;
+          votes: SolutionReplyVote[];
+          rating: number;
+          userRating: boolean | null;
+        })[];
+        user: User;
+        votes: SolutionCommentVote[];
+        rating: number;
+        userRating: boolean | null;
       });
 }
 
@@ -153,6 +195,13 @@ export default function CommentItem({
           {comment.content}
         </p>
         <div className="mt-3 flex gap-x-4 text-slate-600 dark:text-slate-400">
+          <CommentRating
+            commentId={comment.id}
+            category={category}
+            currentUserId={currentUser?.id ?? null}
+            rating={comment.rating}
+            userRating={comment.userRating}
+          />
           {comment.replies.length !== 0 && (
             <div
               className="flex items-center gap-x-1"
@@ -257,12 +306,18 @@ interface ReplyItemProps {
   reply:
     | (CheatsheetReply & {
         user: User;
+        rating: number;
+        userRating: boolean | null;
       })
     | (QuestionPaperReply & {
         user: User;
+        rating: number;
+        userRating: boolean | null;
       })
     | (NotesReply & {
         user: User;
+        rating: number;
+        userRating: boolean | null;
       });
 }
 
@@ -319,6 +374,13 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
           {reply.content}
         </p>
         <div className="mt-3 flex gap-x-4 text-slate-600 dark:text-slate-400">
+          <ReplyRating
+            replyId={reply.id}
+            category={category}
+            currentUserId={currentUser?.id ?? null}
+            rating={reply.rating}
+            userRating={reply.userRating}
+          />
           {currentUser?.id === reply.user.id && (
             <DeleteDialog
               isDeleteDialogOpen={isDeleteDialogOpen}

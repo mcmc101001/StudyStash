@@ -4,11 +4,21 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import {
   CheatsheetComment,
+  CheatsheetCommentVote,
   CheatsheetReply,
+  CheatsheetReplyVote,
   NotesComment,
+  NotesCommentVote,
   NotesReply,
+  NotesReplyVote,
   QuestionPaperComment,
+  QuestionPaperCommentVote,
   QuestionPaperReply,
+  QuestionPaperReplyVote,
+  SolutionComment,
+  SolutionCommentVote,
+  SolutionReply,
+  SolutionReplyVote,
   User,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
@@ -38,22 +48,36 @@ export default async function CommentsSection({
 
   let comments:
     | (CheatsheetComment & {
-        user: User;
         replies: (CheatsheetReply & {
           user: User;
+          votes: CheatsheetReplyVote[];
         })[];
+        user: User;
+        votes: CheatsheetCommentVote[];
       })[]
     | (QuestionPaperComment & {
         replies: (QuestionPaperReply & {
           user: User;
+          votes: QuestionPaperReplyVote[];
         })[];
         user: User;
+        votes: QuestionPaperCommentVote[];
       })[]
     | (NotesComment & {
         replies: (NotesReply & {
           user: User;
+          votes: NotesReplyVote[];
         })[];
         user: User;
+        votes: NotesCommentVote[];
+      })[]
+    | (SolutionComment & {
+        replies: (SolutionReply & {
+          user: User;
+          votes: SolutionReplyVote[];
+        })[];
+        user: User;
+        votes: SolutionCommentVote[];
       })[] = [];
 
   if (category === "Cheatsheets") {
@@ -65,9 +89,11 @@ export default async function CommentsSection({
         replies: {
           include: {
             user: true,
+            votes: true,
           },
         },
         user: true,
+        votes: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -82,9 +108,11 @@ export default async function CommentsSection({
         replies: {
           include: {
             user: true,
+            votes: true,
           },
         },
         user: true,
+        votes: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -99,9 +127,11 @@ export default async function CommentsSection({
         replies: {
           include: {
             user: true,
+            votes: true,
           },
         },
         user: true,
+        votes: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -116,9 +146,11 @@ export default async function CommentsSection({
         replies: {
           include: {
             user: true,
+            votes: true,
           },
         },
         user: true,
+        votes: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -127,6 +159,38 @@ export default async function CommentsSection({
   } else {
     redirect("/404");
   }
+
+  const commentsWithRating = comments.map((comment) => {
+    const commentRating = comment.votes.reduce(
+      (total: number, vote: SolutionCommentVote) =>
+        vote.value ? total + 1 : total - 1,
+      0
+    );
+    const userCommentRating = comment.votes.find(
+      (vote) => vote.userId === currentUser?.id
+    );
+    const repliesWithRating = comment.replies.map((reply) => {
+      const replyRating = reply.votes.reduce(
+        (total: number, vote: SolutionReplyVote) =>
+          vote.value ? total + 1 : total - 1,
+        0
+      );
+      const userReplyRating = reply.votes.find(
+        (vote) => vote.userId === currentUser?.id
+      );
+      return {
+        ...reply,
+        rating: replyRating,
+        userRating: userReplyRating?.value ?? null,
+      };
+    });
+    return {
+      ...comment,
+      replies: repliesWithRating,
+      rating: commentRating,
+      userRating: userCommentRating?.value ?? null,
+    };
+  });
 
   return (
     <div
@@ -147,7 +211,7 @@ export default async function CommentsSection({
       />
       <div className="mt-4 w-full">
         <ul className="flex flex-col gap-y-2">
-          {comments.map((comment) => {
+          {commentsWithRating.map((comment) => {
             return (
               <li key={comment.id}>
                 <CommentItem
