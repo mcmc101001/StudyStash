@@ -44,6 +44,7 @@ interface ResourceContextMenuProps {
   resourceUserId: string;
   shareURL: string;
   className?: string;
+  disabled?: boolean;
   // resourceStatus: ResourceStatus | null;
 }
 
@@ -56,6 +57,7 @@ export default function ResourceContextMenu({
   resourceUserId,
   shareURL,
   className,
+  disabled,
 }: // resourceStatus,
 ResourceContextMenuProps) {
   // const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
@@ -159,7 +161,9 @@ ResourceContextMenuProps) {
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
+      <ContextMenuTrigger disabled={disabled} className={className}>
+        {children}
+      </ContextMenuTrigger>
       <ContextMenuContent className="border border-slate-300 dark:border-slate-600">
         <ContextMenuItem asChild>
           {/* <a
