@@ -33,6 +33,8 @@ import { IFrame } from "@/components/ui/IFrame";
 import { useState } from "react";
 import ResourceStatusComponent from "./ResourceStatusComponent";
 import ResourceStatusProvider from "./ResourceStatusProvider";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -71,8 +73,24 @@ export default function ResourceSheetLauncher({
 
   const { queryParams, setQueryParams } = useQueryParams();
 
-  const enterSheet = () => {
+  const enterSheet = async () => {
     setQueryParams({ id: resourceId });
+
+    let body = {
+      userId: currentUserId,
+      resourceId: resourceId,
+      category: category,
+    };
+
+    try {
+      const res = await axios.post("/api/updateVisited", body);
+      toast.success("updates");
+    } catch (err) {
+      //idk?
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
+    }
   };
 
   const exitSheet = () => {
@@ -206,7 +224,7 @@ export default function ResourceSheetLauncher({
                   className="flex-1 text-lg"
                   onClick={() => setCommentsOpen(!commentsOpen)}
                 >
-                  {commentsOpen ? "Close comments" : "View comments v2"}
+                  {commentsOpen ? "Close comments" : "View comments"}
                 </Button>
               </NBSheetTrigger>
               <NBSheetContent
