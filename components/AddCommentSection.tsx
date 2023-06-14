@@ -60,7 +60,6 @@ export default function AddCommentSection({
       toast.success("Comment uploaded successfully!");
       setValue("");
       if (inputRef.current) {
-        console.log("please");
         inputRef.current.style.height = DEFAULT_HEIGHT + "px";
       }
     } catch (error) {

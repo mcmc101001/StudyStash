@@ -135,7 +135,6 @@ export default function CommentItem({
       const res = await axios.post("/api/addReply", body);
       toast.success("Reply uploaded successfully!");
       if (inputRef.current) {
-        console.log("please");
         inputRef.current.style.height = 105 + "px";
       }
       setShowOwnReply(false);
