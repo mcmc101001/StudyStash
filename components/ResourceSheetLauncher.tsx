@@ -50,6 +50,7 @@ interface ResourceSheetLauncherProps {
   resourceStatus: ResourceStatus | null;
   solutionIncluded?: boolean;
   questionPaperId?: string;
+  isVisited?: boolean;
 }
 
 export default function ResourceSheetLauncher({
@@ -66,16 +67,16 @@ export default function ResourceSheetLauncher({
   resourceStatus,
   solutionIncluded,
   questionPaperId,
+  isVisited,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
   // const resourceStatusAtom = atom<ResourceStatus | null>(resourceStatus);
 
   const { queryParams, setQueryParams } = useQueryParams();
+  const router = useRouter();
 
-  const enterSheet = async () => {
-    setQueryParams({ id: resourceId });
-
+  const updateVisited = async () => {
     let body = {
       userId: currentUserId,
       resourceId: resourceId,
@@ -88,8 +89,19 @@ export default function ResourceSheetLauncher({
     } catch (err) {
       //idk?
       if (err instanceof Error) {
-        toast.error(err.message);
+        toast.error("here" + err.message);
       }
+    }
+  };
+
+  const enterSheet = async () => {
+    if (isVisited) {
+      await updateVisited();
+      router.refresh();
+    }
+    setQueryParams({ id: resourceId });
+    if (!isVisited) {
+      updateVisited();
     }
   };
 

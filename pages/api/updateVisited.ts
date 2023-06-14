@@ -15,7 +15,7 @@ const updateVisitedSchema = z.object({
 
 export type updateVisitedType = z.infer<typeof updateVisitedSchema>;
 
-export interface visitedElementType {
+export interface VisitedElementType {
   resourceId: string;
   category: ResourceSolutionType;
 }
@@ -25,7 +25,7 @@ function isValidBody(body: any): body is updateVisitedType {
   return success;
 }
 
-const stringify = (array: visitedElementType[]): string => {
+const stringify = (array: VisitedElementType[]): string => {
   let str = "";
   array.forEach((element) => {
     str += element.resourceId + "|" + element.category + "$";
@@ -33,8 +33,8 @@ const stringify = (array: visitedElementType[]): string => {
   return str;
 };
 
-const parse = (str: string): visitedElementType[] => {
-  let array: visitedElementType[] = [];
+export const parse = (str: string): VisitedElementType[] => {
+  let array: VisitedElementType[] = [];
   while (str.indexOf("$") !== -1) {
     let index = str.indexOf("|");
     array.push({
@@ -66,6 +66,9 @@ export default async function updateVisited(
     res.status(401).json({ message: "You are not authorized." });
     return;
   }
+  if (req.body.category === "Solutions") {
+    res.status(419).json({ message: "Solutions excluded for view history." });
+  }
 
   try {
     let { userId, resourceId, category } = req.body;
@@ -79,7 +82,7 @@ export default async function updateVisited(
       return res.status(404).json({ message: "User not found" });
     }
 
-    let visitedArray: visitedElementType[];
+    let visitedArray: VisitedElementType[];
 
     if (user.visitedData !== "") {
       // Parse string into list

@@ -144,6 +144,7 @@ interface ResourceItemProps {
   moduleCode?: string;
   designNumber?: number;
   questionPaperId?: string;
+  isVisited?: boolean;
 }
 
 export default async function ResourceItem({
@@ -163,6 +164,7 @@ export default async function ResourceItem({
   moduleCode,
   designNumber,
   questionPaperId,
+  isVisited,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
@@ -284,6 +286,7 @@ export default async function ResourceItem({
           resourceStatus={userStatus ? userStatus.status : null}
           solutionIncluded={solutionIncluded}
           questionPaperId={questionPaperId}
+          isVisited={isVisited}
         >
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">
@@ -308,6 +311,7 @@ export default async function ResourceItem({
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">
+              {isVisited ? `${moduleCode}, ` : ""}
               {category !== "Notes" ? `${examType}, ` : ""}
               {`${acadYear} ${semesterString}`}
             </p>
