@@ -33,8 +33,8 @@ import { IFrame } from "@/components/ui/IFrame";
 import { useState } from "react";
 import ResourceStatusComponent from "./ResourceStatusComponent";
 import ResourceStatusProvider from "./ResourceStatusProvider";
-import { ResourceItemProps } from "@/components/ResourceItem";
-import { addRecentResource } from "@/lib/localStorage";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 interface ResourceSheetLauncherProps {
   children: React.ReactNode;
@@ -50,7 +50,6 @@ interface ResourceSheetLauncherProps {
   resourceStatus: ResourceStatus | null;
   solutionIncluded?: boolean;
   questionPaperId?: string;
-  resourceItemProps: ResourceItemProps;
 }
 
 export default function ResourceSheetLauncher({
@@ -67,7 +66,6 @@ export default function ResourceSheetLauncher({
   resourceStatus,
   solutionIncluded,
   questionPaperId,
-  resourceItemProps,
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -75,9 +73,24 @@ export default function ResourceSheetLauncher({
 
   const { queryParams, setQueryParams } = useQueryParams();
 
-  const enterSheet = () => {
-    addRecentResource(resourceItemProps);
+  const enterSheet = async () => {
     setQueryParams({ id: resourceId });
+
+    let body = {
+      userId: currentUserId,
+      resourceId: resourceId,
+      category: category,
+    };
+
+    try {
+      const res = await axios.post("/api/updateVisited", body);
+      toast.success("updates");
+    } catch (err) {
+      //idk?
+      if (err instanceof Error) {
+        toast.error(err.message);
+      }
+    }
   };
 
   const exitSheet = () => {

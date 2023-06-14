@@ -127,7 +127,7 @@ export async function getUserDifficulty(userId: string, resourceId: string) {
   return res;
 }
 
-export interface ResourceItemProps {
+interface ResourceItemProps {
   name: string;
   resourceId: string;
   userId: string;
@@ -258,25 +258,6 @@ export default async function ResourceItem({
     semesterString = "ERROR";
   }
 
-  const parentProps: ResourceItemProps = {
-    name: name,
-    resourceId: resourceId,
-    userId: userId,
-    createdAt: createdAt,
-    acadYear: acadYear,
-    semester: semester,
-    difficulty: difficulty,
-    difficultyCount: difficultyCount,
-    examType: examType,
-    solutionIncluded: solutionIncluded,
-    category: category,
-    rating: rating,
-    isProfile: isProfile,
-    moduleCode: moduleCode,
-    designNumber: designNumber,
-    questionPaperId: questionPaperId,
-  };
-
   return (
     <li
       data-cy="resourceItem"
@@ -303,7 +284,6 @@ export default async function ResourceItem({
           resourceStatus={userStatus ? userStatus.status : null}
           solutionIncluded={solutionIncluded}
           questionPaperId={questionPaperId}
-          resourceItemProps={parentProps}
         >
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">
