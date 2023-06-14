@@ -16,10 +16,6 @@ export default async function PDFPage() {
           Under development
         </div>
       </div>
-      <DraggableResizableDiv
-        leftPanel={<div>hello</div>}
-        rightPanel={<div>hello</div>}
-      />
     </>
   );
 }
