@@ -1,5 +1,4 @@
 import { getRating } from "@/lib/dataFetching";
-import ResizableDiv from "@/components/ui/ResizableDiv";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
@@ -32,9 +31,10 @@ import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
 import SolutionTab from "@/components/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
-import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
-import { IFrame } from "@/components/IFrame";
+import { IFrame } from "@/components/ui/IFrame";
+import ResourceStatusProvider from "@/components/ResourceStatusProvider";
+import DraggableResizableDiv from "@/components/ui/DraggableResizableDiv";
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },
@@ -150,75 +150,86 @@ export default async function ResourcePage({
   const resourceWithRating = getRating([resource]);
   const totalRating = resourceWithRating[0].rating;
   const userRating = userVote !== null ? userVote.value : null;
+  const userStatusValue = userStatus !== null ? userStatus.status : null;
 
   // @ts-expect-error Wrong type inference for category past papers
   const solutionIncluded = resource?.solutionIncluded;
 
-  const PDFURL = await createPresignedShareUrl({
-    region: process.env.AWS_REGION as string,
-    bucket: process.env.AWS_BUCKET_NAME as string,
-    key: resourceId,
-  });
+  const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
 
   return (
-    <div className="flex h-full overflow-hidden">
-      <ResizableDiv className="flex max-w-[40vw] flex-col text-slate-800 dark:text-slate-200">
-        <Link
-          href={`/database/${resource.moduleCode}/${categoryURL}?id=${resourceId}`}
-          className="w-max"
-        >
-          <Button variant="default">
-            <span>
-              <ChevronLeft className="-ml-1" size={20} />
-            </span>
-            <span>Back to resource</span>
-          </Button>
-        </Link>
-        <div className="mx-2 mt-4 flex flex-row items-center gap-x-4 text-lg font-semibold">
-          <ResourceRatingProvider
-            category={category}
-            currentUserId={currentUser?.id || null}
-            totalRating={totalRating}
-            userRating={userRating}
-            resourceId={resourceId}
-          />
-          <div className="flex overflow-scroll scrollbar-none">
-            {resource.name}
-            {category === "Past Papers" && solutionIncluded && (
-              <SolutionIncludedIndicator />
-            )}
-          </div>
-          {category === "Past Papers" && (
-            <div className="ml-auto flex flex-col items-center">
-              <span>Rate difficulty</span>
-              <DifficultyRating
-                resourceId={resourceId}
-                currentUserId={currentUser?.id || null}
-                userDifficulty={userDifficulty}
-              />
+    <div className="flex h-full w-full overflow-hidden">
+      <DraggableResizableDiv
+        leftPanel={
+          <div className="h-full w-full overflow-hidden">
+            <div className="flex h-full w-full flex-col p-10 text-slate-800 dark:text-slate-200">
+              <Link
+                href={`/database/${resource.moduleCode}/${categoryURL}?id=${resourceId}`}
+                className="w-max"
+              >
+                <Button variant="default">
+                  <span>
+                    <ChevronLeft className="-ml-1" size={20} />
+                  </span>
+                  <span>Back to database</span>
+                </Button>
+              </Link>
+              <div className="mx-2 mt-4 flex flex-row items-center gap-x-4 text-lg font-semibold">
+                <ResourceRatingProvider
+                  category={category}
+                  currentUserId={currentUser?.id || null}
+                  totalRating={totalRating}
+                  userRating={userRating}
+                  resourceId={resourceId}
+                />
+                <div className="flex overflow-scroll scrollbar-none">
+                  {resource.name}
+                  {category === "Past Papers" && solutionIncluded && (
+                    <SolutionIncludedIndicator />
+                  )}
+                </div>
+                <div>
+                  {currentUser && (
+                    <ResourceStatusProvider
+                      category={category}
+                      resourceId={resourceId}
+                      currentUserId={currentUser.id}
+                      userStatus={userStatusValue}
+                    />
+                  )}
+                </div>
+                {category === "Past Papers" && (
+                  <div className="ml-auto flex flex-col items-center">
+                    <span>Rate difficulty</span>
+                    <DifficultyRating
+                      resourceId={resourceId}
+                      currentUserId={currentUser?.id || null}
+                      userDifficulty={userDifficulty}
+                    />
+                  </div>
+                )}
+              </div>
+              <IFrame
+                title="PDF Resource"
+                className="mt-5"
+                src={PDFURL}
+                width="100%"
+                height="80%"
+              ></IFrame>
             </div>
-          )}
-        </div>
-        <IFrame
-          title="PDF Resource"
-          className="mt-5"
-          src={PDFURL}
-          width="100%"
-          height="80%"
-        ></IFrame>
-      </ResizableDiv>
-      <div className="m-10 w-full overflow-hidden">
-        {categoryURL === "past_papers" ? (
-          <div className="mx-auto mt-14 w-5/6">
-            <SolutionTab solutionTabOptions={solutionTabOptions} />
           </div>
-        ) : (
-          <h1 className="text-2xl text-slate-800 dark:text-slate-200">
-            Comments
-          </h1>
-        )}
-        {children}
-      </div>
+        }
+        rightPanel={
+          <div className="relative h-full w-full overflow-hidden py-10">
+            {categoryURL === "past_papers" && (
+              <div className="mx-auto mt-14 w-5/6">
+                <SolutionTab solutionTabOptions={solutionTabOptions} />
+              </div>
+            )}
+            {children}
+          </div>
+        }
+      />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import ProfileEditDialog from "@/components/ProfileEditDialog";
-import { ResourceFiltersSorts } from "@/lib/content";
+import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 import { Separator } from "@/components/ui/Separator";
 
 export default async function ProfilePageUser({
@@ -47,16 +47,13 @@ export default async function ProfilePageUser({
               </div>
             )}
           </div>
-          <h1 className="mt-2 overflow-x-scroll whitespace-nowrap text-xl font-bold scrollbar-none">
+          <h1 className="mt-3 overflow-x-scroll whitespace-nowrap text-2xl font-bold scrollbar-none">
             {profileUser.name}
           </h1>
-          <div className="my-2">
-            <h2 className="text-lg font-semibold">Bio</h2>
-            <p className="max-h-[120px] overflow-y-auto scroll-smooth whitespace-break-spaces break-words scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900">
-              {profileUser.bio ||
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."}
-            </p>
-          </div>
+          <p className="max-h-[120px] overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-700 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 dark:text-slate-300 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900">
+            {profileUser.bio ||
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."}
+          </p>
         </section>
         <section className="mt-6 flex items-center justify-center bg-slate-400 text-center text-xl dark:bg-slate-600">
           Points or achievements
@@ -77,7 +74,7 @@ export default async function ProfilePageUser({
           filterSemester={searchParams.filterSemester}
           filterAcadYear={searchParams.filterAcadYear}
           filterExamType={searchParams.filterExamType}
-          sort={searchParams.sort}
+          sort={searchParams.sort as sortValue | undefined}
           isProfile={isProfile}
           profileUserId={profileUser.id}
         />

@@ -1,9 +1,10 @@
 import {
   ResourceSolutionOptions,
   ResourceSolutionTypeURL,
+  sortValue,
   statusOptions,
 } from "@/lib/content";
-import UserResourceTab from "./UserResourceTab";
+import UserResourceTab from "@/components/UserResourceTab";
 import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/ResourceItem";
@@ -28,7 +29,7 @@ interface DashboardResourcesSectionProps {
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
   filterStatus: ResourceStatus | undefined;
-  sort: string | undefined;
+  sort: sortValue | undefined;
 }
 
 export default async function DashboardResourcesSection({

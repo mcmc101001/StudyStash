@@ -52,39 +52,59 @@ export default async function deleteReply(
       | NotesReply
       | SolutionReply;
     if (category === "Cheatsheets") {
-      reply = await prisma.cheatsheetReply.update({
+      // reply = await prisma.cheatsheetReply.update({
+      //   where: {
+      //     id: replyId,
+      //   },
+      //   data: {
+      //     content: "This comment has been deleted.",
+      //   },
+      // });
+      reply = await prisma.cheatsheetReply.delete({
         where: {
           id: replyId,
-        },
-        data: {
-          content: "This comment has been deleted.",
         },
       });
     } else if (category === "Past Papers") {
-      reply = await prisma.questionPaperReply.update({
+      // reply = await prisma.questionPaperReply.update({
+      //   where: {
+      //     id: replyId,
+      //   },
+      //   data: {
+      //     content: "This comment has been deleted.",
+      //   },
+      // });
+      reply = await prisma.questionPaperReply.delete({
         where: {
           id: replyId,
-        },
-        data: {
-          content: "This comment has been deleted.",
         },
       });
     } else if (category === "Notes") {
-      reply = await prisma.notesReply.update({
+      // reply = await prisma.notesReply.update({
+      //   where: {
+      //     id: replyId,
+      //   },
+      //   data: {
+      //     content: "This comment has been deleted.",
+      //   },
+      // });
+      reply = await prisma.notesReply.delete({
         where: {
           id: replyId,
-        },
-        data: {
-          content: "This comment has been deleted.",
         },
       });
     } else if (category === "Solutions") {
-      reply = await prisma.solutionReply.update({
+      // reply = await prisma.solutionReply.update({
+      //   where: {
+      //     id: replyId,
+      //   },
+      //   data: {
+      //     content: "This comment has been deleted.",
+      //   },
+      // });
+      reply = await prisma.solutionReply.delete({
         where: {
           id: replyId,
-        },
-        data: {
-          content: "This comment has been deleted.",
         },
       });
     } else {

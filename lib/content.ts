@@ -1,5 +1,10 @@
 import { Icon } from "@/components/Icons";
-import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
+import {
+  ExamType,
+  ReportType,
+  ResourceStatus,
+  SemesterType,
+} from "@prisma/client";
 import { z } from "zod";
 
 export const ResourceEnum = z.enum(["Cheatsheets", "Past Papers", "Notes"]);
@@ -107,9 +112,9 @@ export const solutionTabOptions: solutionOptionsProps[] = [
     href: "solutions",
   },
   {
-    buttonName: "View Comments",
+    buttonName: "Resizable view",
     tabName: "Comments",
-    assignedCategory: ["Past Papers", "Notes", "Cheatsheets"],
+    assignedCategory: ["Notes", "Cheatsheets"],
     href: "comments",
   },
 ];
@@ -130,6 +135,8 @@ export const sortOptions = [
   { value: "rating", label: "Highest Rating" },
   { value: "rating_flip", label: "Lowest Rating" },
 ];
+
+export type sortValue = "date" | "date_flip" | "rating" | "rating_flip";
 
 export const papersAdditionalSortOptions = [
   { value: "difficulty", label: "Highest Difficulty" },
@@ -158,3 +165,17 @@ export const statusOptions: { value: ResourceStatus; label: ResourceStatus }[] =
     { value: "Todo", label: "Todo" },
     { value: "Completed", label: "Completed" },
   ];
+
+export const reportOptions: { value: ReportType; label: string }[] = [
+  { value: "inappropriateFilename", label: "Inappropriate filename" },
+  { value: "inappropriateUsername", label: "Inappropriate username" },
+  { value: "incorrectModule", label: "Incorrect module" },
+  { value: "incorrectCategory", label: "Incorrect category" },
+  { value: "incorrectSemester", label: "Incorrect semester" },
+  { value: "incorrectAcadYear", label: "Incorrect academic year" },
+];
+
+export const papersAdditionalReportOptions: {
+  value: ReportType;
+  label: string;
+}[] = [{ value: "incorrectExamType", label: "Incorrect exam type" }];

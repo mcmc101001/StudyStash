@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.split {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: row;
+}
+
+.dark .gutter {
+  background-color: #1e293b; /*slate-800*/
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter {
+  background-color: #e2e8f0; /*slate-800*/
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.dark .gutter:hover {
+  background-color: #1d4ed8; /*blue-700*/
+}
+
+.gutter:hover {
+  background-color: #3b82f6; /*blue-500*/
+}
+
+.gutter.gutter-horizontal {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
+  cursor: col-resize;
+}

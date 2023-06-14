@@ -20,7 +20,7 @@ export default function SolutionSort() {
   return (
     <StyledSelect
       label="Sort"
-      placeholderText="Sort"
+      placeholderText="Sort by"
       options={sortOptions}
       onChange={handleSortChange}
       labelExists={false}

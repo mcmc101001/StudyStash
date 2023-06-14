@@ -1,9 +1,31 @@
-export default async function SolutionCommentsPage() {
+import { ResourceType, ResourceTypeURL } from "@/lib/content";
+import { redirect } from "next/navigation";
+import CommentsSection from "@/components/CommentsSection";
+
+export default async function SolutionCommentsPage({
+  params: { resourceId, categoryURL },
+}: {
+  params: { resourceId: string; categoryURL: ResourceTypeURL };
+}) {
+  let category: ResourceType;
+  if (categoryURL === "cheatsheets") {
+    category = "Cheatsheets";
+  } else if (categoryURL === "past_papers") {
+    category = "Past Papers";
+  } else if (categoryURL === "notes") {
+    category = "Notes";
+  } else {
+    redirect("/404");
+  }
+
   return (
-    <div className="flex w-full items-center justify-center">
-      <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-200">
-        List of comments
-      </h1>
+    <div className="h-full w-full px-10">
+      {/* @ts-expect-error Server Component */}
+      <CommentsSection
+        className="h-[75vh]"
+        category={category}
+        resourceId={resourceId}
+      />
     </div>
   );
 }

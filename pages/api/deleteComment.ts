@@ -52,39 +52,59 @@ export default async function deleteComment(
       | NotesComment
       | SolutionComment;
     if (category === "Cheatsheets") {
-      comment = await prisma.cheatsheetComment.update({
+      // comment = await prisma.cheatsheetComment.update({
+      //   where: {
+      //     id: commentId,
+      //   },
+      //   data: {
+      //     content: "This comment has been deleted.",
+      //   },
+      // });
+      comment = await prisma.cheatsheetComment.delete({
         where: {
           id: commentId,
-        },
-        data: {
-          content: "This comment has been deleted.",
         },
       });
     } else if (category === "Past Papers") {
-      comment = await prisma.questionPaperComment.update({
+      // comment = await prisma.questionPaperComment.update({
+      //   where: {
+      //     id: commentId,
+      //   },
+      //   data: {
+      //     content: "This comment has been deleted.",
+      //   },
+      // });
+      comment = await prisma.questionPaperComment.delete({
         where: {
           id: commentId,
-        },
-        data: {
-          content: "This comment has been deleted.",
         },
       });
     } else if (category === "Notes") {
-      comment = await prisma.notesComment.update({
+      // comment = await prisma.notesComment.update({
+      //   where: {
+      //     id: commentId,
+      //   },
+      //   data: {
+      //     content: "This comment has been deleted.",
+      //   },
+      // });
+      comment = await prisma.notesComment.delete({
         where: {
           id: commentId,
-        },
-        data: {
-          content: "This comment has been deleted.",
         },
       });
     } else if (category === "Solutions") {
-      comment = await prisma.solutionComment.update({
+      // comment = await prisma.solutionComment.update({
+      //   where: {
+      //     id: commentId,
+      //   },
+      //   data: {
+      //     content: "This comment has been deleted.",
+      //   },
+      // });
+      comment = await prisma.solutionComment.delete({
         where: {
           id: commentId,
-        },
-        data: {
-          content: "This comment has been deleted.",
         },
       });
     } else {

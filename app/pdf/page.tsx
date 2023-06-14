@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
+import DraggableResizableDiv from "@/components/ui/DraggableResizableDiv";
 
 export default async function PDFPage() {
   const user = await getCurrentUser();
@@ -14,9 +15,11 @@ export default async function PDFPage() {
         <div className="text-slate-800 dark:text-slate-200">
           Under development
         </div>
-
-        <object data={""} className="h-full w-5/6"></object>
       </div>
+      <DraggableResizableDiv
+        leftPanel={<div>hello</div>}
+        rightPanel={<div>hello</div>}
+      />
     </>
   );
 }

@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 
-export interface IFrameProps
-  extends React.IframeHTMLAttributes<HTMLIFrameElement> {
+interface IFrameProps extends React.IframeHTMLAttributes<HTMLIFrameElement> {
   src: string;
 }
 

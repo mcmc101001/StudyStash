@@ -44,7 +44,7 @@ export default function DarkModeToggler() {
   };
 
   return (
-    <li className="mb-2 mt-auto flex flex-col items-center justify-center gap-y-4">
+    <li className="flex items-center justify-center">
       <Button
         aria-label="dark mode toggler"
         onClick={() => handleDarkModeChange()}

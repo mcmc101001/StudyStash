@@ -2,6 +2,7 @@ import {
   ResourceFiltersSorts,
   ResourceType,
   ResourceTypeURL,
+  sortValue,
   statusOptions,
 } from "@/lib/content";
 import { redirect } from "next/navigation";
@@ -40,7 +41,7 @@ export default async function Page({
   const FilterAcadYear = searchParams.filterAcadYear;
   const FilterExamType = searchParams.filterExamType;
   const FilterStatus = searchParams.filterStatus;
-  const Sort = searchParams.sort;
+  const Sort = searchParams.sort as sortValue | undefined;
   let parsedResources:
     | CheatsheetWithPosts
     | QuestionPaperWithPosts

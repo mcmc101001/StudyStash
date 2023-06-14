@@ -28,7 +28,7 @@ export default function DifficultyDisplayDialog({
           difficultyCount={difficultyCount}
         />
       </DialogTrigger>
-      <DialogContent className="text-slate-800 dark:text-slate-200">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex justify-center">
             Difficulty breakdown

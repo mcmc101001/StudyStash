@@ -11,19 +11,36 @@ import {
   ContextMenuSubTrigger,
   ContextMenuSubContent,
 } from "@/components/ui/ContextMenu";
-import { ResourceSolutionType, ResourceType } from "@/lib/content";
+import {
+  ResourceSolutionType,
+  ResourceType,
+  papersAdditionalReportOptions,
+  reportOptions,
+} from "@/lib/content";
+import { addReportType } from "@/pages/api/addReport";
 import { updateStatusType } from "@/pages/api/updateStatus";
-import { ResourceStatus } from "@prisma/client";
+import { ReportType, ResourceStatus } from "@prisma/client";
 import axios from "axios";
+import fileDownload from "js-file-download";
 import { useRouter } from "next/navigation";
+import { title } from "process";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { blob } from "stream/consumers";
+
+// export class RepeatReportError extends Error {
+//   constructor(message: string) {
+//     super(message);
+//     this.name = "RepeatReportError";
+//   }
+// }
 
 interface ResourceContextMenuProps {
   children: React.ReactNode;
   category: ResourceSolutionType;
   currentUserId: string | null;
-  // resourceId: string;
+  resourceId: string;
+  resourceTitle: string;
   resourceUserId: string;
   shareURL: string;
   className?: string;
@@ -34,7 +51,8 @@ export default function ResourceContextMenu({
   children,
   category,
   currentUserId,
-  // resourceId,
+  resourceId,
+  resourceTitle,
   resourceUserId,
   shareURL,
   className,
@@ -86,8 +104,57 @@ ResourceContextMenuProps) {
   //   }
   // };
 
-  const handleReportClick = async () => {
-    toast.success("Reported.");
+  const handleReportClick = async (type: ReportType) => {
+    if (!currentUserId) {
+      toast.error("Login required.");
+      return;
+    }
+
+    let body: addReportType = {
+      category: category,
+      reporterId: currentUserId,
+      resourceId: resourceId,
+      reportType: type,
+    };
+
+    try {
+      let req = await axios.post("/api/addReport", body);
+      toast.success("Report successful!");
+    } catch (e: unknown) {
+      if (
+        e instanceof Error &&
+        e.message === "Request failed with status code 419"
+      ) {
+        toast.success("Repeated report.");
+      } else {
+        toast.error("Something went wrong, please try again.");
+      }
+    }
+  };
+
+  let reportChoices = reportOptions;
+  if (category === "Past Papers") {
+    reportChoices.concat(papersAdditionalReportOptions);
+  }
+
+  // const onDownloadClick = () => {
+  //   fetch(shareURL)
+  //     .then((response) => response.blob())
+  //     .then((blob) => {
+  //       const blobURL = URL.createObjectURL(blob);
+  //       const a = document.createElement("a");
+  //       a.href = blobURL;
+  //       a.download = resourceTitle + ".pdf";
+
+  //       document.body.appendChild(a);
+  //       a.click();
+  //     });
+  // };
+
+  const onDownloadClick = () => {
+    axios.get(shareURL, { responseType: "blob" }).then((res) => {
+      fileDownload(res.data, resourceTitle + ".pdf");
+    });
   };
 
   return (
@@ -95,15 +162,18 @@ ResourceContextMenuProps) {
       <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
       <ContextMenuContent className="border border-slate-300 dark:border-slate-600">
         <ContextMenuItem asChild>
-          <a
-            href={shareURL}
-            download="filename.pdf"
+          {/* <a
+            href={shareURL.slice(8)}
+            download={resourceTitle + ".pdf"}
             rel="noopener noreferrer"
             target="_blank"
             className="h-full w-full"
           >
             Download
-          </a>
+          </a> */}
+          <button onClick={onDownloadClick} className="h-full w-full">
+            Download
+          </button>
         </ContextMenuItem>
         <ContextMenuItem asChild>
           <a href={shareURL} rel="noopener noreferrer" target="_blank">
@@ -136,35 +206,22 @@ ResourceContextMenuProps) {
           </ContextMenuCheckboxItem>
         )} */}
 
-        <ContextMenuSeparator className="" />
+        <ContextMenuSeparator />
         <ContextMenuSub>
           <ContextMenuSubTrigger disabled={resourceUserId === currentUserId}>
             Report resource
           </ContextMenuSubTrigger>
           <ContextMenuSubContent>
-            <ContextMenuItem onClick={handleReportClick}>
-              Inappropriate filename
-            </ContextMenuItem>
-            <ContextMenuItem onClick={handleReportClick}>
-              Inappropriate username
-            </ContextMenuItem>
-            <ContextMenuItem onClick={handleReportClick}>
-              Incorrect module
-            </ContextMenuItem>
-            <ContextMenuItem onClick={handleReportClick}>
-              Incorrect category
-            </ContextMenuItem>
-            <ContextMenuItem onClick={handleReportClick}>
-              Incorrect academic year
-            </ContextMenuItem>
-            <ContextMenuItem onClick={handleReportClick}>
-              Incorrect semester
-            </ContextMenuItem>
-            {category === "Past Papers" && (
-              <ContextMenuItem onClick={handleReportClick}>
-                Incorrect exam type
-              </ContextMenuItem>
-            )}
+            {reportChoices.map((option) => {
+              return (
+                <ContextMenuItem
+                  key={option.value}
+                  onClick={() => handleReportClick(option.value)}
+                >
+                  {option.label}
+                </ContextMenuItem>
+              );
+            })}
           </ContextMenuSubContent>
         </ContextMenuSub>
       </ContextMenuContent>

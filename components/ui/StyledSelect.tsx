@@ -69,7 +69,7 @@ export default function StyledSelect({
           singleValue: () => "text-slate-800 dark:text-slate-200",
           indicatorSeparator: () => (inputLike ? " invisible" : ""),
           dropdownIndicator: () =>
-            "text-slate-800 dark:text-slate-200" +
+            "text-slate-800 dark:text-slate-200 hover:text-slate-500 dark:hover:text-slate-400" +
             (inputLike ? " invisible" : ""),
           clearIndicator: () =>
             "text-slate-800 dark:text-slate-200 hover:text-slate-500 dark:hover:text-slate-400" +
@@ -92,6 +92,10 @@ export default function StyledSelect({
             "::-webkit-scrollbar-thumb:hover": {
               background: "#64748b", // slate-500
             },
+          }),
+          menu: (base) => ({
+            ...base,
+            zIndex: 100,
           }),
         }}
         placeholder={placeholderText}

@@ -7,9 +7,9 @@ import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
 import ResourceStatusComponent from "@/components/ResourceStatusComponent";
-import ProfleVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
-import ResourceContextMenu from "./ResourceContextMenu";
-import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
+import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import ResourceContextMenu from "@/components/ResourceContextMenu";
+import ResourceStatusProvider from "./ResourceStatusProvider";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
@@ -90,17 +90,14 @@ export default async function SolutionItem({
     userStatus = null;
   }
 
-  // Not sure if this is the best way to do this, with couldfront will be better?
-  const PDFURL = await createPresignedShareUrl({
-    region: process.env.AWS_REGION as string,
-    bucket: process.env.AWS_BUCKET_NAME as string,
-    key: solutionId,
-  });
+  const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${solutionId}`;
 
   return (
     <ResourceContextMenu
       className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800"
       category="Solutions"
+      resourceId={solutionId}
+      resourceTitle={name}
       currentUserId={currentUser?.id || null}
       resourceUserId={resourceUser?.id!}
       shareURL={PDFURL}
@@ -125,11 +122,11 @@ export default async function SolutionItem({
                 {name}
               </span>
               {currentUser && (
-                <ResourceStatusComponent
+                <ResourceStatusProvider
                   category="Solutions"
                   resourceId={solutionId}
                   currentUserId={currentUser.id}
-                  resourceStatus={userStatus ? userStatus.status : null}
+                  userStatus={userStatus ? userStatus.status : null}
                 />
               )}
             </div>
@@ -142,7 +139,7 @@ export default async function SolutionItem({
             <div className="ml-auto flex w-max whitespace-nowrap text-end">
               <Link
                 href={`/profile/${resourceUser?.id}`}
-                className="group z-20 ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                className="group z-10 ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
               >
                 <div className="flex items-center">
                   <span className="truncate">{resourceUser?.name}</span>
@@ -151,7 +148,7 @@ export default async function SolutionItem({
               </Link>
               {resourceUser?.verified && (
                 <div>
-                  <ProfleVerifiedIndicator />
+                  <ProfileVerifiedIndicator />
                 </div>
               )}
             </div>

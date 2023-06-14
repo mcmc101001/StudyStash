@@ -29,7 +29,7 @@ export default function ResourceTab({
             className={
               "relative w-1/3 rounded-md bg-inherit p-3 text-center text-xl font-medium transition duration-300 " +
               (segment === option.href
-                ? "text-black dark:text-white"
+                ? "cursor-default text-black dark:text-white"
                 : "text-slate-600 hover:bg-slate-300 dark:text-slate-400 dark:hover:bg-slate-800")
             }
           >

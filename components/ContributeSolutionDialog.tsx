@@ -163,12 +163,12 @@ export default function ContributeSolutionDialog({
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="border border-slate-800 dark:border-slate-200"
+          className="border truncate border-slate-800 dark:border-slate-200"
         >
           Submit solution
         </Button>
       </DialogTrigger>
-      <DialogContent className="text-slate-800 dark:text-slate-200">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Submit solution</DialogTitle>
         </DialogHeader>

@@ -7,7 +7,7 @@ import LoginButton from "@/components/LoginButton";
 async function UserProfilePic() {
   const user = await getCurrentUser();
   return (
-    <li className="mb-2 mt-2 flex flex-col items-center justify-center gap-y-4">
+    <li className="flex flex-col items-center justify-center gap-y-4">
       {user ? (
         <>
           <Image

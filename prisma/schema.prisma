@@ -42,41 +42,49 @@ model Session {
 }
 
 model User {
-  id                      String                    @id @default(cuid())
-  name                    String?
-  email                   String?                   @unique
-  emailVerified           DateTime?
-  image                   String?
-  bio                     String                    @default("") @db.VarChar(255)
-  verified                Boolean                   @default(false)
-  accounts                Account[]
-  sessions                Session[]
-  cheatsheets             Cheatsheet[]
-  questionPapers          QuestionPaper[]
-  notes                   Notes[]
-  solutions               Solution[]
-  cheatsheetVotes         CheatsheetVote[]
-  questionPaperVotes      QuestionPaperVote[]
-  notesVotes              NotesVote[]
-  solutionVotes           SolutionVote[]
-  questionPaperDifficulty QuestionPaperDifficulty[]
-  starredModules          StarredModules[]
-  cheatsheetStatuses      CheatsheetStatus[]
-  questionPaperStatuses   QuestionPaperStatus[]
-  notesStatuses           NotesStatus[]
-  solutionStatuses        SolutionStatus[]
-  cheatsheetReports       CheatsheetReport[]
-  questionPaperReports    QuestionPaperReport[]
-  notesReports            NotesReport[]
-  solutionReports         SolutionReport[]
-  cheatsheetComments      CheatsheetComment[]
-  questionPaperComments   QuestionPaperComment[]
-  notesComments           NotesComment[]
-  solutionComments        SolutionComment[]
-  cheatsheetReplies       CheatsheetReply[]
-  questionPaperReplies    QuestionPaperReply[]
-  notesReplies            NotesReply[]
-  solutionReplies         SolutionReply[]
+  id                        String                     @id @default(cuid())
+  name                      String?
+  email                     String?                    @unique
+  emailVerified             DateTime?
+  image                     String?
+  bio                       String                     @default("") @db.VarChar(255)
+  verified                  Boolean                    @default(false)
+  accounts                  Account[]
+  sessions                  Session[]
+  cheatsheets               Cheatsheet[]
+  questionPapers            QuestionPaper[]
+  notes                     Notes[]
+  solutions                 Solution[]
+  cheatsheetVotes           CheatsheetVote[]
+  questionPaperVotes        QuestionPaperVote[]
+  notesVotes                NotesVote[]
+  solutionVotes             SolutionVote[]
+  questionPaperDifficulty   QuestionPaperDifficulty[]
+  starredModules            StarredModules[]
+  cheatsheetStatuses        CheatsheetStatus[]
+  questionPaperStatuses     QuestionPaperStatus[]
+  notesStatuses             NotesStatus[]
+  solutionStatuses          SolutionStatus[]
+  cheatsheetReports         CheatsheetReport[]
+  questionPaperReports      QuestionPaperReport[]
+  notesReports              NotesReport[]
+  solutionReports           SolutionReport[]
+  cheatsheetComments        CheatsheetComment[]
+  questionPaperComments     QuestionPaperComment[]
+  notesComments             NotesComment[]
+  solutionComments          SolutionComment[]
+  cheatsheetReplies         CheatsheetReply[]
+  questionPaperReplies      QuestionPaperReply[]
+  notesReplies              NotesReply[]
+  solutionReplies           SolutionReply[]
+  cheatsheetCommentVotes    CheatsheetCommentVote[]
+  questionPaperCommentVotes QuestionPaperCommentVote[]
+  notesCommentVotes         NotesCommentVote[]
+  solutionCommentVotes      SolutionCommentVote[]
+  cheatsheetReplyVotes      CheatsheetReplyVote[]
+  questionPaperReplyVotes   QuestionPaperReplyVote[]
+  notesReplyVotes           NotesReplyVote[]
+  solutionReplyVotes        SolutionReplyVote[]
 }
 
 model VerificationToken {
@@ -281,6 +289,7 @@ model CheatsheetReport {
   createdAt  DateTime   @default(now())
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
+  type       ReportType
   resolved   Boolean    @default(false)
   resource   Cheatsheet @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
@@ -294,6 +303,7 @@ model QuestionPaperReport {
   createdAt  DateTime      @default(now())
   user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
+  type       ReportType
   resolved   Boolean       @default(false)
   resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
@@ -303,12 +313,13 @@ model QuestionPaperReport {
 }
 
 model NotesReport {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  resolved   Boolean  @default(false)
-  resource   Notes    @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  type       ReportType
+  resolved   Boolean    @default(false)
+  resource   Notes      @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
   @@index([userId])
@@ -330,111 +341,231 @@ model SolutionReport {
 }
 
 model CheatsheetComment {
-  id         String            @id @default(cuid())
-  createdAt  DateTime          @default(now())
-  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String                  @id @default(cuid())
+  createdAt  DateTime                @default(now())
+  isEdited   Boolean                 @default(false)
+  editedAt   DateTime?               @updatedAt
+  user       User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  resource   Cheatsheet        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resource   Cheatsheet              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
-  content    String            @db.Text
+  content    String                  @db.Text
   replies    CheatsheetReply[]
+  votes      CheatsheetCommentVote[]
 
   @@index([userId])
   @@index([resourceId])
 }
 
 model QuestionPaperComment {
-  id         String               @id @default(cuid())
-  createdAt  DateTime             @default(now())
-  user       User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String                     @id @default(cuid())
+  createdAt  DateTime                   @default(now())
+  isEdited   Boolean                    @default(false)
+  editedAt   DateTime?                  @updatedAt
+  user       User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  resource   QuestionPaper        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resource   QuestionPaper              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
-  content    String               @db.Text
+  content    String                     @db.Text
   replies    QuestionPaperReply[]
+  votes      QuestionPaperCommentVote[]
 
   @@index([userId])
   @@index([resourceId])
 }
 
 model NotesComment {
-  id         String       @id @default(cuid())
-  createdAt  DateTime     @default(now())
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String             @id @default(cuid())
+  createdAt  DateTime           @default(now())
+  isEdited   Boolean            @default(false)
+  editedAt   DateTime?          @updatedAt
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  resource   Notes        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resource   Notes              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
-  content    String       @db.Text
+  content    String             @db.Text
   replies    NotesReply[]
+  votes      NotesCommentVote[]
 
   @@index([userId])
   @@index([resourceId])
 }
 
 model SolutionComment {
-  id         String          @id @default(cuid())
-  createdAt  DateTime        @default(now())
-  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String                @id @default(cuid())
+  createdAt  DateTime              @default(now())
+  isEdited   Boolean               @default(false)
+  editedAt   DateTime?             @updatedAt
+  user       User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  resource   Solution        @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resource   Solution              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
-  content    String          @db.Text
+  content    String                @db.Text
   replies    SolutionReply[]
+  votes      SolutionCommentVote[]
 
   @@index([userId])
   @@index([resourceId])
 }
 
 model CheatsheetReply {
-  id        String            @id @default(cuid())
-  createdAt DateTime          @default(now())
-  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String                @id @default(cuid())
+  createdAt DateTime              @default(now())
+  isEdited  Boolean               @default(false)
+  editedAt  DateTime?             @updatedAt
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  comment   CheatsheetComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  comment   CheatsheetComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
-  content   String            @db.Text
+  content   String                @db.Text
+  votes     CheatsheetReplyVote[]
 
   @@index([userId])
   @@index([commentId])
 }
 
 model QuestionPaperReply {
-  id        String               @id @default(cuid())
-  createdAt DateTime             @default(now())
-  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String                   @id @default(cuid())
+  createdAt DateTime                 @default(now())
+  isEdited  Boolean                  @default(false)
+  editedAt  DateTime?                @updatedAt
+  user      User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  comment   QuestionPaperComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  comment   QuestionPaperComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
-  content   String               @db.Text
+  content   String                   @db.Text
+  votes     QuestionPaperReplyVote[]
 
   @@index([userId])
   @@index([commentId])
 }
 
 model NotesReply {
-  id        String       @id @default(cuid())
-  createdAt DateTime     @default(now())
-  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String           @id @default(cuid())
+  createdAt DateTime         @default(now())
+  isEdited  Boolean          @default(false)
+  editedAt  DateTime?        @updatedAt
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  comment   NotesComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  comment   NotesComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
-  content   String       @db.Text
+  content   String           @db.Text
+  votes     NotesReplyVote[]
 
   @@index([userId])
   @@index([commentId])
 }
 
 model SolutionReply {
-  id        String          @id @default(cuid())
-  createdAt DateTime        @default(now())
+  id        String              @id @default(cuid())
+  createdAt DateTime            @default(now())
+  isEdited  Boolean             @default(false)
+  editedAt  DateTime?           @updatedAt
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   SolutionComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+  content   String              @db.Text
+  votes     SolutionReplyVote[]
+
+  @@index([userId])
+  @@index([commentId])
+}
+
+model CheatsheetCommentVote {
+  value     Boolean /// true = upvote, false = downvote
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   CheatsheetComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+
+  @@unique([userId, commentId])
+  @@index([userId])
+  @@index([commentId])
+}
+
+model QuestionPaperCommentVote {
+  value     Boolean /// true = upvote, false = downvote
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   QuestionPaperComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+
+  @@unique([userId, commentId])
+  @@index([userId])
+  @@index([commentId])
+}
+
+model NotesCommentVote {
+  value     Boolean /// true = upvote, false = downvote
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   NotesComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+
+  @@unique([userId, commentId])
+  @@index([userId])
+  @@index([commentId])
+}
+
+model SolutionCommentVote {
+  value     Boolean /// true = upvote, false = downvote
   user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   comment   SolutionComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
-  content   String          @db.Text
 
+  @@unique([userId, commentId])
   @@index([userId])
   @@index([commentId])
+}
+
+model CheatsheetReplyVote {
+  value   Boolean /// true = upvote, false = downvote
+  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  reply   CheatsheetReply @relation(fields: [replyId], references: [id], onDelete: Cascade)
+  replyId String
+
+  @@unique([userId, replyId])
+  @@index([userId])
+  @@index([replyId])
+}
+
+model QuestionPaperReplyVote {
+  value   Boolean /// true = upvote, false = downvote
+  user    User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  reply   QuestionPaperReply @relation(fields: [replyId], references: [id], onDelete: Cascade)
+  replyId String
+
+  @@unique([userId, replyId])
+  @@index([userId])
+  @@index([replyId])
+}
+
+model NotesReplyVote {
+  value   Boolean /// true = upvote, false = downvote
+  user    User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  reply   NotesReply @relation(fields: [replyId], references: [id], onDelete: Cascade)
+  replyId String
+
+  @@unique([userId, replyId])
+  @@index([userId])
+  @@index([replyId])
+}
+
+model SolutionReplyVote {
+  value   Boolean /// true = upvote, false = downvote
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  reply   SolutionReply @relation(fields: [replyId], references: [id], onDelete: Cascade)
+  replyId String
+
+  @@unique([userId, replyId])
+  @@index([userId])
+  @@index([replyId])
 }
 
 /// WARNING: CHANGE CONTENT.TS IF CHANGING THIS
