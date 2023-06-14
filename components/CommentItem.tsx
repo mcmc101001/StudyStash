@@ -39,10 +39,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/Dialog";
 import { deleteCommentType } from "@/pages/api/deleteComment";
+import { editCommentType } from "@/pages/api/editComment";
 import { formatTimeAgo } from "@/lib/utils";
 import { deleteReplyType } from "@/pages/api/deleteReply";
 import CommentRating from "./CommentRating";
 import ReplyRating from "./ReplyRating";
+import { editReplyType } from "@/pages/api/editReply";
 
 const DEFAULT_HEIGHT = 48;
 
@@ -120,10 +122,7 @@ export default function CommentItem({
 
   useEffect(() => {
     setInputHeight(editRef, DEFAULT_HEIGHT);
-    if (!isEditMode) {
-      setEditValue(comment.content);
-    }
-  }, [isEditMode]);
+  });
 
   let router = useRouter();
 
@@ -160,6 +159,37 @@ export default function CommentItem({
     router.refresh();
   }
 
+  async function handleClickEdit() {
+    if (!currentUser) {
+      toast.error("Please log in first!");
+      return;
+    }
+    const edit = editValue.trim();
+    if (edit === "") {
+      toast.error("Comment cannot be empty.");
+      return;
+    }
+    setIsEditLoading(true);
+    let body: editCommentType = {
+      category: category,
+      content: editValue,
+      commentId: comment.id,
+      userId: currentUser.id,
+    };
+    try {
+      const res = await axios.post("/api/editComment", body);
+      toast.success("Comment edited successfully!");
+      if (editRef.current) {
+        editRef.current.style.height = DEFAULT_HEIGHT + "px";
+      }
+    } catch (error) {
+      toast.error("Error uploading comment.");
+    }
+    router.refresh();
+    setIsEditLoading(false);
+    setIsEditMode(false);
+  }
+
   async function handleDelete() {
     if (!currentUser) {
       toast.error("Please log in first!");
@@ -184,7 +214,7 @@ export default function CommentItem({
 
   return (
     <div className="w-full text-slate-800 dark:text-slate-200">
-      <div className="flex w-full flex-col p-3">
+      <div className="flex w-full flex-col overflow-hidden p-3">
         <div className="flex w-full items-center gap-3">
           <Image
             loading="lazy"
@@ -195,12 +225,15 @@ export default function CommentItem({
             width={40}
             height={40}
           />
-          <div className="flex items-center">
+          <div className="flex items-center overflow-x-hidden">
             <p className="truncate text-lg font-medium">{comment.user.name}</p>
             {comment.user.verified && <ProfileVerifiedIndicator />}
           </div>
-          <div className="flex flex-1 justify-end text-sm font-light text-slate-700 dark:text-slate-400">
-            {formatTimeAgo(comment.createdAt)}
+          <div className="flex min-w-[150px] flex-1 justify-end gap-x-1 text-sm font-light text-slate-700 dark:text-slate-400">
+            {formatTimeAgo(comment.createdAt)}{" "}
+            {comment.isEdited &&
+              comment.editedAt &&
+              `(edited ${formatTimeAgo(comment.editedAt)})`}
           </div>
         </div>
         <div
@@ -213,19 +246,19 @@ export default function CommentItem({
         >
           <textarea
             placeholder="Type comment here..."
+            autoFocus={isEditMode}
             spellCheck={false}
             autoComplete="off"
             value={isEditMode ? editValue : comment.content}
             ref={editRef}
             className={
-              "h-full w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white " +
+              `min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white ` +
               (isEditMode ? "bg-slate-200 dark:bg-slate-800" : "bg-transparent")
             }
             onChange={() => {
               setEditValue(editRef.current?.value || "");
-              setInputHeight(editRef, DEFAULT_HEIGHT);
             }}
-            disabled={isEditMode ? false : true}
+            disabled={!isEditMode}
           />
           {isEditMode && (
             <div className="mt-2 flex w-full justify-end gap-x-2">
@@ -240,7 +273,9 @@ export default function CommentItem({
                 variant="good"
                 isLoading={isEditLoading}
                 disabled={editValue.trim() === ""}
-                onClick={() => {}}
+                onClick={() => {
+                  handleClickEdit();
+                }}
               >
                 Confirm
               </Button>
@@ -341,6 +376,7 @@ export default function CommentItem({
           <div className="mt-2 flex w-full justify-end gap-x-2">
             <Button
               onClick={() => {
+                setEditValue(comment.content);
                 setShowOwnReply(false);
               }}
             >
@@ -399,6 +435,15 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editValue, setEditValue] = useState(reply.content);
+  const [isEditLoading, setIsEditLoading] = useState(false);
+  let editRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setInputHeight(editRef, DEFAULT_HEIGHT);
+  });
+
   let router = useRouter();
 
   async function handleDelete() {
@@ -423,6 +468,37 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
     router.refresh();
   }
 
+  async function handleClickEdit() {
+    if (!currentUser) {
+      toast.error("Please log in first!");
+      return;
+    }
+    const edit = editValue.trim();
+    if (edit === "") {
+      toast.error("Comment cannot be empty.");
+      return;
+    }
+    setIsEditLoading(true);
+    let body: editReplyType = {
+      category: category,
+      content: editValue,
+      replyId: reply.id,
+      userId: currentUser.id,
+    };
+    try {
+      const res = await axios.post("/api/editReply", body);
+      toast.success("Reply edited successfully!");
+      if (editRef.current) {
+        editRef.current.style.height = DEFAULT_HEIGHT + "px";
+      }
+    } catch (error) {
+      toast.error("Error editing reply.");
+    }
+    router.refresh();
+    setIsEditLoading(false);
+    setIsEditMode(false);
+  }
+
   return (
     <div className="flex text-slate-800 dark:text-slate-200">
       <Image
@@ -436,17 +512,61 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
       />
       <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 dark:bg-slate-900">
         <div className="flex items-center">
-          <div className="flex items-center">
+          <div className="flex items-center overflow-x-hidden">
             <p className="truncate text-lg font-medium">{reply.user.name}</p>
             {reply.user.verified && <ProfileVerifiedIndicator />}
           </div>
-          <div className="flex flex-1 justify-end text-sm font-light text-slate-700 dark:text-slate-400">
-            {formatTimeAgo(reply.createdAt)}
+          <div className="flex min-w-[150px] flex-1 justify-end gap-x-1 text-sm font-light text-slate-700 dark:text-slate-400">
+            {formatTimeAgo(reply.createdAt)}{" "}
+            {reply.isEdited &&
+              reply.editedAt &&
+              `(edited ${formatTimeAgo(reply.editedAt)})`}
           </div>
         </div>
-        <p className="mt-2 whitespace-break-spaces break-words">
-          {reply.content}
-        </p>
+        <div
+          className={
+            "mt-2 h-full w-full rounded-xl " +
+            (isEditMode ? "bg-slate-200 dark:bg-slate-800" : "bg-transparent")
+          }
+        >
+          <textarea
+            placeholder="Type reply here..."
+            spellCheck={false}
+            autoComplete="off"
+            value={isEditMode ? editValue : reply.content}
+            ref={editRef}
+            autoFocus={isEditMode}
+            className={
+              `min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white ` +
+              (isEditMode ? "bg-slate-200 dark:bg-slate-800" : "bg-transparent")
+            }
+            onChange={() => {
+              setEditValue(editRef.current?.value || "");
+            }}
+            disabled={!isEditMode}
+          />
+          {isEditMode && (
+            <div className="mt-2 flex w-full justify-end gap-x-2">
+              <Button
+                onClick={() => {
+                  setIsEditMode(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="good"
+                isLoading={isEditLoading}
+                disabled={editValue.trim() === ""}
+                onClick={() => {
+                  handleClickEdit();
+                }}
+              >
+                Confirm
+              </Button>
+            </div>
+          )}
+        </div>
         <div className="mt-3 flex gap-x-4 text-slate-600 dark:text-slate-400">
           <ReplyRating
             replyId={reply.id}
@@ -463,6 +583,24 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
               handleDelete={handleDelete}
             />
           )}
+          <div
+            className={
+              "flex select-none items-center gap-x-1 " +
+              (isEditMode
+                ? "text-green-600 dark:text-green-400"
+                : "hover:text-slate-700 dark:hover:text-slate-300")
+            }
+            role="button"
+            onClick={() => {
+              if (!currentUser) {
+                toast.error("Please log in first!");
+              } else {
+                setIsEditMode(!isEditMode);
+              }
+            }}
+          >
+            <Edit /> Edit
+          </div>
         </div>
       </div>
     </div>

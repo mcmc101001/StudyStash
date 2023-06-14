@@ -3,29 +3,33 @@ import { ResourceSolutionEnum } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import {
   CheatsheetComment,
+  CheatsheetReply,
   NotesComment,
+  NotesReply,
   QuestionPaperComment,
+  QuestionPaperReply,
   SolutionComment,
+  SolutionReply,
 } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
-const editCommentSchema = z.object({
+const editReplySchema = z.object({
   category: ResourceSolutionEnum,
   userId: z.string(),
-  commentId: z.string(),
+  replyId: z.string(),
   content: z.string(),
 });
 
-export type editCommentType = z.infer<typeof editCommentSchema>;
+export type editReplyType = z.infer<typeof editReplySchema>;
 
-function isValidBody(body: any): body is editCommentType {
-  const { success } = editCommentSchema.safeParse(body);
+function isValidBody(body: any): body is editReplyType {
+  const { success } = editReplySchema.safeParse(body);
   return success;
 }
 
-export default async function editComment(
+export default async function editReply(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -46,24 +50,24 @@ export default async function editComment(
     return;
   }
   try {
-    let { category, commentId, userId, content } = req.body;
-    let comment:
-      | CheatsheetComment
-      | QuestionPaperComment
-      | NotesComment
-      | SolutionComment;
+    let { category, replyId, userId, content } = req.body;
+    let reply:
+      | CheatsheetReply
+      | QuestionPaperReply
+      | NotesReply
+      | SolutionReply;
     if (category === "Cheatsheets") {
-      let validateComment = await prisma.cheatsheetComment.findFirst({
+      let validateComment = await prisma.cheatsheetReply.findFirst({
         where: {
-          id: commentId,
+          id: replyId,
         },
       });
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.cheatsheetComment.update({
+      reply = await prisma.cheatsheetReply.update({
         where: {
-          id: commentId,
+          id: replyId,
         },
         data: {
           content: content,
@@ -71,17 +75,17 @@ export default async function editComment(
         },
       });
     } else if (category === "Past Papers") {
-      let validateComment = await prisma.questionPaperComment.findFirst({
+      let validateComment = await prisma.questionPaperReply.findFirst({
         where: {
-          id: commentId,
+          id: replyId,
         },
       });
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.questionPaperComment.update({
+      reply = await prisma.questionPaperReply.update({
         where: {
-          id: commentId,
+          id: replyId,
         },
         data: {
           content: content,
@@ -89,17 +93,17 @@ export default async function editComment(
         },
       });
     } else if (category === "Notes") {
-      let validateComment = await prisma.notesComment.findFirst({
+      let validateComment = await prisma.notesReply.findFirst({
         where: {
-          id: commentId,
+          id: replyId,
         },
       });
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.notesComment.update({
+      reply = await prisma.notesReply.update({
         where: {
-          id: commentId,
+          id: replyId,
         },
         data: {
           content: content,
@@ -107,17 +111,17 @@ export default async function editComment(
         },
       });
     } else if (category === "Solutions") {
-      let validateComment = await prisma.solutionComment.findFirst({
+      let validateComment = await prisma.solutionReply.findFirst({
         where: {
-          id: commentId,
+          id: replyId,
         },
       });
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.solutionComment.update({
+      reply = await prisma.solutionReply.update({
         where: {
-          id: commentId,
+          id: replyId,
         },
         data: {
           content: content,
@@ -127,7 +131,7 @@ export default async function editComment(
     } else {
       return res.status(400).json({ message: "Invalid category" });
     }
-    res.status(200).json({ comment });
+    res.status(200).json({ reply });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
