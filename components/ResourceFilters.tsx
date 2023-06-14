@@ -106,6 +106,18 @@ export default function ResourceFilters({
               })
         }
       />
+      {currentUserId && statusOptions && (
+        <StyledSelect
+          label="Select Status"
+          placeholderText="Status"
+          options={statusOptions}
+          onChange={handleStatusChange}
+          labelExists={false}
+          defaultValue={statusOptions.find((option) => {
+            return option.value === statusQueryParam;
+          })}
+        />
+      )}
       {moduleCodeOptions !== undefined && (
         <StyledSelect
           label="Select Module Code"
@@ -175,18 +187,6 @@ export default function ResourceFilters({
           labelExists={false}
           defaultValue={examTypeOptions.find((option) => {
             return option.value === examTypeQueryParam;
-          })}
-        />
-      )}
-      {currentUserId && statusOptions && (
-        <StyledSelect
-          label="Select Status"
-          placeholderText="Status"
-          options={statusOptions}
-          onChange={handleStatusChange}
-          labelExists={false}
-          defaultValue={statusOptions.find((option) => {
-            return option.value === statusQueryParam;
           })}
         />
       )}

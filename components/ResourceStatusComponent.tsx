@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Bookmark,
+  Calendar,
   CheckCircle,
   ListChecks,
   MoreHorizontal,
@@ -81,7 +82,7 @@ export default function ResourceStatusComponent({
 
   return (
     <motion.div
-      className="group z-10 w-max cursor-pointer rounded-full bg-slate-400 px-2 py-1 dark:bg-slate-600"
+      className="group z-10 w-max cursor-pointer rounded-full bg-slate-300 px-2 py-1 dark:bg-slate-600"
       onHoverEnd={() => setIsOpen(false)}
       onClick={(e) => e.stopPropagation()}
       layout="size"
@@ -129,20 +130,20 @@ function StatusIcon({
         className={
           "h-5 w-5 " +
           (selected
-            ? "text-green-500"
-            : "text-gray-200 hover:text-green-300 dark:text-gray-400 dark:hover:text-green-300")
+            ? "text-green-600 dark:text-green-500"
+            : "text-gray-400 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-500")
         }
       />
     );
   } else if (status === "Todo") {
     icon = (
-      <ListChecks
+      <Calendar
         onClick={(e) => handleClick(e, status)}
         className={
           "h-5 w-5 " +
           (selected
-            ? "text-yellow-500"
-            : "text-gray-200 hover:text-yellow-300 dark:text-gray-400 dark:hover:text-yellow-300")
+            ? "text-amber-600 dark:text-amber-300"
+            : "text-gray-400 hover:text-amber-600 dark:text-gray-400 dark:hover:text-amber-300")
         }
       />
     );
@@ -153,8 +154,8 @@ function StatusIcon({
         className={
           "h-5 w-5 " +
           (selected
-            ? "text-blue-500"
-            : "text-gray-200 hover:text-blue-300 dark:text-gray-400 dark:hover:text-blue-300")
+            ? "text-blue-500 dark:text-blue-500"
+            : "text-gray-400 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-500")
         }
       />
     );
@@ -162,7 +163,7 @@ function StatusIcon({
     icon = (
       <MoreHorizontal
         onClick={(e) => handleClick(e, status)}
-        className="h-5 w-5 text-gray-200 dark:text-gray-400"
+        className="h-5 w-5 text-gray-400 dark:text-gray-400"
       />
     );
   }

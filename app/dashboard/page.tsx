@@ -6,7 +6,7 @@ import BookmarkedModules from "@/components/BookmarkedModules";
 import { getModuleCodeOptions } from "@/lib/nusmods";
 import UserResourceTab from "@/components/UserResourceTab";
 import DashboardResourcesSection from "@/components/DashboardResourcesSection";
-import { ResourceFiltersSorts } from "@/lib/content";
+import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 
 export const revalidate = 10;
 
@@ -47,7 +47,7 @@ export default async function DashboardPage({
             filterAcadYear={searchParams.filterAcadYear}
             filterExamType={searchParams.filterExamType}
             filterStatus={searchParams.filterStatus}
-            sort={searchParams.sort}
+            sort={searchParams.sort as sortValue | undefined}
             currentUserId={user.id}
           />
         </section>

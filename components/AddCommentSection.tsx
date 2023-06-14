@@ -34,6 +34,7 @@ export default function AddCommentSection({
   let inputRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const DEFAULT_HEIGHT = 48;
 
   let router = useRouter();
 
@@ -60,7 +61,7 @@ export default function AddCommentSection({
       setValue("");
       if (inputRef.current) {
         console.log("please");
-        inputRef.current.style.height = 105 + "px";
+        inputRef.current.style.height = DEFAULT_HEIGHT + "px";
       }
     } catch (error) {
       toast.error("Error uploading comment.");
@@ -70,29 +71,30 @@ export default function AddCommentSection({
   }
 
   return (
-    <>
+    <div className="w-full rounded-xl bg-slate-200 p-4 shadow-md dark:bg-slate-800">
       <textarea
         placeholder="Type comment here..."
         spellCheck={false}
         autoComplete="off"
         value={value}
         ref={inputRef}
-        className="overflow-scroll-y min-h-[105px] w-full resize-none rounded-xl bg-slate-200 p-4 text-slate-800 shadow-md outline-none scrollbar-none dark:bg-slate-800 dark:text-slate-200 dark:caret-white"
+        className={`overflow-scroll-y min-h-[${DEFAULT_HEIGHT}px] w-full resize-none bg-slate-200 text-slate-800 outline-none scrollbar-none dark:bg-slate-800 dark:text-slate-200 dark:caret-white`}
         onChange={() => {
           setValue(inputRef.current?.value || "");
-          setInputHeight(inputRef, 105);
+          setInputHeight(inputRef, DEFAULT_HEIGHT);
         }}
       />
-      <div className="mt-2 flex w-full justify-end">
+      <div className="flex w-full justify-end">
         <Button
           variant="good"
           isLoading={isLoading}
           disabled={value.trim() === ""}
           onClick={() => handleClick()}
+          className="rounded-xl"
         >
           Comment
         </Button>
       </div>
-    </>
+    </div>
   );
 }

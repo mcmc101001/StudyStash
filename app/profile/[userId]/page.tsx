@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import ProfileEditDialog from "@/components/ProfileEditDialog";
-import { ResourceFiltersSorts } from "@/lib/content";
+import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 import { Separator } from "@/components/ui/Separator";
 
 export default async function ProfilePageUser({
@@ -74,7 +74,7 @@ export default async function ProfilePageUser({
           filterSemester={searchParams.filterSemester}
           filterAcadYear={searchParams.filterAcadYear}
           filterExamType={searchParams.filterExamType}
-          sort={searchParams.sort}
+          sort={searchParams.sort as sortValue | undefined}
           isProfile={isProfile}
           profileUserId={profileUser.id}
         />

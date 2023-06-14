@@ -74,7 +74,7 @@ export default async function SolutionPage({
   let currentUser = await getCurrentUser();
 
   return (
-    <>
+    <div className="h-full w-full px-10">
       <div className="mb-3 mr-5 flex items-center justify-between">
         <div className="w-64">
           <SolutionSort />
@@ -115,6 +115,6 @@ export default async function SolutionPage({
           </h1>
         </div>
       )}
-    </>
+    </div>
   );
 }
