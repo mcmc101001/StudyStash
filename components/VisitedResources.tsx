@@ -12,24 +12,7 @@ import {
 } from "@prisma/client";
 import { ResourceSolutionType } from "@/lib/content";
 import { toast } from "react-hot-toast";
-
-interface visitedElementType {
-  resourceId: string;
-  category: ResourceSolutionType;
-}
-
-const parse = (str: string): visitedElementType[] => {
-  let array: visitedElementType[] = [];
-  while (str.indexOf("$") !== -1) {
-    let index = str.indexOf("|");
-    array.push({
-      resourceId: str.substring(0, index),
-      category: str.slice(index + 1, str.indexOf("$")) as ResourceSolutionType,
-    });
-    str = str.slice(str.indexOf("$") + 1);
-  }
-  return array;
-};
+import { parse, VisitedElementType } from "@/pages/api/updateVisited";
 
 export default async function VisitedResources({ userId }: { userId: string }) {
   const user = await prisma.user.findUnique({
@@ -42,7 +25,9 @@ export default async function VisitedResources({ userId }: { userId: string }) {
     redirect("/404");
   }
 
-  const recentResources = user.visitedData ? parse(user.visitedData) : [];
+  const recentResources: VisitedElementType[] = user.visitedData
+    ? parse(user.visitedData)
+    : [];
 
   console.log(recentResources);
 
@@ -51,13 +36,17 @@ export default async function VisitedResources({ userId }: { userId: string }) {
       <h1 className="mt-5 text-xl">Visited resources</h1>
       <div className="flex flex-col justify-center gap-2">
         {recentResources.map(async (visitedData) => {
+          let rating: number;
+          let difficulty: number | undefined = undefined;
+          let difficultyCount: number | undefined = undefined;
+          let solutionIncluded: boolean | undefined = undefined;
           let resource:
             | (Cheatsheet & { votes: CheatsheetVote[] })
             | (QuestionPaper & { votes: QuestionPaperVote[] })
             | (Notes & { votes: NotesVote[] })
             // | Solution
             | null = null;
-          let rating: number;
+
           if (visitedData.category === "Cheatsheets") {
             try {
               resource = await prisma.cheatsheet.findUnique({
@@ -83,24 +72,34 @@ export default async function VisitedResources({ userId }: { userId: string }) {
             }
           } else if (visitedData.category === "Past Papers") {
             try {
-              resource = await prisma.questionPaper.findUnique({
+              // new variable for reliable typing
+              const qnpaper = await prisma.questionPaper.findUnique({
                 where: {
                   id: visitedData.resourceId,
                 },
                 include: {
                   votes: true,
+                  difficulties: true,
                 },
               });
 
-              if (!resource) {
+              if (!qnpaper) {
                 redirect("/404");
               }
 
-              rating = resource.votes.reduce(
+              resource = qnpaper;
+              rating = qnpaper.votes.reduce(
                 (total: number, vote: QuestionPaperVote) =>
                   vote.value ? total + 1 : total - 1,
                 0
               );
+              difficultyCount = qnpaper.difficulties.length;
+              difficulty =
+                qnpaper.difficulties.reduce(
+                  (total: number, difficulty) => total + difficulty.value,
+                  0
+                ) / difficultyCount;
+              solutionIncluded = qnpaper.solutionIncluded;
             } catch {
               toast.error("Failed to fetch resource");
             }
@@ -127,16 +126,6 @@ export default async function VisitedResources({ userId }: { userId: string }) {
             } catch {
               toast.error("Failed to fetch resource");
             }
-            // } else if (visitedData.category === "Solutions") {
-            //   try {
-            //     resource = await prisma.solution.findUnique({
-            //       where: {
-            //         id: visitedData.resourceId,
-            //       },
-            //     });
-            //   } catch {
-            //     toast.error("Failed to fetch resource");
-            //   }
           }
 
           if (!resource) {
@@ -154,14 +143,16 @@ export default async function VisitedResources({ userId }: { userId: string }) {
               acadYear={resource.acadYear}
               semester={resource.semester}
               rating={rating!}
-              difficulty={2}
-              difficultyCount={2}
-              solutionIncluded={false}
+              difficulty={difficulty}
+              difficultyCount={difficultyCount}
+              solutionIncluded={solutionIncluded}
               examType={
                 // @ts-expect-error wrong type inference
                 visitedData.category !== "Notes" ? resource.type : undefined
               }
               category={visitedData.category}
+              moduleCode={resource.moduleCode}
+              isVisited={true}
             />
           );
         })}
