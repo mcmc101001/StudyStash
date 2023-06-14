@@ -220,7 +220,7 @@ export default async function ResourcePage({
           </div>
         }
         rightPanel={
-          <div className="h-full w-full overflow-hidden p-10">
+          <div className="relative h-full w-full overflow-hidden py-10">
             {categoryURL === "past_papers" && (
               <div className="mx-auto mt-14 w-5/6">
                 <SolutionTab solutionTabOptions={solutionTabOptions} />

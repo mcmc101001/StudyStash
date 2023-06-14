@@ -220,4 +220,3 @@ export default async function CommentsSection({
     </div>
   );
 }
-``;
