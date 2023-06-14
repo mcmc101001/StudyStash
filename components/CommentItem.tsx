@@ -20,8 +20,8 @@ import {
   User,
 } from "@prisma/client";
 import Image from "next/image";
-import { MessageCircle, Reply, Trash2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { Edit, MessageCircle, Reply, Trash2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { setInputHeight } from "@/components/AddCommentSection";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -43,6 +43,8 @@ import { formatTimeAgo } from "@/lib/utils";
 import { deleteReplyType } from "@/pages/api/deleteReply";
 import CommentRating from "./CommentRating";
 import ReplyRating from "./ReplyRating";
+
+const DEFAULT_HEIGHT = 48;
 
 interface CommentItemProps {
   category: ResourceSolutionType;
@@ -105,16 +107,27 @@ export default function CommentItem({
 }: CommentItemProps) {
   const [showReplies, setShowReplies] = useState(false);
   const [showOwnReply, setShowOwnReply] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const [replyValue, setReplyValue] = useState("");
+  const [editValue, setEditValue] = useState(comment.content);
   let inputRef = useRef<HTMLTextAreaElement>(null);
+  let editRef = useRef<HTMLTextAreaElement>(null);
   const [isReplyLoading, setIsReplyLoading] = useState(false);
+  const [isEditLoading, setIsEditLoading] = useState(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
+  useEffect(() => {
+    setInputHeight(editRef, DEFAULT_HEIGHT);
+    if (!isEditMode) {
+      setEditValue(comment.content);
+    }
+  }, [isEditMode]);
+
   let router = useRouter();
 
-  async function handleClick() {
+  async function handleClickReply() {
     if (!currentUser) {
       toast.error("Please log in first!");
       return;
@@ -135,7 +148,7 @@ export default function CommentItem({
       const res = await axios.post("/api/addReply", body);
       toast.success("Reply uploaded successfully!");
       if (inputRef.current) {
-        inputRef.current.style.height = 105 + "px";
+        inputRef.current.style.height = DEFAULT_HEIGHT + "px";
       }
       setShowOwnReply(false);
       setShowReplies(true);
@@ -190,9 +203,50 @@ export default function CommentItem({
             {formatTimeAgo(comment.createdAt)}
           </div>
         </div>
-        <p className="mt-2 whitespace-break-spaces break-words">
-          {comment.content}
-        </p>
+        <div
+          className={
+            "mt-2 h-full w-full rounded-xl " +
+            (isEditMode
+              ? "bg-slate-200 p-4 dark:bg-slate-800"
+              : "bg-transparent")
+          }
+        >
+          <textarea
+            placeholder="Type comment here..."
+            spellCheck={false}
+            autoComplete="off"
+            value={isEditMode ? editValue : comment.content}
+            ref={editRef}
+            className={
+              "h-full w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white " +
+              (isEditMode ? "bg-slate-200 dark:bg-slate-800" : "bg-transparent")
+            }
+            onChange={() => {
+              setEditValue(editRef.current?.value || "");
+              setInputHeight(editRef, DEFAULT_HEIGHT);
+            }}
+            disabled={isEditMode ? false : true}
+          />
+          {isEditMode && (
+            <div className="mt-2 flex w-full justify-end gap-x-2">
+              <Button
+                onClick={() => {
+                  setIsEditMode(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="good"
+                isLoading={isEditLoading}
+                disabled={editValue.trim() === ""}
+                onClick={() => {}}
+              >
+                Confirm
+              </Button>
+            </div>
+          )}
+        </div>
         <div className="mt-3 flex w-full gap-x-4 text-slate-500 dark:text-slate-400">
           <CommentRating
             commentId={comment.id}
@@ -236,6 +290,24 @@ export default function CommentItem({
               handleDelete={handleDelete}
             />
           )}
+          <div
+            className={
+              "flex select-none items-center gap-x-1 " +
+              (isEditMode
+                ? "text-green-600 dark:text-green-400"
+                : "hover:text-slate-700 dark:hover:text-slate-300")
+            }
+            role="button"
+            onClick={() => {
+              if (!currentUser) {
+                toast.error("Please log in first!");
+              } else {
+                setIsEditMode(!isEditMode);
+              }
+            }}
+          >
+            <Edit /> Edit
+          </div>
         </div>
       </div>
       {showOwnReply && (
@@ -257,10 +329,11 @@ export default function CommentItem({
                 autoComplete="off"
                 value={replyValue}
                 ref={inputRef}
-                className="min-h-[105px] w-full resize-none overflow-hidden rounded-xl bg-slate-200 p-4 text-slate-800 outline-none scrollbar-none dark:bg-slate-800 dark:text-slate-200 dark:caret-white"
+                className={`min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden rounded-xl bg-slate-200 p-4 text-slate-800 
+                outline-none scrollbar-none dark:bg-slate-800 dark:text-slate-200 dark:caret-white`}
                 onChange={() => {
                   setReplyValue(inputRef.current?.value || "");
-                  setInputHeight(inputRef, 105);
+                  setInputHeight(inputRef, DEFAULT_HEIGHT);
                 }}
               />
             </div>
@@ -277,7 +350,7 @@ export default function CommentItem({
               variant="good"
               isLoading={isReplyLoading}
               disabled={replyValue.trim() === ""}
-              onClick={() => handleClick()}
+              onClick={() => handleClickReply()}
             >
               Reply
             </Button>

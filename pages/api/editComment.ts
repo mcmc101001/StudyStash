@@ -11,20 +11,21 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
-const deleteCommentSchema = z.object({
+const editCommentSchema = z.object({
   category: ResourceSolutionEnum,
   userId: z.string(),
   commentId: z.string(),
+  content: z.string(),
 });
 
-export type deleteCommentType = z.infer<typeof deleteCommentSchema>;
+export type editCommentType = z.infer<typeof editCommentSchema>;
 
-function isValidBody(body: any): body is deleteCommentType {
-  const { success } = deleteCommentSchema.safeParse(body);
+function isValidBody(body: any): body is editCommentType {
+  const { success } = editCommentSchema.safeParse(body);
   return success;
 }
 
-export default async function deleteComment(
+export default async function editComment(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -45,22 +46,14 @@ export default async function deleteComment(
     return;
   }
   try {
-    let { category, commentId, userId } = req.body;
+    let { category, commentId, userId, content } = req.body;
     let comment:
       | CheatsheetComment
       | QuestionPaperComment
       | NotesComment
       | SolutionComment;
     if (category === "Cheatsheets") {
-      // comment = await prisma.cheatsheetComment.update({
-      //   where: {
-      //     id: commentId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
-      let validateComment = await prisma.cheatsheetComment.findUnique({
+      let validateComment = await prisma.cheatsheetComment.findFirst({
         where: {
           id: commentId,
         },
@@ -68,22 +61,16 @@ export default async function deleteComment(
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-
-      comment = await prisma.cheatsheetComment.delete({
+      comment = await prisma.cheatsheetComment.update({
         where: {
           id: commentId,
+        },
+        data: {
+          content: content,
         },
       });
     } else if (category === "Past Papers") {
-      // comment = await prisma.questionPaperComment.update({
-      //   where: {
-      //     id: commentId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
-      let validateComment = await prisma.questionPaperComment.findUnique({
+      let validateComment = await prisma.questionPaperComment.findFirst({
         where: {
           id: commentId,
         },
@@ -91,21 +78,16 @@ export default async function deleteComment(
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.questionPaperComment.delete({
+      comment = await prisma.questionPaperComment.update({
         where: {
           id: commentId,
+        },
+        data: {
+          content: content,
         },
       });
     } else if (category === "Notes") {
-      // comment = await prisma.notesComment.update({
-      //   where: {
-      //     id: commentId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
-      let validateComment = await prisma.notesComment.findUnique({
+      let validateComment = await prisma.notesComment.findFirst({
         where: {
           id: commentId,
         },
@@ -113,21 +95,16 @@ export default async function deleteComment(
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.notesComment.delete({
+      comment = await prisma.notesComment.update({
         where: {
           id: commentId,
+        },
+        data: {
+          content: content,
         },
       });
     } else if (category === "Solutions") {
-      // comment = await prisma.solutionComment.update({
-      //   where: {
-      //     id: commentId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
-      let validateComment = await prisma.solutionComment.findUnique({
+      let validateComment = await prisma.solutionComment.findFirst({
         where: {
           id: commentId,
         },
@@ -135,9 +112,12 @@ export default async function deleteComment(
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.solutionComment.delete({
+      comment = await prisma.solutionComment.update({
         where: {
           id: commentId,
+        },
+        data: {
+          content: content,
         },
       });
     } else {

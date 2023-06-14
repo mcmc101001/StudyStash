@@ -45,7 +45,7 @@ export default async function deleteReply(
     return;
   }
   try {
-    let { category, replyId } = req.body;
+    let { category, replyId, userId } = req.body;
     let reply:
       | CheatsheetReply
       | QuestionPaperReply
@@ -60,6 +60,14 @@ export default async function deleteReply(
       //     content: "This comment has been deleted.",
       //   },
       // });
+      let validateReply = await prisma.cheatsheetReply.findUnique({
+        where: {
+          id: replyId,
+        },
+      });
+      if (validateReply?.userId !== userId) {
+        return res.status(401).json({ message: "You are not authorized." });
+      }
       reply = await prisma.cheatsheetReply.delete({
         where: {
           id: replyId,
@@ -74,6 +82,14 @@ export default async function deleteReply(
       //     content: "This comment has been deleted.",
       //   },
       // });
+      let validateReply = await prisma.questionPaperReply.findUnique({
+        where: {
+          id: replyId,
+        },
+      });
+      if (validateReply?.userId !== userId) {
+        return res.status(401).json({ message: "You are not authorized." });
+      }
       reply = await prisma.questionPaperReply.delete({
         where: {
           id: replyId,
@@ -88,6 +104,14 @@ export default async function deleteReply(
       //     content: "This comment has been deleted.",
       //   },
       // });
+      let validateReply = await prisma.notesReply.findUnique({
+        where: {
+          id: replyId,
+        },
+      });
+      if (validateReply?.userId !== userId) {
+        return res.status(401).json({ message: "You are not authorized." });
+      }
       reply = await prisma.notesReply.delete({
         where: {
           id: replyId,
@@ -102,6 +126,14 @@ export default async function deleteReply(
       //     content: "This comment has been deleted.",
       //   },
       // });
+      let validateReply = await prisma.solutionReply.findUnique({
+        where: {
+          id: replyId,
+        },
+      });
+      if (validateReply?.userId !== userId) {
+        return res.status(401).json({ message: "You are not authorized." });
+      }
       reply = await prisma.solutionReply.delete({
         where: {
           id: replyId,
