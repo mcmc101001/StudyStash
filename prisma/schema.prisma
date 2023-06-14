@@ -344,6 +344,8 @@ model SolutionReport {
 model CheatsheetComment {
   id         String                  @id @default(cuid())
   createdAt  DateTime                @default(now())
+  isEdited   Boolean                 @default(false)
+  editedAt   DateTime?               @updatedAt
   user       User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   resource   Cheatsheet              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
@@ -359,6 +361,8 @@ model CheatsheetComment {
 model QuestionPaperComment {
   id         String                     @id @default(cuid())
   createdAt  DateTime                   @default(now())
+  isEdited   Boolean                    @default(false)
+  editedAt   DateTime?                  @updatedAt
   user       User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   resource   QuestionPaper              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
@@ -374,6 +378,8 @@ model QuestionPaperComment {
 model NotesComment {
   id         String             @id @default(cuid())
   createdAt  DateTime           @default(now())
+  isEdited   Boolean            @default(false)
+  editedAt   DateTime?          @updatedAt
   user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   resource   Notes              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
@@ -389,6 +395,8 @@ model NotesComment {
 model SolutionComment {
   id         String                @id @default(cuid())
   createdAt  DateTime              @default(now())
+  isEdited   Boolean               @default(false)
+  editedAt   DateTime?             @updatedAt
   user       User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   resource   Solution              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
@@ -404,6 +412,8 @@ model SolutionComment {
 model CheatsheetReply {
   id        String                @id @default(cuid())
   createdAt DateTime              @default(now())
+  isEdited  Boolean               @default(false)
+  editedAt  DateTime?             @updatedAt
   user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   comment   CheatsheetComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
@@ -418,6 +428,8 @@ model CheatsheetReply {
 model QuestionPaperReply {
   id        String                   @id @default(cuid())
   createdAt DateTime                 @default(now())
+  isEdited  Boolean                  @default(false)
+  editedAt  DateTime?                @updatedAt
   user      User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   comment   QuestionPaperComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
@@ -432,6 +444,8 @@ model QuestionPaperReply {
 model NotesReply {
   id        String           @id @default(cuid())
   createdAt DateTime         @default(now())
+  isEdited  Boolean          @default(false)
+  editedAt  DateTime?        @updatedAt
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   comment   NotesComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
@@ -446,6 +460,8 @@ model NotesReply {
 model SolutionReply {
   id        String              @id @default(cuid())
   createdAt DateTime            @default(now())
+  isEdited  Boolean             @default(false)
+  editedAt  DateTime?           @updatedAt
   user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   comment   SolutionComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
