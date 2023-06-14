@@ -86,7 +86,9 @@ export default async function updateVisited(
       visitedArray = parse(user.visitedData);
 
       // Remove the resource if it already exists
-      visitedArray.filter((resource) => resourceId !== resource.resourceId);
+      visitedArray = visitedArray.filter(
+        (resource) => resourceId !== resource.resourceId
+      );
 
       // Add the resource to the front of the list
       visitedArray.unshift({ resourceId, category });

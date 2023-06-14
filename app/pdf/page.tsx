@@ -1,7 +1,6 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import { getRecentResources } from "@/lib/localStorage";
 import VisitedResources from "@/components/VisitedResources";
 
 export default async function PDFPage() {
