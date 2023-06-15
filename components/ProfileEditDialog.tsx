@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/Dialog";
 import { UserCog } from "lucide-react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateProfileType } from "@/pages/api/updateProfile";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -37,10 +37,11 @@ export default function ProfileEditDialog({
       setIsLoading(false);
       return null;
     }
-    // biostate check
+
+    setNameState(nameState.trim());
     let body: updateProfileType = {
       userId: userId,
-      username: nameState,
+      username: nameState.trim(),
       bio: bioState,
     };
 
@@ -62,6 +63,14 @@ export default function ProfileEditDialog({
   const [isDisabled, setIsDisabled] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setNameCharState(nameState.length);
+  }, [nameState]);
+
+  useEffect(() => {
+    setBioCharState(bioState.length);
+  }, [bioState]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -98,8 +107,7 @@ export default function ProfileEditDialog({
           <input
             autoComplete="off"
             onChange={({ target }) => {
-              setNameState(target.value.trim());
-              setNameCharState(target.value.length);
+              setNameState(target.value);
               setIsDisabled(
                 target.value.trim() === "" || target.value.trim() === username
               );
@@ -122,7 +130,6 @@ export default function ProfileEditDialog({
             autoComplete="off"
             onChange={({ target }) => {
               setBioState(target?.value);
-              setBioCharState(target?.value.length);
               setIsDisabled(nameState === "" || target?.value === bio);
             }}
             className="h-32 w-full resize-none whitespace-normal rounded-md bg-slate-300 p-2 scrollbar-thin dark:bg-slate-700"
