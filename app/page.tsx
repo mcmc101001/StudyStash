@@ -9,7 +9,7 @@ export default async function Home() {
       <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 py-32 text-center">
         <h1 className="text-7xl font-bold">StudyStash</h1>
         <p className="text-lg leading-normal text-slate-600 dark:text-slate-400">
-          A one stop solution for all your revision needs
+          A one stop solution for all your revision needs.
         </p>
       </section>
       <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 py-32 text-center">
