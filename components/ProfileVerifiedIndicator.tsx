@@ -10,7 +10,7 @@ import {
 
 export default function ProfileVerifiedIndicator() {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={300}>
       <Tooltip>
         <TooltipTrigger asChild>
           <BadgeCheck className="ml-2 h-6 w-6 cursor-auto text-blue-500" />
