@@ -312,7 +312,7 @@ export default function CommentItem({
             </div>
           )}
         </div>
-        <div className="mt-3 flex w-full gap-x-4 text-slate-500 dark:text-slate-400">
+        <div className="mt-3 flex w-full gap-x-3 text-slate-500 @container dark:text-slate-400">
           <CommentRating
             commentId={comment.id}
             category={category}
@@ -327,7 +327,7 @@ export default function CommentItem({
               onClick={() => setShowReplies(!showReplies)}
             >
               <MessageCircle />
-              <span className="overflow-clip">
+              <span className="hidden overflow-clip @lg:inline">
                 {showReplies
                   ? "Hide replies"
                   : `Show replies (${comment.replies.length})`}
@@ -335,7 +335,12 @@ export default function CommentItem({
             </div>
           )}
           <div
-            className="flex select-none items-center gap-x-1 hover:text-slate-700 dark:hover:text-slate-300"
+            className={
+              "flex select-none items-center gap-x-1 " +
+              (showOwnReply
+                ? "text-slate-700 dark:text-slate-300"
+                : "hover:text-slate-700 dark:hover:text-slate-300")
+            }
             role="button"
             onClick={() => {
               if (!currentUser) {
@@ -345,7 +350,8 @@ export default function CommentItem({
               }
             }}
           >
-            <Reply /> Reply
+            <Reply />
+            <span className="hidden @lg:inline">Reply</span>
           </div>
           {currentUser?.id === comment.user.id && (
             <>
@@ -371,7 +377,7 @@ export default function CommentItem({
                   }
                 }}
               >
-                <Edit /> Edit
+                <Edit /> <span className="hidden @lg:inline">Edit</span>
               </div>
             </>
           )}
@@ -425,16 +431,17 @@ export default function CommentItem({
           </div>
         </>
       )}
-      {comment.replies.map((reply) => {
-        return (
-          <ReplyItem
-            key={reply.id}
-            category={category}
-            currentUser={currentUser}
-            reply={reply}
-          />
-        );
-      })}
+      {showReplies &&
+        comment.replies.map((reply) => {
+          return (
+            <ReplyItem
+              key={reply.id}
+              category={category}
+              currentUser={currentUser}
+              reply={reply}
+            />
+          );
+        })}
     </>
   );
 }
@@ -529,7 +536,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
   }
 
   return (
-    <div className="flex w-full pl-4 pt-2 text-slate-800 dark:text-slate-200">
+    <div className="flex w-full pl-4 pt-2 text-slate-800 @container dark:text-slate-200">
       <Image
         loading="lazy"
         src={reply.user.image!}
@@ -618,7 +625,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
             </div>
           )}
         </div>
-        <div className="mt-3 flex gap-x-4 text-slate-500 dark:text-slate-400">
+        <div className="mt-3 flex gap-x-3 text-slate-500 dark:text-slate-400">
           <ReplyRating
             replyId={reply.id}
             category={category}
@@ -650,7 +657,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
                   }
                 }}
               >
-                <Edit /> Edit
+                <Edit /> <span className="hidden @lg:inline">Edit</span>
               </div>
             </>
           )}
@@ -679,7 +686,7 @@ function DeleteDialog({
           role="button"
           onClick={() => {}}
         >
-          <Trash2 /> Delete
+          <Trash2 /> <span className="hidden @lg:inline">Delete</span>
         </div>
       </DialogTrigger>
       <DialogContent>
