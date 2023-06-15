@@ -94,6 +94,7 @@ export default function ResourceSheetLauncher({
   };
 
   const enterSheet = async () => {
+    setDisabledContext(true);
     if (isVisited) {
       await updateVisited();
       router.refresh();
@@ -105,6 +106,7 @@ export default function ResourceSheetLauncher({
   };
 
   const exitSheet = () => {
+    setDisabledContext(false);
     setCommentsOpen(false);
     setQueryParams({ id: null });
   };
@@ -121,6 +123,7 @@ export default function ResourceSheetLauncher({
       : "solutions";
 
   const [commentsOpen, setCommentsOpen] = useState(false);
+  const [disabledContext, setDisabledContext] = useState(false);
 
   return (
     <Provider>
@@ -138,6 +141,7 @@ export default function ResourceSheetLauncher({
           resourceUserId={resourceUserId}
           shareURL={PDFURL}
           className="h-full w-full"
+          disabled={disabledContext}
           // resourceStatus={resourceStatus}
         >
           <SheetTrigger className="h-full w-full py-3 focus:outline-none">
