@@ -1,4 +1,6 @@
+import Button from "@/components/ui/Button";
 import * as motion from "@/lib/motion";
+import Link from "next/link";
 
 const SLIDE_IN_ANIMATION_VARIANTS = {
   left: { opacity: 0, x: "-20vw" },
@@ -12,7 +14,7 @@ const SLIDE_IN_ANIMATION_VARIANTS = {
 
 const FADE_DOWN_ANIMATION_VARIANTS = {
   hidden: { opacity: 0, y: -10 },
-  show: { opacity: 1, y: 0, transition: { type: "spring" } },
+  show: { opacity: 1, y: 0, transition: { type: "spring", duration: 1 } },
 };
 
 export default async function Home() {
@@ -23,7 +25,7 @@ export default async function Home() {
           dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
       style={{ scrollbarGutter: "stable" }}
     >
-      <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 py-32 text-center">
+      <section className="flex max-w-6xl flex-col items-center justify-center gap-y-10 pb-32 pt-44 text-center">
         <motion.h1
           initial="left"
           whileInView="center"
@@ -31,7 +33,7 @@ export default async function Home() {
           variants={SLIDE_IN_ANIMATION_VARIANTS}
           className="text-7xl font-bold"
         >
-          StudyStash
+          Redefining Revision
         </motion.h1>
         <motion.p
           initial="right"
@@ -40,11 +42,24 @@ export default async function Home() {
           variants={SLIDE_IN_ANIMATION_VARIANTS}
           className="text-lg leading-normal text-slate-600 dark:text-slate-400"
         >
-          A one stop solution for all your revision needs.
+          A one stop solution for all your revision needs, StudyStash is home to
+          all the resources you would need, powered by users such as you.
         </motion.p>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={FADE_DOWN_ANIMATION_VARIANTS}
+        >
+          <Button>
+            <Link href="/database">Try it now</Link>
+          </Button>
+        </motion.div>
       </section>
-      <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 py-32 text-center">
-        <h1 className="h-96">The video goes here</h1>
+      <section className="flex flex-col items-center justify-center gap-y-6 pb-32 text-center">
+        <div className="h-[30vh] w-[50vw] items-center justify-center bg-slate-500">
+          <h1>The video goes here</h1>
+        </div>
       </section>
       <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 py-32 text-center">
         <motion.div
@@ -67,19 +82,19 @@ export default async function Home() {
           >
             Features
           </motion.h1>
-          <ul className="list-disc">
+          <ul className="mb-2 list-disc">
             <motion.li
               variants={FADE_DOWN_ANIMATION_VARIANTS}
-              className="text-lg leading-normal text-slate-600 dark:text-slate-400"
+              className="mt-4 text-left text-lg leading-normal text-slate-600 dark:text-slate-400"
             >
-              Upload resources, be it cheatsheets, notes, past papers or
-              solutions!
+              Gain access to all your revision needs, be it cheatsheets, notes,
+              or past papers and solutions!
             </motion.li>
             <motion.li
               variants={FADE_DOWN_ANIMATION_VARIANTS}
-              className="text-lg leading-normal text-slate-600 dark:text-slate-400"
+              className="mt-4 text-left text-lg leading-normal text-slate-600 dark:text-slate-400"
             >
-              Sign in to comment, bookmark modules and set status on resources!
+              Contribute resources and discussion!
             </motion.li>
           </ul>
         </motion.div>
