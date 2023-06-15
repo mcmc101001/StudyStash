@@ -237,10 +237,27 @@ export default function CommentItem({
             {comment.user.verified && <ProfileVerifiedIndicator />}
           </div>
           <div className="flex min-w-[150px] flex-1 justify-end gap-x-1 text-sm font-light text-slate-700 hover:underline dark:text-slate-400">
-            {formatTimeAgo(comment.createdAt)}{" "}
-            {comment.isEdited &&
-              comment.editedAt &&
-              `(edited ${formatTimeAgo(comment.editedAt)})`}
+            <TooltipProvider delayDuration={50}>
+              <Tooltip>
+                <TooltipTrigger className="cursor-text hover:underline">
+                  {formatTimeAgo(comment.createdAt)}{" "}
+                  {comment.isEdited &&
+                    comment.editedAt &&
+                    `(Last edited ${formatTimeAgo(comment.editedAt)})`}
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    Commented: <ClientDateTime datetime={comment.createdAt} />
+                  </p>
+                  {comment.isEdited && comment.editedAt && (
+                    <p>
+                      Last Editted:{" "}
+                      <ClientDateTime datetime={comment.editedAt} />
+                    </p>
+                  )}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
         <div
@@ -333,31 +350,33 @@ export default function CommentItem({
             <Reply /> Reply
           </div>
           {currentUser?.id === comment.user.id && (
-            <DeleteDialog
-              isDeleteDialogOpen={isDeleteDialogOpen}
-              setIsDeleteDialogOpen={setIsDeleteDialogOpen}
-              isDeleteLoading={isDeleteLoading}
-              handleDelete={handleDelete}
-            />
+            <>
+              <DeleteDialog
+                isDeleteDialogOpen={isDeleteDialogOpen}
+                setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+                isDeleteLoading={isDeleteLoading}
+                handleDelete={handleDelete}
+              />
+              <div
+                className={
+                  "flex select-none items-center gap-x-1 " +
+                  (isEditMode
+                    ? "text-green-600 dark:text-green-400"
+                    : "hover:text-slate-700 dark:hover:text-slate-300")
+                }
+                role="button"
+                onClick={() => {
+                  if (!currentUser) {
+                    toast.error("Please log in first!");
+                  } else {
+                    setIsEditMode(!isEditMode);
+                  }
+                }}
+              >
+                <Edit /> Edit
+              </div>
+            </>
           )}
-          <div
-            className={
-              "flex select-none items-center gap-x-1 " +
-              (isEditMode
-                ? "text-green-600 dark:text-green-400"
-                : "hover:text-slate-700 dark:hover:text-slate-300")
-            }
-            role="button"
-            onClick={() => {
-              if (!currentUser) {
-                toast.error("Please log in first!");
-              } else {
-                setIsEditMode(!isEditMode);
-              }
-            }}
-          >
-            <Edit /> Edit
-          </div>
         </div>
       </div>
       {showOwnReply && (
@@ -522,7 +541,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
         width={40}
         height={40}
       />
-      <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 dark:bg-slate-800">
+      <div className="ml-2 flex w-full flex-col rounded-xl bg-slate-200 p-4 dark:bg-slate-800">
         <div className="flex items-center gap-x-2">
           <div className="flex items-center overflow-x-hidden">
             <p className="truncate text-lg font-medium">{reply.user.name}</p>
@@ -535,7 +554,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
                   {formatTimeAgo(reply.createdAt)}{" "}
                   {reply.isEdited &&
                     reply.editedAt &&
-                    `(edited ${formatTimeAgo(reply.editedAt)})`}
+                    `(Last edited ${formatTimeAgo(reply.editedAt)})`}
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>
@@ -603,7 +622,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
             </div>
           )}
         </div>
-        <div className="mt-3 flex gap-x-4 text-slate-600 dark:text-slate-400">
+        <div className="mt-3 flex gap-x-4 text-slate-500 dark:text-slate-400">
           <ReplyRating
             replyId={reply.id}
             category={category}
@@ -612,31 +631,33 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
             userRating={reply.userRating}
           />
           {currentUser?.id === reply.user.id && (
-            <DeleteDialog
-              isDeleteDialogOpen={isDeleteDialogOpen}
-              setIsDeleteDialogOpen={setIsDeleteDialogOpen}
-              isDeleteLoading={isDeleteLoading}
-              handleDelete={handleDelete}
-            />
+            <>
+              <DeleteDialog
+                isDeleteDialogOpen={isDeleteDialogOpen}
+                setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+                isDeleteLoading={isDeleteLoading}
+                handleDelete={handleDelete}
+              />
+              <div
+                className={
+                  "flex select-none items-center gap-x-1 " +
+                  (isEditMode
+                    ? "text-green-600 dark:text-green-400"
+                    : "hover:text-slate-700 dark:hover:text-slate-300")
+                }
+                role="button"
+                onClick={() => {
+                  if (!currentUser) {
+                    toast.error("Please log in first!");
+                  } else {
+                    setIsEditMode(!isEditMode);
+                  }
+                }}
+              >
+                <Edit /> Edit
+              </div>
+            </>
           )}
-          <div
-            className={
-              "flex select-none items-center gap-x-1 " +
-              (isEditMode
-                ? "text-green-600 dark:text-green-400"
-                : "hover:text-slate-700 dark:hover:text-slate-300")
-            }
-            role="button"
-            onClick={() => {
-              if (!currentUser) {
-                toast.error("Please log in first!");
-              } else {
-                setIsEditMode(!isEditMode);
-              }
-            }}
-          >
-            <Edit /> Edit
-          </div>
         </div>
       </div>
     </div>
