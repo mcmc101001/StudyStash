@@ -3,13 +3,7 @@
 import { ResourceStatus } from "@prisma/client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Bookmark,
-  Calendar,
-  CheckCircle,
-  ListChecks,
-  MoreHorizontal,
-} from "lucide-react";
+import { Bookmark, Calendar, CheckCircle, MoreHorizontal } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,

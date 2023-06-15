@@ -42,8 +42,8 @@ import { deleteCommentType } from "@/pages/api/deleteComment";
 import { editCommentType } from "@/pages/api/editComment";
 import { formatTimeAgo } from "@/lib/utils";
 import { deleteReplyType } from "@/pages/api/deleteReply";
-import CommentRating from "./CommentRating";
-import ReplyRating from "./ReplyRating";
+import CommentRating from "@/components/CommentRating";
+import ReplyRating from "@/components/ReplyRating";
 import { editReplyType } from "@/pages/api/editReply";
 import {
   Tooltip,
@@ -51,7 +51,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import ClientDateTime from "./ClientDateTime";
+import ClientDateTime from "@/components/ClientDateTime";
 
 const DEFAULT_HEIGHT = 48;
 

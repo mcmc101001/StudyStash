@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon, Icons } from "./Icons";
+import { Icon, Icons } from "@/components/Icons";
 
 interface AchievementProps {
   description: string;

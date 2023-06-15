@@ -8,9 +8,7 @@ import {
   NotesVote,
   QuestionPaper,
   QuestionPaperVote,
-  Solution,
 } from "@prisma/client";
-import { ResourceSolutionType } from "@/lib/content";
 import { toast } from "react-hot-toast";
 import { parse, VisitedElementType } from "@/pages/api/updateVisited";
 
