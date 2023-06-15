@@ -22,7 +22,6 @@ import {
   User,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
-import CommentItem from "@/components/CommentItem";
 import { cn } from "@/lib/utils";
 import CommentsSorter from "./CommentsSorter";
 
@@ -196,7 +195,7 @@ export default async function CommentsSection({
   return (
     <div
       className={cn(
-        `w-full overflow-y-auto overflow-x-hidden p-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
+        `w-full overflow-y-auto overflow-x-hidden px-10 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
       hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700`,
         className
       )}

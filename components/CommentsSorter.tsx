@@ -171,7 +171,7 @@ export default function CommentsSorter({
               })}
             />
           </div>
-          <ul className="mt- flex flex-col gap-y-2">
+          <ul className="mt-2 flex flex-col gap-y-2">
             {sortedComments.map((comment) => {
               return (
                 <li key={comment.id}>

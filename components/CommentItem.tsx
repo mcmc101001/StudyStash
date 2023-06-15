@@ -45,6 +45,13 @@ import { deleteReplyType } from "@/pages/api/deleteReply";
 import CommentRating from "./CommentRating";
 import ReplyRating from "./ReplyRating";
 import { editReplyType } from "@/pages/api/editReply";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
+import ClientDateTime from "./ClientDateTime";
 
 const DEFAULT_HEIGHT = 48;
 
@@ -213,8 +220,8 @@ export default function CommentItem({
   }
 
   return (
-    <div className="w-full text-slate-800 dark:text-slate-200">
-      <div className="flex w-full flex-col overflow-hidden p-3">
+    <>
+      <div className="flex w-full flex-col overflow-hidden p-3 text-slate-800 dark:text-slate-200">
         <div className="flex w-full items-center gap-3">
           <Image
             loading="lazy"
@@ -244,22 +251,30 @@ export default function CommentItem({
               : "bg-transparent")
           }
         >
-          <textarea
-            placeholder="Type comment here..."
-            autoFocus={isEditMode}
-            spellCheck={false}
-            autoComplete="off"
-            value={isEditMode ? editValue : comment.content}
-            ref={editRef}
-            className={
-              `min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white ` +
-              (isEditMode ? "bg-slate-200 dark:bg-slate-800" : "bg-transparent")
-            }
-            onChange={() => {
-              setEditValue(editRef.current?.value || "");
-            }}
-            disabled={!isEditMode}
-          />
+          {isEditMode ? (
+            <textarea
+              placeholder="Type comment here..."
+              autoFocus={isEditMode}
+              spellCheck={false}
+              autoComplete="off"
+              value={isEditMode ? editValue : comment.content}
+              ref={editRef}
+              className={
+                `min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white ` +
+                (isEditMode
+                  ? "bg-slate-200 dark:bg-slate-800"
+                  : "cursor-text bg-transparent")
+              }
+              onChange={() => {
+                setEditValue(editRef.current?.value || "");
+              }}
+              disabled={!isEditMode}
+            />
+          ) : (
+            <p className="whitespace-break-spaces break-words">
+              {comment.content}
+            </p>
+          )}
           {isEditMode && (
             <div className="mt-2 flex w-full justify-end gap-x-2">
               <Button
@@ -393,20 +408,17 @@ export default function CommentItem({
           </div>
         </>
       )}
-      <ul className={showReplies ? "" : "hidden"}>
-        {comment.replies.map((reply) => {
-          return (
-            <li key={reply.id} className="ml-10 mt-2">
-              <ReplyItem
-                category={category}
-                currentUser={currentUser}
-                reply={reply}
-              />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+      {comment.replies.map((reply) => {
+        return (
+          <ReplyItem
+            key={reply.id}
+            category={category}
+            currentUser={currentUser}
+            reply={reply}
+          />
+        );
+      })}
+    </>
   );
 }
 
@@ -500,7 +512,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
   }
 
   return (
-    <div className="flex text-slate-800 dark:text-slate-200">
+    <div className="flex w-full p-3 pl-10 text-slate-800 dark:text-slate-200">
       <Image
         loading="lazy"
         src={reply.user.image!}
@@ -510,17 +522,33 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
         width={40}
         height={40}
       />
-      <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 dark:bg-slate-900">
-        <div className="flex items-center">
+      <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 dark:bg-slate-800">
+        <div className="flex items-center gap-x-2">
           <div className="flex items-center overflow-x-hidden">
             <p className="truncate text-lg font-medium">{reply.user.name}</p>
             {reply.user.verified && <ProfileVerifiedIndicator />}
           </div>
-          <div className="flex min-w-[150px] flex-1 justify-end gap-x-1 text-sm font-light text-slate-700 dark:text-slate-400">
-            {formatTimeAgo(reply.createdAt)}{" "}
-            {reply.isEdited &&
-              reply.editedAt &&
-              `(edited ${formatTimeAgo(reply.editedAt)})`}
+          <div className="flex min-w-fit flex-1 justify-end gap-x-1 text-sm font-light text-slate-700 dark:text-slate-400">
+            <TooltipProvider delayDuration={50}>
+              <Tooltip>
+                <TooltipTrigger className="cursor-text hover:underline">
+                  {formatTimeAgo(reply.createdAt)}{" "}
+                  {reply.isEdited &&
+                    reply.editedAt &&
+                    `(edited ${formatTimeAgo(reply.editedAt)})`}
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    Replied: <ClientDateTime datetime={reply.createdAt} />
+                  </p>
+                  {reply.isEdited && reply.editedAt && (
+                    <p>
+                      Last Editted: <ClientDateTime datetime={reply.editedAt} />
+                    </p>
+                  )}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
         <div
@@ -529,22 +557,30 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
             (isEditMode ? "bg-slate-200 dark:bg-slate-800" : "bg-transparent")
           }
         >
-          <textarea
-            placeholder="Type reply here..."
-            spellCheck={false}
-            autoComplete="off"
-            value={isEditMode ? editValue : reply.content}
-            ref={editRef}
-            autoFocus={isEditMode}
-            className={
-              `min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white ` +
-              (isEditMode ? "bg-slate-200 dark:bg-slate-800" : "bg-transparent")
-            }
-            onChange={() => {
-              setEditValue(editRef.current?.value || "");
-            }}
-            disabled={!isEditMode}
-          />
+          {isEditMode ? (
+            <textarea
+              placeholder="Type reply here..."
+              spellCheck={false}
+              autoComplete="off"
+              value={isEditMode ? editValue : reply.content}
+              ref={editRef}
+              autoFocus={isEditMode}
+              className={
+                `min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white ` +
+                (isEditMode
+                  ? "bg-slate-200 dark:bg-slate-800"
+                  : "cursor-text bg-transparent")
+              }
+              onChange={() => {
+                setEditValue(editRef.current?.value || "");
+              }}
+              disabled={!isEditMode}
+            />
+          ) : (
+            <p className="whitespace-break-spaces break-words">
+              {reply.content}
+            </p>
+          )}
           {isEditMode && (
             <div className="mt-2 flex w-full justify-end gap-x-2">
               <Button

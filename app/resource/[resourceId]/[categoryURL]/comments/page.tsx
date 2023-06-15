@@ -19,7 +19,7 @@ export default async function SolutionCommentsPage({
   }
 
   return (
-    <div className="h-full w-full px-10">
+    <div className="h-full w-full">
       {/* @ts-expect-error Server Component */}
       <CommentsSection
         className="h-[75vh]"
