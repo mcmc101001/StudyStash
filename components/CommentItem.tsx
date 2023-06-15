@@ -236,14 +236,12 @@ export default function CommentItem({
             <p className="truncate text-lg font-medium">{comment.user.name}</p>
             {comment.user.verified && <ProfileVerifiedIndicator />}
           </div>
-          <div className="ml-auto flex min-w-[130px] max-w-fit flex-1 justify-end text-left text-sm font-light text-slate-700 scrollbar-none hover:underline dark:text-slate-400">
+          <div className="flex w-full min-w-fit flex-1 justify-end text-left text-sm font-light text-slate-700 scrollbar-none hover:underline dark:text-slate-400">
             <TooltipProvider delayDuration={50}>
               <Tooltip>
                 <TooltipTrigger className="cursor-text hover:underline">
                   {formatTimeAgo(comment.createdAt)}{" "}
-                  {comment.isEdited &&
-                    comment.editedAt &&
-                    `(Last edited ${formatTimeAgo(comment.editedAt)})`}
+                  {comment.isEdited && comment.editedAt && "(Edited)"}
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>
@@ -531,7 +529,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
   }
 
   return (
-    <div className="flex w-full pl-10 pt-2 text-slate-800 dark:text-slate-200">
+    <div className="flex w-full pl-4 pt-2 text-slate-800 dark:text-slate-200">
       <Image
         loading="lazy"
         src={reply.user.image!}
@@ -547,14 +545,12 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
             <p className="truncate text-lg font-medium">{reply.user.name}</p>
             {reply.user.verified && <ProfileVerifiedIndicator />}
           </div>
-          <div className="ml-auto flex min-w-[130px] max-w-fit flex-1 justify-end text-left text-sm font-light text-slate-700 scrollbar-none dark:text-slate-400">
+          <div className="flex w-full min-w-fit flex-1 justify-end text-left text-sm font-light text-slate-700 scrollbar-none dark:text-slate-400">
             <TooltipProvider delayDuration={50}>
               <Tooltip>
                 <TooltipTrigger className="cursor-text hover:underline">
                   {formatTimeAgo(reply.createdAt)}{" "}
-                  {reply.isEdited &&
-                    reply.editedAt &&
-                    `(Last edited ${formatTimeAgo(reply.editedAt)})`}
+                  {reply.isEdited && reply.editedAt && "(Edited)"}
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>
