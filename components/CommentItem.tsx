@@ -229,7 +229,7 @@ export default function CommentItem({
             <p className="truncate text-lg font-medium">{comment.user.name}</p>
             {comment.user.verified && <ProfileVerifiedIndicator />}
           </div>
-          <div className="flex min-w-[150px] flex-1 justify-end gap-x-1 text-sm font-light text-slate-700 dark:text-slate-400">
+          <div className="flex min-w-[150px] flex-1 justify-end gap-x-1 text-sm font-light text-slate-700 hover:underline dark:text-slate-400">
             {formatTimeAgo(comment.createdAt)}{" "}
             {comment.isEdited &&
               comment.editedAt &&
