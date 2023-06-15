@@ -31,7 +31,6 @@ import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
 import { useState } from "react";
-import ResourceStatusComponent from "./ResourceStatusComponent";
 import ResourceStatusProvider from "./ResourceStatusProvider";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -145,7 +144,7 @@ export default function ResourceSheetLauncher({
           disabled={disabledContext}
           // resourceStatus={resourceStatus}
         >
-          <SheetTrigger className="h-full w-full py-3">
+          <SheetTrigger className="h-full w-full py-3 focus:outline-none">
             <div className="flex items-center">
               <ResourceRating
                 category={category}
@@ -244,13 +243,13 @@ export default function ResourceSheetLauncher({
                 </Button>
               </NBSheetTrigger>
               <NBSheetContent
-                className="relative"
+                className="relative p-0"
                 size="default"
                 position="left"
                 onEscapeKeyDown={() => setCommentsOpen(false)}
               >
                 <div
-                  className="mb-2 flex w-full cursor-pointer justify-end rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+                  className="mb-2 mt-6 flex w-full cursor-pointer justify-end rounded-sm pr-6 opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
                   onClick={() => setCommentsOpen(false)}
                 >
                   <X className="h-4 w-4" />

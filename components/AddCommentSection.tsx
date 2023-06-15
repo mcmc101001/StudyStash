@@ -74,6 +74,7 @@ export default function AddCommentSection({
       <textarea
         placeholder="Type comment here..."
         spellCheck={false}
+        autoFocus={true}
         autoComplete="off"
         value={value}
         ref={inputRef}
