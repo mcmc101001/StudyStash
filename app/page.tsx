@@ -55,6 +55,7 @@ export default async function Home() {
             hidden: {},
             show: {
               transition: {
+                delayChildren: 0.3,
                 staggerChildren: 0.15,
               },
             },
