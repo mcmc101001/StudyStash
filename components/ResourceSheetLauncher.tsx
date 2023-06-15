@@ -31,7 +31,6 @@ import { ResourceStatus } from "@prisma/client";
 import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
 import { useState } from "react";
-import ResourceStatusComponent from "./ResourceStatusComponent";
 import ResourceStatusProvider from "./ResourceStatusProvider";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -141,7 +140,7 @@ export default function ResourceSheetLauncher({
           className="h-full w-full"
           // resourceStatus={resourceStatus}
         >
-          <SheetTrigger className="h-full w-full py-3">
+          <SheetTrigger className="h-full w-full py-3 focus:outline-none">
             <div className="flex items-center">
               <ResourceRating
                 category={category}
