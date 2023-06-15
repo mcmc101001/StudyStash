@@ -25,7 +25,7 @@ export default async function Home() {
           dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
       style={{ scrollbarGutter: "stable" }}
     >
-      <section className="flex max-w-6xl flex-col items-center justify-center gap-y-10 pb-32 pt-44 text-center">
+      <section className="flex max-w-4xl flex-col items-center justify-center gap-y-10 pb-24 pt-32 text-center">
         <motion.h1
           initial="left"
           whileInView="center"
@@ -51,13 +51,13 @@ export default async function Home() {
           viewport={{ once: true }}
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
-          <Button>
+          <Button size="lg" className="h-14 w-full text-xl font-semibold">
             <Link href="/database">Try it now</Link>
           </Button>
         </motion.div>
       </section>
       <section className="flex flex-col items-center justify-center gap-y-6 pb-32 text-center">
-        <div className="h-[30vh] w-[50vw] items-center justify-center bg-slate-500">
+        <div className="h-[40vh] w-[50vw] items-center justify-center bg-slate-500">
           <h1>The video goes here</h1>
         </div>
       </section>
