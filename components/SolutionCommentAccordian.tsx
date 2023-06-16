@@ -17,7 +17,7 @@ export default function SolutionCommentAccordian({
   commentCount,
 }: SolutionCommentAccordianProps) {
   return (
-    <Accordion className="mt-4" type="single" collapsible>
+    <Accordion className="mt-2" type="single" collapsible>
       <AccordionItem value="item-1">
         <AccordionTrigger>{`Solution Discussion (${commentCount})`}</AccordionTrigger>
         <AccordionContent>{children}</AccordionContent>

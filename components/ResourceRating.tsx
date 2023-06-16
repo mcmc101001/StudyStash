@@ -14,6 +14,7 @@ interface ResourceRatingProps {
   currentUserId: string | null;
   ratingAtom: PrimitiveAtom<number>;
   userRatingAtom: PrimitiveAtom<boolean | null>;
+  orientation?: "horizontal" | "vertical";
 }
 
 export default function ResourceRating({
@@ -22,6 +23,7 @@ export default function ResourceRating({
   currentUserId,
   ratingAtom,
   userRatingAtom,
+  orientation = "vertical",
 }: ResourceRatingProps) {
   async function updateVote(value: boolean | null) {
     if (!currentUserId) {
@@ -113,7 +115,12 @@ export default function ResourceRating({
 
   return (
     <div className="flex flex-row items-center">
-      <div className="flex flex-col items-center">
+      <div
+        className={
+          "flex items-center " +
+          (orientation === "vertical" ? "flex-col" : "gap-x-1")
+        }
+      >
         <div className="cursor-pointer" onClick={(e) => handleUpvote(e)}>
           <ArrowBigUp
             className={

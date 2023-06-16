@@ -10,6 +10,7 @@ interface ResourceRatingProviderProps {
   currentUserId: string | null;
   totalRating: number;
   userRating: boolean | null;
+  orientation?: "horizontal" | "vertical";
 }
 
 export default function ResourceRatingProvider({
@@ -18,6 +19,7 @@ export default function ResourceRatingProvider({
   currentUserId,
   totalRating,
   userRating,
+  orientation = "vertical",
 }: ResourceRatingProviderProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
@@ -29,6 +31,7 @@ export default function ResourceRatingProvider({
       currentUserId={currentUserId}
       ratingAtom={ratingAtom}
       userRatingAtom={userRatingAtom}
+      orientation={orientation}
     />
   );
 }
