@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Achievement } from "@/components/Achievement";
+import { Achievement } from "@/components/user/Achievement";
 
 interface UserAchievementsSectionProps {
   userId: string;

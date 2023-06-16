@@ -2,13 +2,13 @@ import { prisma } from "@/lib/prisma";
 import { SolutionVote, SolutionStatus } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
-import ResourceDeleteButton from "@/components/ResourceDeleteButton";
+import ResourceDeleteButton from "@/components/resource/ResourceDeleteButton";
 import { Separator } from "@/components/ui/Separator";
-import ResourceRatingProvider from "@/components/ResourceRatingProvider";
+import ResourceRatingProvider from "@/components/resource/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
-import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
-import ResourceContextMenu from "@/components/ResourceContextMenu";
-import ResourceStatusProvider from "@/components/ResourceStatusProvider";
+import ProfileVerifiedIndicator from "@/components/user/ProfileVerifiedIndicator";
+import ResourceContextMenu from "@/components/resource/ResourceContextMenu";
+import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({

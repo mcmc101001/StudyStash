@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
 import { ResourceSolutionType, examTypeOptions } from "@/lib/content";
 import Button from "@/components/ui/Button";
-import StyledSelect from "./ui/StyledSelect";
+import StyledSelect from "../ui/StyledSelect";
 
 export default function ResolveButton({
   report,

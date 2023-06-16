@@ -16,19 +16,19 @@ import {
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import useQueryParams from "@/hooks/useQueryParams";
-import ResourceRating from "@/components/ResourceRating";
+import ResourceRating from "@/components/resource/ResourceRating";
 import { ResourceSolutionType } from "@/lib/content";
-import DifficultyRating from "@/components/DifficultyRating";
+import DifficultyRating from "@/components/resource/DifficultyRating";
 import { atom } from "jotai";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { solutionTabOptions } from "@/lib/content";
-import ResourceContextMenu from "@/components/ResourceContextMenu";
+import ResourceContextMenu from "@/components/resource/ResourceContextMenu";
 import { ResourceStatus } from "@prisma/client";
-import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
+import SolutionIncludedIndicator from "@/components/resource/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
 import { useState } from "react";
-import ResourceStatusProvider from "@/components/ResourceStatusProvider";
+import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 

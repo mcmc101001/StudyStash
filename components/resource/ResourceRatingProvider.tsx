@@ -2,7 +2,7 @@
 
 import { ResourceSolutionType } from "@/lib/content";
 import { atom } from "jotai";
-import ResourceRating from "@/components/ResourceRating";
+import ResourceRating from "@/components/resource/ResourceRating";
 
 interface ResourceRatingProviderProps {
   category: ResourceSolutionType;

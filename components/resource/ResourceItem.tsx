@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import ResourceSheetLauncher from "@/components/ResourceSheetLauncher";
+import ResourceSheetLauncher from "@/components/resource/ResourceSheetLauncher";
 import {
   CheatsheetVote,
   QuestionPaperVote,
@@ -16,16 +16,19 @@ import {
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
-import DifficultyDisplayDialog from "@/components/DifficultyDisplayDialog";
+import DifficultyDisplayDialog from "@/components/resource/DifficultyDisplayDialog";
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
-import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
-import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import SolutionIncludedIndicator from "@/components/resource/SolutionIncludedIndicator";
+import ProfileVerifiedIndicator from "@/components/user/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
-import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
-import ResourceDeleteButton from "@/components/ResourceDeleteButton";
-import CommentsSection from "@/components/CommentsSection";
-import ResourceStatusProvider from "@/components/ResourceStatusProvider";
+import {
+  getSolutionStatus,
+  getSolutionVote,
+} from "@/components/resource/SolutionItem";
+import ResourceDeleteButton from "@/components/resource/ResourceDeleteButton";
+import CommentsSection from "@/components/comments/CommentsSection";
+import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {

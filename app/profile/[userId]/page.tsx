@@ -1,12 +1,12 @@
-import UserResourcesSection from "@/components/UserResourcesSection";
+import UserResourcesSection from "@/components/user/UserResourcesSection";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import ProfileEditDialog from "@/components/ProfileEditDialog";
+import ProfileEditDialog from "@/components/user/ProfileEditDialog";
 import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 import { Separator } from "@/components/ui/Separator";
-import { UserAchievementsSection } from "@/components/UserAchievementsSection";
+import { UserAchievementsSection } from "@/components/user/UserAchievementsSection";
 
 export default async function ProfilePageUser({
   params,

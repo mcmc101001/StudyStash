@@ -1,8 +1,8 @@
 import { getCurrentUser } from "@/lib/session";
 import { User } from "lucide-react";
 import Image from "next/image";
-import LogoutButton from "@/components/LogoutButton";
-import LoginButton from "@/components/LoginButton";
+import LogoutButton from "@/components/nav/LogoutButton";
+import LoginButton from "@/components/nav/LoginButton";
 
 async function UserProfilePic() {
   const user = await getCurrentUser();

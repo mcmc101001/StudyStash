@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation";
-import ResourceItem from "@/components/ResourceItem";
-import UserResourceTab from "@/components/UserResourceTab";
+import ResourceItem from "@/components/resource/ResourceItem";
+import UserResourceTab from "@/components/user/UserResourceTab";
 import {
   ResourceSolutionOptions,
   ResourceSolutionType,
   ResourceSolutionTypeURL,
   sortValue,
 } from "@/lib/content";
-import ResourceFilters from "@/components/ResourceFilters";
+import ResourceFilters from "@/components/resource/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
 import { ExamType, SemesterType } from "@prisma/client";
 import {

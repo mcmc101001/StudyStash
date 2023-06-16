@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import PDFUploader from "@/components/PDFUploader";
+import PDFUploader from "@/components/resource/PDFUploader";
 import Button from "@/components/ui/Button";
 import { Trash2, Upload } from "lucide-react";
 import { generateS3PutURLType } from "@/pages/api/generateS3PutURL";
@@ -163,7 +163,7 @@ export default function ContributeSolutionDialog({
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="border truncate border-slate-800 dark:border-slate-200"
+          className="truncate border border-slate-800 dark:border-slate-200"
         >
           Submit solution
         </Button>

@@ -1,4 +1,4 @@
-import ResourceTab from "@/components/ResourceTab";
+import ResourceTab from "@/components/resource/ResourceTab";
 import { getSpecificModuleInfo } from "@/lib/nusmods";
 import { ResourceOptions } from "@/lib/content";
 import { getCurrentUser } from "@/lib/session";

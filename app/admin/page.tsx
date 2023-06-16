@@ -2,8 +2,11 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
-import { DataTable } from "@/components/ui/DataTable";
-import { columns, ReportHeaderType } from "@/components/ReportTableColumns";
+import { DataTable } from "@/components/admin/DataTable";
+import {
+  columns,
+  ReportHeaderType,
+} from "@/components/admin/ReportTableColumns";
 
 // Function to convert Date type to string
 const dateString = (datetime: Date) => {

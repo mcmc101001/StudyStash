@@ -2,7 +2,7 @@ import { getRating } from "@/lib/dataFetching";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
-import DifficultyRating from "@/components/DifficultyRating";
+import DifficultyRating from "@/components/resource/DifficultyRating";
 import { redirect } from "next/navigation";
 import {
   Cheatsheet,
@@ -24,16 +24,16 @@ import {
   getQuestionPaperStatus,
   getQuestionPaperVote,
   getUserDifficulty,
-} from "@/components/ResourceItem";
-import ResourceRatingProvider from "@/components/ResourceRatingProvider";
+} from "@/components/resource/ResourceItem";
+import ResourceRatingProvider from "@/components/resource/ResourceRatingProvider";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
-import SolutionTab from "@/components/SolutionTab";
+import SolutionTab from "@/components/resource/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
-import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
+import SolutionIncludedIndicator from "@/components/resource/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
-import ResourceStatusProvider from "@/components/ResourceStatusProvider";
+import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
 import DraggableResizableDiv from "@/components/ui/DraggableResizableDiv";
 
 export default async function ResourcePage({

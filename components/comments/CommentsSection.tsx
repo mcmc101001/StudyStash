@@ -1,4 +1,4 @@
-import AddCommentSection from "@/components/AddCommentSection";
+import AddCommentSection from "@/components/comments/AddCommentSection";
 import { ResourceSolutionType } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -23,7 +23,7 @@ import {
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
-import CommentsSorter from "@/components/CommentsSorter";
+import CommentsSorter from "@/components/comments/CommentsSorter";
 
 export interface CommentsSectionProps
   extends React.HTMLAttributes<HTMLDivElement> {
