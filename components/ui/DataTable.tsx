@@ -74,7 +74,10 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger
+            asChild
+            className="border border-slate-800 dark:border-slate-200"
+          >
             <Button variant="ghost" className="ml-auto">
               Columns
             </Button>
