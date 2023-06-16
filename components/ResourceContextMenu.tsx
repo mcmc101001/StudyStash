@@ -131,7 +131,7 @@ ResourceContextMenuProps) {
 
   let reportChoices = reportOptions;
   if (category === "Past Papers") {
-    reportChoices.concat(papersAdditionalReportOptions);
+    reportChoices = reportChoices.concat(papersAdditionalReportOptions);
   }
 
   // const onDownloadClick = () => {
