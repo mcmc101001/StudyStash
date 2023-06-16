@@ -327,7 +327,7 @@ export default function CommentItem({
               onClick={() => setShowReplies(!showReplies)}
             >
               <MessageCircle />
-              <span className="hidden overflow-clip @md:inline">
+              <span className="hidden overflow-clip text-sm @md:inline @lg:text-base">
                 {showReplies
                   ? "Hide replies"
                   : `Show replies (${comment.replies.length})`}
@@ -351,7 +351,9 @@ export default function CommentItem({
             }}
           >
             <Reply />
-            <span className="hidden @md:inline">Reply</span>
+            <span className="hidden text-sm @md:inline @lg:text-base">
+              Reply
+            </span>
           </div>
           {currentUser?.id === comment.user.id && (
             <>
@@ -377,7 +379,10 @@ export default function CommentItem({
                   }
                 }}
               >
-                <Edit /> <span className="hidden @md:inline">Edit</span>
+                <Edit />{" "}
+                <span className="hidden text-sm @md:inline @lg:text-base">
+                  Edit
+                </span>
               </div>
             </>
           )}
@@ -658,7 +663,10 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
                   }
                 }}
               >
-                <Edit /> <span className="hidden @md:inline">Edit</span>
+                <Edit />{" "}
+                <span className="hidden text-sm @md:inline @lg:text-base">
+                  Edit
+                </span>
               </div>
             </>
           )}
@@ -687,7 +695,10 @@ function DeleteDialog({
           role="button"
           onClick={() => {}}
         >
-          <Trash2 /> <span className="hidden @md:inline">Delete</span>
+          <Trash2 />{" "}
+          <span className="hidden text-sm @md:inline @lg:text-base">
+            Delete
+          </span>
         </div>
       </DialogTrigger>
       <DialogContent>
