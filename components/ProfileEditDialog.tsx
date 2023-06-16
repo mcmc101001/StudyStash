@@ -3,7 +3,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
@@ -76,7 +75,7 @@ export default function ProfileEditDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger
         asChild
-        className="flex h-10 items-center justify-center rounded-md border-2 p-2 px-3"
+        className="flex h-10 items-center justify-center rounded-md border-2 border-slate-800 p-2 px-3 dark:border-slate-200"
         onClick={() => {
           setNameState(username);
           setBioState(bio);

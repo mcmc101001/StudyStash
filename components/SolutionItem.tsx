@@ -6,10 +6,9 @@ import ResourceDeleteButton from "@/components/ResourceDeleteButton";
 import { Separator } from "@/components/ui/Separator";
 import ResourceRatingProvider from "@/components/ResourceRatingProvider";
 import ClientDateTime from "@/components/ClientDateTime";
-import ResourceStatusComponent from "@/components/ResourceStatusComponent";
 import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import ResourceContextMenu from "@/components/ResourceContextMenu";
-import ResourceStatusProvider from "./ResourceStatusProvider";
+import ResourceStatusProvider from "@/components/ResourceStatusProvider";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({

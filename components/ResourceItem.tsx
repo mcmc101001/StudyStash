@@ -24,8 +24,8 @@ import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
 import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
-import CommentsSection from "./CommentsSection";
-import ResourceStatusProvider from "./ResourceStatusProvider";
+import CommentsSection from "@/components/CommentsSection";
+import ResourceStatusProvider from "@/components/ResourceStatusProvider";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {

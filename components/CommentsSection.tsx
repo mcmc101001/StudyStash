@@ -23,7 +23,7 @@ import {
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
-import CommentsSorter from "./CommentsSorter";
+import CommentsSorter from "@/components/CommentsSorter";
 
 export interface CommentsSectionProps
   extends React.HTMLAttributes<HTMLDivElement> {
