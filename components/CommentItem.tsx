@@ -269,7 +269,7 @@ export default function CommentItem({
           {isEditMode ? (
             <textarea
               placeholder="Type comment here..."
-              autoFocus={isEditMode}
+              autoFocus
               spellCheck={false}
               autoComplete="off"
               value={isEditMode ? editValue : comment.content}
@@ -327,7 +327,7 @@ export default function CommentItem({
               onClick={() => setShowReplies(!showReplies)}
             >
               <MessageCircle />
-              <span className="hidden overflow-clip @lg:inline">
+              <span className="hidden overflow-clip @md:inline">
                 {showReplies
                   ? "Hide replies"
                   : `Show replies (${comment.replies.length})`}
@@ -351,7 +351,7 @@ export default function CommentItem({
             }}
           >
             <Reply />
-            <span className="hidden @lg:inline">Reply</span>
+            <span className="hidden @md:inline">Reply</span>
           </div>
           {currentUser?.id === comment.user.id && (
             <>
@@ -377,7 +377,7 @@ export default function CommentItem({
                   }
                 }}
               >
-                <Edit /> <span className="hidden @lg:inline">Edit</span>
+                <Edit /> <span className="hidden @md:inline">Edit</span>
               </div>
             </>
           )}
@@ -385,7 +385,7 @@ export default function CommentItem({
       </div>
       {showOwnReply && (
         <>
-          <div className="ml-10 flex">
+          <div className="flex pl-4 pt-2">
             <Image
               loading="lazy"
               src={currentUser ? currentUser.image! : ""}
@@ -399,6 +399,7 @@ export default function CommentItem({
               <textarea
                 placeholder="Type comment here..."
                 spellCheck={false}
+                autoFocus
                 autoComplete="off"
                 value={replyValue}
                 ref={inputRef}
@@ -586,7 +587,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
               autoComplete="off"
               value={isEditMode ? editValue : reply.content}
               ref={editRef}
-              autoFocus={isEditMode}
+              autoFocus
               className={
                 `min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden text-slate-800 outline-none scrollbar-none dark:text-slate-200 dark:caret-white ` +
                 (isEditMode
@@ -657,7 +658,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
                   }
                 }}
               >
-                <Edit /> <span className="hidden @lg:inline">Edit</span>
+                <Edit /> <span className="hidden @md:inline">Edit</span>
               </div>
             </>
           )}
@@ -686,7 +687,7 @@ function DeleteDialog({
           role="button"
           onClick={() => {}}
         >
-          <Trash2 /> <span className="hidden @lg:inline">Delete</span>
+          <Trash2 /> <span className="hidden @md:inline">Delete</span>
         </div>
       </DialogTrigger>
       <DialogContent>
