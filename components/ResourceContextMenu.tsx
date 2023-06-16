@@ -5,7 +5,6 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-  ContextMenuCheckboxItem,
   ContextMenuSeparator,
   ContextMenuSub,
   ContextMenuSubTrigger,
@@ -18,15 +17,11 @@ import {
   reportOptions,
 } from "@/lib/content";
 import { addReportType } from "@/pages/api/addReport";
-import { updateStatusType } from "@/pages/api/updateStatus";
-import { ReportType, ResourceStatus } from "@prisma/client";
+import { ReportType } from "@prisma/client";
 import axios from "axios";
 import fileDownload from "js-file-download";
 import { useRouter } from "next/navigation";
-import { title } from "process";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { blob } from "stream/consumers";
 
 // export class RepeatReportError extends Error {
 //   constructor(message: string) {
@@ -44,6 +39,7 @@ interface ResourceContextMenuProps {
   resourceUserId: string;
   shareURL: string;
   className?: string;
+  disabled?: boolean;
   // resourceStatus: ResourceStatus | null;
 }
 
@@ -56,6 +52,7 @@ export default function ResourceContextMenu({
   resourceUserId,
   shareURL,
   className,
+  disabled,
 }: // resourceStatus,
 ResourceContextMenuProps) {
   // const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
@@ -159,7 +156,9 @@ ResourceContextMenuProps) {
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger className={className}>{children}</ContextMenuTrigger>
+      <ContextMenuTrigger disabled={disabled} className={className}>
+        {children}
+      </ContextMenuTrigger>
       <ContextMenuContent className="border border-slate-300 dark:border-slate-600">
         <ContextMenuItem asChild>
           {/* <a

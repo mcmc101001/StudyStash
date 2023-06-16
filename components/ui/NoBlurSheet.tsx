@@ -54,7 +54,7 @@ const NBSheetOverlay = React.forwardRef<
 NBSheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-  "fixed z-50 scale-100 gap-4 bg-background p-6 opacity-100 shadow-lg border-none bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200",
+  "fixed z-50 scale-100 gap-4 p-6 opacity-100 dark:shadow-slate-700 shadow-lg border-none bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200",
   {
     variants: {
       position: {

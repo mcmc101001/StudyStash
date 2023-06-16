@@ -39,37 +39,65 @@ export default async function deletePDF(
     return;
   }
   try {
-    let { id, category } = req.body;
+    let { id, category, userId } = req.body;
     // ensure authenticated user is the owner of the PDF
     if (category === "Cheatsheets") {
-      const PDFentry = await prisma.cheatsheet.deleteMany({
+      let validateResource = await prisma.cheatsheet.findUnique({
         where: {
           id: id,
-          userId: session.user.id,
+        },
+      });
+      if (validateResource?.userId !== userId) {
+        return res.status(401).json({ message: "You are not authorized." });
+      }
+      const PDFentry = await prisma.cheatsheet.delete({
+        where: {
+          id: id,
         },
       });
       res.status(200).json({ PDFentry });
     } else if (category === "Past Papers") {
-      const PDFentry = await prisma.questionPaper.deleteMany({
+      let validateResource = await prisma.questionPaper.findUnique({
         where: {
           id: id,
-          userId: session.user.id,
+        },
+      });
+      if (validateResource?.userId !== userId) {
+        return res.status(401).json({ message: "You are not authorized." });
+      }
+      const PDFentry = await prisma.questionPaper.delete({
+        where: {
+          id: id,
         },
       });
       res.status(200).json({ PDFentry });
     } else if (category === "Notes") {
-      const PDFentry = await prisma.notes.deleteMany({
+      let validateResource = await prisma.notes.findUnique({
         where: {
           id: id,
-          userId: session.user.id,
+        },
+      });
+      if (validateResource?.userId !== userId) {
+        return res.status(401).json({ message: "You are not authorized." });
+      }
+      const PDFentry = await prisma.notes.delete({
+        where: {
+          id: id,
         },
       });
       res.status(200).json({ PDFentry });
     } else if (category === "Solutions") {
-      const PDFentry = await prisma.solution.deleteMany({
+      let validateResource = await prisma.solution.findUnique({
         where: {
           id: id,
-          userId: session.user.id,
+        },
+      });
+      if (validateResource?.userId !== userId) {
+        return res.status(401).json({ message: "You are not authorized." });
+      }
+      const PDFentry = await prisma.solution.delete({
+        where: {
+          id: id,
         },
       });
       res.status(200).json({ PDFentry });

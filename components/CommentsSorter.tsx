@@ -21,8 +21,8 @@ import {
   User,
 } from "@prisma/client";
 import { useState } from "react";
-import CommentItem from "./CommentItem";
-import StyledSelect from "./ui/StyledSelect";
+import CommentItem from "@/components/CommentItem";
+import StyledSelect from "@/components/ui/StyledSelect";
 
 interface CommentsSorterProps {
   category: ResourceSolutionType;
@@ -171,7 +171,7 @@ export default function CommentsSorter({
               })}
             />
           </div>
-          <ul className="mt- flex flex-col gap-y-2">
+          <ul className="mt-2 flex flex-col gap-y-2">
             {sortedComments.map((comment) => {
               return (
                 <li key={comment.id}>

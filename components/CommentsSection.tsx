@@ -22,9 +22,8 @@ import {
   User,
 } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
-import CommentItem from "@/components/CommentItem";
 import { cn } from "@/lib/utils";
-import CommentsSorter from "./CommentsSorter";
+import CommentsSorter from "@/components/CommentsSorter";
 
 export interface CommentsSectionProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -196,13 +195,13 @@ export default async function CommentsSection({
   return (
     <div
       className={cn(
-        `w-full overflow-y-auto overflow-x-hidden p-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
+        `w-full overflow-y-auto overflow-x-hidden px-5 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
       hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700`,
         className
       )}
       style={{ scrollbarGutter: "stable" }}
     >
-      <h1 className="mb-4 text-4xl font-bold text-slate-800 dark:text-slate-200">
+      <h1 className="mb-4 text-xl font-bold text-slate-800 dark:text-slate-200">
         {`Comments (${comments.length})`}
       </h1>
       <AddCommentSection

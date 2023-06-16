@@ -24,8 +24,8 @@ import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
 import { getSolutionStatus, getSolutionVote } from "@/components/SolutionItem";
 import ResourceDeleteButton from "@/components/ResourceDeleteButton";
-import CommentsSection from "./CommentsSection";
-import ResourceStatusProvider from "./ResourceStatusProvider";
+import CommentsSection from "@/components/CommentsSection";
+import ResourceStatusProvider from "@/components/ResourceStatusProvider";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -144,6 +144,7 @@ interface ResourceItemProps {
   moduleCode?: string;
   designNumber?: number;
   questionPaperId?: string;
+  isVisited?: boolean;
 }
 
 export default async function ResourceItem({
@@ -163,6 +164,7 @@ export default async function ResourceItem({
   moduleCode,
   designNumber,
   questionPaperId,
+  isVisited,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({
     where: {
@@ -284,6 +286,7 @@ export default async function ResourceItem({
           resourceStatus={userStatus ? userStatus.status : null}
           solutionIncluded={solutionIncluded}
           questionPaperId={questionPaperId}
+          isVisited={isVisited}
         >
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">
@@ -308,6 +311,7 @@ export default async function ResourceItem({
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">
+              {isVisited ? `${moduleCode}, ` : ""}
               {category !== "Notes" ? `${examType}, ` : ""}
               {`${acadYear} ${semesterString}`}
             </p>
@@ -318,7 +322,7 @@ export default async function ResourceItem({
                 <>
                   <Link
                     href={`/profile/${resourceUser?.id}`}
-                    className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                    className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 focus:outline-none dark:text-slate-400 dark:hover:text-slate-300"
                   >
                     <div className="flex items-center">
                       <span className="truncate">{resourceUser?.name}</span>

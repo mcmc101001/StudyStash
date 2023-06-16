@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import BookmarkedModules from "@/components/BookmarkedModules";
 import { getModuleCodeOptions } from "@/lib/nusmods";
-import UserResourceTab from "@/components/UserResourceTab";
 import DashboardResourcesSection from "@/components/DashboardResourcesSection";
 import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 

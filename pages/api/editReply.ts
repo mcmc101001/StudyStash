@@ -2,29 +2,34 @@ import { authOptions } from "@/lib/auth";
 import { ResourceSolutionEnum } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import {
+  CheatsheetComment,
   CheatsheetReply,
-  QuestionPaperReply,
+  NotesComment,
   NotesReply,
+  QuestionPaperComment,
+  QuestionPaperReply,
+  SolutionComment,
   SolutionReply,
 } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
-const deleteReplySchema = z.object({
+const editReplySchema = z.object({
   category: ResourceSolutionEnum,
   userId: z.string(),
   replyId: z.string(),
+  content: z.string(),
 });
 
-export type deleteReplyType = z.infer<typeof deleteReplySchema>;
+export type editReplyType = z.infer<typeof editReplySchema>;
 
-function isValidBody(body: any): body is deleteReplyType {
-  const { success } = deleteReplySchema.safeParse(body);
+function isValidBody(body: any): body is editReplyType {
+  const { success } = editReplySchema.safeParse(body);
   return success;
 }
 
-export default async function deleteReply(
+export default async function editReply(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -45,98 +50,82 @@ export default async function deleteReply(
     return;
   }
   try {
-    let { category, replyId, userId } = req.body;
+    let { category, replyId, userId, content } = req.body;
     let reply:
       | CheatsheetReply
       | QuestionPaperReply
       | NotesReply
       | SolutionReply;
     if (category === "Cheatsheets") {
-      // reply = await prisma.cheatsheetReply.update({
-      //   where: {
-      //     id: replyId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
-      let validateReply = await prisma.cheatsheetReply.findUnique({
+      let validateComment = await prisma.cheatsheetReply.findFirst({
         where: {
           id: replyId,
         },
       });
-      if (validateReply?.userId !== userId) {
+      if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      reply = await prisma.cheatsheetReply.delete({
+      reply = await prisma.cheatsheetReply.update({
         where: {
           id: replyId,
+        },
+        data: {
+          content: content,
+          isEdited: true,
         },
       });
     } else if (category === "Past Papers") {
-      // reply = await prisma.questionPaperReply.update({
-      //   where: {
-      //     id: replyId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
-      let validateReply = await prisma.questionPaperReply.findUnique({
+      let validateComment = await prisma.questionPaperReply.findFirst({
         where: {
           id: replyId,
         },
       });
-      if (validateReply?.userId !== userId) {
+      if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      reply = await prisma.questionPaperReply.delete({
+      reply = await prisma.questionPaperReply.update({
         where: {
           id: replyId,
+        },
+        data: {
+          content: content,
+          isEdited: true,
         },
       });
     } else if (category === "Notes") {
-      // reply = await prisma.notesReply.update({
-      //   where: {
-      //     id: replyId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
-      let validateReply = await prisma.notesReply.findUnique({
+      let validateComment = await prisma.notesReply.findFirst({
         where: {
           id: replyId,
         },
       });
-      if (validateReply?.userId !== userId) {
+      if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      reply = await prisma.notesReply.delete({
+      reply = await prisma.notesReply.update({
         where: {
           id: replyId,
+        },
+        data: {
+          content: content,
+          isEdited: true,
         },
       });
     } else if (category === "Solutions") {
-      // reply = await prisma.solutionReply.update({
-      //   where: {
-      //     id: replyId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
-      let validateReply = await prisma.solutionReply.findUnique({
+      let validateComment = await prisma.solutionReply.findFirst({
         where: {
           id: replyId,
         },
       });
-      if (validateReply?.userId !== userId) {
+      if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      reply = await prisma.solutionReply.delete({
+      reply = await prisma.solutionReply.update({
         where: {
           id: replyId,
+        },
+        data: {
+          content: content,
+          isEdited: true,
         },
       });
     } else {

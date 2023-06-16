@@ -6,6 +6,7 @@ import Image from "next/image";
 import ProfileEditDialog from "@/components/ProfileEditDialog";
 import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 import { Separator } from "@/components/ui/Separator";
+import { UserAchievementsSection } from "@/components/UserAchievementsSection";
 
 export default async function ProfilePageUser({
   params,
@@ -55,8 +56,9 @@ export default async function ProfilePageUser({
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."}
           </p>
         </section>
-        <section className="mt-6 flex items-center justify-center bg-slate-400 text-center text-xl dark:bg-slate-600">
-          Points or achievements
+        <section className="mt-6">
+          {/* @ts-expect-error Server Component */}
+          <UserAchievementsSection userId={profileUser.id} />
         </section>
       </div>
       <Separator

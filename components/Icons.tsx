@@ -1,6 +1,7 @@
 import {
   LucideProps,
   Files,
+  FileUp,
   FilePlus,
   FileSignature,
   LayoutDashboard,
@@ -36,6 +37,7 @@ export const Icons = {
   Construction,
   FileSignature,
   User,
+  FileUp,
 };
 
 export type Icon = keyof typeof Icons;
