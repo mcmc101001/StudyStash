@@ -41,20 +41,23 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
   useEffect(() => {
     let queryModified = query.toLowerCase().trimStart();
     let filteredModules: Array<string> = [];
-    for (const mod of modules) {
+    let unsortedFilteredModules = modules.filter((module) => {
       // if module name shares prefix with query
-      if (mod.toLowerCase().startsWith(queryModified)) {
-        filteredModules.push(mod);
-      } else if (startsWithNumbers(queryModified)) {
+      if (module.toLowerCase().startsWith(queryModified)) {
+        return true;
         // if module name contains query as number
-        if (mod.toLowerCase().includes(queryModified.toLowerCase())) {
-          filteredModules.push(mod);
+      } else if (startsWithNumbers(queryModified)) {
+        if (module.toLowerCase().includes(queryModified.toLowerCase())) {
+          return true;
         }
       }
-      if (filteredModules.length === 10) {
-        break;
-      }
-    }
+    });
+    // sort it so the direct match for numbers (starts with instead of includes) is on top
+    filteredModules = unsortedFilteredModules
+      .sort((a, b) => {
+        return a.indexOf(queryModified) < b.indexOf(queryModified) ? -1 : 1;
+      })
+      .slice(0, 9);
     if (query.trimStart().length >= 1) {
       setFilterMods(filteredModules);
     }
