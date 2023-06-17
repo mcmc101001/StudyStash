@@ -139,9 +139,9 @@ export default async function DashboardResourcesSection({
         <DashboardResourceTab resourceStatusOptions={ResourceStatusOptions} />
       </Suspense>
       <div className="flex w-full flex-row justify-between">
-        {filterCategory === undefined ? (
+        {filterStatus === undefined ? (
           <div className="flex h-1/2 w-full items-center justify-center text-3xl">
-            Select category.
+            Select status.
           </div>
         ) : (
           <>
@@ -153,7 +153,11 @@ export default async function DashboardResourcesSection({
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
                   style={{ scrollbarGutter: "stable" }}
                 >
-                  {resourcesWithRating.length !== 0 ? (
+                  {filterCategory === undefined ? (
+                    <div className="flex h-1/2 w-full items-center justify-center text-3xl">
+                      Select category.
+                    </div>
+                  ) : resourcesWithRating.length !== 0 ? (
                     <ul className="flex flex-col gap-y-6">
                       {resourcesWithRating.map((resource) => {
                         return (

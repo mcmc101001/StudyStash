@@ -3,7 +3,6 @@
 import { ResourceSolutionOptions } from "@/lib/content";
 import { Icons } from "./Icons";
 import useQueryParams from "@/hooks/useQueryParams";
-import { useEffect, useRef } from "react";
 
 interface SideTabCategoryFilterProps {
   children: React.ReactNode;
