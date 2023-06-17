@@ -11,6 +11,7 @@ import {
   CheckCircle,
   Calendar,
   Bookmark,
+  TowerControl,
 } from "lucide-react";
 
 export const Icons = {
@@ -44,6 +45,7 @@ export const Icons = {
   CheckCircle,
   Calendar,
   Bookmark,
+  TowerControl,
 };
 
 export type Icon = keyof typeof Icons;
