@@ -117,13 +117,14 @@ export const columns: ColumnDef<ReportHeaderType>[] = [
   {
     // header: "Actions",
     id: "actions",
-    cell: async ({ row }) => {
+    cell: ({ row }) => {
       const report = row.original;
 
       return (
         <ResolveButton
           report={report}
-          moduleCodeOptions={await getModuleCodeOptions()}
+          // moduleCodeOptions={await getModuleCodeOptions()}
+          moduleCodeOptions={[]}
         />
       );
     },
