@@ -76,6 +76,26 @@ export const ResourceSolutionOptions: ResourceOptionsProps[] = [
   },
 ];
 
+export interface ResourceStatusProps {
+  name: ResourceStatus;
+  icon: Icon;
+}
+
+export const ResourceStatusOptions: ResourceStatusProps[] = [
+  {
+    name: "Todo",
+    icon: "Calendar",
+  },
+  {
+    name: "Completed",
+    icon: "CheckCircle",
+  },
+  {
+    name: "Saved",
+    icon: "Bookmark",
+  },
+];
+
 export const solutionTabEnum = z.enum([
   "Solutions",
   "Comments",
