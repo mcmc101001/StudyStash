@@ -82,7 +82,7 @@ export async function UserAchievementsSection({
     solutions.length;
 
   return (
-    <div className="flex items-center justify-center gap-x-5 bg-slate-400 p-4 text-center text-xl dark:bg-slate-600">
+    <div className="flex items-center justify-center gap-x-5 bg-slate-300 p-4 text-center text-xl dark:bg-slate-700">
       <Achievement
         description="Resources uploaded"
         value={resourcesUploaded}
