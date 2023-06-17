@@ -132,11 +132,10 @@ export default async function DashboardResourcesSection({
 
   return (
     <>
-      <h1 className="text-3xl font-semibold">Saved resources</h1>
       <Suspense>
         <UserResourceTab resourceOptions={ResourceSolutionOptions} />
       </Suspense>
-      <div className="flex h-[70vh] w-full flex-row justify-between gap-x-4">
+      <div className="flex h-[75vh] w-full flex-row justify-between gap-x-4">
         {filterCategory === undefined ? (
           <div className="flex h-1/2 w-full items-center justify-center text-3xl">
             Select category.
@@ -144,7 +143,7 @@ export default async function DashboardResourcesSection({
         ) : (
           <>
             <div
-              className="flex w-4/5 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
+              className="flex w-4/5 flex-col gap-y-6 overflow-y-auto scroll-smooth bg-slate-900 pr-5
           scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
               style={{ scrollbarGutter: "stable" }}
@@ -182,7 +181,7 @@ export default async function DashboardResourcesSection({
                             : undefined
                         }
                         difficultyCount={
-                          filterCategory === "past_papers"
+                          category === "Past Papers"
                             ? // @ts-expect-error wrong type inference
                               resource._count.difficulties
                             : undefined
@@ -227,7 +226,6 @@ export default async function DashboardResourcesSection({
                   category={category}
                   moduleCodeOptions={moduleCodeOptions}
                   currentUserId={currentUserId}
-                  statusOptions={statusOptions}
                 />
               </Suspense>
             </div>

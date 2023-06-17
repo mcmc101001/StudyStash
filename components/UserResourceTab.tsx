@@ -13,7 +13,7 @@ export default function UserResourceTab({
 }: UserResourceTabProps) {
   let { queryParams, setQueryParams } = useQueryParams();
   return (
-    <div className="my-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
+    <div className="mb-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
       {resourceOptions.map((option) => {
         return (
           <div

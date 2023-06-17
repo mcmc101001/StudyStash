@@ -69,7 +69,7 @@ export default function BookmarkedModules({
   return (
     <div className="h-full w-full overflow-hidden border py-4">
       <div className="flex items-center justify-between px-4">
-        <h1 className="text-2xl font-medium">Bookmarked Modules</h1>
+        <h1 className="text-xl font-medium">Bookmarked Modules</h1>
         <button
           className={
             "group flex h-9 w-9 items-center justify-center rounded-full border-2 p-2 transition-colors " +

@@ -180,7 +180,7 @@ export default async function UserResourcesSection({
                             : undefined
                         }
                         difficultyCount={
-                          filterCategory === "past_papers"
+                          category === "Past Papers"
                             ? // @ts-expect-error wrong type inference
                               resource._count.difficulties
                             : undefined

@@ -66,7 +66,7 @@ export default async function ProfilePageUser({
         orientation="vertical"
       />
       <section className="w-2/3 pl-5">
-        <h1 className="mb-2 text-3xl font-semibold text-slate-800 dark:text-white">
+        <h1 className="mb-4 text-3xl font-semibold text-slate-800 dark:text-white">
           My resources
         </h1>
         {/* @ts-expect-error Server Component */}
