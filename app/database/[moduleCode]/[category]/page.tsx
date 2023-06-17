@@ -162,7 +162,6 @@ export default async function Page({
                 // @ts-expect-error wrong type inference
                 examType={category !== "Notes" ? resource.type : undefined}
                 category={category}
-                designNumber={index % 4}
               />
             );
           })}

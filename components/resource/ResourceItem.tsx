@@ -145,7 +145,6 @@ interface ResourceItemProps {
   rating: number;
   isProfile?: boolean;
   moduleCode?: string;
-  designNumber?: number;
   questionPaperId?: string;
   isVisited?: boolean;
 }
@@ -165,7 +164,6 @@ export default async function ResourceItem({
   rating,
   isProfile,
   moduleCode,
-  designNumber,
   questionPaperId,
   isVisited,
 }: ResourceItemProps) {
