@@ -22,14 +22,14 @@ import {
 import Image from "next/image";
 import { Edit, MessageCircle, Reply, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { setInputHeight } from "@/components/AddCommentSection";
+import { setInputHeight } from "@/components/comments/AddCommentSection";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { addReplyType } from "@/pages/api/addReply";
 import axios from "axios";
 import { ResourceSolutionType } from "@/lib/content";
 import Button from "@/components/ui/Button";
-import ProfileVerifiedIndicator from "@/components/ProfileVerifiedIndicator";
+import ProfileVerifiedIndicator from "@/components/user/ProfileVerifiedIndicator";
 import {
   Dialog,
   DialogContent,
@@ -42,8 +42,8 @@ import { deleteCommentType } from "@/pages/api/deleteComment";
 import { editCommentType } from "@/pages/api/editComment";
 import { formatTimeAgo } from "@/lib/utils";
 import { deleteReplyType } from "@/pages/api/deleteReply";
-import CommentRating from "@/components/CommentRating";
-import ReplyRating from "@/components/ReplyRating";
+import CommentRating from "@/components/comments/CommentRating";
+import ReplyRating from "@/components/comments/ReplyRating";
 import { editReplyType } from "@/pages/api/editReply";
 import {
   Tooltip,

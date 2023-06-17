@@ -4,11 +4,11 @@ import {
   sortValue,
   statusOptions,
 } from "@/lib/content";
-import UserResourceTab from "@/components/UserResourceTab";
+import UserResourceTab from "@/components/user/UserResourceTab";
 import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
 import { redirect } from "next/navigation";
-import ResourceItem from "@/components/ResourceItem";
-import ResourceFilters from "@/components/ResourceFilters";
+import ResourceItem from "@/components/resource/ResourceItem";
+import ResourceFilters from "@/components/resource/ResourceFilters";
 import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
 import {
   getAvgDifficulty,

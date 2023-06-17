@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import VisitedResources from "@/components/VisitedResources";
+import VisitedResources from "@/components/resource/VisitedResources";
 
 export default async function PDFPage() {
   const user = await getCurrentUser();

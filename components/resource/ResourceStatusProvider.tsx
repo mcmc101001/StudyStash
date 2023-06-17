@@ -3,7 +3,7 @@
 import { ResourceSolutionType } from "@/lib/content";
 import { atom } from "jotai";
 
-import ResourceStatusComponent from "@/components/ResourceStatusComponent";
+import ResourceStatusComponent from "@/components/resource/ResourceStatusComponent";
 import { ResourceStatus } from "@prisma/client";
 interface ResourceStatusProviderProps {
   category: ResourceSolutionType;

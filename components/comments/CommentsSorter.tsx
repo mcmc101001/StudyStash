@@ -21,7 +21,7 @@ import {
   User,
 } from "@prisma/client";
 import { useState } from "react";
-import CommentItem from "@/components/CommentItem";
+import CommentItem from "@/components/comments/CommentItem";
 import StyledSelect from "@/components/ui/StyledSelect";
 
 interface CommentsSorterProps {

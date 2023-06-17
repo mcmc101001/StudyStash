@@ -1,14 +1,14 @@
 import { Suspense } from "react";
-import NavOptions from "@/components/NavOptions";
+import NavOptions from "@/components/nav/NavOptions";
 import Link from "next/link";
 import { Icon, Icons } from "@/components/Icons";
-import UserProfilePic from "@/components/UserProfilePic";
+import UserProfilePic from "@/components/user/UserProfilePic";
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { getCurrentUser } from "@/lib/session";
 
 const DarkModeTogglerNoSSR = dynamic(
-  () => import("@/components/DarkModeToggler"),
+  () => import("@/components/nav/DarkModeToggler"),
   { ssr: false }
 );
 

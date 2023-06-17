@@ -1,4 +1,4 @@
-import ResourceItem from "@/components/ResourceItem";
+import ResourceItem from "@/components/resource/ResourceItem";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import {

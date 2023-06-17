@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { IFrame } from "@/components/ui/IFrame";
-import CommentsSection from "@/components/CommentsSection";
-import ResourceRatingProvider from "@/components/ResourceRatingProvider";
+import CommentsSection from "@/components/comments/CommentsSection";
+import ResourceRatingProvider from "@/components/resource/ResourceRatingProvider";
 import { getCurrentUser } from "@/lib/session";
-import ResourceStatusProvider from "@/components/ResourceStatusProvider";
+import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
 import { ChevronLeft } from "lucide-react";
-import SolutionCommentAccordian from "@/components/SolutionCommentAccordian";
+import SolutionCommentAccordian from "@/components/resource/SolutionCommentAccordian";
 
 export default async function SpecificSolutionPage({
   params: { resourceId, categoryURL, solutionId },

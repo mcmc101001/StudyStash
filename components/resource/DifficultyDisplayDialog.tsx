@@ -5,8 +5,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import DifficultyBreakdown from "@/components/DifficultyBreakdown";
-import DifficultyDisplay from "@/components/DifficultyDisplay";
+import DifficultyBreakdown from "@/components/resource/DifficultyBreakdown";
+import DifficultyDisplay from "@/components/resource/DifficultyDisplay";
 import { Separator } from "@/components/ui/Separator";
 
 interface DifficultyDisplayDialogProps {

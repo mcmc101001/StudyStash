@@ -1,9 +1,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/nav/NavBar";
 import { getCurrentUser } from "@/lib/session";
 import { useSelectedLayoutSegment } from "next/navigation";
 import "@testing-library/jest-dom/extend-expect";
-import { navOptions } from "@/components/NavBar";
+import { navOptions } from "@/components/nav/NavBar";
 
 const mock_user = {
   name: "test",

@@ -1,6 +1,6 @@
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { redirect } from "next/navigation";
-import CommentsSection from "@/components/CommentsSection";
+import CommentsSection from "@/components/comments/CommentsSection";
 
 export default async function SolutionCommentsPage({
   params: { resourceId, categoryURL },

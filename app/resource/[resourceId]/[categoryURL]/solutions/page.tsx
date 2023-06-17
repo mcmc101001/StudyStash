@@ -1,6 +1,6 @@
-import ContributeSolutionDialog from "@/components/ContributeSolutionDialog";
-import SolutionItem from "@/components/SolutionItem";
-import SolutionSort from "@/components/SolutionSort";
+import ContributeSolutionDialog from "@/components/resource/ContributeSolutionDialog";
+import SolutionItem from "@/components/resource/SolutionItem";
+import SolutionSort from "@/components/resource/SolutionSort";
 import {
   ResourceFiltersSorts,
   ResourceTypeURL,
