@@ -29,6 +29,7 @@ import {
 import ResourceDeleteButton from "@/components/resource/ResourceDeleteButton";
 import CommentsSection from "@/components/comments/CommentsSection";
 import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
+import UserNameLink from "../user/UserNameLink";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {
@@ -322,22 +323,11 @@ export default async function ResourceItem({
               {isProfile ? (
                 <span className="truncate">{moduleCode}</span>
               ) : (
-                <>
-                  <Link
-                    href={`/profile/${resourceUser?.id}`}
-                    className="group ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 focus:outline-none dark:text-slate-400 dark:hover:text-slate-300"
-                  >
-                    <div className="flex items-center">
-                      <span className="truncate">{resourceUser?.name}</span>
-                    </div>
-                    <span className="mx-auto block h-0.5 max-w-0 bg-slate-700 transition-all duration-300 group-hover:max-w-full dark:bg-slate-300"></span>
-                  </Link>
-                  {resourceUser?.verified && (
-                    <div>
-                      <ProfileVerifiedIndicator />
-                    </div>
-                  )}
-                </>
+                <UserNameLink
+                  id={resourceUser?.id!}
+                  name={resourceUser?.name!}
+                  verified={resourceUser?.verified!}
+                />
               )}
             </div>
           </div>
