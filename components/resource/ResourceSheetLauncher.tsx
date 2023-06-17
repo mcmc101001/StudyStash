@@ -81,11 +81,13 @@ export default function ResourceSheetLauncher({
 
     try {
       const res = await axios.post("/api/updateVisited", body);
-      toast.success("updates");
     } catch (err) {
-      //idk?
-      if (err instanceof Error) {
-        toast.error("here" + err.message);
+      if (
+        err instanceof Error &&
+        // Ignore special code 419 thrown by profile solution resource items
+        err.message !== "Request failed with status code 419"
+      ) {
+        toast.error("Something went wrong, please try again.");
       }
     }
   };

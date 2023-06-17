@@ -30,9 +30,9 @@ export default async function VisitedResources({ userId }: { userId: string }) {
   console.log(recentResources);
 
   return (
-    <div className="h-screen w-1/2">
-      <h1 className="mt-5 text-xl">Visited resources</h1>
-      <div className="flex flex-col justify-center gap-2">
+    <div className="h-screen w-3/4 p-5">
+      <h1 className="my-4 text-3xl">Visited resources</h1>
+      <div className="flex h-[80vh] flex-col gap-2 overflow-auto ">
         {recentResources.map(async (visitedData) => {
           let rating: number;
           let difficulty: number | undefined = undefined;
@@ -151,6 +151,7 @@ export default async function VisitedResources({ userId }: { userId: string }) {
               category={visitedData.category}
               moduleCode={resource.moduleCode}
               isVisited={true}
+              displayCode={true}
             />
           );
         })}
