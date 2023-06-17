@@ -1,11 +1,8 @@
 import {
-  ResourceSolutionOptions,
   ResourceSolutionTypeURL,
   ResourceStatusOptions,
   sortValue,
-  statusOptions,
 } from "@/lib/content";
-import UserResourceTab from "@/components/user/UserResourceTab";
 import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/resource/ResourceItem";
@@ -140,7 +137,7 @@ export default async function DashboardResourcesSection({
       </Suspense>
       <div className="flex w-full flex-row justify-between">
         {filterStatus === undefined ? (
-          <div className="flex h-1/2 w-full items-center justify-center text-3xl">
+          <div className="flex h-[50vh] w-full items-center justify-center text-3xl">
             Select status.
           </div>
         ) : (

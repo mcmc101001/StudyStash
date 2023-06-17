@@ -12,6 +12,7 @@ export default function DashboardResourceTab({
   resourceStatusOptions,
 }: DashboardResourceTabProps) {
   let { queryParams, setQueryParams } = useQueryParams();
+
   return (
     <div className="mb-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
       {resourceStatusOptions.map((option) => {
