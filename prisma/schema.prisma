@@ -47,7 +47,7 @@ model User {
   email                     String?                    @unique
   emailVerified             DateTime?
   image                     String?
-  bio                       String                     @default("") @db.VarChar(255)
+  bio                       String                     @default("") @db.TinyText
   verified                  Boolean                    @default(false)
   visitedData               String                     @default("") @db.Text
   accounts                  Account[]
@@ -98,7 +98,7 @@ model VerificationToken {
 
 model Cheatsheet {
   id            String              @id @default(cuid())
-  name          String
+  name          String              @db.TinyText
   createdAt     DateTime            @default(now())
   userSubmitted User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
@@ -116,7 +116,7 @@ model Cheatsheet {
 
 model QuestionPaper {
   id               String                    @id @default(cuid())
-  name             String
+  name             String                    @db.TinyText
   createdAt        DateTime                  @default(now())
   userSubmitted    User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           String
@@ -137,7 +137,7 @@ model QuestionPaper {
 
 model Notes {
   id            String         @id @default(cuid())
-  name          String
+  name          String         @db.TinyText
   createdAt     DateTime       @default(now())
   userSubmitted User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
@@ -154,7 +154,7 @@ model Notes {
 
 model Solution {
   id              String            @id @default(cuid())
-  name            String
+  name            String            @db.TinyText
   createdAt       DateTime          @default(now())
   userSubmitted   User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
