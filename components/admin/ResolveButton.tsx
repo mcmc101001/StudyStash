@@ -24,14 +24,15 @@ import {
 import Button from "@/components/ui/Button";
 import StyledSelect, { Option } from "@/components//ui/StyledSelect";
 import { ReportType } from "@prisma/client";
-import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
+import { getAcadYearOptions } from "@/lib/nusmods";
+import { startsWithNumbers } from "@/lib/utils";
 
 export default function ResolveButton({
   report,
-}: // moduleCodeOptions,
-{
+  moduleCodeOptions,
+}: {
   report: ReportHeaderType;
-  // moduleCodeOptions: Option[];
+  moduleCodeOptions: Option[];
 }) {
   const editResolve = async (
     // userId: string,
@@ -105,16 +106,49 @@ export default function ResolveButton({
             <label>Reported for Inappropriate Filename</label>
             <Input type="text" defaultValue={report.uploaderName} />
           </div>
-        ) : // ) : report.type === "incorrectModule" ? (
-        //   <StyledSelect
-        //     label="Reported for incorrect module"
-        //     options={moduleCodeOptions}
-        //     onChange={() => console.log("handlechange")}
-        //     defaultValue={moduleCodeOptions.find((option) => {
-        //       return option.label === report.category;
-        //     })}
-        //   />
-        report.type === "incorrectCategory" ? (
+        ) : report.type === "incorrectModule" ? (
+          <StyledSelect
+            label="Module Code"
+            placeholderText="Select Module Code"
+            onChange={() => console.log("handle change")}
+            options={moduleCodeOptions}
+            noOptionsMessage={({ inputValue }) =>
+              inputValue.trimStart().length < 1
+                ? "Type to search..."
+                : "No options"
+            }
+            filterOption={(
+              option: { value: string; label: string },
+              query: string
+            ) => {
+              const trimmed_query = query.trimStart();
+              if (trimmed_query.length < 1) {
+                return false;
+              }
+              // If matches prefix
+              if (
+                option.value
+                  .toLowerCase()
+                  .startsWith(trimmed_query.toLowerCase())
+              ) {
+                return true;
+              } else if (startsWithNumbers(trimmed_query)) {
+                // If matches number
+                if (
+                  option.value
+                    .toLowerCase()
+                    .includes(trimmed_query.toLowerCase())
+                ) {
+                  return true;
+                }
+              }
+              return false;
+            }}
+            defaultValue={moduleCodeOptions.find((option) => {
+              return option.label === report.moduleCode;
+            })}
+          />
+        ) : report.type === "incorrectCategory" ? (
           <StyledSelect
             label="Reported for incorrect category"
             options={categoryOptions}

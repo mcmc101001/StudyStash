@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import { ResourceSolutionType } from "@/lib/content";
 import ResolveButton from "./ResolveButton";
 import UserNameLink from "../user/UserNameLink";
+import { getModuleCodeOptions } from "@/lib/nusmods";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -24,6 +25,7 @@ export type ReportHeaderType = {
   reporterName: string;
   acadYear: string;
   semester: string;
+  moduleCode: string;
   examType?: ExamType;
 };
 
@@ -113,12 +115,17 @@ export const columns: ColumnDef<ReportHeaderType>[] = [
   //   header: "Reporter ID",
   // },
   {
-    header: "Actions",
+    // header: "Actions",
     id: "actions",
-    cell: ({ row }) => {
+    cell: async ({ row }) => {
       const report = row.original;
 
-      return <ResolveButton report={report} />;
+      return (
+        <ResolveButton
+          report={report}
+          moduleCodeOptions={await getModuleCodeOptions()}
+        />
+      );
     },
   },
 ];

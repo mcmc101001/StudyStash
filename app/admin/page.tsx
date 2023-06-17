@@ -64,6 +64,7 @@ export default async function AdminPage() {
         reporterName: report.user.name!,
         acadYear: report.resource.acadYear,
         semester: report.resource.semester,
+        moduleCode: report.resource.moduleCode,
       });
     });
   }
@@ -94,6 +95,7 @@ export default async function AdminPage() {
         reporterName: report.user.name!,
         acadYear: report.resource.acadYear,
         semester: report.resource.semester,
+        moduleCode: report.resource.moduleCode,
         examType: report.resource.type,
       });
     });
@@ -125,6 +127,7 @@ export default async function AdminPage() {
         reporterName: report.user.name!,
         acadYear: report.resource.acadYear,
         semester: report.resource.semester,
+        moduleCode: report.resource.moduleCode,
       });
     });
   }
@@ -156,6 +159,7 @@ export default async function AdminPage() {
         reporterName: report.user.name!,
         acadYear: report.resource.questionPaper.acadYear,
         semester: report.resource.questionPaper.semester,
+        moduleCode: report.resource.questionPaper.moduleCode,
       });
     });
   }
