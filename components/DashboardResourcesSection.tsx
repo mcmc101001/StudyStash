@@ -22,7 +22,7 @@ import { Suspense } from "react";
 import { getSolutionsWithPosts } from "@/lib/dataFetching";
 import { ResourceSolutionType } from "@/lib/content";
 import SideTabCategoryFilter from "@/components/SideTabCategoryFilter";
-import DashboardResourceTab from "./DashboardResourceTab";
+import DashboardResourceTab from "@/components/DashboardResourceTab";
 
 interface DashboardResourcesSectionProps {
   currentUserId: string;
