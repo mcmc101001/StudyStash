@@ -29,6 +29,9 @@ export const ResourceSolutionEnumURL = z.enum([
 ]);
 export type ResourceSolutionTypeURL = z.infer<typeof ResourceSolutionEnumURL>;
 
+// export const ReportSectionEnum = z.enum(["resource", "solution", "comment"]);
+// export type ReportSectionType = z.infer<typeof ReportSectionEnum>;
+
 export interface ResourceOptionsProps {
   name: ResourceSolutionType;
   href: ResourceSolutionTypeURL;
@@ -179,6 +182,12 @@ export const semesterOptions: { value: SemesterType; label: string }[] = [
   { value: "specialTerm2", label: "Special Term 2" },
 ];
 
+export const categoryOptions: { value: ResourceTypeURL; label: string }[] = [
+  { value: "cheatsheets", label: "Cheatsheets" },
+  { value: "past_papers", label: "Past Papers" },
+  { value: "notes", label: "Notes" },
+];
+
 export const statusOptions: { value: ResourceStatus; label: ResourceStatus }[] =
   [
     { value: "Saved", label: "Saved" },
@@ -199,3 +208,8 @@ export const papersAdditionalReportOptions: {
   value: ReportType;
   label: string;
 }[] = [{ value: "incorrectExamType", label: "Incorrect exam type" }];
+
+export const resolvedOptions: { value: string; label: string }[] = [
+  { value: "No", label: "Unresolved" },
+  { value: "Yes", label: "Resolved" },
+];

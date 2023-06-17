@@ -15,14 +15,23 @@ import { editResolvedType } from "@/pages/api/editResolve";
 import { toast } from "react-hot-toast";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
-import { ResourceSolutionType, examTypeOptions } from "@/lib/content";
+import {
+  ResourceSolutionType,
+  categoryOptions,
+  examTypeOptions,
+  semesterOptions,
+} from "@/lib/content";
 import Button from "@/components/ui/Button";
-import StyledSelect from "../ui/StyledSelect";
+import StyledSelect, { Option } from "@/components//ui/StyledSelect";
+import { ReportType } from "@prisma/client";
+import { getAcadYearOptions, getModuleCodeOptions } from "@/lib/nusmods";
 
 export default function ResolveButton({
   report,
-}: {
+}: // moduleCodeOptions,
+{
   report: ReportHeaderType;
+  // moduleCodeOptions: Option[];
 }) {
   const editResolve = async (
     // userId: string,
@@ -61,7 +70,7 @@ export default function ResolveButton({
   };
 
   const handleResolveOrReopen = async (report: ReportHeaderType) => {
-    if (report.resolved === "Resolved") {
+    if (report.resolved) {
       await editResolve(report.category, report.reportId, false);
       router.refresh();
     } else {
@@ -69,45 +78,80 @@ export default function ResolveButton({
     }
   };
 
+  const acadYearOptions = getAcadYearOptions();
+
   return (
     <Dialog open={open}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="border border-slate-800 dark:border-slate-200"
+          className="border border-slate-800 py-0 dark:border-slate-200"
           onClick={() => handleResolveOrReopen(report)}
         >
-          {report.resolved === "Unresolved" ? "Resolve" : "Reopen"}
+          {!report.resolved ? "Resolve" : "Reopen"}
         </Button>
       </DialogTrigger>
       <DialogContent
         onInteractOutside={exitDialog}
         onEscapeKeyDown={exitDialog}
       >
-        <DialogHeader>Reported for {report.type}</DialogHeader>
-        {report.type === "inappropriateFilename" && (
-          <div>
-            <label>Edit filename</label>
+        {report.type === "inappropriateFilename" ? (
+          <div className="flex flex-col gap-1">
+            <label>Reported for Inappropriate Filename</label>
             <Input type="text" defaultValue={report.filename} />
           </div>
-        )}
-        {report.type === "inappropriateUsername" && (
-          <div>
-            <label>Edit username</label>
+        ) : report.type === "inappropriateUsername" ? (
+          <div className="flex flex-col gap-1">
+            <label>Reported for Inappropriate Filename</label>
             <Input type="text" defaultValue={report.uploaderName} />
           </div>
-        )}
-        {report.type === "incorrectExamType" && (
-          <div>
-            <StyledSelect
-              label="Select Acad Year"
-              placeholderText="Acad Year"
-              options={examTypeOptions}
-              onChange={() => console.log("change acad year")}
-              labelExists={false}
-              defaultValue={{ value: "Final", label: "Final" }}
-            />
-          </div>
+        ) : // ) : report.type === "incorrectModule" ? (
+        //   <StyledSelect
+        //     label="Reported for incorrect module"
+        //     options={moduleCodeOptions}
+        //     onChange={() => console.log("handlechange")}
+        //     defaultValue={moduleCodeOptions.find((option) => {
+        //       return option.label === report.category;
+        //     })}
+        //   />
+        report.type === "incorrectCategory" ? (
+          <StyledSelect
+            label="Reported for incorrect category"
+            options={categoryOptions}
+            onChange={() => console.log("handlechange")}
+            defaultValue={categoryOptions.find((option) => {
+              return option.label === report.category;
+            })}
+          />
+        ) : report.type === "incorrectAcadYear" ? (
+          <StyledSelect
+            label="Reported for incorrect AY"
+            options={acadYearOptions}
+            onChange={() => console.log("handlechange")}
+            defaultValue={acadYearOptions.find((option) => {
+              return option.value === report.acadYear;
+            })}
+          />
+        ) : report.type === "incorrectSemester" ? (
+          <StyledSelect
+            label="Reported for incorrect semester"
+            options={semesterOptions}
+            onChange={() => console.log("handlechange")}
+            defaultValue={semesterOptions.find((option) => {
+              return option.value === report.semester;
+            })}
+          />
+        ) : report.type === "incorrectExamType" ? (
+          <StyledSelect
+            label="Reported for incorrect exam type"
+            options={examTypeOptions}
+            onChange={() => console.log("handlechange")}
+            defaultValue={examTypeOptions.find((option) => {
+              return option.value === report.examType;
+            })}
+          />
+        ) : (
+          <div>Set up report edit function.</div>
         )}
         <div className="flex flex-row gap-2">
           <Button

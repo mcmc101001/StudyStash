@@ -31,8 +31,12 @@ export default async function AdminPage() {
       },
     })
     .then((user) => user?.verified);
+  if (!verified) {
+    redirect("/401");
+  }
 
-  let reportArr: ReportHeaderType[] = [];
+  let resourceData: ReportHeaderType[] = [];
+  let solutionData: ReportHeaderType[] = [];
 
   const cheatsheets = await prisma.cheatsheetReport.findMany({
     include: {
@@ -46,17 +50,20 @@ export default async function AdminPage() {
   });
   if (cheatsheets) {
     cheatsheets.map((report) => {
-      reportArr.push({
+      resourceData.push({
         reportId: report.id,
         type: report.type,
         category: "Cheatsheets",
         createdAt: dateString(report.createdAt),
         filename: report.resource.name,
+        uploaderId: report.resource.userSubmitted.id,
         uploaderName: report.resource.userSubmitted.name!,
         resourceId: report.resourceId,
         reporterId: report.userId,
-        resolved: report.resolved ? "Resolved" : "Unresolved",
+        resolved: report.resolved,
         reporterName: report.user.name!,
+        acadYear: report.resource.acadYear,
+        semester: report.resource.semester,
       });
     });
   }
@@ -73,17 +80,21 @@ export default async function AdminPage() {
   });
   if (qnpapers) {
     qnpapers.map(async (report) => {
-      reportArr.push({
+      resourceData.push({
         reportId: report.id,
         type: report.type,
         category: "Past Papers",
         createdAt: dateString(report.createdAt),
         filename: report.resource.name,
+        uploaderId: report.resource.userSubmitted.id,
         uploaderName: report.resource.userSubmitted.name!,
         resourceId: report.resourceId,
         reporterId: report.userId,
-        resolved: report.resolved ? "Resolved" : "Unresolved",
+        resolved: report.resolved,
         reporterName: report.user.name!,
+        acadYear: report.resource.acadYear,
+        semester: report.resource.semester,
+        examType: report.resource.type,
       });
     });
   }
@@ -100,17 +111,20 @@ export default async function AdminPage() {
   });
   if (notes) {
     notes.map(async (report) => {
-      reportArr.push({
+      resourceData.push({
         reportId: report.id,
         type: report.type,
         category: "Notes",
         createdAt: dateString(report.createdAt),
         filename: report.resource.name,
+        uploaderId: report.resource.userSubmitted.id,
         uploaderName: report.resource.userSubmitted.name!,
         resourceId: report.resourceId,
         reporterId: report.userId,
-        resolved: report.resolved ? "Resolved" : "Unresolved",
+        resolved: report.resolved,
         reporterName: report.user.name!,
+        acadYear: report.resource.acadYear,
+        semester: report.resource.semester,
       });
     });
   }
@@ -120,6 +134,7 @@ export default async function AdminPage() {
       user: true,
       resource: {
         include: {
+          questionPaper: true,
           userSubmitted: true,
         },
       },
@@ -127,27 +142,40 @@ export default async function AdminPage() {
   });
   if (solns) {
     solns.map((report) => {
-      reportArr.push({
+      solutionData.push({
         reportId: report.id,
         type: report.type,
         category: "Solutions",
         createdAt: dateString(report.createdAt),
         filename: report.resource.name,
+        uploaderId: report.resource.userSubmitted.id,
         uploaderName: report.resource.userSubmitted.name!,
         resourceId: report.resourceId,
         reporterId: report.userId,
-        resolved: report.resolved ? "Resolved" : "Unresolved",
+        resolved: report.resolved,
         reporterName: report.user.name!,
+        acadYear: report.resource.questionPaper.acadYear,
+        semester: report.resource.questionPaper.semester,
       });
     });
   }
 
+  // By default, sort by date
+  resourceData.sort((a, b) => {
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
+  solutionData.sort((a, b) => {
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
+
   return (
-    <div className="h-screen w-full dark:text-slate-200">
-      {verified ? "you are verified" : "you are not verified"}
-      <div className="m-16 flex h-3/4 flex-col gap-2 overflow-auto p-1">
-        <DataTable columns={columns} data={reportArr} />
-      </div>
-    </div>
+    <DataTable
+      // params={params}
+      columns={columns}
+      resourceData={resourceData}
+      solutionData={solutionData}
+      commentData={[]}
+      className="h-screen"
+    />
   );
 }
