@@ -215,6 +215,7 @@ export default async function DashboardResourcesSection({
                                   resource.questionPaperId
                                 : undefined
                             }
+                            displayCode={true}
                           />
                         );
                       })}
