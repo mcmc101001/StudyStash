@@ -70,13 +70,13 @@ export default function ResourceDeleteButton({
         <Dialog>
           <DialogTrigger
             asChild
-            className="stroke-slate-800 dark:stroke-slate-200"
+            className="-mx-2 stroke-slate-800 dark:stroke-slate-200"
           >
             <UseAnimations
               role="button"
               aria-label="Delete resource"
               animation={trash2}
-              size={30}
+              size={50}
               strokeColor="inherit"
             />
             {/* <Trash2 height={30} width={30} className="cursor-pointer" /> */}
