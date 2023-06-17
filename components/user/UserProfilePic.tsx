@@ -7,7 +7,7 @@ import LoginButton from "@/components/nav/LoginButton";
 async function UserProfilePic() {
   const user = await getCurrentUser();
   return (
-    <li className="flex flex-col items-center justify-center gap-y-4">
+    <div className="flex flex-col items-center justify-center gap-y-4">
       {user ? (
         <>
           <Image
@@ -26,7 +26,7 @@ async function UserProfilePic() {
           <LoginButton />
         </>
       )}
-    </li>
+    </div>
   );
 }
 

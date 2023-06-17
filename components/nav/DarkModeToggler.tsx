@@ -49,7 +49,7 @@ export default function DarkModeToggler() {
   };
 
   return (
-    <li className="flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <Button
         aria-label="dark mode toggler"
         onClick={() => handleDarkModeChange()}
@@ -60,6 +60,6 @@ export default function DarkModeToggler() {
           <Moon className="h-6 w-6" />
         )}
       </Button>
-    </li>
+    </div>
   );
 }
