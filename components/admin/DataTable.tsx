@@ -36,9 +36,7 @@ import {
   categoryOptions,
 } from "@/lib/content";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import useQueryParams from "@/hooks/useQueryParams";
-import { set } from "cypress/types/lodash";
 
 interface DataTableProps<TData, TValue> {
   // params: { section: ReportSectionType };
@@ -46,6 +44,7 @@ interface DataTableProps<TData, TValue> {
   resourceData: TData[];
   solutionData: TData[];
   commentData: TData[];
+  moduleCodeOptions: string;
   className?: string;
 }
 
@@ -55,6 +54,7 @@ export function DataTable<TData, TValue>({
   resourceData,
   solutionData,
   commentData,
+  moduleCodeOptions,
   className,
 }: DataTableProps<TData, TValue>) {
   let { queryParams, setQueryParams } = useQueryParams();
@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
     } else if (queryParams?.get("section") === "comment") {
       setData(commentData);
     } else {
-      redirect("/404");
+      redirect("/admin?section=resource");
     }
   }, [queryParams]);
 
@@ -93,6 +93,7 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  localStorage.setItem("moduleCodeOptions", moduleCodeOptions);
   const section = queryParams?.get("section");
 
   return (

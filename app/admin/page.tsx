@@ -7,6 +7,7 @@ import {
   columns,
   ReportHeaderType,
 } from "@/components/admin/ReportTableColumns";
+import { getModuleCodeOptions } from "@/lib/nusmods";
 
 // Function to convert Date type to string
 const dateString = (datetime: Date) => {
@@ -37,8 +38,9 @@ export default async function AdminPage() {
 
   let resourceData: ReportHeaderType[] = [];
   let solutionData: ReportHeaderType[] = [];
+  let commentData: ReportHeaderType[] = [];
 
-  const cheatsheets = await prisma.cheatsheetReport.findMany({
+  const cheatsheetsPromise = prisma.cheatsheetReport.findMany({
     include: {
       user: true,
       resource: {
@@ -48,6 +50,44 @@ export default async function AdminPage() {
       },
     },
   });
+  const qnpapersPromise = prisma.questionPaperReport.findMany({
+    include: {
+      user: true,
+      resource: {
+        include: {
+          userSubmitted: true,
+        },
+      },
+    },
+  });
+  const notesPromise = prisma.notesReport.findMany({
+    include: {
+      user: true,
+      resource: {
+        include: {
+          userSubmitted: true,
+        },
+      },
+    },
+  });
+  const solnsPromise = prisma.solutionReport.findMany({
+    include: {
+      user: true,
+      resource: {
+        include: {
+          questionPaper: true,
+          userSubmitted: true,
+        },
+      },
+    },
+  });
+
+  const [cheatsheets, qnpapers, notes, solns] = await Promise.all([
+    cheatsheetsPromise,
+    qnpapersPromise,
+    notesPromise,
+    solnsPromise,
+  ]);
   if (cheatsheets) {
     cheatsheets.map((report) => {
       resourceData.push({
@@ -68,19 +108,8 @@ export default async function AdminPage() {
       });
     });
   }
-
-  const qnpapers = await prisma.questionPaperReport.findMany({
-    include: {
-      user: true,
-      resource: {
-        include: {
-          userSubmitted: true,
-        },
-      },
-    },
-  });
   if (qnpapers) {
-    qnpapers.map(async (report) => {
+    qnpapers.map((report) => {
       resourceData.push({
         reportId: report.id,
         type: report.type,
@@ -100,19 +129,8 @@ export default async function AdminPage() {
       });
     });
   }
-
-  const notes = await prisma.notesReport.findMany({
-    include: {
-      user: true,
-      resource: {
-        include: {
-          userSubmitted: true,
-        },
-      },
-    },
-  });
   if (notes) {
-    notes.map(async (report) => {
+    notes.map((report) => {
       resourceData.push({
         reportId: report.id,
         type: report.type,
@@ -131,18 +149,6 @@ export default async function AdminPage() {
       });
     });
   }
-
-  const solns = await prisma.solutionReport.findMany({
-    include: {
-      user: true,
-      resource: {
-        include: {
-          questionPaper: true,
-          userSubmitted: true,
-        },
-      },
-    },
-  });
   if (solns) {
     solns.map((report) => {
       solutionData.push({
@@ -164,21 +170,26 @@ export default async function AdminPage() {
     });
   }
 
-  // By default, sort by date
+  // By default, sort by date (oldest on top)
   resourceData.sort((a, b) => {
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
   solutionData.sort((a, b) => {
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
+  commentData.sort((a, b) => {
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
 
   return (
     <DataTable
       // params={params}
+
       columns={columns}
       resourceData={resourceData}
       solutionData={solutionData}
       commentData={[]}
+      moduleCodeOptions={JSON.stringify(await getModuleCodeOptions())}
       className="h-screen"
     />
   );

@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 import { ResourceSolutionType } from "@/lib/content";
 import ResolveButton from "./ResolveButton";
 import UserNameLink from "../user/UserNameLink";
-import { getModuleCodeOptions } from "@/lib/nusmods";
+import { redirect } from "next/navigation";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -120,11 +120,18 @@ export const columns: ColumnDef<ReportHeaderType>[] = [
     cell: ({ row }) => {
       const report = row.original;
 
+      const moduleCodeOptionsString = localStorage.getItem("moduleCodeOptions");
+      if (!moduleCodeOptionsString) redirect("/404");
+      const moduleCodeOptions = JSON.parse(moduleCodeOptionsString) as {
+        value: string;
+        label: string;
+      }[];
+
       return (
         <ResolveButton
           report={report}
           // moduleCodeOptions={await getModuleCodeOptions()}
-          moduleCodeOptions={[]}
+          moduleCodeOptions={moduleCodeOptions}
         />
       );
     },
