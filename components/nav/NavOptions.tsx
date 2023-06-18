@@ -53,6 +53,8 @@ export default function NavOptions({
                   href={
                     href === "/dashboard"
                       ? href + "?filterStatus=Todo&filterCategory=cheatsheets"
+                      : href === "/admin"
+                      ? href + "?section=resource"
                       : href
                   }
                 >
