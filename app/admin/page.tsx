@@ -59,7 +59,7 @@ export default async function AdminPage({
   let solutionData: SolutionReportHeaderType[] = [];
   // let commentData: CommentReportHeaderType[] = [];
 
-  const cheatsheets = await prisma.cheatsheetReport.findMany({
+  const cheatsheetsPromise = prisma.cheatsheetReport.findMany({
     include: {
       user: true,
       resource: {
@@ -69,7 +69,7 @@ export default async function AdminPage({
       },
     },
   });
-  const qnpapers = await prisma.questionPaperReport.findMany({
+  const qnpapersPromise = prisma.questionPaperReport.findMany({
     include: {
       user: true,
       resource: {
@@ -79,7 +79,7 @@ export default async function AdminPage({
       },
     },
   });
-  const notes = await prisma.notesReport.findMany({
+  const notesPromise = prisma.notesReport.findMany({
     include: {
       user: true,
       resource: {
@@ -89,7 +89,7 @@ export default async function AdminPage({
       },
     },
   });
-  const solns = await prisma.solutionReport.findMany({
+  const solnsPromise = prisma.solutionReport.findMany({
     include: {
       user: true,
       resource: {
@@ -101,12 +101,13 @@ export default async function AdminPage({
     },
   });
 
-  // const [cheatsheets, qnpapers, notes, solns] = await Promise.all([
-  //   cheatsheetsPromise,
-  //   qnpapersPromise,
-  //   notesPromise,
-  //   solnsPromise,
-  // ]);
+  const [cheatsheets, qnpapers, notes, solns] = await Promise.all([
+    cheatsheetsPromise,
+    qnpapersPromise,
+    notesPromise,
+    solnsPromise,
+  ]);
+  
   if (cheatsheets) {
     cheatsheets.map((report) => {
       resourceData.push({
