@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { ResourceTypeURL, solutionOptionsProps } from "@/lib/content";
-import { useParams, useSelectedLayoutSegment } from "next/navigation";
+import {
+  useParams,
+  useSearchParams,
+  useSelectedLayoutSegment,
+} from "next/navigation";
 import { motion } from "framer-motion";
 
 interface SolutionTabProps {
@@ -16,6 +20,7 @@ export default function SolutionTab({ solutionTabOptions }: SolutionTabProps) {
     solutionId: string | undefined;
   };
   let segment = useSelectedLayoutSegment();
+  const queryParams = useSearchParams();
 
   if (params.categoryURL !== "past_papers") {
     return null;
@@ -38,7 +43,10 @@ export default function SolutionTab({ solutionTabOptions }: SolutionTabProps) {
           return (
             <Link
               key={option.tabName}
-              href={`/resource/${params.resourceId}/${params.categoryURL}/${option.href}`}
+              href={
+                `/resource/${params.resourceId}/${params.categoryURL}/${option.href}` +
+                `/?${queryParams?.toString()}`
+              }
               className={
                 "relative flex-1 rounded-md bg-inherit p-2 text-center text-base font-medium transition duration-300 " +
                 (segment === option.href

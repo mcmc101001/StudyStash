@@ -8,7 +8,7 @@ import {
 } from "@/lib/content";
 import { SolutionsWithPosts, getSolutionsWithPosts } from "@/lib/dataFetching";
 import { getCurrentUser } from "@/lib/session";
-import { SolutionVote } from "@prisma/client";
+import { ResourceStatus, SolutionVote } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 function getSolutionRating(resources: SolutionsWithPosts) {
@@ -37,7 +37,10 @@ export default async function SolutionPage({
     redirect("/404");
   }
 
+  const currentUser = await getCurrentUser();
+
   const Sort = searchParams.sort as sortValue | undefined;
+  const FilterStatus = searchParams.filterStatus as ResourceStatus | undefined;
 
   const solutions = await getSolutionsWithPosts({
     userId: undefined,
@@ -46,8 +49,8 @@ export default async function SolutionPage({
     FilterSemester: undefined,
     FilterAcadYear: undefined,
     FilterExamType: undefined,
-    statusUserId: undefined,
-    statusType: undefined,
+    statusUserId: currentUser && FilterStatus ? currentUser.id : undefined,
+    statusType: currentUser && FilterStatus ? FilterStatus : undefined,
   });
 
   let sortedSolutions = getSolutionRating(solutions);
@@ -71,13 +74,11 @@ export default async function SolutionPage({
     });
   }
 
-  let currentUser = await getCurrentUser();
-
   return (
     <div className="h-full w-full px-10">
       <div className="mb-3 mr-5 flex items-center justify-between">
-        <div className="w-64">
-          <SolutionSort />
+        <div className={"mr-4 " + (currentUser ? " w-96" : "w-48")}>
+          <SolutionSort isSignedIn={!!currentUser} />
         </div>
         {currentUser && (
           <ContributeSolutionDialog
