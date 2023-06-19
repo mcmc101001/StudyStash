@@ -27,8 +27,6 @@ export default async function VisitedResources({ userId }: { userId: string }) {
     ? parse(user.visitedData)
     : [];
 
-  console.log(recentResources);
-
   return (
     <div className="h-screen w-3/4 p-5">
       <h1 className="my-4 text-3xl">Visited resources</h1>
@@ -66,7 +64,7 @@ export default async function VisitedResources({ userId }: { userId: string }) {
                 0
               );
             } catch {
-              toast.error("Failed to fetch resource");
+              redirect("/404");
             }
           } else if (visitedData.category === "Past Papers") {
             try {
@@ -99,7 +97,7 @@ export default async function VisitedResources({ userId }: { userId: string }) {
                 ) / difficultyCount;
               solutionIncluded = qnpaper.solutionIncluded;
             } catch {
-              toast.error("Failed to fetch resource");
+              redirect("/401");
             }
           } else if (visitedData.category === "Notes") {
             try {
@@ -122,7 +120,7 @@ export default async function VisitedResources({ userId }: { userId: string }) {
                 0
               );
             } catch {
-              toast.error("Failed to fetch resource");
+              redirect("/404");
             }
           }
 
