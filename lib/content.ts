@@ -1,7 +1,9 @@
 import { Icon } from "@/components/Icons";
 import {
   ExamType,
-  ReportType,
+  ResourceReportType,
+  SolutionReportType,
+  // CommentReportType,
   ResourceStatus,
   SemesterType,
 } from "@prisma/client";
@@ -195,7 +197,12 @@ export const statusOptions: { value: ResourceStatus; label: ResourceStatus }[] =
     { value: "Completed", label: "Completed" },
   ];
 
-export const reportOptions: { value: ReportType; label: string }[] = [
+export const reportSectionOptions = ["resource", "solution", "comment"];
+
+export const resourceReportOptions: {
+  value: ResourceReportType;
+  label: string;
+}[] = [
   { value: "inappropriateFilename", label: "Inappropriate filename" },
   { value: "inappropriateUsername", label: "Inappropriate username" },
   { value: "incorrectModule", label: "Incorrect module" },
@@ -205,9 +212,27 @@ export const reportOptions: { value: ReportType; label: string }[] = [
 ];
 
 export const papersAdditionalReportOptions: {
-  value: ReportType;
+  value: ResourceReportType;
   label: string;
 }[] = [{ value: "incorrectExamType", label: "Incorrect exam type" }];
+
+export const solutionReportOptions: {
+  value: SolutionReportType;
+  label: string;
+}[] = [
+  { value: "inappropriateFilename", label: "Inappropriate filename" },
+  { value: "inappropriateUsername", label: "Inappropriate username" },
+  { value: "incorrectQuestionPaper", label: "Incorrect question paper" },
+];
+
+// export const commentReportOptions: {
+//   value: CommentReportType;
+//   label: string;
+// }[] = [
+//   { value: "inappropriateUsername", label: "Inappropriate username" },
+//   { value: "spam", label: "Spam" },
+//   { value: "harassment", label: "Harassment" },
+// ];
 
 export const resolvedOptions: { value: string; label: string }[] = [
   { value: "No", label: "Unresolved" },
