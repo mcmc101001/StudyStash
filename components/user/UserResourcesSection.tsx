@@ -143,7 +143,7 @@ export default async function UserResourcesSection({
           <>
             <div
               className="flex w-4/5 flex-col gap-y-6 overflow-y-auto scroll-smooth pr-5 
-          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
+          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md 
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
               style={{ scrollbarGutter: "stable" }}
             >

@@ -90,7 +90,7 @@ export default async function SolutionPage({
       {sortedSolutions.length !== 0 ? (
         <div
           className="flex max-h-[80vh] w-full flex-col gap-y-6 overflow-y-scroll scroll-smooth pr-3 text-slate-800 scrollbar-thin
-          scrollbar-track-transparent scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 
+          scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md hover:scrollbar-thumb-slate-300 
           dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
           style={{ scrollbarGutter: "stable" }}
         >

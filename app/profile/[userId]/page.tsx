@@ -51,7 +51,10 @@ export default async function ProfilePageUser({
           <h1 className="mt-3 overflow-x-scroll whitespace-nowrap text-2xl font-bold scrollbar-none">
             {profileUser.name}
           </h1>
-          <p className="max-h-[120px] overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-700 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 dark:text-slate-300 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900">
+          <p
+            className="max-h-[120px] overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-600 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 
+          scrollbar-track-rounded-md scrollbar-thumb-rounded-md dark:text-slate-400 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900"
+          >
             {profileUser.bio ||
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."}
           </p>
