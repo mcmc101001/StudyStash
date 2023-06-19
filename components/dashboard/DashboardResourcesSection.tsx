@@ -145,9 +145,9 @@ export default async function DashboardResourcesSection({
             <div className="flex w-4/5 flex-col">
               <SideTabCategoryFilter>
                 <div
-                  className="inline-flex h-[77vh] w-11/12 flex-col gap-y-6 overflow-y-auto scroll-smooth border border-slate-200 border-l-transparent bg-slate-900 p-4 pr-5
-          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
-          hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+                  className="inline-flex h-[77vh] w-11/12 flex-col gap-y-6 overflow-y-auto scroll-smooth border border-slate-200 border-l-transparent bg-slate-900 p-4 pr-5 
+                  scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 
+                  dark:hover:scrollbar-thumb-slate-700"
                   style={{ scrollbarGutter: "stable" }}
                 >
                   {filterCategory === undefined ? (

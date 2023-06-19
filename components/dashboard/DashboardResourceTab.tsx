@@ -31,7 +31,7 @@ export default function DashboardResourceTab({
             {queryParams?.get("filterStatus") === option.name && (
               <motion.div
                 layout
-                layoutId="active-pill"
+                layoutId="active-dashboard-pill"
                 className="absolute inset-0 z-10 rounded-lg bg-white dark:bg-slate-950"
                 transition={{ type: "spring", duration: 0.5 }}
                 initial={false}
