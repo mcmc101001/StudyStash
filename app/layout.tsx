@@ -32,8 +32,10 @@ export default async function RootLayout({
             <NavBar />
             <div className="h-screen w-[calc(100vw-8rem)]">{children}</div>
           </main>
-          <main className="flex flex-col lg:hidden">
-            <h1>This app is optimised only for desktop use!</h1>
+          <main className="flex h-screen w-screen flex-col items-center justify-center p-10 text-center lg:hidden">
+            <h1 className="font-bold">
+              This app is optimised only for desktop use!
+            </h1>
           </main>
         </ThemeProvider>
       </body>
