@@ -36,7 +36,7 @@ export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
   },
   {
     name: "Admin",
-    href: "/admin?section=resource",
+    href: "/admin",
     icon: "TowerControl",
   },
   {

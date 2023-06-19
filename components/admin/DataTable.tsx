@@ -202,7 +202,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenu>
         </div>
 
-        <div className="max-h-[75vh] overflow-auto rounded-md border scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700">
+        <div className="max-h-[75vh] overflow-auto rounded-md border scrollbar-thin scrollbar-thumb-slate-300 scrollbar-thumb-rounded-md dark:scrollbar-thumb-slate-700">
           <Table className="overflow-auto">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

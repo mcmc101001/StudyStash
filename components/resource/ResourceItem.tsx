@@ -274,7 +274,7 @@ export default async function ResourceItem({
           commentsSection={
             // @ts-expect-error Server component
             <CommentsSection
-              className="h-[85vh]"
+              className="h-[90vh]"
               resourceId={resourceId}
               category={category}
             />

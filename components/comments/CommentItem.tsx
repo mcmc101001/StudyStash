@@ -52,6 +52,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 import ClientDateTime from "@/components/ClientDateTime";
+import Link from "next/link";
 
 const DEFAULT_HEIGHT = 48;
 
@@ -233,7 +234,12 @@ export default function CommentItem({
             height={40}
           />
           <div className="flex items-center overflow-x-hidden">
-            <p className="truncate text-lg font-medium">{comment.user.name}</p>
+            <Link
+              href={`/profile/${comment.user.id}`}
+              className="truncate text-lg font-medium hover:text-blue-700 dark:hover:text-blue-500"
+            >
+              {comment.user.name}
+            </Link>
             {comment.user.verified && <ProfileVerifiedIndicator />}
           </div>
           <div className="flex w-full min-w-fit flex-1 justify-end text-left text-sm font-light text-slate-700 scrollbar-none hover:underline dark:text-slate-400">
@@ -555,7 +561,12 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
       <div className="ml-2 flex w-full flex-col rounded-xl bg-slate-200 p-4 dark:bg-slate-800">
         <div className="flex items-center gap-x-2">
           <div className="flex items-center overflow-x-hidden">
-            <p className="truncate text-lg font-medium">{reply.user.name}</p>
+            <Link
+              href={`/profile/${reply.user.id}`}
+              className="truncate text-lg font-medium hover:text-blue-700 dark:hover:text-blue-500"
+            >
+              {reply.user.name}
+            </Link>
             {reply.user.verified && <ProfileVerifiedIndicator />}
           </div>
           <div className="flex w-full min-w-fit flex-1 justify-end text-left text-sm font-light text-slate-700 scrollbar-none dark:text-slate-400">

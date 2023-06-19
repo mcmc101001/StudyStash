@@ -90,7 +90,7 @@ export default function BookmarkedModules({
         </button>
       </div>
       <div
-        className="h-80 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200
+        className="h-80 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
         style={{ scrollbarGutter: "stable" }}
       >
