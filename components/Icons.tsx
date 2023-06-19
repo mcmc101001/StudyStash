@@ -12,6 +12,9 @@ import {
   Calendar,
   Bookmark,
   TowerControl,
+  MessageCircle,
+  Star,
+  ThumbsUp,
 } from "lucide-react";
 
 export const Icons = {
@@ -46,6 +49,9 @@ export const Icons = {
   Calendar,
   Bookmark,
   TowerControl,
+  MessageCircle,
+  Star,
+  ThumbsUp,
 };
 
 export type Icon = keyof typeof Icons;

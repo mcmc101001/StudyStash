@@ -27,10 +27,13 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster />
-          <main className="flex w-full min-w-fit flex-row bg-white transition-colors duration-500 dark:bg-slate-950">
+          <main className="hidden w-full min-w-fit flex-row bg-white transition-colors duration-500 dark:bg-slate-950 lg:flex">
             {/* @ts-expect-error Server component */}
             <NavBar />
             <div className="h-screen w-[calc(100vw-8rem)]">{children}</div>
+          </main>
+          <main className="flex flex-col lg:hidden">
+            <h1>This app is optimised only for desktop use!</h1>
           </main>
         </ThemeProvider>
       </body>
