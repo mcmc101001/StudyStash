@@ -2,9 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import BookmarkedModules from "@/components/BookmarkedModules";
+import BookmarkedModules from "@/components/dashboard/BookmarkedModules";
 import { getModuleCodeOptions } from "@/lib/nusmods";
-import DashboardResourcesSection from "@/components/DashboardResourcesSection";
+import DashboardResourcesSection from "@/components/dashboard/DashboardResourcesSection";
 import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 
 export const revalidate = 10;
@@ -30,14 +30,14 @@ export default async function DashboardPage({
   return (
     <div className="m-20 text-slate-800 dark:text-slate-200">
       <div className="flex h-full w-full">
-        <section className="h-full w-[30%] pr-8">
+        <section className="h-full w-1/4 pr-8">
           <BookmarkedModules
             userId={user.id}
             starredModules={starredModules}
             moduleCodeOptions={moduleCodeOptions}
           />
         </section>
-        <section className="h-full w-[70%]">
+        <section className="h-full w-3/4">
           {/* @ts-expect-error Server components */}
           <DashboardResourcesSection
             filterModuleCode={searchParams.filterModuleCode}

@@ -6,9 +6,9 @@ import {
   statusOptions,
 } from "@/lib/content";
 import { redirect } from "next/navigation";
-import ResourceItem from "@/components/ResourceItem";
+import ResourceItem from "@/components/resource/ResourceItem";
 import { getAcadYearOptions } from "@/lib/nusmods";
-import ResourceFilters from "@/components/ResourceFilters";
+import ResourceFilters from "@/components/resource/ResourceFilters";
 import { Suspense } from "react";
 import {
   CheatsheetWithPosts,
@@ -162,7 +162,6 @@ export default async function Page({
                 // @ts-expect-error wrong type inference
                 examType={category !== "Notes" ? resource.type : undefined}
                 category={category}
-                designNumber={index % 4}
               />
             );
           })}

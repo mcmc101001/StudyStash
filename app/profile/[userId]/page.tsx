@@ -1,12 +1,12 @@
-import UserResourcesSection from "@/components/UserResourcesSection";
+import UserResourcesSection from "@/components/user/UserResourcesSection";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import ProfileEditDialog from "@/components/ProfileEditDialog";
+import ProfileEditDialog from "@/components/user/ProfileEditDialog";
 import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 import { Separator } from "@/components/ui/Separator";
-import { UserAchievementsSection } from "@/components/UserAchievementsSection";
+import { UserAchievementsSection } from "@/components/user/UserAchievementsSection";
 
 export default async function ProfilePageUser({
   params,
@@ -66,7 +66,7 @@ export default async function ProfilePageUser({
         orientation="vertical"
       />
       <section className="w-2/3 pl-5">
-        <h1 className="mb-2 text-3xl font-semibold text-slate-800 dark:text-white">
+        <h1 className="mb-4 text-3xl font-semibold text-slate-800 dark:text-white">
           My resources
         </h1>
         {/* @ts-expect-error Server Component */}

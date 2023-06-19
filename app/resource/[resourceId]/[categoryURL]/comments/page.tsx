@@ -1,6 +1,6 @@
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { redirect } from "next/navigation";
-import CommentsSection from "@/components/CommentsSection";
+import CommentsSection from "@/components/comments/CommentsSection";
 
 export default async function SolutionCommentsPage({
   params: { resourceId, categoryURL },
@@ -22,7 +22,7 @@ export default async function SolutionCommentsPage({
     <div className="h-full w-full">
       {/* @ts-expect-error Server Component */}
       <CommentsSection
-        className="h-[75vh]"
+        className="h-[85vh]"
         category={category}
         resourceId={resourceId}
       />

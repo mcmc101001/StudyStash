@@ -2,7 +2,7 @@ import { getRating } from "@/lib/dataFetching";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
-import DifficultyRating from "@/components/DifficultyRating";
+import DifficultyRating from "@/components/resource/DifficultyRating";
 import { redirect } from "next/navigation";
 import {
   Cheatsheet,
@@ -24,16 +24,16 @@ import {
   getQuestionPaperStatus,
   getQuestionPaperVote,
   getUserDifficulty,
-} from "@/components/ResourceItem";
-import ResourceRatingProvider from "@/components/ResourceRatingProvider";
+} from "@/components/resource/ResourceItem";
+import ResourceRatingProvider from "@/components/resource/ResourceRatingProvider";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ChevronLeft } from "lucide-react";
-import SolutionTab from "@/components/SolutionTab";
+import SolutionTab from "@/components/resource/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
-import SolutionIncludedIndicator from "@/components/SolutionIncludedIndicator";
+import SolutionIncludedIndicator from "@/components/resource/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
-import ResourceStatusProvider from "@/components/ResourceStatusProvider";
+import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
 import DraggableResizableDiv from "@/components/ui/DraggableResizableDiv";
 
 export default async function ResourcePage({
@@ -162,18 +162,7 @@ export default async function ResourcePage({
       <DraggableResizableDiv
         leftPanel={
           <div className="h-full w-full overflow-hidden">
-            <div className="flex h-full w-full flex-col p-10 text-slate-800 dark:text-slate-200">
-              <Link
-                href={`/database/${resource.moduleCode}/${categoryURL}?id=${resourceId}`}
-                className="w-max"
-              >
-                <Button variant="default">
-                  <span>
-                    <ChevronLeft className="-ml-1" size={20} />
-                  </span>
-                  <span>Back to database</span>
-                </Button>
-              </Link>
+            <div className="flex h-full w-full flex-col px-10 py-5 text-slate-800 dark:text-slate-200">
               <div className="mx-2 mt-4 flex flex-row items-center gap-x-4 text-lg font-semibold">
                 <ResourceRatingProvider
                   category={category}
@@ -208,23 +197,32 @@ export default async function ResourcePage({
                     />
                   </div>
                 )}
+                <Link
+                  href={`/database/${resource.moduleCode}/${categoryURL}?id=${resourceId}`}
+                  className="ml-auto w-max"
+                >
+                  <Button variant="default">
+                    {/* <span>
+                      <ChevronLeft className="-ml-1" size={20} />
+                    </span> */}
+                    <span>Sheet view</span>
+                  </Button>
+                </Link>
               </div>
               <IFrame
                 title="PDF Resource"
                 className="mt-5"
                 src={PDFURL}
                 width="100%"
-                height="80%"
+                height="100%"
               ></IFrame>
             </div>
           </div>
         }
         rightPanel={
-          <div className="relative h-full w-full overflow-hidden py-10">
+          <div className="relative h-full w-full overflow-hidden py-5">
             {categoryURL === "past_papers" && (
-              <div className="mx-auto mt-14 w-5/6">
-                <SolutionTab solutionTabOptions={solutionTabOptions} />
-              </div>
+              <SolutionTab solutionTabOptions={solutionTabOptions} />
             )}
             {children}
           </div>

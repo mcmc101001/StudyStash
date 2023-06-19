@@ -8,6 +8,10 @@ import {
   Calculator,
   Construction,
   User,
+  CheckCircle,
+  Calendar,
+  Bookmark,
+  TowerControl,
 } from "lucide-react";
 
 export const Icons = {
@@ -38,6 +42,10 @@ export const Icons = {
   FileSignature,
   User,
   FileUp,
+  CheckCircle,
+  Calendar,
+  Bookmark,
+  TowerControl,
 };
 
 export type Icon = keyof typeof Icons;

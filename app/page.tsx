@@ -61,7 +61,7 @@ export default async function Home() {
           <h1>The video goes here</h1>
         </div>
       </section>
-      <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 py-32 text-center">
+      <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 pb-32 text-center">
         <motion.div
           initial="hidden"
           whileInView="show"
