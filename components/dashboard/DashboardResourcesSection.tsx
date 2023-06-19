@@ -144,87 +144,89 @@ export default async function DashboardResourcesSection({
           <>
             <div className="flex w-4/5 flex-col">
               <SideTabCategoryFilter>
-                <div
-                  className="inline-flex h-[77vh] w-[94%] flex-col gap-y-6 overflow-y-auto scroll-smooth border border-slate-200 border-l-transparent bg-slate-900 p-4 pr-5 
-                  scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md hover:scrollbar-thumb-slate-300 
+                <div className="inline-flex h-[77vh] w-[94%] border border-slate-200  border-l-transparent bg-slate-900 p-4 pr-2">
+                  <div
+                    className="flex-col gap-y-6 overflow-y-auto scroll-smooth pr-2 scrollbar-thin
+                  scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md hover:scrollbar-thumb-slate-300 
                   dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
-                  style={{ scrollbarGutter: "stable" }}
-                >
-                  {filterCategory === undefined ? (
-                    <div className="flex h-1/2 w-full items-center justify-center text-3xl">
-                      Select category.
-                    </div>
-                  ) : resourcesWithRating.length !== 0 ? (
-                    <ul className="flex flex-col gap-y-6">
-                      {resourcesWithRating.map((resource) => {
-                        return (
-                          /* @ts-expect-error Server Component */
-                          <ResourceItem
-                            key={resource.id}
-                            resourceId={resource.id}
-                            name={resource.name}
-                            userId={resource.userId}
-                            createdAt={resource.createdAt}
-                            acadYear={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaper.acadYear
-                                : // @ts-expect-error wrong type inference
-                                  resource.acadYear
-                            }
-                            semester={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaper.semester
-                                : // @ts-expect-error wrong type inference
-                                  resource.semester
-                            }
-                            rating={resource.rating}
-                            difficulty={
-                              category === "Past Papers"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.difficulty
-                                : undefined
-                            }
-                            difficultyCount={
-                              category === "Past Papers"
-                                ? // @ts-expect-error wrong type inference
-                                  resource._count.difficulties
-                                : undefined
-                            }
-                            examType={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaper.type
-                                : filterCategory !== "notes"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.type
-                                : null
-                            }
-                            category={category}
-                            moduleCode={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaper.moduleCode
-                                : // @ts-expect-error wrong type inference
-                                  resource.moduleCode
-                            }
-                            questionPaperId={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaperId
-                                : undefined
-                            }
-                            displayCode={true}
-                          />
-                        );
-                      })}
-                    </ul>
-                  ) : (
-                    <div className="flex h-[50vh] w-full items-center justify-center pr-5 text-3xl">
-                      No resources found!
-                    </div>
-                  )}
+                    style={{ scrollbarGutter: "stable" }}
+                  >
+                    {filterCategory === undefined ? (
+                      <div className="flex h-1/2 w-full items-center justify-center text-3xl">
+                        Select category.
+                      </div>
+                    ) : resourcesWithRating.length !== 0 ? (
+                      <ul className="flex flex-col gap-y-6">
+                        {resourcesWithRating.map((resource) => {
+                          return (
+                            /* @ts-expect-error Server Component */
+                            <ResourceItem
+                              key={resource.id}
+                              resourceId={resource.id}
+                              name={resource.name}
+                              userId={resource.userId}
+                              createdAt={resource.createdAt}
+                              acadYear={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaper.acadYear
+                                  : // @ts-expect-error wrong type inference
+                                    resource.acadYear
+                              }
+                              semester={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaper.semester
+                                  : // @ts-expect-error wrong type inference
+                                    resource.semester
+                              }
+                              rating={resource.rating}
+                              difficulty={
+                                category === "Past Papers"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.difficulty
+                                  : undefined
+                              }
+                              difficultyCount={
+                                category === "Past Papers"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource._count.difficulties
+                                  : undefined
+                              }
+                              examType={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaper.type
+                                  : filterCategory !== "notes"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.type
+                                  : null
+                              }
+                              category={category}
+                              moduleCode={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaper.moduleCode
+                                  : // @ts-expect-error wrong type inference
+                                    resource.moduleCode
+                              }
+                              questionPaperId={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaperId
+                                  : undefined
+                              }
+                              displayCode={true}
+                            />
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <div className="flex h-[50vh] w-full items-center justify-center pr-5 text-3xl">
+                        No resources found!
+                      </div>
+                    )}
+                  </div>
                 </div>
               </SideTabCategoryFilter>
             </div>
