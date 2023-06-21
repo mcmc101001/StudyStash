@@ -81,24 +81,20 @@ export default function ResourceSheetLauncher({
 
     try {
       const res = await axios.post("/api/updateVisited", body);
-    } catch (err) {
-      if (
-        err instanceof Error &&
-        // Ignore special code 419 thrown by profile solution resource items
-        err.message !== "Request failed with status code 419"
-      ) {
-        toast.error("Something went wrong, please try again.");
-      }
+    } catch {
+      toast.error("Something went wrong, please try again.");
     }
   };
 
   const enterSheet = async () => {
     setDisabledContext(true);
+    // If called from visited list, update and refresh first
     if (isVisited) {
       await updateVisited();
       router.refresh();
     }
     setQueryParams({ id: resourceId });
+    // If not called from visited list, update can happen afterwards
     if (!isVisited) {
       updateVisited();
     }

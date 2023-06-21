@@ -49,7 +49,7 @@ model User {
   image                     String?
   bio                       String                     @default("") @db.TinyText
   verified                  Boolean                    @default(false)
-  visitedData               String                     @default("") @db.Text
+  visitedData               String                     @default("{\"visitedCheatsheets\":[],\"visitedPastPapers\":[],\"visitedNotes\":[],\"visitedSolutions\":[]}") @db.Text
   accounts                  Account[]
   sessions                  Session[]
   cheatsheets               Cheatsheet[]

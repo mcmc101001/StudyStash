@@ -1,7 +1,8 @@
 import {
   ResourceSolutionTypeURL,
-  ResourceStatusOptions,
+  DashboardStatusArr,
   sortValue,
+  DashboardTabType,
 } from "@/lib/content";
 import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
 import { redirect } from "next/navigation";
@@ -20,6 +21,7 @@ import { getSolutionsWithPosts } from "@/lib/dataFetching";
 import { ResourceSolutionType } from "@/lib/content";
 import SideTabCategoryFilter from "@/components/dashboard/SideTabCategoryFilter";
 import DashboardResourceTab from "@/components/dashboard/DashboardResourceTab";
+import { VisitedDataType } from "@/pages/api/updateVisited";
 
 interface DashboardResourcesSectionProps {
   currentUserId: string;
@@ -28,7 +30,8 @@ interface DashboardResourcesSectionProps {
   filterSemester: SemesterType | undefined;
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
-  filterStatus: ResourceStatus | undefined;
+  filterStatus: DashboardTabType | undefined;
+  visitedData?: VisitedDataType | undefined;
   sort: sortValue | undefined;
 }
 
@@ -40,6 +43,7 @@ export default async function DashboardResourcesSection({
   filterAcadYear,
   filterExamType,
   filterStatus,
+  visitedData,
   sort,
 }: DashboardResourcesSectionProps) {
   let category: ResourceSolutionType = "Cheatsheets";
@@ -47,6 +51,7 @@ export default async function DashboardResourcesSection({
   if (filterCategory === "cheatsheets") {
     category = "Cheatsheets";
     resources = await getCheatsheetsWithPosts({
+      resourceIdList: visitedData?.visitedCheatsheets,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -58,6 +63,7 @@ export default async function DashboardResourcesSection({
   } else if (filterCategory === "past_papers") {
     category = "Past Papers";
     resources = await getQuestionPapersWithPosts({
+      resourceIdList: visitedData?.visitedPastPapers,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -69,6 +75,7 @@ export default async function DashboardResourcesSection({
   } else if (filterCategory === "notes") {
     category = "Notes";
     resources = await getNotesWithPosts({
+      resourceIdList: visitedData?.visitedNotes,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -79,6 +86,7 @@ export default async function DashboardResourcesSection({
   } else if (filterCategory === "solutions") {
     category = "Solutions";
     resources = await getSolutionsWithPosts({
+      resourceIdList: visitedData?.visitedSolutions,
       questionPaperId: undefined,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
@@ -133,7 +141,7 @@ export default async function DashboardResourcesSection({
   return (
     <>
       <Suspense>
-        <DashboardResourceTab resourceStatusOptions={ResourceStatusOptions} />
+        <DashboardResourceTab tabsArr={DashboardStatusArr} />
       </Suspense>
       <div className="flex w-full flex-row justify-between">
         {filterStatus === undefined ? (
@@ -217,6 +225,7 @@ export default async function DashboardResourcesSection({
                                   : undefined
                               }
                               displayCode={true}
+                              isVisited={true}
                             />
                           );
                         })}

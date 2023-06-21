@@ -150,7 +150,7 @@ export interface ResourceFiltersSorts {
   filterSemester?: SemesterType | undefined;
   filterAcadYear?: string | undefined;
   filterExamType?: ExamType | undefined;
-  filterStatus?: ResourceStatus | undefined;
+  filterStatus?: ResourceStatus | "Visited" | undefined;
   sort?: string | undefined;
 }
 
@@ -196,6 +196,15 @@ export const statusOptions: { value: ResourceStatus; label: ResourceStatus }[] =
     { value: "Todo", label: "Todo" },
     { value: "Completed", label: "Completed" },
   ];
+
+export type DashboardTabType = "Saved" | "Todo" | "Completed" | "Visited";
+
+export const DashboardStatusArr: DashboardTabType[] = [
+  "Saved",
+  "Todo",
+  "Completed",
+  "Visited",
+];
 
 export const reportSectionOptions = ["resource", "solution", "comment"];
 

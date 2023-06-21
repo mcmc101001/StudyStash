@@ -9,6 +9,7 @@ import {
   SemesterType,
 } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { DashboardTabType } from "./content";
 
 export function getRating(
   resources:
@@ -58,6 +59,7 @@ export function getAvgDifficulty(
 }
 
 export async function getCheatsheetsWithPosts({
+  resourceIdList,
   moduleCode,
   FilterSemester,
   FilterAcadYear,
@@ -66,23 +68,25 @@ export async function getCheatsheetsWithPosts({
   statusUserId,
   statusType,
 }: {
+  resourceIdList: string[] | undefined;
   moduleCode: string | undefined;
   FilterSemester: SemesterType | undefined;
   FilterAcadYear: string | undefined;
   FilterExamType: ExamType | undefined;
   userId: string | undefined;
   statusUserId: string | undefined;
-  statusType: ResourceStatus | undefined;
+  statusType: DashboardTabType | undefined;
 }) {
   try {
     const resource = await prisma.cheatsheet.findMany({
       where: {
+        ...(resourceIdList ? { id: { in: resourceIdList } } : {}),
         ...(moduleCode ? { moduleCode: moduleCode } : {}),
         ...(FilterSemester ? { semester: FilterSemester } : {}),
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(FilterExamType ? { type: FilterExamType } : {}),
         ...(userId ? { userId: userId } : {}),
-        ...(statusUserId
+        ...(statusUserId && statusType !== "Visited"
           ? {
               statuses: {
                 some: {
@@ -96,7 +100,15 @@ export async function getCheatsheetsWithPosts({
       include: {
         votes: true,
       },
+      ...(statusType === "Visited" ? { orderBy: {} } : {}),
     });
+
+    if (resourceIdList && statusType === "Visited") {
+      resource.sort((a, b) => {
+        return resourceIdList.indexOf(a.id) - resourceIdList.indexOf(b.id);
+      });
+    }
+
     return resource;
   } catch (error) {
     return [];
@@ -104,6 +116,7 @@ export async function getCheatsheetsWithPosts({
 }
 
 export async function getQuestionPapersWithPosts({
+  resourceIdList,
   moduleCode,
   FilterSemester,
   FilterAcadYear,
@@ -112,23 +125,25 @@ export async function getQuestionPapersWithPosts({
   statusUserId,
   statusType,
 }: {
+  resourceIdList: string[] | undefined;
   moduleCode: string | undefined;
   FilterSemester: SemesterType | undefined;
   FilterAcadYear: string | undefined;
   FilterExamType: ExamType | undefined;
   userId: string | undefined;
   statusUserId: string | undefined;
-  statusType: ResourceStatus | undefined;
+  statusType: DashboardTabType | undefined;
 }) {
   try {
     const resource = await prisma.questionPaper.findMany({
       where: {
+        ...(resourceIdList ? { id: { in: resourceIdList } } : {}),
         ...(moduleCode ? { moduleCode: moduleCode } : {}),
         ...(FilterSemester ? { semester: FilterSemester } : {}),
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(FilterExamType ? { type: FilterExamType } : {}),
         ...(userId ? { userId: userId } : {}),
-        ...(statusUserId
+        ...(statusUserId && statusType !== "Visited"
           ? {
               statuses: {
                 some: {
@@ -147,6 +162,13 @@ export async function getQuestionPapersWithPosts({
         },
       },
     });
+
+    if (resourceIdList && statusType === "Visited") {
+      resource.sort((a, b) => {
+        return resourceIdList.indexOf(a.id) - resourceIdList.indexOf(b.id);
+      });
+    }
+
     return resource;
   } catch (error) {
     return [];
@@ -154,6 +176,7 @@ export async function getQuestionPapersWithPosts({
 }
 
 export async function getNotesWithPosts({
+  resourceIdList,
   moduleCode,
   FilterSemester,
   FilterAcadYear,
@@ -161,21 +184,23 @@ export async function getNotesWithPosts({
   statusUserId,
   statusType,
 }: {
+  resourceIdList: string[] | undefined;
   moduleCode: string | undefined;
   FilterSemester: SemesterType | undefined;
   FilterAcadYear: string | undefined;
   userId: string | undefined;
   statusUserId: string | undefined;
-  statusType: ResourceStatus | undefined;
+  statusType: DashboardTabType | undefined;
 }) {
   try {
     const resource = await prisma.notes.findMany({
       where: {
+        ...(resourceIdList ? { id: { in: resourceIdList } } : {}),
         ...(moduleCode ? { moduleCode: moduleCode } : {}),
         ...(FilterSemester ? { semester: FilterSemester } : {}),
         ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
         ...(userId ? { userId: userId } : {}),
-        ...(statusUserId
+        ...(statusUserId && statusType !== "Visited"
           ? {
               statuses: {
                 some: {
@@ -190,6 +215,13 @@ export async function getNotesWithPosts({
         votes: true,
       },
     });
+
+    if (resourceIdList && statusType === "Visited") {
+      resource.sort((a, b) => {
+        return resourceIdList.indexOf(a.id) - resourceIdList.indexOf(b.id);
+      });
+    }
+
     return resource;
   } catch (error) {
     return [];
@@ -197,6 +229,7 @@ export async function getNotesWithPosts({
 }
 
 export async function getSolutionsWithPosts({
+  resourceIdList,
   userId,
   questionPaperId,
   moduleCode,
@@ -206,6 +239,7 @@ export async function getSolutionsWithPosts({
   statusUserId,
   statusType,
 }: {
+  resourceIdList: string[] | undefined;
   userId: string | undefined;
   questionPaperId: string | undefined;
   moduleCode: string | undefined;
@@ -213,18 +247,19 @@ export async function getSolutionsWithPosts({
   FilterAcadYear: string | undefined;
   FilterExamType: ExamType | undefined;
   statusUserId: string | undefined;
-  statusType: ResourceStatus | undefined;
+  statusType: DashboardTabType | undefined;
 }) {
   try {
     const resource = await prisma.solution.findMany({
       where: {
+        ...(resourceIdList ? { id: { in: resourceIdList } } : {}),
         questionPaper: {
           ...(moduleCode ? { moduleCode: moduleCode } : {}),
           ...(FilterSemester ? { semester: FilterSemester } : {}),
           ...(FilterAcadYear ? { acadYear: FilterAcadYear } : {}),
           ...(FilterExamType ? { type: FilterExamType } : {}),
         },
-        ...(statusUserId
+        ...(statusUserId && statusType !== "Visited"
           ? {
               statuses: {
                 some: {
@@ -242,6 +277,13 @@ export async function getSolutionsWithPosts({
         questionPaper: true,
       },
     });
+
+    if (resourceIdList && statusType === "Visited") {
+      resource.sort((a, b) => {
+        return resourceIdList.indexOf(a.id) - resourceIdList.indexOf(b.id);
+      });
+    }
+
     return resource;
   } catch (error) {
     return [];
