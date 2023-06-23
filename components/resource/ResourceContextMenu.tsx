@@ -158,10 +158,14 @@ ResourceContextMenuProps) {
     }
   }
 
-  const handleDownloadClick = () => {
-    axios.get(shareURL, { responseType: "blob" }).then((res) => {
-      fileDownload(res.data, resourceTitle + ".pdf");
-    });
+  const handleDownloadClick = async () => {
+    try {
+      await axios.get(shareURL, { responseType: "blob" }).then((res) => {
+        fileDownload(res.data, resourceTitle + ".pdf");
+      });
+    } catch {
+      toast.error("Download failed.");
+    }
   };
 
   return (
