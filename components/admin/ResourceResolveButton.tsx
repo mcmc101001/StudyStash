@@ -1,6 +1,6 @@
 "use client";
 
-import { ReportHeaderType } from "./ReportTableColumns";
+import { ResourceReportHeaderType } from "./ReportTableColumns";
 import {
   Dialog,
   DialogContent,
@@ -11,36 +11,36 @@ import {
 } from "@/components/ui/Dialog";
 import { useState } from "react";
 import axios from "axios";
-import { editResolvedType } from "@/pages/api/editResolve";
+import { editResourceResolvedType } from "@/pages/api/editResourceResolve";
 import { toast } from "react-hot-toast";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
 import {
-  ResourceSolutionType,
+  ResourceType,
   categoryOptions,
   examTypeOptions,
   semesterOptions,
 } from "@/lib/content";
 import Button from "@/components/ui/Button";
 import StyledSelect, { Option } from "@/components//ui/StyledSelect";
-import { ReportType } from "@prisma/client";
+import { ResourceReportType } from "@prisma/client";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import { startsWithNumbers } from "@/lib/utils";
 
-export default function ResolveButton({
+export default function ResourceResolveButton({
   report,
   moduleCodeOptions,
 }: {
-  report: ReportHeaderType;
+  report: ResourceReportHeaderType;
   moduleCodeOptions: Option[];
 }) {
-  const editResolve = async (
+  const editResourceResolve = async (
     // userId: string,
-    category: ResourceSolutionType,
+    category: ResourceType,
     reportId: string,
     setResolved: boolean
   ) => {
-    let body: editResolvedType = {
+    let body: editResourceResolvedType = {
       // userId: userId,
       category: category,
       reportId: reportId,
@@ -48,7 +48,7 @@ export default function ResolveButton({
     };
 
     try {
-      let req = await axios.post("/api/editResolve", body);
+      let req = await axios.post("/api/editResourceResolve", body);
       if (setResolved) {
         toast.success("Successfully resolved!");
       } else {
@@ -70,9 +70,9 @@ export default function ResolveButton({
     router.refresh();
   };
 
-  const handleResolveOrReopen = async (report: ReportHeaderType) => {
+  const handleResolveOrReopen = async (report: ResourceReportHeaderType) => {
     if (report.resolved) {
-      await editResolve(report.category, report.reportId, false);
+      await editResourceResolve(report.category, report.reportId, false);
       router.refresh();
     } else {
       setOpen(true);
@@ -192,7 +192,7 @@ export default function ResolveButton({
             className="w-1/2"
             onClick={async () => {
               setLoading(true);
-              await editResolve(report.category, report.reportId, true);
+              await editResourceResolve(report.category, report.reportId, true);
               exitDialog();
             }}
             disabled={loading}
@@ -203,7 +203,7 @@ export default function ResolveButton({
             className="w-1/2"
             onClick={async () => {
               setLoading(true);
-              await editResolve(report.category, report.reportId, true);
+              await editResourceResolve(report.category, report.reportId, true);
               exitDialog();
             }}
           >

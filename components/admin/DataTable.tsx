@@ -20,7 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/Table";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "@/components/ui/Button";
 import {
   DropdownMenu,
@@ -31,50 +31,34 @@ import {
 import StyledSelect from "../ui/StyledSelect";
 import {
   resolvedOptions,
-  reportOptions,
+  resourceReportOptions,
   papersAdditionalReportOptions,
   categoryOptions,
+  solutionReportOptions,
 } from "@/lib/content";
-import { redirect } from "next/navigation";
 import useQueryParams from "@/hooks/useQueryParams";
 
 interface DataTableProps<TData, TValue> {
   // params: { section: ReportSectionType };
   columns: ColumnDef<TData, TValue>[];
-  resourceData: TData[];
-  solutionData: TData[];
-  commentData: TData[];
-  moduleCodeOptions: string;
+  data: TData[];
+  moduleCodeOptions?: string;
   className?: string;
 }
 
 export function DataTable<TData, TValue>({
   // params,
   columns,
-  resourceData,
-  solutionData,
-  commentData,
+  data,
   moduleCodeOptions,
   className,
 }: DataTableProps<TData, TValue>) {
   let { queryParams, setQueryParams } = useQueryParams();
-  const [data, setData] = useState(resourceData);
+  // const [sectionData, setsectionData] = useState(data);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    if (queryParams?.get("section") === "resource") {
-      setData(resourceData);
-    } else if (queryParams?.get("section") === "solution") {
-      setData(solutionData);
-    } else if (queryParams?.get("section") === "comment") {
-      setData(commentData);
-    } else {
-      redirect("/admin?section=resource");
-    }
-  }, [queryParams]);
 
   const table = useReactTable({
     data,
@@ -93,8 +77,23 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  localStorage.setItem("moduleCodeOptions", moduleCodeOptions);
+  if (moduleCodeOptions) {
+    sessionStorage.setItem("moduleCodeOptions", moduleCodeOptions);
+  }
   const section = queryParams?.get("section");
+  let reasonOptions;
+  if (section === "resource") {
+    reasonOptions = resourceReportOptions.concat(papersAdditionalReportOptions);
+  } else if (section === "solution") {
+    reasonOptions = solutionReportOptions;
+  } else {
+    // reasonOptions = commentReportOptions;
+    reasonOptions = [
+      { value: "inappropriateUsername", label: "Inappropriate username" },
+      { value: "spam", label: "Spam" },
+      { value: "harassment", label: "Harassment" },
+    ];
+  }
 
   return (
     <div className={className}>
@@ -145,25 +144,25 @@ export function DataTable<TData, TValue>({
               label="Select reason"
               labelExists={false}
               placeholderText="Select reason"
-              options={reportOptions.concat(papersAdditionalReportOptions)}
+              options={reasonOptions}
               onChange={(option) =>
                 table.getColumn("type")?.setFilterValue(option?.value)
               }
             />
           </div>
-          {/* {section === "resource" && ( */}
-          <div className="w-1/6">
-            <StyledSelect
-              label="Select category"
-              labelExists={false}
-              placeholderText="Select category"
-              options={categoryOptions}
-              onChange={(option) => {
-                table.getColumn("category")?.setFilterValue(option?.label);
-              }}
-            />
-          </div>
-          {/* )} */}
+          {section === "resource" && (
+            <div className="w-1/6">
+              <StyledSelect
+                label="Select category"
+                labelExists={false}
+                placeholderText="Select category"
+                options={categoryOptions}
+                onChange={(option) => {
+                  table.getColumn("category")?.setFilterValue(option?.label);
+                }}
+              />
+            </div>
+          )}
           <DropdownMenu open={dropdownOpen} modal={false}>
             <DropdownMenuTrigger
               asChild

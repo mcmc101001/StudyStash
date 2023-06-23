@@ -6,23 +6,24 @@ import {
   CheatsheetReport,
   QuestionPaperReport,
   NotesReport,
-  SolutionReport,
-  ReportType,
+  ResourceReportType,
 } from "@prisma/client";
-import { ResourceSolutionEnum, ResourceSolutionType } from "@/lib/content";
+import { ResourceEnum, ResourceType } from "@/lib/content";
 import z from "zod";
 
-const editResolvedSchema = z.object({
+const editResourceResolvedSchema = z.object({
   // userId: z.string(),
-  category: ResourceSolutionEnum,
+  category: ResourceEnum,
   reportId: z.string(),
   setResolved: z.boolean(),
 });
 
-export type editResolvedType = z.infer<typeof editResolvedSchema>;
+export type editResourceResolvedType = z.infer<
+  typeof editResourceResolvedSchema
+>;
 
-function isValidBody(body: any): body is editResolvedType {
-  const { success } = editResolvedSchema.safeParse(body);
+function isValidBody(body: any): body is editResourceResolvedType {
+  const { success } = editResourceResolvedSchema.safeParse(body);
   return success;
 }
 
@@ -44,10 +45,10 @@ export default async function addReport(
         id: session.user.id,
       },
     });
-    // if (!user || !user.verified) {
-    //   res.status(401).json({ message: "Invalid user credentials." });
-    //   return;
-    // }
+    if (!user || !user.verified) {
+      res.status(401).json({ message: "Invalid user credentials." });
+      return;
+    }
   }
   if (!isValidBody(req.body)) {
     return res.status(400).json({ message: "Invalid request body" });
@@ -59,15 +60,11 @@ export default async function addReport(
 
   try {
     let { category, reportId, setResolved } = req.body;
-    let report:
-      | CheatsheetReport
-      | QuestionPaperReport
-      | NotesReport
-      | SolutionReport;
-    if (req.body.category === "Cheatsheets") {
+    let report: CheatsheetReport | QuestionPaperReport | NotesReport;
+    if (category === "Cheatsheets") {
       let temp = await prisma.cheatsheetReport.update({
         where: {
-          id: req.body.reportId,
+          id: reportId,
         },
         data: {
           resolved: setResolved,
@@ -79,10 +76,10 @@ export default async function addReport(
       } else {
         return res.status(400).json({ message: "Invalid report id" });
       }
-    } else if (req.body.category === "Past Papers") {
+    } else if (category === "Past Papers") {
       let temp = await prisma.questionPaperReport.update({
         where: {
-          id: req.body.reportId,
+          id: reportId,
         },
         data: {
           resolved: setResolved,
@@ -94,25 +91,10 @@ export default async function addReport(
       } else {
         return res.status(400).json({ message: "Invalid report id" });
       }
-    } else if (req.body.category === "Notes") {
+    } else if (category === "Notes") {
       let temp = await prisma.notesReport.update({
         where: {
-          id: req.body.reportId,
-        },
-        data: {
-          resolved: setResolved,
-        },
-      });
-
-      if (temp) {
-        report = temp;
-      } else {
-        return res.status(400).json({ message: "Invalid report id" });
-      }
-    } else if (req.body.category === "Solutions") {
-      let temp = await prisma.solutionReport.update({
-        where: {
-          id: req.body.reportId,
+          id: reportId,
         },
         data: {
           resolved: setResolved,

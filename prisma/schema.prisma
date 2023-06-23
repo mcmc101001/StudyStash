@@ -49,7 +49,7 @@ model User {
   image                     String?
   bio                       String                     @default("") @db.TinyText
   verified                  Boolean                    @default(false)
-  visitedData               String                     @default("") @db.Text
+  visitedData               String                     @default("{\"visitedCheatsheets\":[],\"visitedPastPapers\":[],\"visitedNotes\":[],\"visitedSolutions\":[]}") @db.Text
   accounts                  Account[]
   sessions                  Session[]
   cheatsheets               Cheatsheet[]
@@ -286,13 +286,13 @@ model StarredModules {
 }
 
 model CheatsheetReport {
-  id         String     @id @default(cuid())
-  createdAt  DateTime   @default(now())
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String             @id @default(cuid())
+  createdAt  DateTime           @default(now())
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  type       ReportType
-  resolved   Boolean    @default(false)
-  resource   Cheatsheet @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  type       ResourceReportType
+  resolved   Boolean            @default(false)
+  resource   Cheatsheet         @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
   @@index([userId])
@@ -300,13 +300,13 @@ model CheatsheetReport {
 }
 
 model QuestionPaperReport {
-  id         String        @id @default(cuid())
-  createdAt  DateTime      @default(now())
-  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String             @id @default(cuid())
+  createdAt  DateTime           @default(now())
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  type       ReportType
-  resolved   Boolean       @default(false)
-  resource   QuestionPaper @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  type       ResourceReportType
+  resolved   Boolean            @default(false)
+  resource   QuestionPaper      @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
   @@index([userId])
@@ -314,13 +314,13 @@ model QuestionPaperReport {
 }
 
 model NotesReport {
-  id         String     @id @default(cuid())
-  createdAt  DateTime   @default(now())
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String             @id @default(cuid())
+  createdAt  DateTime           @default(now())
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  type       ReportType
-  resolved   Boolean    @default(false)
-  resource   Notes      @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  type       ResourceReportType
+  resolved   Boolean            @default(false)
+  resource   Notes              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
   @@index([userId])
@@ -328,14 +328,14 @@ model NotesReport {
 }
 
 model SolutionReport {
-  id         String     @id @default(cuid())
-  createdAt  DateTime   @default(now())
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String             @id @default(cuid())
+  createdAt  DateTime           @default(now())
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  type       ReportType
-  resource   Solution   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  type       SolutionReportType
+  resource   Solution           @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
-  resolved   Boolean    @default(false)
+  resolved   Boolean            @default(false)
 
   @@index([userId])
   @@index([resourceId])
@@ -600,7 +600,7 @@ enum ResourceStatus {
   Saved
 }
 
-enum ReportType {
+enum ResourceReportType {
   inappropriateFilename
   inappropriateUsername
   incorrectModule
@@ -608,4 +608,16 @@ enum ReportType {
   incorrectAcadYear
   incorrectSemester
   incorrectExamType
+}
+
+enum SolutionReportType {
+  inappropriateFilename
+  inappropriateUsername
+  incorrectQuestionPaper
+}
+
+enum CommentReportType {
+  inappropriateUsername
+  spam
+  harassment
 }

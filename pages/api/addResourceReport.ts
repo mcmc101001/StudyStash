@@ -7,26 +7,26 @@ import {
   QuestionPaperReport,
   NotesReport,
   SolutionReport,
-  ReportType,
+  ResourceReportType,
 } from "@prisma/client";
-import { ResourceSolutionEnum, ResourceSolutionType } from "@/lib/content";
+import { ResourceEnum } from "@/lib/content";
 import z from "zod";
 
-const addReportSchema = z.object({
-  category: ResourceSolutionEnum,
+const addResourceReportSchema = z.object({
+  category: ResourceEnum,
   reporterId: z.string(),
   resourceId: z.string(),
-  reportType: z.nativeEnum(ReportType),
+  reportType: z.nativeEnum(ResourceReportType),
 });
 
-export type addReportType = z.infer<typeof addReportSchema>;
+export type addResourceReportType = z.infer<typeof addResourceReportSchema>;
 
-function isValidBody(body: any): body is addReportType {
-  const { success } = addReportSchema.safeParse(body);
+function isValidBody(body: any): body is addResourceReportType {
+  const { success } = addResourceReportSchema.safeParse(body);
   return success;
 }
 
-export default async function addReport(
+export default async function addResourceReport(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -75,15 +75,6 @@ export default async function addReport(
         resolved: false,
       },
     });
-  } else if (req.body.category === "Solutions") {
-    checkRepeat = await prisma.solutionReport.findFirst({
-      where: {
-        userId: req.body.reporterId,
-        resourceId: req.body.resourceId,
-        type: req.body.reportType,
-        resolved: false,
-      },
-    });
   } else {
     return res.status(400).json({ message: "Invalid category" });
   }
@@ -93,11 +84,7 @@ export default async function addReport(
 
   try {
     let { category, reporterId, resourceId, reportType } = req.body;
-    let report:
-      | CheatsheetReport
-      | QuestionPaperReport
-      | NotesReport
-      | SolutionReport;
+    let report: CheatsheetReport | QuestionPaperReport | NotesReport;
     if (category === "Cheatsheets") {
       report = await prisma.cheatsheetReport.create({
         data: {
@@ -116,14 +103,6 @@ export default async function addReport(
       });
     } else if (category === "Notes") {
       report = await prisma.notesReport.create({
-        data: {
-          userId: reporterId,
-          type: reportType,
-          resourceId: resourceId,
-        },
-      });
-    } else if (category === "Solutions") {
-      report = await prisma.solutionReport.create({
         data: {
           userId: reporterId,
           type: reportType,

@@ -4,10 +4,16 @@ import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { DataTable } from "@/components/admin/DataTable";
 import {
-  columns,
-  ReportHeaderType,
+  resourceColumns,
+  solutionColumns,
+  // commentColumns,
+  ResourceReportHeaderType,
+  SolutionReportHeaderType,
+  // CommentReportHeaderType,
 } from "@/components/admin/ReportTableColumns";
 import { getModuleCodeOptions } from "@/lib/nusmods";
+import useQueryParams from "@/hooks/useQueryParams";
+import { reportSectionOptions } from "@/lib/content";
 
 // Function to convert Date type to string
 const dateString = (datetime: Date) => {
@@ -20,7 +26,11 @@ const dateString = (datetime: Date) => {
   });
 };
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
@@ -36,9 +46,18 @@ export default async function AdminPage() {
     redirect("/401");
   }
 
-  let resourceData: ReportHeaderType[] = [];
-  let solutionData: ReportHeaderType[] = [];
-  let commentData: ReportHeaderType[] = [];
+  const section = searchParams.section;
+  if (
+    !section ||
+    typeof section !== "string" ||
+    reportSectionOptions.indexOf(section) === -1
+  ) {
+    redirect("/admin?section=resource");
+  }
+
+  let resourceData: ResourceReportHeaderType[] = [];
+  let solutionData: SolutionReportHeaderType[] = [];
+  // let commentData: CommentReportHeaderType[] = [];
 
   const cheatsheetsPromise = prisma.cheatsheetReport.findMany({
     include: {
@@ -88,6 +107,7 @@ export default async function AdminPage() {
     notesPromise,
     solnsPromise,
   ]);
+  
   if (cheatsheets) {
     cheatsheets.map((report) => {
       resourceData.push({
@@ -154,7 +174,6 @@ export default async function AdminPage() {
       solutionData.push({
         reportId: report.id,
         type: report.type,
-        category: "Solutions",
         createdAt: dateString(report.createdAt),
         filename: report.resource.name,
         uploaderId: report.resource.userSubmitted.id,
@@ -163,9 +182,6 @@ export default async function AdminPage() {
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
-        acadYear: report.resource.questionPaper.acadYear,
-        semester: report.resource.questionPaper.semester,
-        moduleCode: report.resource.questionPaper.moduleCode,
       });
     });
   }
@@ -177,20 +193,37 @@ export default async function AdminPage() {
   solutionData.sort((a, b) => {
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
-  commentData.sort((a, b) => {
-    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-  });
+  // commentData.sort((a, b) => {
+  //   return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  // });
 
   return (
-    <DataTable
-      // params={params}
-
-      columns={columns}
-      resourceData={resourceData}
-      solutionData={solutionData}
-      commentData={[]}
-      moduleCodeOptions={JSON.stringify(await getModuleCodeOptions())}
-      className="h-screen"
-    />
+    <div>
+      {section === "resource" ? (
+        <DataTable
+          // params={params}
+          columns={resourceColumns}
+          data={resourceData}
+          moduleCodeOptions={JSON.stringify(await getModuleCodeOptions())}
+          className="h-screen"
+        />
+      ) : section === "solution" ? (
+        <DataTable
+          // params={params}
+          columns={solutionColumns}
+          data={solutionData}
+          className="h-screen"
+        />
+      ) : section === "comment" ? (
+        <DataTable
+          // params={params}
+          columns={solutionColumns}
+          data={[]}
+          className="h-screen"
+        />
+      ) : (
+        <div>Error.</div>
+      )}
+    </div>
   );
 }
