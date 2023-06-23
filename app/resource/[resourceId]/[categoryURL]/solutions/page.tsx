@@ -43,6 +43,7 @@ export default async function SolutionPage({
   const FilterStatus = searchParams.filterStatus as ResourceStatus | undefined;
 
   const solutions = await getSolutionsWithPosts({
+    resourceIdList: undefined,
     userId: undefined,
     questionPaperId: resourceId,
     moduleCode: undefined,
