@@ -14,6 +14,9 @@ import {
   TowerControl,
   MessageSquare,
   MessageSquarePlus,
+  MessageCircle,
+  Star,
+  ThumbsUp,
 } from "lucide-react";
 
 export const Icons = {
@@ -50,6 +53,9 @@ export const Icons = {
   TowerControl,
   MessageSquare,
   MessageSquarePlus,
+  MessageCircle,
+  Star,
+  ThumbsUp,
 };
 
 export type Icon = keyof typeof Icons;

@@ -46,6 +46,7 @@ export default async function UserResourcesSection({
   if (filterCategory === "cheatsheets") {
     category = "Cheatsheets";
     resources = await getCheatsheetsWithPosts({
+      resourceIdList: undefined,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -57,6 +58,7 @@ export default async function UserResourcesSection({
   } else if (filterCategory === "past_papers") {
     category = "Past Papers";
     resources = await getQuestionPapersWithPosts({
+      resourceIdList: undefined,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -68,6 +70,7 @@ export default async function UserResourcesSection({
   } else if (filterCategory === "notes") {
     category = "Notes";
     resources = await getNotesWithPosts({
+      resourceIdList: undefined,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -78,6 +81,7 @@ export default async function UserResourcesSection({
   } else if (filterCategory === "solutions") {
     category = "Solutions";
     resources = await getSolutionsWithPosts({
+      resourceIdList: undefined,
       questionPaperId: undefined,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,

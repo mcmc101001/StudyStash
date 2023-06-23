@@ -100,7 +100,6 @@ export async function getCheatsheetsWithPosts({
       include: {
         votes: true,
       },
-      ...(statusType === "Visited" ? { orderBy: {} } : {}),
     });
 
     if (resourceIdList && statusType === "Visited") {

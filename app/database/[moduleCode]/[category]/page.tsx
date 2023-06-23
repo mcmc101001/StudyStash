@@ -51,6 +51,7 @@ export default async function Page({
   if (params.category === "cheatsheets") {
     category = "Cheatsheets";
     parsedResources = await getCheatsheetsWithPosts({
+      resourceIdList: undefined,
       moduleCode: params.moduleCode,
       FilterSemester,
       FilterAcadYear,
@@ -62,6 +63,7 @@ export default async function Page({
   } else if (params.category === "notes") {
     category = "Notes";
     parsedResources = await getNotesWithPosts({
+      resourceIdList: undefined,
       moduleCode: params.moduleCode,
       FilterSemester,
       FilterAcadYear,
@@ -72,6 +74,7 @@ export default async function Page({
   } else if (params.category === "past_papers") {
     category = "Past Papers";
     parsedResources = await getQuestionPapersWithPosts({
+      resourceIdList: undefined,
       moduleCode: params.moduleCode,
       FilterSemester,
       FilterAcadYear,

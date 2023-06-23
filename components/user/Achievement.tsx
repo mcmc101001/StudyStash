@@ -18,7 +18,9 @@ export function Achievement({ description, value, icon }: AchievementProps) {
       <div className="mt-2 flex items-center justify-center text-3xl font-semibold">
         {value}
       </div>
-      <div className="font-light text-slate-400">{description}</div>
+      <div className="text-base font-light text-slate-300 opacity-75">
+        {description}
+      </div>
     </div>
   );
 }

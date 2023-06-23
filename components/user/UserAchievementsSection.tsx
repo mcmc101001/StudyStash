@@ -14,7 +14,7 @@ interface UserAchievementsSectionProps {
 export async function UserAchievementsSection({
   userId,
 }: UserAchievementsSectionProps) {
-  const cheatsheets = await prisma.cheatsheet.findMany({
+  const cheatsheetsPromise = prisma.cheatsheet.findMany({
     where: {
       userId: userId,
     },
@@ -27,7 +27,7 @@ export async function UserAchievementsSection({
     },
   });
 
-  const questionPapers = await prisma.questionPaper.findMany({
+  const questionPapersPromise = prisma.questionPaper.findMany({
     where: {
       userId: userId,
     },
@@ -40,7 +40,7 @@ export async function UserAchievementsSection({
     },
   });
 
-  const notes = await prisma.notes.findMany({
+  const notesPromise = prisma.notes.findMany({
     where: {
       userId: userId,
     },
@@ -53,7 +53,7 @@ export async function UserAchievementsSection({
     },
   });
 
-  const solutions = await prisma.solution.findMany({
+  const solutionsPromise = prisma.solution.findMany({
     where: {
       userId: userId,
     },
@@ -66,7 +66,7 @@ export async function UserAchievementsSection({
     },
   });
 
-  const qnpaperComments = await prisma.questionPaperComment.findMany({
+  const cheatsheetCommentsPromise = prisma.cheatsheetComment.findMany({
     where: {
       userId: userId,
     },
@@ -79,7 +79,7 @@ export async function UserAchievementsSection({
     },
   });
 
-  const cheatsheetComments = await prisma.cheatsheetComment.findMany({
+  const questionPaperCommentsPromise = prisma.questionPaperComment.findMany({
     where: {
       userId: userId,
     },
@@ -92,7 +92,7 @@ export async function UserAchievementsSection({
     },
   });
 
-  const noteComments = await prisma.notesComment.findMany({
+  const notesCommentsPromise = prisma.notesComment.findMany({
     where: {
       userId: userId,
     },
@@ -105,7 +105,7 @@ export async function UserAchievementsSection({
     },
   });
 
-  const solutionComments = await prisma.solutionComment.findMany({
+  const solutionCommentsPromise = prisma.solutionComment.findMany({
     where: {
       userId: userId,
     },
@@ -117,6 +117,86 @@ export async function UserAchievementsSection({
       },
     },
   });
+
+  const cheatsheetRepliesPromise = prisma.cheatsheetReply.findMany({
+    where: {
+      userId: userId,
+    },
+    include: {
+      votes: {
+        select: {
+          value: true,
+        },
+      },
+    },
+  });
+
+  const questionPaperRepliesPromise = prisma.questionPaperReply.findMany({
+    where: {
+      userId: userId,
+    },
+    include: {
+      votes: {
+        select: {
+          value: true,
+        },
+      },
+    },
+  });
+
+  const notesRepliesPromise = prisma.notesReply.findMany({
+    where: {
+      userId: userId,
+    },
+    include: {
+      votes: {
+        select: {
+          value: true,
+        },
+      },
+    },
+  });
+
+  const solutionRepliesPromise = prisma.solutionReply.findMany({
+    where: {
+      userId: userId,
+    },
+    include: {
+      votes: {
+        select: {
+          value: true,
+        },
+      },
+    },
+  });
+
+  const [
+    cheatsheets,
+    questionPapers,
+    notes,
+    solutions,
+    cheatsheetComments,
+    questionPaperComments,
+    notesComments,
+    solutionComments,
+    cheatsheetReplies,
+    questionPaperReplies,
+    notesReplies,
+    solutionCReplies,
+  ] = await Promise.all([
+    cheatsheetsPromise,
+    questionPapersPromise,
+    notesPromise,
+    solutionsPromise,
+    cheatsheetCommentsPromise,
+    questionPaperCommentsPromise,
+    notesCommentsPromise,
+    solutionCommentsPromise,
+    cheatsheetRepliesPromise,
+    questionPaperRepliesPromise,
+    notesRepliesPromise,
+    solutionRepliesPromise,
+  ]);
 
   // Resource count
   const resourcesUploaded =
@@ -145,11 +225,15 @@ export async function UserAchievementsSection({
   }
 
   // Comment count
-  const commentsUploaded =
-    qnpaperComments.length +
+  const commentsPosted =
     cheatsheetComments.length +
-    noteComments.length +
-    solutionComments.length;
+    questionPaperComments.length +
+    notesComments.length +
+    solutionComments.length +
+    cheatsheetReplies.length +
+    questionPaperReplies.length +
+    notesReplies.length +
+    solutionCReplies.length;
 
   // Comment votes
   let commentUpvotes = 0;
@@ -157,16 +241,28 @@ export async function UserAchievementsSection({
   const addCommentKarma = (vote: { value: boolean }) =>
     vote.value ? commentUpvotes++ : commentDownvotes++;
 
-  for (const qnpaperComment of qnpaperComments) {
+  for (const qnpaperComment of questionPaperComments) {
     qnpaperComment.votes.forEach(addCommentKarma);
   }
   for (const cheatsheetComment of cheatsheetComments) {
     cheatsheetComment.votes.forEach(addCommentKarma);
   }
-  for (const noteComment of noteComments) {
+  for (const noteComment of notesComments) {
     noteComment.votes.forEach(addCommentKarma);
   }
   for (const solutionComment of solutionComments) {
+    solutionComment.votes.forEach(addCommentKarma);
+  }
+  for (const qnpaperComment of cheatsheetReplies) {
+    qnpaperComment.votes.forEach(addCommentKarma);
+  }
+  for (const cheatsheetComment of questionPaperReplies) {
+    cheatsheetComment.votes.forEach(addCommentKarma);
+  }
+  for (const noteComment of notesReplies) {
+    noteComment.votes.forEach(addCommentKarma);
+  }
+  for (const solutionComment of solutionCReplies) {
     solutionComment.votes.forEach(addCommentKarma);
   }
 
@@ -218,16 +314,16 @@ export async function UserAchievementsSection({
             <TooltipTrigger>
               <Achievement
                 description="Comments uploaded"
-                value={commentsUploaded}
+                value={commentsPosted}
                 icon={"MessageSquare"}
               />
             </TooltipTrigger>
             <TooltipContent side="top">
               Cheatsheets comments: {cheatsheetComments.length}
               <br />
-              Past papers comments: {qnpaperComments.length}
+              Past papers comments: {questionPaperComments.length}
               <br />
-              Notes comments: {noteComments.length}
+              Notes comments: {notesComments.length}
               <br />
               Solutions comments: {solutionComments.length}
             </TooltipContent>
