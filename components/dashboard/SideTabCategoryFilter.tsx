@@ -26,7 +26,7 @@ export default function SideTabCategoryFilter({
               className={
                 "flex flex-1 cursor-pointer items-center justify-center rounded-l-2xl border border-slate-200 " +
                 (queryParams?.get("filterCategory") === option.href
-                  ? "border-r-transparent bg-slate-900"
+                  ? "border-r-transparent dark:bg-slate-900"
                   : "")
               }
             >
