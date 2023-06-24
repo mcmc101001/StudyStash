@@ -85,27 +85,31 @@ export default function ResourceFilters({
 
   return (
     <div className="flex w-full flex-col items-center gap-x-4 gap-y-4">
-      <StyledSelect
-        label="Sort"
-        placeholderText="Sort by"
-        options={
-          category === "Past Papers"
-            ? sortOptions.concat(papersAdditionalSortOptions)
-            : sortOptions
-        }
-        onChange={handleSortChange}
-        labelExists={false}
-        defaultValue={
-          // choose select param accordingly based on category
-          category === "Past Papers"
-            ? sortOptions.concat(papersAdditionalSortOptions).find((option) => {
-                return option.value === sortQueryParam;
-              })
-            : sortOptions.find((option) => {
-                return option.value === sortQueryParam;
-              })
-        }
-      />
+      {statusQueryParam !== "Visited" && (
+        <StyledSelect
+          label="Sort"
+          placeholderText="Sort by"
+          options={
+            category === "Past Papers"
+              ? sortOptions.concat(papersAdditionalSortOptions)
+              : sortOptions
+          }
+          onChange={handleSortChange}
+          labelExists={false}
+          defaultValue={
+            // choose select param accordingly based on category
+            category === "Past Papers"
+              ? sortOptions
+                  .concat(papersAdditionalSortOptions)
+                  .find((option) => {
+                    return option.value === sortQueryParam;
+                  })
+              : sortOptions.find((option) => {
+                  return option.value === sortQueryParam;
+                })
+          }
+        />
+      )}
       {currentUserId && statusOptions && (
         <StyledSelect
           label="Select Status"
