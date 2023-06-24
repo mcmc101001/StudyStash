@@ -433,7 +433,7 @@ const ContributeForm = (props: ContributeFormProps) => {
                 semester
                   ? {
                       value: semester,
-                      label: `Semester ${semester}`,
+                      label: props.semesterOptions.find((option) => option.value === semester)!.label,
                     }
                   : undefined
               }

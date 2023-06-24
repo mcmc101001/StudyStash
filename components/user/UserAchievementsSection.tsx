@@ -1,5 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { Achievement } from "@/components/user/Achievement";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 
 interface UserAchievementsSectionProps {
   userId: string;
@@ -169,9 +175,9 @@ export async function UserAchievementsSection({
     questionPapers,
     notes,
     solutions,
-    cheatsheetComment,
-    questionPaperComment,
-    notesComment,
+    cheatsheetComments,
+    questionPaperComments,
+    notesComments,
     solutionComments,
     cheatsheetReplies,
     questionPaperReplies,
@@ -192,88 +198,157 @@ export async function UserAchievementsSection({
     solutionRepliesPromise,
   ]);
 
-  let resourcesKarma = 0;
-  let commentsKarma = 0;
-
-  for (const cheatsheet of cheatsheets) {
-    resourcesKarma += cheatsheet.votes.length;
-  }
-  for (const questionPaper of questionPapers) {
-    resourcesKarma += questionPaper.votes.length;
-  }
-  for (const note of notes) {
-    resourcesKarma += note.votes.length;
-  }
-  for (const solution of solutions) {
-    resourcesKarma += solution.votes.length;
-  }
-
-  for (const comment of cheatsheetComment) {
-    commentsKarma += comment.votes.length;
-  }
-  for (const comment of questionPaperComment) {
-    commentsKarma += comment.votes.length;
-  }
-  for (const comment of notesComment) {
-    commentsKarma += comment.votes.length;
-  }
-  for (const comment of solutionComments) {
-    commentsKarma += comment.votes.length;
-  }
-  for (const reply of cheatsheetReplies) {
-    commentsKarma += reply.votes.length;
-  }
-  for (const reply of questionPaperReplies) {
-    commentsKarma += reply.votes.length;
-  }
-  for (const reply of notesReplies) {
-    commentsKarma += reply.votes.length;
-  }
-  for (const reply of solutionCReplies) {
-    commentsKarma += reply.votes.length;
-  }
-
+  // Resource count
   const resourcesUploaded =
     cheatsheets.length +
     questionPapers.length +
     notes.length +
     solutions.length;
 
+  // Resource votes
+  let upvotes = 0;
+  let downvotes = 0;
+  const addKarma = (vote: { value: boolean }) =>
+    vote.value ? upvotes++ : downvotes++;
+
+  for (const cheatsheet of cheatsheets) {
+    cheatsheet.votes.forEach(addKarma);
+  }
+  for (const questionPaper of questionPapers) {
+    questionPaper.votes.forEach(addKarma);
+  }
+  for (const note of notes) {
+    note.votes.forEach(addKarma);
+  }
+  for (const solution of solutions) {
+    solution.votes.forEach(addKarma);
+  }
+
+  // Comment count
   const commentsPosted =
-    cheatsheetComment.length +
-    questionPaperComment.length +
-    notesComment.length +
+    cheatsheetComments.length +
+    questionPaperComments.length +
+    notesComments.length +
     solutionComments.length +
     cheatsheetReplies.length +
     questionPaperReplies.length +
     notesReplies.length +
     solutionCReplies.length;
 
+  // Comment votes
+  let commentUpvotes = 0;
+  let commentDownvotes = 0;
+  const addCommentKarma = (vote: { value: boolean }) =>
+    vote.value ? commentUpvotes++ : commentDownvotes++;
+
+  for (const qnpaperComment of questionPaperComments) {
+    qnpaperComment.votes.forEach(addCommentKarma);
+  }
+  for (const cheatsheetComment of cheatsheetComments) {
+    cheatsheetComment.votes.forEach(addCommentKarma);
+  }
+  for (const noteComment of notesComments) {
+    noteComment.votes.forEach(addCommentKarma);
+  }
+  for (const solutionComment of solutionComments) {
+    solutionComment.votes.forEach(addCommentKarma);
+  }
+  for (const qnpaperComment of cheatsheetReplies) {
+    qnpaperComment.votes.forEach(addCommentKarma);
+  }
+  for (const cheatsheetComment of questionPaperReplies) {
+    cheatsheetComment.votes.forEach(addCommentKarma);
+  }
+  for (const noteComment of notesReplies) {
+    noteComment.votes.forEach(addCommentKarma);
+  }
+  for (const solutionComment of solutionCReplies) {
+    solutionComment.votes.forEach(addCommentKarma);
+  }
+
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-y-6 overflow-hidden rounded-xl bg-slate-300 p-6 px-10 text-center text-xl dark:bg-slate-700">
-      <div className="flex w-full items-center justify-between">
-        <Achievement
-          description="Resources uploaded"
-          value={resourcesUploaded}
-          icon={"Files"}
-        />
-        <Achievement
-          description="Total resource rating"
-          value={resourcesKarma}
-          icon={"Star"}
-        />
+    <div className="rounded-2xl bg-slate-300 p-4 text-center text-xl dark:bg-slate-700">
+      <div className="flex items-center justify-center gap-x-5 pb-5">
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger>
+              <Achievement
+                description="Resources uploaded"
+                value={resourcesUploaded}
+                icon={"Files"}
+              />
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              Cheatsheets: {cheatsheets.length}
+              <br />
+              Past papers: {questionPapers.length}
+              <br />
+              Notes: {notes.length}
+              <br />
+              Solutions: {solutions.length}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger>
+              <Achievement
+                description="Total resource rating"
+                value={upvotes - downvotes}
+                icon={"FileUp"}
+              />
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              Upvote percentage:
+              <br />
+              {Math.round((upvotes / (upvotes + downvotes)) * 10000) / 100}%
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
-      <div className="flex w-full items-center justify-between">
-        <Achievement
-          description="Comments made"
-          value={commentsPosted}
-          icon={"MessageCircle"}
-        />
-        <Achievement
-          description="Total comments rating"
-          value={commentsKarma}
-          icon={"ThumbsUp"}
-        />
+
+      <div className="flex items-center justify-center gap-x-5 ">
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger>
+              <Achievement
+                description="Comments uploaded"
+                value={commentsPosted}
+                icon={"MessageSquare"}
+              />
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              Cheatsheets comments: {cheatsheetComments.length}
+              <br />
+              Past papers comments: {questionPaperComments.length}
+              <br />
+              Notes comments: {notesComments.length}
+              <br />
+              Solutions comments: {solutionComments.length}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger>
+              <Achievement
+                description="Total resource rating"
+                value={commentUpvotes - commentDownvotes}
+                icon={"MessageSquarePlus"}
+              />
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              Upvote percentage:
+              <br />
+              {Math.round(
+                (commentUpvotes / (commentUpvotes + commentDownvotes)) * 10000
+              ) / 100}
+              %
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
