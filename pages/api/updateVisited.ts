@@ -14,10 +14,11 @@ const updateVisitedSchema = z.object({
 });
 
 export type updateVisitedType = z.infer<typeof updateVisitedSchema>;
-
-export interface VisitedElementType {
-  resourceId: string;
-  category: ResourceSolutionType;
+export interface VisitedDataType {
+  visitedCheatsheets: string[];
+  visitedPastPapers: string[];
+  visitedNotes: string[];
+  visitedSolutions: string[];
 }
 
 function isValidBody(body: any): body is updateVisitedType {
@@ -25,26 +26,26 @@ function isValidBody(body: any): body is updateVisitedType {
   return success;
 }
 
-const stringify = (array: VisitedElementType[]): string => {
-  let str = "";
-  array.forEach((element) => {
-    str += element.resourceId + "|" + element.category + "$";
-  });
-  return str;
-};
+// const stringify = (array: VisitedElementType[]): string => {
+//   let str = "";
+//   array.forEach((element) => {
+//     str += element.resourceId + "|" + element.category + "$";
+//   });
+//   return str;
+// };
 
-export const parse = (str: string): VisitedElementType[] => {
-  let array: VisitedElementType[] = [];
-  while (str.indexOf("$") !== -1) {
-    let index = str.indexOf("|");
-    array.push({
-      resourceId: str.substring(0, index),
-      category: str.slice(index + 1, str.indexOf("$")) as ResourceSolutionType,
-    });
-    str = str.slice(str.indexOf("$") + 1);
-  }
-  return array;
-};
+// export const parse = (str: string): VisitedElementType[] => {
+//   let array: VisitedElementType[] = [];
+//   while (str.indexOf("$") !== -1) {
+//     let index = str.indexOf("|");
+//     array.push({
+//       resourceId: str.substring(0, index),
+//       category: str.slice(index + 1, str.indexOf("$")) as ResourceSolutionType,
+//     });
+//     str = str.slice(str.indexOf("$") + 1);
+//   }
+//   return array;
+// };
 
 export default async function updateVisited(
   req: NextApiRequest,
@@ -66,42 +67,64 @@ export default async function updateVisited(
     res.status(401).json({ message: "You are not authorized." });
     return;
   }
-  if (req.body.category === "Solutions") {
-    res.status(419).json({ message: "Solutions excluded for view history." });
-  }
+
+  // IMPT: REMOVE THIS LATER
+  // prisma.user.updateMany({
+  //   data: {
+  //     visitedData:
+  //       '{"visitedCheatsheets":[],"visitedPastPapers":[],"visitedNotes":[],"visitedSolutions":[]}',
+  //   },
+  // });
 
   try {
     let { userId, resourceId, category } = req.body;
+
     let user = await prisma.user.findUnique({
       where: {
         id: userId,
       },
     });
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    let visitedArray: VisitedElementType[];
+    let visitedDataObject: VisitedDataType = JSON.parse(user.visitedData);
 
-    if (user.visitedData !== "") {
-      // Parse string into list
-      visitedArray = parse(user.visitedData);
-
-      // Remove the resource if it already exists
-      visitedArray = visitedArray.filter(
-        (resource) => resourceId !== resource.resourceId
-      );
-
-      // Add the resource to the front of the list
-      visitedArray.unshift({ resourceId, category });
-
-      // Remove the last item if the list is too long
-      if (visitedArray.length > MAX_RECENT_ITEMS) {
-        visitedArray.pop();
-      }
+    let categoryArray: string[];
+    if (category === "Cheatsheets") {
+      categoryArray = visitedDataObject.visitedCheatsheets;
+    } else if (category === "Past Papers") {
+      categoryArray = visitedDataObject.visitedPastPapers;
+    } else if (category === "Notes") {
+      categoryArray = visitedDataObject.visitedNotes;
+    } else if (category === "Solutions") {
+      categoryArray = visitedDataObject.visitedSolutions;
     } else {
-      visitedArray = [{ resourceId, category }];
+      return res.status(400).json({ message: "Invalid category" });
+    }
+
+    // Remove the resource if it already exists
+    categoryArray = categoryArray.filter((resource) => resource !== resourceId);
+
+    // Add the resource to the front of the list
+    categoryArray.unshift(resourceId);
+
+    // Remove the last item if the list is too long
+    if (categoryArray.length > MAX_RECENT_ITEMS) {
+      categoryArray.pop();
+    }
+
+    // Update the object with the new list
+    if (category === "Cheatsheets") {
+      visitedDataObject.visitedCheatsheets = categoryArray;
+    } else if (category === "Past Papers") {
+      visitedDataObject.visitedPastPapers = categoryArray;
+    } else if (category === "Notes") {
+      visitedDataObject.visitedNotes = categoryArray;
+    } else if (category === "Solutions") {
+      visitedDataObject.visitedSolutions = categoryArray;
+    } else {
+      return res.status(400).json({ message: "Invalid category" });
     }
 
     // Save the list
@@ -110,7 +133,7 @@ export default async function updateVisited(
         id: userId,
       },
       data: {
-        visitedData: stringify(visitedArray),
+        visitedData: JSON.stringify(visitedDataObject),
       },
     });
 

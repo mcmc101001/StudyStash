@@ -89,46 +89,48 @@ export default function BookmarkedModules({
           />
         </button>
       </div>
-      <div
-        className="h-80 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200
-          hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
-        style={{ scrollbarGutter: "stable" }}
-      >
-        <div className="relative flex w-full items-center justify-between gap-x-4 px-4">
-          <AnimatePresence initial={false}>
-            {inputIsOpen && (
-              <ModuleCodeSearcher
-                moduleCodeOptions={moduleCodeOptions}
-                addItem={addItem}
-                inputIsOpen={inputIsOpen}
-                modules={modules}
-              />
-            )}
-          </AnimatePresence>
-        </div>
-        <AnimatePresence initial={false}>
-          <motion.div
-            transition={{
-              duration: 0.8,
-              type: "spring",
-            }}
-            layout
-          >
-            <Separator className="mx-auto my-4 h-[2px] w-[92%] bg-slate-200" />
-          </motion.div>
-        </AnimatePresence>
-        <div className="pl-4 pr-2">
-          <ul className="relative">
+      <div className="pr-2">
+        <div
+          className="h-80 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md
+            hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+          style={{ scrollbarGutter: "stable" }}
+        >
+          <div className="relative flex w-full items-center justify-between gap-x-4 px-4">
             <AnimatePresence initial={false}>
-              {modules.map((module) => (
-                <BookmarkModule
-                  key={module}
-                  moduleCode={module}
-                  removeItem={removeItem}
+              {inputIsOpen && (
+                <ModuleCodeSearcher
+                  moduleCodeOptions={moduleCodeOptions}
+                  addItem={addItem}
+                  inputIsOpen={inputIsOpen}
+                  modules={modules}
                 />
-              ))}
+              )}
             </AnimatePresence>
-          </ul>
+          </div>
+          <AnimatePresence initial={false}>
+            <motion.div
+              transition={{
+                duration: 0.8,
+                type: "spring",
+              }}
+              layout
+            >
+              <Separator className="mx-auto my-4 h-[2px] w-[92%] bg-slate-200" />
+            </motion.div>
+          </AnimatePresence>
+          <div className="pl-4 pr-2">
+            <ul className="relative">
+              <AnimatePresence initial={false}>
+                {modules.map((module) => (
+                  <BookmarkModule
+                    key={module}
+                    moduleCode={module}
+                    removeItem={removeItem}
+                  />
+                ))}
+              </AnimatePresence>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

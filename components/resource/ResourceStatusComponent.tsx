@@ -87,6 +87,11 @@ export default function ResourceStatusComponent({
       ) : (
         <div className="flex justify-between gap-x-2">
           <StatusIcon
+            selected={status === "Saved"}
+            handleClick={handleClick}
+            status="Saved"
+          />
+          <StatusIcon
             selected={status === "Todo"}
             handleClick={handleClick}
             status="Todo"
@@ -95,11 +100,6 @@ export default function ResourceStatusComponent({
             selected={status === "Completed"}
             handleClick={handleClick}
             status="Completed"
-          />
-          <StatusIcon
-            selected={status === "Saved"}
-            handleClick={handleClick}
-            status="Saved"
           />
         </div>
       )}

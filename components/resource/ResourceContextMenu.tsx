@@ -14,10 +14,12 @@ import {
   ResourceSolutionType,
   ResourceType,
   papersAdditionalReportOptions,
-  reportOptions,
+  resourceReportOptions,
+  solutionReportOptions,
 } from "@/lib/content";
-import { addReportType } from "@/pages/api/addReport";
-import { ReportType } from "@prisma/client";
+import { addResourceReportType } from "@/pages/api/addResourceReport";
+import { addSolutionReportType } from "@/pages/api/addSolutionReport";
+import { ResourceReportType, SolutionReportType } from "@prisma/client";
 import axios from "axios";
 import fileDownload from "js-file-download";
 import { useRouter } from "next/navigation";
@@ -40,6 +42,7 @@ interface ResourceContextMenuProps {
   shareURL: string;
   className?: string;
   disabled?: boolean;
+  isSolution?: boolean;
   // resourceStatus: ResourceStatus | null;
 }
 
@@ -53,6 +56,7 @@ export default function ResourceContextMenu({
   shareURL,
   className,
   disabled,
+  isSolution,
 }: // resourceStatus,
 ResourceContextMenuProps) {
   // const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
@@ -101,22 +105,37 @@ ResourceContextMenuProps) {
   //   }
   // };
 
-  const handleReportClick = async (type: ReportType) => {
+  const handleReportClick = async (
+    type: ResourceReportType | SolutionReportType
+  ) => {
     if (!currentUserId) {
       toast.error("Login required.");
       return;
     }
 
-    let body: addReportType = {
-      category: category,
-      reporterId: currentUserId,
-      resourceId: resourceId,
-      reportType: type,
-    };
+    let body: addResourceReportType | addSolutionReportType;
+    if (!isSolution) {
+      body = {
+        category: category as ResourceType,
+        reporterId: currentUserId,
+        resourceId: resourceId,
+        reportType: type as ResourceReportType,
+      };
+    } else {
+      body = {
+        reporterId: currentUserId,
+        resourceId: resourceId,
+        reportType: type as SolutionReportType,
+      };
+    }
 
     try {
-      let req = await axios.post("/api/addReport", body);
-      toast.success("Report successful!");
+      if (!isSolution) {
+        let req = await axios.post("/api/addResourceReport", body);
+      } else {
+        let req = await axios.post("/api/addSolutionReport", body);
+      }
+      toast.success("Reported successfully!");
     } catch (e: unknown) {
       if (
         e instanceof Error &&
@@ -129,29 +148,24 @@ ResourceContextMenuProps) {
     }
   };
 
-  let reportChoices = reportOptions;
-  if (category === "Past Papers") {
-    reportChoices = reportChoices.concat(papersAdditionalReportOptions);
+  let reportChoices;
+  if (isSolution) {
+    reportChoices = solutionReportOptions;
+  } else {
+    reportChoices = resourceReportOptions;
+    if (category === "Past Papers") {
+      reportChoices = reportChoices.concat(papersAdditionalReportOptions);
+    }
   }
 
-  // const onDownloadClick = () => {
-  //   fetch(shareURL)
-  //     .then((response) => response.blob())
-  //     .then((blob) => {
-  //       const blobURL = URL.createObjectURL(blob);
-  //       const a = document.createElement("a");
-  //       a.href = blobURL;
-  //       a.download = resourceTitle + ".pdf";
-
-  //       document.body.appendChild(a);
-  //       a.click();
-  //     });
-  // };
-
-  const onDownloadClick = () => {
-    axios.get(shareURL, { responseType: "blob" }).then((res) => {
-      fileDownload(res.data, resourceTitle + ".pdf");
-    });
+  const handleDownloadClick = async () => {
+    try {
+      await axios.get(shareURL, { responseType: "blob" }).then((res) => {
+        fileDownload(res.data, resourceTitle + ".pdf");
+      });
+    } catch {
+      toast.error("Download failed.");
+    }
   };
 
   return (
@@ -161,16 +175,7 @@ ResourceContextMenuProps) {
       </ContextMenuTrigger>
       <ContextMenuContent className="border border-slate-300 dark:border-slate-600">
         <ContextMenuItem asChild>
-          {/* <a
-            href={shareURL.slice(8)}
-            download={resourceTitle + ".pdf"}
-            rel="noopener noreferrer"
-            target="_blank"
-            className="h-full w-full"
-          >
-            Download
-          </a> */}
-          <button onClick={onDownloadClick} className="h-full w-full">
+          <button onClick={handleDownloadClick} className="h-full w-full">
             Download
           </button>
         </ContextMenuItem>
@@ -211,7 +216,7 @@ ResourceContextMenuProps) {
             Report resource
           </ContextMenuSubTrigger>
           <ContextMenuSubContent>
-            {reportChoices.map((option) => {
+            {reportChoices.map((option, isSolution) => {
               return (
                 <ContextMenuItem
                   key={option.value}

@@ -100,6 +100,7 @@ export default async function SolutionItem({
       currentUserId={currentUser?.id || null}
       resourceUserId={resourceUser?.id!}
       shareURL={PDFURL}
+      isSolution={true}
     >
       <div className="relative flex h-full w-full items-center overflow-hidden py-3">
         {/* positioned as such to prevent nesting anchor tags (use z-index to make internal link clickable) */}

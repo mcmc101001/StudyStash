@@ -6,6 +6,7 @@ import BookmarkedModules from "@/components/dashboard/BookmarkedModules";
 import { getModuleCodeOptions } from "@/lib/nusmods";
 import DashboardResourcesSection from "@/components/dashboard/DashboardResourcesSection";
 import { ResourceFiltersSorts, sortValue } from "@/lib/content";
+import { VisitedDataType } from "@/pages/api/updateVisited";
 
 export const revalidate = 10;
 
@@ -24,6 +25,30 @@ export default async function DashboardPage({
       userId: user.id,
     },
   });
+
+  // IMPT: REMOVE THIS LATER
+  // await prisma.user.updateMany({
+  //   data: {
+  //     visitedData:
+  //       '{"visitedCheatsheets":[],"visitedPastPapers":[],"visitedNotes":[],"visitedSolutions":[]}',
+  //   },
+  // });
+
+  let visitedDataObject: VisitedDataType | undefined = undefined;
+  if (searchParams.filterStatus === "Visited") {
+    visitedDataObject = await prisma.user
+      .findUnique({
+        where: {
+          id: user.id,
+        },
+      })
+      .then((user) => {
+        if (!user) {
+          redirect("/404");
+        }
+        return JSON.parse(user.visitedData);
+      });
+  }
 
   const moduleCodeOptions = await getModuleCodeOptions();
 
@@ -46,6 +71,7 @@ export default async function DashboardPage({
             filterAcadYear={searchParams.filterAcadYear}
             filterExamType={searchParams.filterExamType}
             filterStatus={searchParams.filterStatus}
+            visitedData={visitedDataObject}
             sort={searchParams.sort as sortValue | undefined}
             currentUserId={user.id}
           />

@@ -1,7 +1,8 @@
 import {
   ResourceSolutionTypeURL,
-  ResourceStatusOptions,
+  DashboardStatusArr,
   sortValue,
+  DashboardTabType,
 } from "@/lib/content";
 import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
 import { redirect } from "next/navigation";
@@ -20,6 +21,7 @@ import { getSolutionsWithPosts } from "@/lib/dataFetching";
 import { ResourceSolutionType } from "@/lib/content";
 import SideTabCategoryFilter from "@/components/dashboard/SideTabCategoryFilter";
 import DashboardResourceTab from "@/components/dashboard/DashboardResourceTab";
+import { VisitedDataType } from "@/pages/api/updateVisited";
 
 interface DashboardResourcesSectionProps {
   currentUserId: string;
@@ -28,7 +30,8 @@ interface DashboardResourcesSectionProps {
   filterSemester: SemesterType | undefined;
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
-  filterStatus: ResourceStatus | undefined;
+  filterStatus: DashboardTabType | undefined;
+  visitedData?: VisitedDataType | undefined;
   sort: sortValue | undefined;
 }
 
@@ -40,6 +43,7 @@ export default async function DashboardResourcesSection({
   filterAcadYear,
   filterExamType,
   filterStatus,
+  visitedData,
   sort,
 }: DashboardResourcesSectionProps) {
   let category: ResourceSolutionType = "Cheatsheets";
@@ -47,6 +51,7 @@ export default async function DashboardResourcesSection({
   if (filterCategory === "cheatsheets") {
     category = "Cheatsheets";
     resources = await getCheatsheetsWithPosts({
+      resourceIdList: visitedData?.visitedCheatsheets,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -58,6 +63,7 @@ export default async function DashboardResourcesSection({
   } else if (filterCategory === "past_papers") {
     category = "Past Papers";
     resources = await getQuestionPapersWithPosts({
+      resourceIdList: visitedData?.visitedPastPapers,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -69,6 +75,7 @@ export default async function DashboardResourcesSection({
   } else if (filterCategory === "notes") {
     category = "Notes";
     resources = await getNotesWithPosts({
+      resourceIdList: visitedData?.visitedNotes,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
       FilterAcadYear: filterAcadYear,
@@ -79,6 +86,7 @@ export default async function DashboardResourcesSection({
   } else if (filterCategory === "solutions") {
     category = "Solutions";
     resources = await getSolutionsWithPosts({
+      resourceIdList: visitedData?.visitedSolutions,
       questionPaperId: undefined,
       moduleCode: filterModuleCode,
       FilterSemester: filterSemester,
@@ -133,7 +141,7 @@ export default async function DashboardResourcesSection({
   return (
     <>
       <Suspense>
-        <DashboardResourceTab resourceStatusOptions={ResourceStatusOptions} />
+        <DashboardResourceTab tabsArr={DashboardStatusArr} />
       </Suspense>
       <div className="flex w-full flex-row justify-between">
         {filterStatus === undefined ? (
@@ -144,87 +152,90 @@ export default async function DashboardResourcesSection({
           <>
             <div className="flex w-4/5 flex-col">
               <SideTabCategoryFilter>
-                <div
-                  className="inline-flex h-[77vh] w-11/12 flex-col gap-y-6 overflow-y-auto scroll-smooth border border-slate-200 border-l-transparent bg-slate-900 p-4 pr-5
-          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
-          hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
-                  style={{ scrollbarGutter: "stable" }}
-                >
-                  {filterCategory === undefined ? (
-                    <div className="flex h-1/2 w-full items-center justify-center text-3xl">
-                      Select category.
-                    </div>
-                  ) : resourcesWithRating.length !== 0 ? (
-                    <ul className="flex flex-col gap-y-6">
-                      {resourcesWithRating.map((resource) => {
-                        return (
-                          /* @ts-expect-error Server Component */
-                          <ResourceItem
-                            key={resource.id}
-                            resourceId={resource.id}
-                            name={resource.name}
-                            userId={resource.userId}
-                            createdAt={resource.createdAt}
-                            acadYear={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaper.acadYear
-                                : // @ts-expect-error wrong type inference
-                                  resource.acadYear
-                            }
-                            semester={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaper.semester
-                                : // @ts-expect-error wrong type inference
-                                  resource.semester
-                            }
-                            rating={resource.rating}
-                            difficulty={
-                              category === "Past Papers"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.difficulty
-                                : undefined
-                            }
-                            difficultyCount={
-                              category === "Past Papers"
-                                ? // @ts-expect-error wrong type inference
-                                  resource._count.difficulties
-                                : undefined
-                            }
-                            examType={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaper.type
-                                : filterCategory !== "notes"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.type
-                                : null
-                            }
-                            category={category}
-                            moduleCode={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaper.moduleCode
-                                : // @ts-expect-error wrong type inference
-                                  resource.moduleCode
-                            }
-                            questionPaperId={
-                              category === "Solutions"
-                                ? // @ts-expect-error wrong type inference
-                                  resource.questionPaperId
-                                : undefined
-                            }
-                            displayCode={true}
-                          />
-                        );
-                      })}
-                    </ul>
-                  ) : (
-                    <div className="flex h-[50vh] w-full items-center justify-center pr-5 text-3xl">
-                      No resources found!
-                    </div>
-                  )}
+                <div className="inline-flex h-[77vh] w-[94%] border border-slate-200  border-l-transparent p-4 pr-2 dark:bg-slate-900">
+                  <div
+                    className="flex h-full w-full flex-col gap-y-6 overflow-y-auto scroll-smooth pr-2 scrollbar-thin
+                  scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md hover:scrollbar-thumb-slate-300 
+                  dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+                    style={{ scrollbarGutter: "stable" }}
+                  >
+                    {filterCategory === undefined ? (
+                      <div className="flex h-1/2 w-full items-center justify-center text-3xl">
+                        Select category.
+                      </div>
+                    ) : resourcesWithRating.length !== 0 ? (
+                      <ul className="flex flex-col gap-y-6">
+                        {resourcesWithRating.map((resource) => {
+                          return (
+                            /* @ts-expect-error Server Component */
+                            <ResourceItem
+                              key={resource.id}
+                              resourceId={resource.id}
+                              name={resource.name}
+                              userId={resource.userId}
+                              createdAt={resource.createdAt}
+                              acadYear={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaper.acadYear
+                                  : // @ts-expect-error wrong type inference
+                                    resource.acadYear
+                              }
+                              semester={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaper.semester
+                                  : // @ts-expect-error wrong type inference
+                                    resource.semester
+                              }
+                              rating={resource.rating}
+                              difficulty={
+                                category === "Past Papers"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.difficulty
+                                  : undefined
+                              }
+                              difficultyCount={
+                                category === "Past Papers"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource._count.difficulties
+                                  : undefined
+                              }
+                              examType={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaper.type
+                                  : filterCategory !== "notes"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.type
+                                  : null
+                              }
+                              category={category}
+                              moduleCode={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaper.moduleCode
+                                  : // @ts-expect-error wrong type inference
+                                    resource.moduleCode
+                              }
+                              questionPaperId={
+                                category === "Solutions"
+                                  ? // @ts-expect-error wrong type inference
+                                    resource.questionPaperId
+                                  : undefined
+                              }
+                              displayCode={true}
+                              isVisited={true}
+                            />
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <div className="flex h-[50vh] w-full items-center justify-center pr-5 text-3xl">
+                        No resources found!
+                      </div>
+                    )}
+                  </div>
                 </div>
               </SideTabCategoryFilter>
             </div>

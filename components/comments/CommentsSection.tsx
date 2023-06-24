@@ -195,30 +195,32 @@ export default async function CommentsSection({
   });
 
   return (
-    <div
-      className={cn(
-        `w-full overflow-y-auto overflow-x-hidden px-5 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
-      hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700`,
-        className
-      )}
-      style={{ scrollbarGutter: "stable" }}
-    >
-      {showLabel && (
-        <h1 className="mb-4 text-xl font-bold text-slate-800 dark:text-slate-200">
-          {`Comments (${comments.length})`}
-        </h1>
-      )}
-      <AddCommentSection
-        category={category}
-        resourceId={resourceId}
-        currentUserId={currentUser?.id}
-      />
-      <div className="mt-4 w-full">
-        <CommentsSorter
+    <div className="pr-2">
+      <div
+        className={cn(
+          `w-full overflow-y-auto overflow-x-hidden px-5 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md
+        hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700`,
+          className
+        )}
+        style={{ scrollbarGutter: "stable" }}
+      >
+        {showLabel && (
+          <h1 className="mb-4 text-xl font-bold text-slate-800 dark:text-slate-200">
+            {`Comments (${comments.length})`}
+          </h1>
+        )}
+        <AddCommentSection
           category={category}
-          currentUser={currentUser}
-          comments={commentsWithRating}
+          resourceId={resourceId}
+          currentUserId={currentUser?.id}
         />
+        <div className="mt-4 w-full">
+          <CommentsSorter
+            category={category}
+            currentUser={currentUser}
+            comments={commentsWithRating}
+          />
+        </div>
       </div>
     </div>
   );
