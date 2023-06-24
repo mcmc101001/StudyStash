@@ -89,13 +89,14 @@ export default function ResourceSheetLauncher({
   const enterSheet = async () => {
     setDisabledContext(true);
     // If called from visited list, update and refresh first
-    if (isVisited) {
+
+    if (isVisited && currentUserId) {
       await updateVisited();
       router.refresh();
     }
     setQueryParams({ id: resourceId });
     // If not called from visited list, update can happen afterwards
-    if (!isVisited) {
+    if (!isVisited && currentUserId) {
       updateVisited();
     }
   };

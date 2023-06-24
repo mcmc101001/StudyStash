@@ -52,7 +52,9 @@ export default async function Home() {
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
           <Button size="lg" className="h-14 w-full text-xl font-semibold">
-            <Link href="/database">Try it now</Link>
+            <Link className="w-full" href="/database">
+              Try it now
+            </Link>
           </Button>
         </motion.div>
       </section>
