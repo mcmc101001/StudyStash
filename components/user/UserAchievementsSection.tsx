@@ -224,6 +224,13 @@ export async function UserAchievementsSection({
     solution.votes.forEach(addKarma);
   }
 
+  const resourceUpvotesPercentage =
+    upvotes + downvotes
+      ? (
+          Math.round((upvotes / (upvotes + downvotes)) * 10000) / 100
+        ).toString() + "%"
+      : "-";
+
   // Comment count
   const commentsPosted =
     cheatsheetComments.length +
@@ -265,6 +272,14 @@ export async function UserAchievementsSection({
   for (const solutionComment of solutionCReplies) {
     solutionComment.votes.forEach(addCommentKarma);
   }
+  const commentUpvotesPercentage =
+    commentUpvotes + commentDownvotes
+      ? (
+          Math.round(
+            (commentUpvotes / (commentUpvotes + commentDownvotes)) * 10000
+          ) / 100
+        ).toString() + "%"
+      : "-";
 
   return (
     <div className="flex w-full flex-col gap-y-5 overflow-hidden rounded-2xl bg-slate-300 p-6 px-10 text-center text-xl dark:bg-slate-700">
@@ -302,7 +317,7 @@ export async function UserAchievementsSection({
             <TooltipContent side="top">
               Upvote percentage:
               <br />
-              {Math.round((upvotes / (upvotes + downvotes)) * 10000) / 100}%
+              {resourceUpvotesPercentage}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -342,10 +357,7 @@ export async function UserAchievementsSection({
             <TooltipContent side="top">
               Upvote percentage:
               <br />
-              {Math.round(
-                (commentUpvotes / (commentUpvotes + commentDownvotes)) * 10000
-              ) / 100}
-              %
+              {commentUpvotesPercentage}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
