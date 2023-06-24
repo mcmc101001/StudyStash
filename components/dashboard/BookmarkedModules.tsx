@@ -115,7 +115,7 @@ export default function BookmarkedModules({
               }}
               layout
             >
-              <Separator className="mx-auto my-4 h-[2px] w-[92%] bg-slate-200" />
+              <Separator className="mx-auto mb-4 mt-4 h-[2px] w-[92%] bg-slate-200" />
             </motion.div>
           </AnimatePresence>
           <div className="pl-4 pr-2">

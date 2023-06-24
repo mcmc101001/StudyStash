@@ -225,7 +225,7 @@ export default async function DashboardResourcesSection({
                                   : undefined
                               }
                               displayCode={true}
-                              isVisited={true}
+                              isVisited={filterStatus === "Visited"}
                             />
                           );
                         })}
