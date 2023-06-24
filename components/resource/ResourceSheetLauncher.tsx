@@ -165,7 +165,7 @@ export default function ResourceSheetLauncher({
               userRatingAtom={userRatingAtom}
               resourceId={resourceId}
             />
-            <div className="flex overflow-scroll scrollbar-none">
+            <div className="flex overflow-scroll scrollbar-none xl:max-w-3xl">
               {title}
               {category === "Past Papers" && solutionIncluded && (
                 <SolutionIncludedIndicator />
