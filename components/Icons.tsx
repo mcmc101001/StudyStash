@@ -15,8 +15,6 @@ import {
   MessageSquare,
   MessageSquarePlus,
   MessageCircle,
-  Star,
-  ThumbsUp,
 } from "lucide-react";
 
 export const Icons = {
@@ -54,8 +52,6 @@ export const Icons = {
   MessageSquare,
   MessageSquarePlus,
   MessageCircle,
-  Star,
-  ThumbsUp,
 };
 
 export type Icon = keyof typeof Icons;

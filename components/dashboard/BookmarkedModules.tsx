@@ -68,7 +68,7 @@ export default function BookmarkedModules({
 
   return (
     <div className="h-full w-full overflow-hidden border py-4">
-      <div className="flex items-center justify-between px-4">
+      <div className="flex items-center justify-between gap-x-4 px-4">
         <h1 className="text-xl font-medium">Bookmarked Modules</h1>
         <button
           className={
@@ -115,7 +115,7 @@ export default function BookmarkedModules({
               }}
               layout
             >
-              <Separator className="mx-auto my-4 h-[2px] w-[92%] bg-slate-200" />
+              <Separator className="mx-auto mb-4 mt-4 h-[2px] w-[92%] bg-slate-200" />
             </motion.div>
           </AnimatePresence>
           <div className="pl-4 pr-2">
