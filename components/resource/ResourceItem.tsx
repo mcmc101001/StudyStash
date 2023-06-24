@@ -20,7 +20,6 @@ import DifficultyDisplayDialog from "@/components/resource/DifficultyDisplayDial
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import SolutionIncludedIndicator from "@/components/resource/SolutionIncludedIndicator";
-import ProfileVerifiedIndicator from "@/components/user/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
 import {
   getSolutionStatus,
@@ -315,13 +314,27 @@ export default async function ResourceItem({
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">
-              {displayCode ? `${moduleCode}, ` : ""}
+              {displayCode ? (
+                <Link
+                  className="hover:text-blue-700 dark:hover:text-blue-500"
+                  href={`/database/${moduleCode}`}
+                >
+                  {moduleCode}
+                </Link>
+              ) : (
+                ""
+              )}
               {category !== "Notes" ? `${examType}, ` : ""}
               {`${acadYear} ${semesterString}`}
             </p>
             <div className="ml-auto flex w-max whitespace-nowrap text-end">
               {isProfile ? (
-                <span className="truncate">{moduleCode}</span>
+                <Link
+                  className="truncate hover:text-blue-700 dark:hover:text-blue-500"
+                  href={`/database/${moduleCode}`}
+                >
+                  {moduleCode}
+                </Link>
               ) : (
                 <UserNameLink
                   id={resourceUser?.id!}
