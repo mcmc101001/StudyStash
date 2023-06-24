@@ -37,7 +37,9 @@ export default function DashboardResourceTab({
                 initial={false}
               />
             )}
-            <span className="relative z-20">{tabName}</span>
+            <span className="relative z-20">
+              {tabName === "Visited" ? "Recently viewed" : tabName}
+            </span>
           </div>
         );
       })}

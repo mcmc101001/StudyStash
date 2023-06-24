@@ -267,11 +267,11 @@ export async function UserAchievementsSection({
   }
 
   return (
-    <div className="rounded-2xl bg-slate-300 p-4 text-center text-xl dark:bg-slate-700">
-      <div className="flex items-center justify-center gap-x-5 pb-5">
+    <div className="flex w-full flex-col gap-y-5 overflow-hidden rounded-2xl bg-slate-300 p-6 px-10 text-center text-xl dark:bg-slate-700">
+      <div className="flex w-full items-center justify-between">
         <TooltipProvider delayDuration={200}>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger className="cursor-default">
               <Achievement
                 description="Resources uploaded"
                 value={resourcesUploaded}
@@ -292,7 +292,7 @@ export async function UserAchievementsSection({
 
         <TooltipProvider delayDuration={200}>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger className="cursor-default">
               <Achievement
                 description="Total resource rating"
                 value={upvotes - downvotes}
@@ -308,10 +308,10 @@ export async function UserAchievementsSection({
         </TooltipProvider>
       </div>
 
-      <div className="flex items-center justify-center gap-x-5 ">
+      <div className="flex w-full items-center justify-between">
         <TooltipProvider delayDuration={200}>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger className="cursor-default">
               <Achievement
                 description="Comments uploaded"
                 value={commentsPosted}
@@ -332,7 +332,7 @@ export async function UserAchievementsSection({
 
         <TooltipProvider delayDuration={200}>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger className="cursor-default">
               <Achievement
                 description="Total resource rating"
                 value={commentUpvotes - commentDownvotes}
