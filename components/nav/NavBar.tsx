@@ -27,7 +27,7 @@ export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
   {
     name: "Contribute!",
     href: "/addPDF",
-    icon: "FilePlus",
+    icon: "FileUp",
   },
   {
     name: "Profile",

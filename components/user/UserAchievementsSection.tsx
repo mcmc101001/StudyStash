@@ -296,7 +296,7 @@ export async function UserAchievementsSection({
               <Achievement
                 description="Total resource rating"
                 value={upvotes - downvotes}
-                icon={"FileUp"}
+                icon={"FilePlus"}
               />
             </TooltipTrigger>
             <TooltipContent side="top">
