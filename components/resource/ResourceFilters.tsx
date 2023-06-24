@@ -9,7 +9,7 @@ import {
   ResourceSolutionType,
 } from "@/lib/content";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
-import { startsWithNumbers } from "@/lib/utils";
+import { startsWithNumbers, trimUntilNumber } from "@/lib/utils";
 
 interface ResourceFiltersProps {
   acadYearOptions: Option[];
@@ -149,9 +149,8 @@ export default function ResourceFilters({
               return true;
             } else if (startsWithNumbers(trimmed_query)) {
               // If matches number
-              if (
-                option.value.toLowerCase().includes(trimmed_query.toLowerCase())
-              ) {
+              const trimmedOption = trimUntilNumber(option.value.toLowerCase());
+              if (trimmedOption.startsWith(trimmed_query.toLowerCase())) {
                 return true;
               }
             }

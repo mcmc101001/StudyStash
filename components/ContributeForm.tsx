@@ -1,6 +1,6 @@
 "use client";
 
-import { startsWithNumbers } from "@/lib/utils";
+import { startsWithNumbers, trimUntilNumber } from "@/lib/utils";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -433,7 +433,9 @@ const ContributeForm = (props: ContributeFormProps) => {
                 semester
                   ? {
                       value: semester,
-                      label: props.semesterOptions.find((option) => option.value === semester)!.label,
+                      label: props.semesterOptions.find(
+                        (option) => option.value === semester
+                      )!.label,
                     }
                   : undefined
               }
@@ -465,11 +467,10 @@ const ContributeForm = (props: ContributeFormProps) => {
                   return true;
                 } else if (startsWithNumbers(trimmed_query)) {
                   // If matches number
-                  if (
-                    option.value
-                      .toLowerCase()
-                      .includes(trimmed_query.toLowerCase())
-                  ) {
+                  const trimmedOption = trimUntilNumber(
+                    option.value.toLowerCase()
+                  );
+                  if (trimmedOption.startsWith(trimmed_query.toLowerCase())) {
                     return true;
                   }
                 }
