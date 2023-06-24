@@ -63,7 +63,7 @@ export default async function Layout({
           </h2>
         </div>
         <Suspense>
-          <ContributeButton />
+          <ContributeButton userId={user?.id} />
         </Suspense>
       </div>
       <Suspense>
