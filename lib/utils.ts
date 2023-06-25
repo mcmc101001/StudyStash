@@ -9,6 +9,13 @@ export function startsWithNumbers(str: string) {
   return /^[0-9].*$/.test(str);
 }
 
+export function trimUntilNumber(inputString: string) {
+  while (inputString.length > 0 && !startsWithNumbers(inputString)) {
+    inputString = inputString.substring(1);
+  }
+  return inputString;
+}
+
 const dateFormatter = new Intl.RelativeTimeFormat("en-SG", {
   numeric: "auto",
 });

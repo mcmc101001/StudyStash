@@ -4,7 +4,7 @@ import { StarredModules } from "@prisma/client";
 import { useState } from "react";
 import { AnimatePresence, motion, useIsPresent } from "framer-motion";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
-import { startsWithNumbers } from "@/lib/utils";
+import { startsWithNumbers, trimUntilNumber } from "@/lib/utils";
 import { Plus, X } from "lucide-react";
 import { Separator } from "@/components/ui/Separator";
 import Link from "next/link";
@@ -241,10 +241,6 @@ function ModuleCodeSearcher({
           if (trimmed_query.length < 1) {
             return false;
           }
-          // If already in list
-          if (modules.includes(option.value)) {
-            return false;
-          }
           // If matches prefix
           if (
             option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
@@ -252,9 +248,8 @@ function ModuleCodeSearcher({
             return true;
           } else if (startsWithNumbers(trimmed_query)) {
             // If matches number
-            if (
-              option.value.toLowerCase().includes(trimmed_query.toLowerCase())
-            ) {
+            const trimmedOption = trimUntilNumber(option.value.toLowerCase());
+            if (trimmedOption.startsWith(trimmed_query.toLowerCase())) {
               return true;
             }
           }

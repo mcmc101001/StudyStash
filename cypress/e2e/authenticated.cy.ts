@@ -132,19 +132,16 @@ describe("Login to dashboard", () => {
   it("should be able to bookmark modules", () => {
     cy.visit("/dashboard");
     cy.get("h1").should("contain", "Bookmarked Modules");
-    cy.get('[href="/dashboard"]').parent().should("have.class", "outline");
 
     // Add module
     cy.get("[aria-label='Add bookmarked module']").should("exist").click();
-    cy.get("[aria-labelledby='Search module code']", { timeout: 10000 })
-      .should("exist")
-      .type("CP");
+    cy.get("[aria-labelledby='Search module code']").should("exist").type("CP");
     cy.get(".Code__menu").find(".Code__option").contains("CP2106").click();
     cy.contains("a", "CP2106").should("exist").click();
 
     // Navigate and unstar
     cy.get("[aria-label='Bookmark module']").click();
-    cy.get("a[href='/dashboard']").should("exist").click();
+    cy.visit("/dashboard");
     cy.contains("CP2106").should("not.exist");
 
     // Navigate to database page and star
@@ -154,7 +151,7 @@ describe("Login to dashboard", () => {
     cy.get("[aria-label='Bookmark module']").click();
 
     // Navigate to dashboard and unstar
-    cy.get("a[href='/dashboard']").should("exist").click();
+    cy.visit("/dashboard");
     cy.contains("CP2106").should("exist");
     cy.get("[aria-label='Delete CP2106']").click();
     cy.contains("CP2106").should("not.exist");

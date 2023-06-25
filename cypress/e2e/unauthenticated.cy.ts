@@ -1,8 +1,11 @@
 describe("Filter and sort database", () => {
+  beforeEach(() => {
+    cy.viewport("macbook-13");
+  });
   it("should have working sorts and filters", () => {
     cy.visit("/");
     // Navigate to database page
-    cy.get("a[href='/database']").click();
+    cy.get("a[href='/database']").first().click();
     cy.get("input").type("CP");
     cy.contains("CP2106").click();
     cy.get("h1").should("contain", "CP2106");

@@ -43,7 +43,7 @@ export default async function Layout({
 
   return (
     // set to be div for framer motion to work
-    <div className="h-full overflow-hidden">
+    <div className="h-full">
       <div className="flex w-full flex-row items-center justify-between">
         <div>
           <h1 className="flex flex-row items-center justify-start gap-x-2 text-4xl font-bold text-slate-800 dark:text-slate-200">
