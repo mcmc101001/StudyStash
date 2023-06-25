@@ -1,4 +1,5 @@
 import Button from "@/components/ui/Button";
+import { IFrame } from "@/components/ui/IFrame";
 import * as motion from "@/lib/motion";
 import Link from "next/link";
 
@@ -25,7 +26,7 @@ export default async function Home() {
           dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
       style={{ scrollbarGutter: "stable" }}
     >
-      <section className="flex max-w-4xl flex-col items-center justify-center gap-y-10 pb-24 pt-32 text-center">
+      <section className="flex max-w-4xl flex-col items-center justify-center gap-y-8 pb-16 pt-24 text-center">
         <motion.h1
           initial="left"
           whileInView="center"
@@ -59,9 +60,10 @@ export default async function Home() {
         </motion.div>
       </section>
       <section className="flex flex-col items-center justify-center gap-y-6 pb-32 text-center">
-        <div className="h-[40vh] w-[50vw] items-center justify-center bg-slate-500">
-          <h1>The video goes here</h1>
-        </div>
+        <IFrame
+          className="h-[50vh] w-[50vw]"
+          src="https://www.youtube.com/embed/ZZ_Te5wDMqI"
+        />
       </section>
       <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 pb-32 text-center">
         <motion.div
