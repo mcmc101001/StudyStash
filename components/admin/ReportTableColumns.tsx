@@ -4,6 +4,7 @@ import {
   ExamType,
   ResourceReportType,
   SolutionReportType,
+  CommentReportType,
 } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
@@ -42,6 +43,20 @@ export type SolutionReportHeaderType = {
   uploaderId: string;
   uploaderName: string;
   resourceId: string;
+  reporterId: string;
+  resolved: boolean;
+  reporterName: string;
+};
+
+export type CommentReportHeaderType = {
+  reportId: string;
+  type: CommentReportType;
+  category: string;
+  createdAt: string;
+  // filename: string;
+  authorId: string;
+  authorName: string;
+  commentId: string;
   reporterId: string;
   resolved: boolean;
   reporterName: string;
@@ -278,6 +293,97 @@ export const solutionColumns: ColumnDef<SolutionReportHeaderType>[] = [
       const report = row.original;
 
       return <SolutionResolveButton report={report} />;
+    },
+  },
+];
+
+export const commentColumns: ColumnDef<CommentReportHeaderType>[] = [
+  {
+    accessorKey: "resolved",
+    header: "Resolved?",
+    cell: ({ row }) => {
+      const report = row.original;
+
+      let className = "font-semibold";
+      let text = "No";
+      if (report.resolved) {
+        text = "Yes";
+        className += " text-green-500";
+      } else {
+        className += " text-red-500";
+      }
+
+      return <p className={className}>{text}</p>;
+    },
+  },
+  {
+    accessorKey: "type",
+    header: "Reason",
+  },
+  // {
+  //   accessorKey: "category",
+  //   header: "Category",
+  // },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Time of report
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "authorName",
+    header: "Author",
+    cell: ({ row }) => {
+      const report = row.original;
+
+      return (
+        <Link href={`/profile/${report.authorId}`} className="hover:underline">
+          {report.authorName}
+        </Link>
+      );
+    },
+  },
+  // {
+  //   accessorKey: "resourceId",
+  //   header: "Resource ID",
+  // },
+  {
+    accessorKey: "reporterName",
+    header: "Reporter",
+    cell: ({ row }) => {
+      const report = row.original;
+
+      return (
+        <Link
+          href={`/profile/${report.reporterId}`}
+          className="hover:underline"
+        >
+          {report.reporterName}
+        </Link>
+      );
+    },
+  },
+  {
+    // header: "Actions",
+    id: "actions",
+    cell: ({ row }) => {
+      const report = row.original;
+
+      return (
+        <Button
+        // report={report}
+        >
+          blah
+        </Button>
+      );
     },
   },
 ];
