@@ -62,6 +62,7 @@ export default async function Home() {
       <section className="flex h-screen flex-col items-center justify-center gap-y-6 py-56 text-center">
         <IFrame
           className="h-[50vh] w-[50vw]"
+          allowFullScreen={true}
           src="https://www.youtube.com/embed/9-R_JgcvzaA"
         />
       </section>
