@@ -20,7 +20,6 @@ import DifficultyDisplayDialog from "@/components/resource/DifficultyDisplayDial
 import { Separator } from "@/components/ui/Separator";
 import ClientDateTime from "@/components/ClientDateTime";
 import SolutionIncludedIndicator from "@/components/resource/SolutionIncludedIndicator";
-import ProfileVerifiedIndicator from "@/components/user/ProfileVerifiedIndicator";
 import { ResourceSolutionType } from "@/lib/content";
 import {
   getSolutionStatus,
@@ -268,7 +267,7 @@ export default async function ResourceItem({
       data-cy="resourceItem"
       className="min-h-24 flex flex-row items-center rounded-xl border border-slate-800 px-4 transition-colors duration-300 hover:bg-slate-200 dark:border-slate-200 dark:hover:bg-slate-800"
     >
-      <div className="flex h-full w-full overflow-hidden">
+      <div className="flex h-full w-full overflow-hidden @container">
         <ResourceSheetLauncher
           commentsSection={
             // @ts-expect-error Server component
@@ -293,7 +292,7 @@ export default async function ResourceItem({
         >
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">
-              <span className="overflow-scroll whitespace-nowrap scrollbar-none">
+              <span className="max-w-[18rem] overflow-scroll whitespace-nowrap scrollbar-none @2xl:max-w-xs @3xl:max-w-xl">
                 {name}
               </span>
               {category === "Past Papers" && solutionIncluded && (
@@ -314,13 +313,27 @@ export default async function ResourceItem({
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">
-              {displayCode ? `${moduleCode}, ` : ""}
+              {displayCode ? (
+                <Link
+                  className="hover:text-blue-700 dark:hover:text-blue-500"
+                  href={`/database/${moduleCode}`}
+                >
+                  {moduleCode}
+                </Link>
+              ) : (
+                ""
+              )}
               {category !== "Notes" ? `${examType}, ` : ""}
               {`${acadYear} ${semesterString}`}
             </p>
             <div className="ml-auto flex w-max whitespace-nowrap text-end">
               {isProfile ? (
-                <span className="truncate">{moduleCode}</span>
+                <Link
+                  className="truncate hover:text-blue-700 dark:hover:text-blue-500"
+                  href={`/database/${moduleCode}`}
+                >
+                  {moduleCode}
+                </Link>
               ) : (
                 <>
                   <Link

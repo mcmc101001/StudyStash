@@ -123,8 +123,8 @@ export function DataTable<TData, TValue>({
           </span>
         </h1>
 
-        <div className="mb-2 flex items-center gap-2">
-          <div className="w-1/6">
+        <div className="mb-2 flex items-center gap-4">
+          <div className="w-1/5">
             <StyledSelect
               label="Select resolved"
               labelExists={false}
@@ -149,7 +149,7 @@ export function DataTable<TData, TValue>({
             />
           </div>
           {section === "resource" && (
-            <div className="w-1/6">
+            <div className="w-1/5">
               <StyledSelect
                 label="Select category"
                 labelExists={false}

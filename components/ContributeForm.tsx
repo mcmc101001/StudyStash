@@ -1,6 +1,6 @@
 "use client";
 
-import { startsWithNumbers } from "@/lib/utils";
+import { startsWithNumbers, trimUntilNumber } from "@/lib/utils";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -297,9 +297,9 @@ const ContributeForm = (props: ContributeFormProps) => {
           };
           let { data } = await axios.post("/api/generateS3PutURL", body);
 
-          const url = data.url;
+          const solutionUrl = data.url;
 
-          await axios.put(url, solutionFile, {
+          await axios.put(solutionUrl, solutionFile, {
             headers: {
               "Content-Type": "application/pdf",
               "Content-Disposition": "inline",
@@ -433,7 +433,9 @@ const ContributeForm = (props: ContributeFormProps) => {
                 semester
                   ? {
                       value: semester,
-                      label: props.semesterOptions.find((option) => option.value === semester)!.label,
+                      label: props.semesterOptions.find(
+                        (option) => option.value === semester
+                      )!.label,
                     }
                   : undefined
               }
@@ -465,11 +467,10 @@ const ContributeForm = (props: ContributeFormProps) => {
                   return true;
                 } else if (startsWithNumbers(trimmed_query)) {
                   // If matches number
-                  if (
-                    option.value
-                      .toLowerCase()
-                      .includes(trimmed_query.toLowerCase())
-                  ) {
+                  const trimmedOption = trimUntilNumber(
+                    option.value.toLowerCase()
+                  );
+                  if (trimmedOption.startsWith(trimmed_query.toLowerCase())) {
                     return true;
                   }
                 }

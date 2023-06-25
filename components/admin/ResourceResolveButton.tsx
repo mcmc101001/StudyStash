@@ -25,7 +25,7 @@ import Button from "@/components/ui/Button";
 import StyledSelect, { Option } from "@/components//ui/StyledSelect";
 import { ResourceReportType } from "@prisma/client";
 import { getAcadYearOptions } from "@/lib/nusmods";
-import { startsWithNumbers } from "@/lib/utils";
+import { startsWithNumbers, trimUntilNumber } from "@/lib/utils";
 
 export default function ResourceResolveButton({
   report,
@@ -134,11 +134,10 @@ export default function ResourceResolveButton({
                 return true;
               } else if (startsWithNumbers(trimmed_query)) {
                 // If matches number
-                if (
-                  option.value
-                    .toLowerCase()
-                    .includes(trimmed_query.toLowerCase())
-                ) {
+                const trimmedOption = trimUntilNumber(
+                  option.value.toLowerCase()
+                );
+                if (trimmedOption.startsWith(trimmed_query.toLowerCase())) {
                   return true;
                 }
               }

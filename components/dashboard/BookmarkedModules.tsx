@@ -4,7 +4,7 @@ import { StarredModules } from "@prisma/client";
 import { useState } from "react";
 import { AnimatePresence, motion, useIsPresent } from "framer-motion";
 import StyledSelect, { Option } from "@/components/ui/StyledSelect";
-import { startsWithNumbers } from "@/lib/utils";
+import { startsWithNumbers, trimUntilNumber } from "@/lib/utils";
 import { Plus, X } from "lucide-react";
 import { Separator } from "@/components/ui/Separator";
 import Link from "next/link";
@@ -68,7 +68,7 @@ export default function BookmarkedModules({
 
   return (
     <div className="h-full w-full overflow-hidden border py-4">
-      <div className="flex items-center justify-between px-4">
+      <div className="flex items-center justify-between gap-x-4 px-4">
         <h1 className="text-xl font-medium">Bookmarked Modules</h1>
         <button
           className={
@@ -115,7 +115,7 @@ export default function BookmarkedModules({
               }}
               layout
             >
-              <Separator className="mx-auto my-4 h-[2px] w-[92%] bg-slate-200" />
+              <Separator className="mx-auto mb-4 mt-4 h-[2px] w-[92%] bg-slate-200" />
             </motion.div>
           </AnimatePresence>
           <div className="pl-4 pr-2">
@@ -241,10 +241,6 @@ function ModuleCodeSearcher({
           if (trimmed_query.length < 1) {
             return false;
           }
-          // If already in list
-          if (modules.includes(option.value)) {
-            return false;
-          }
           // If matches prefix
           if (
             option.value.toLowerCase().startsWith(trimmed_query.toLowerCase())
@@ -252,9 +248,8 @@ function ModuleCodeSearcher({
             return true;
           } else if (startsWithNumbers(trimmed_query)) {
             // If matches number
-            if (
-              option.value.toLowerCase().includes(trimmed_query.toLowerCase())
-            ) {
+            const trimmedOption = trimUntilNumber(option.value.toLowerCase());
+            if (trimmedOption.startsWith(trimmed_query.toLowerCase())) {
               return true;
             }
           }
