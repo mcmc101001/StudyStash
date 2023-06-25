@@ -26,7 +26,7 @@ export default async function Home() {
           dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
       style={{ scrollbarGutter: "stable" }}
     >
-      <section className="flex max-w-4xl flex-col items-center justify-center gap-y-8 pb-16 pt-24 text-center">
+      <section className="flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 py-56 text-center">
         <motion.h1
           initial="left"
           whileInView="center"
@@ -59,13 +59,13 @@ export default async function Home() {
           </Button>
         </motion.div>
       </section>
-      <section className="flex flex-col items-center justify-center gap-y-6 pb-32 text-center">
+      <section className="flex h-screen flex-col items-center justify-center gap-y-6 py-56 text-center">
         <IFrame
           className="h-[50vh] w-[50vw]"
-          src="https://www.youtube.com/embed/ZZ_Te5wDMqI"
+          src="https://www.youtube.com/embed/9-R_JgcvzaA"
         />
       </section>
-      <section className="flex max-w-6xl flex-col items-center justify-center gap-y-6 pb-32 text-center">
+      <section className="flex h-screen max-w-6xl flex-col items-center justify-center gap-y-6 py-56 text-center">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -103,6 +103,7 @@ export default async function Home() {
           </ul>
         </motion.div>
       </section>
+      <section className="pb-56"></section>
     </main>
   );
 }
