@@ -11,7 +11,7 @@ interface AchievementProps {
 export function Achievement({ description, value, icon }: AchievementProps) {
   const Icon = Icons[icon];
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center p-5">
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-950 p-5 text-2xl font-semibold">
         <Icon className="h-full w-full" />
       </div>

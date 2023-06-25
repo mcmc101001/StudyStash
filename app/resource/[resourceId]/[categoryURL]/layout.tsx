@@ -211,7 +211,7 @@ export default async function ResourcePage({
               </div>
               <IFrame
                 title="PDF Resource"
-                className="mt-5"
+                className="mt-5 flex-1"
                 src={PDFURL}
                 width="100%"
                 height="100%"

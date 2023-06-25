@@ -72,7 +72,7 @@ export default async function SpecificSolutionPage({
       </Link> */}
       <div className="h-full w-full pr-5">
         <div
-          className="h-[calc(100vh-2.5rem)] w-full overflow-y-auto pl-10 pr-5
+          className="flex h-[calc(100vh-2.5rem)] w-full flex-col overflow-y-auto pl-10 pr-5
           scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 
           hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
           style={{ scrollbarGutter: "stable" }}
@@ -110,15 +110,13 @@ export default async function SpecificSolutionPage({
               </Button>
             </Link>
           </div>
-          <div className="h-[75vh] w-full">
-            <IFrame
-              title="PDF Resource"
-              className="mt-5"
-              src={PDFURL}
-              width="100%"
-              height="100%"
-            ></IFrame>
-          </div>
+          <IFrame
+            title="PDF Resource"
+            className="my-5 h-full min-h-[70vh] w-full shrink-0 grow basis-0"
+            src={PDFURL}
+            width="100%"
+            height="100%"
+          ></IFrame>
           <SolutionCommentAccordian commentCount={solution.comments.length}>
             {/* @ts-expect-error Server component */}
             <CommentsSection

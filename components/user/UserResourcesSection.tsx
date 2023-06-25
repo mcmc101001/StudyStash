@@ -138,7 +138,7 @@ export default async function UserResourcesSection({
       <Suspense>
         <UserResourceTab resourceOptions={ResourceSolutionOptions} />
       </Suspense>
-      <div className="flex h-[70vh] w-full flex-row justify-between gap-x-4">
+      <div className="flex h-[72vh] w-full flex-row justify-between gap-x-4">
         {filterCategory === undefined ? (
           <div className="flex h-1/2 w-full items-center justify-center text-3xl">
             Select category.
