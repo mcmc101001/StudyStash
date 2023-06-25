@@ -71,7 +71,7 @@ export default function NavOptions({
             </button>
           </TooltipTrigger>
           <TooltipContent side="right" asChild>
-            {name}
+            <span>{name}</span>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
