@@ -328,7 +328,7 @@ export async function UserAchievementsSection({
           <Tooltip>
             <TooltipTrigger className="cursor-default">
               <Achievement
-                description="Comments uploaded"
+                description="Comments posted"
                 value={commentsPosted}
                 icon={"MessageSquare"}
               />
