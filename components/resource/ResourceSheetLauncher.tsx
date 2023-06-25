@@ -156,6 +156,7 @@ export default function ResourceSheetLauncher({
         size={"xl"}
         onEscapeKeyDown={exitSheet}
         onPointerDownOutside={exitSheet}
+        className="flex flex-col"
       >
         <SheetHeader>
           <SheetTitle className="flex flex-row items-center gap-x-4">
@@ -202,8 +203,14 @@ export default function ResourceSheetLauncher({
             <span className="sr-only">Close</span>
           </div>
         </SheetHeader>
-        <IFrame title="PDF Resource" src={PDFURL} width="100%" height="80%" />
-        <div className="mt-5 flex h-max gap-x-4">
+        <IFrame
+          title="PDF Resource"
+          src={PDFURL}
+          width="100%"
+          height="100%"
+          className="flex-1"
+        />
+        <div className="mt-2 flex h-max gap-x-4">
           {solutionTabOptions.map((option) => {
             if (!option.assignedCategory.includes(category)) return null;
             return (
