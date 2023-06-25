@@ -15,7 +15,7 @@ export default function SideTabCategoryFilter({
 
   return (
     <div>
-      <div className="inline-flex h-[77vh] w-[6%] flex-col align-top">
+      <div className="inline-flex h-[80vh] w-[6%] flex-col align-top">
         {ResourceSolutionOptions.map((option) => {
           const Icon = Icons[option.icon];
           return (
