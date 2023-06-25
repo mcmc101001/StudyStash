@@ -47,7 +47,7 @@ export default async function Layout({
       <div className="flex w-full flex-row items-center justify-between">
         <div>
           <h1 className="flex flex-row items-center justify-start gap-x-2 text-4xl font-bold text-slate-800 dark:text-slate-200">
-            {moduleInfo.moduleCode}
+            {moduleInfo ? moduleInfo.moduleCode : moduleCode}
             <span>
               {user && (
                 <ModuleStar
@@ -59,7 +59,7 @@ export default async function Layout({
             </span>
           </h1>
           <h2 className="text-2xl font-semibold text-slate-700 dark:text-slate-300">
-            {moduleInfo.title}
+            {moduleInfo ? moduleInfo.title : "Module Title cannot be found"}
           </h2>
         </div>
         <Suspense>

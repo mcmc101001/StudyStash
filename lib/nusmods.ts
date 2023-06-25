@@ -89,6 +89,9 @@ export async function getSpecificModuleInfo(moduleCode: string) {
       method: "GET",
     }
   );
+  if (res.status === 404) {
+    return null;
+  }
   const data = await res.json();
   return data as ModuleInformation;
 }
