@@ -3,7 +3,7 @@ import {
   ExamType,
   ResourceReportType,
   SolutionReportType,
-  // CommentReportType,
+  CommentReportType,
   ResourceStatus,
   SemesterType,
 } from "@prisma/client";
@@ -234,16 +234,16 @@ export const solutionReportOptions: {
   { value: "incorrectQuestionPaper", label: "Incorrect question paper" },
 ];
 
-// export const commentReportOptions: {
-//   value: CommentReportType;
-//   label: string;
-// }[] = [
-//   { value: "inappropriateUsername", label: "Inappropriate username" },
-//   { value: "spam", label: "Spam" },
-//   { value: "harassment", label: "Harassment" },
-// ];
+export const commentReportOptions: {
+  value: CommentReportType;
+  label: string;
+}[] = [
+  { value: "inappropriateUsername", label: "Inappropriate username" },
+  { value: "spam", label: "Spam" },
+  { value: "harassment", label: "Harassment" },
+];
 
 export const resolvedOptions: { value: string; label: string }[] = [
-  { value: "No", label: "Unresolved" },
-  { value: "Yes", label: "Resolved" },
+  { value: "Unresolved", label: "Unresolved" },
+  { value: "Resolved", label: "Resolved" },
 ];

@@ -35,6 +35,7 @@ import {
   papersAdditionalReportOptions,
   categoryOptions,
   solutionReportOptions,
+  commentReportOptions,
 } from "@/lib/content";
 import useQueryParams from "@/hooks/useQueryParams";
 
@@ -87,12 +88,7 @@ export function DataTable<TData, TValue>({
   } else if (section === "solution") {
     reasonOptions = solutionReportOptions;
   } else {
-    // reasonOptions = commentReportOptions;
-    reasonOptions = [
-      { value: "inappropriateUsername", label: "Inappropriate username" },
-      { value: "spam", label: "Spam" },
-      { value: "harassment", label: "Harassment" },
-    ];
+    reasonOptions = commentReportOptions;
   }
 
   return (
@@ -135,7 +131,9 @@ export function DataTable<TData, TValue>({
               placeholderText="Select status"
               options={resolvedOptions}
               onChange={(option) =>
-                table.getColumn("resolved")?.setFilterValue(option?.value)
+                table
+                  .getColumn("resolved")
+                  ?.setFilterValue(option ? option.label === "Resolved" : null)
               }
             />
           </div>

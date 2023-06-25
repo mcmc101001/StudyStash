@@ -6,10 +6,10 @@ import { DataTable } from "@/components/admin/DataTable";
 import {
   resourceColumns,
   solutionColumns,
-  // commentColumns,
+  commentColumns,
   ResourceReportHeaderType,
   SolutionReportHeaderType,
-  // CommentReportHeaderType,
+  CommentReportHeaderType,
 } from "@/components/admin/ReportTableColumns";
 import { getModuleCodeOptions } from "@/lib/nusmods";
 import useQueryParams from "@/hooks/useQueryParams";
@@ -57,7 +57,7 @@ export default async function AdminPage({
 
   let resourceData: ResourceReportHeaderType[] = [];
   let solutionData: SolutionReportHeaderType[] = [];
-  // let commentData: CommentReportHeaderType[] = [];
+  let commentData: CommentReportHeaderType[] = [];
 
   const cheatsheetsPromise = prisma.cheatsheetReport.findMany({
     include: {
@@ -100,14 +100,115 @@ export default async function AdminPage({
       },
     },
   });
+  const cheatsheetCommentsPromise = prisma.cheatsheetCommentReport.findMany({
+    include: {
+      user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  const qnpaperCommentsPromise = prisma.questionPaperCommentReport.findMany({
+    include: {
+      user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  const notesCommentsPromise = prisma.notesCommentReport.findMany({
+    include: {
+      user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  const solnsCommentsPromise = prisma.solutionCommentReport.findMany({
+    include: {
+      user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  const cheatsheetReplyPromise = prisma.cheatsheetReplyReport.findMany({
+    include: {
+      user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  const qnpaperReplyPromise = prisma.questionPaperReplyReport.findMany({
+    include: {
+      user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  const notesReplyPromise = prisma.notesReplyReport.findMany({
+    include: {
+      user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  const solnsReplyPromise = prisma.solutionReplyReport.findMany({
+    include: {
+      user: true,
+      comment: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
 
-  const [cheatsheets, qnpapers, notes, solns] = await Promise.all([
+  const [
+    cheatsheets,
+    qnpapers,
+    notes,
+    solns,
+    cheatsheetComments,
+    qnpaperComments,
+    notesComments,
+    solnsComments,
+    cheatsheetReply,
+    qnpaperReply,
+    notesReply,
+    solnsReply,
+  ] = await Promise.all([
     cheatsheetsPromise,
     qnpapersPromise,
     notesPromise,
     solnsPromise,
+    cheatsheetCommentsPromise,
+    qnpaperCommentsPromise,
+    notesCommentsPromise,
+    solnsCommentsPromise,
+    cheatsheetReplyPromise,
+    qnpaperReplyPromise,
+    notesReplyPromise,
+    solnsReplyPromise,
   ]);
-  
+
   if (cheatsheets) {
     cheatsheets.map((report) => {
       resourceData.push({
@@ -185,6 +286,134 @@ export default async function AdminPage({
       });
     });
   }
+  if (cheatsheetComments) {
+    cheatsheetComments.map((report) => {
+      commentData.push({
+        reportId: report.id,
+        type: report.type,
+        category: "cheatsheetCommentReport",
+        createdAt: dateString(report.createdAt),
+        authorId: report.comment.user.id,
+        authorName: report.comment.user.name!,
+        commentId: report.commentId,
+        reporterId: report.userId,
+        resolved: report.resolved,
+        reporterName: report.user.name!,
+      });
+    });
+  }
+  if (qnpaperComments) {
+    qnpaperComments.map((report) => {
+      commentData.push({
+        reportId: report.id,
+        type: report.type,
+        category: "cheatsheetCommentReport",
+        createdAt: dateString(report.createdAt),
+        authorId: report.comment.user.id,
+        authorName: report.comment.user.name!,
+        commentId: report.commentId,
+        reporterId: report.userId,
+        resolved: report.resolved,
+        reporterName: report.user.name!,
+      });
+    });
+  }
+  if (notesComments) {
+    notesComments.map((report) => {
+      commentData.push({
+        reportId: report.id,
+        type: report.type,
+        category: "cheatsheetCommentReport",
+        createdAt: dateString(report.createdAt),
+        authorId: report.comment.user.id,
+        authorName: report.comment.user.name!,
+        commentId: report.commentId,
+        reporterId: report.userId,
+        resolved: report.resolved,
+        reporterName: report.user.name!,
+      });
+    });
+  }
+  if (solnsComments) {
+    solnsComments.map((report) => {
+      commentData.push({
+        reportId: report.id,
+        type: report.type,
+        category: "cheatsheetCommentReport",
+        createdAt: dateString(report.createdAt),
+        authorId: report.comment.user.id,
+        authorName: report.comment.user.name!,
+        commentId: report.commentId,
+        reporterId: report.userId,
+        resolved: report.resolved,
+        reporterName: report.user.name!,
+      });
+    });
+  }
+  if (cheatsheetReply) {
+    cheatsheetReply.map((report) => {
+      commentData.push({
+        reportId: report.id,
+        type: report.type,
+        category: "cheatsheetCommentReport",
+        createdAt: dateString(report.createdAt),
+        authorId: report.comment.user.id,
+        authorName: report.comment.user.name!,
+        commentId: report.commentId,
+        reporterId: report.userId,
+        resolved: report.resolved,
+        reporterName: report.user.name!,
+      });
+    });
+  }
+  if (qnpaperReply) {
+    qnpaperReply.map((report) => {
+      commentData.push({
+        reportId: report.id,
+        type: report.type,
+        category: "cheatsheetCommentReport",
+        createdAt: dateString(report.createdAt),
+        authorId: report.comment.user.id,
+        authorName: report.comment.user.name!,
+        commentId: report.commentId,
+        reporterId: report.userId,
+        resolved: report.resolved,
+        reporterName: report.user.name!,
+      });
+    });
+  }
+  if (notesReply) {
+    notesReply.map((report) => {
+      commentData.push({
+        reportId: report.id,
+        type: report.type,
+        category: "cheatsheetCommentReport",
+        createdAt: dateString(report.createdAt),
+        authorId: report.comment.user.id,
+        authorName: report.comment.user.name!,
+        commentId: report.commentId,
+        reporterId: report.userId,
+        resolved: report.resolved,
+        reporterName: report.user.name!,
+      });
+    });
+  }
+  if (solnsReply) {
+    solnsReply.map((report) => {
+      commentData.push({
+        reportId: report.id,
+        type: report.type,
+        category: "cheatsheetCommentReport",
+        createdAt: dateString(report.createdAt),
+        authorId: report.comment.user.id,
+        authorName: report.comment.user.name!,
+        commentId: report.commentId,
+        reporterId: report.userId,
+        resolved: report.resolved,
+        reporterName: report.user.name!,
+      });
+    });
+  }
 
   // By default, sort by date (oldest on top)
   resourceData.sort((a, b) => {
@@ -193,9 +422,9 @@ export default async function AdminPage({
   solutionData.sort((a, b) => {
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
-  // commentData.sort((a, b) => {
-  //   return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-  // });
+  commentData.sort((a, b) => {
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
 
   return (
     <div>
@@ -217,8 +446,8 @@ export default async function AdminPage({
       ) : section === "comment" ? (
         <DataTable
           // params={params}
-          columns={solutionColumns}
-          data={[]}
+          columns={commentColumns}
+          data={commentData}
           className="h-screen"
         />
       ) : (
