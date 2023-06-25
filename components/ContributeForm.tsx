@@ -297,9 +297,9 @@ const ContributeForm = (props: ContributeFormProps) => {
           };
           let { data } = await axios.post("/api/generateS3PutURL", body);
 
-          const url = data.url;
+          const solutionUrl = data.url;
 
-          await axios.put(url, solutionFile, {
+          await axios.put(solutionUrl, solutionFile, {
             headers: {
               "Content-Type": "application/pdf",
               "Content-Disposition": "inline",

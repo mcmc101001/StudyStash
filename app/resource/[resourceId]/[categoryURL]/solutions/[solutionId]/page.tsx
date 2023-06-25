@@ -55,7 +55,7 @@ export default async function SpecificSolutionPage({
   );
   const userStatusValue = userStatus ? userStatus.status : null;
 
-  const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
+  const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${solutionId}`;
 
   return (
     <>
