@@ -53,6 +53,7 @@ import {
 } from "@/components/ui/Tooltip";
 import ClientDateTime from "@/components/ClientDateTime";
 import Link from "next/link";
+import ReportCommentIcon from "@/components/comments/ReportCommentIcon";
 
 const DEFAULT_HEIGHT = 48;
 
@@ -361,7 +362,7 @@ export default function CommentItem({
               Reply
             </span>
           </div>
-          {currentUser?.id === comment.user.id && (
+          {currentUser?.id === comment.user.id ? (
             <>
               <DeleteDialog
                 isDeleteDialogOpen={isDeleteDialogOpen}
@@ -391,6 +392,13 @@ export default function CommentItem({
                 </span>
               </div>
             </>
+          ) : (
+            <ReportCommentIcon
+              resourceCategory={category}
+              reporterId={currentUser?.id}
+              commentId={comment.id}
+              isReply={false}
+            />
           )}
         </div>
       </div>
@@ -650,7 +658,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
             rating={reply.rating}
             userRating={reply.userRating}
           />
-          {currentUser?.id === reply.user.id && (
+          {currentUser?.id === reply.user.id ? (
             <>
               <DeleteDialog
                 isDeleteDialogOpen={isDeleteDialogOpen}
@@ -680,6 +688,13 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
                 </span>
               </div>
             </>
+          ) : (
+            <ReportCommentIcon
+              resourceCategory={category}
+              reporterId={currentUser?.id}
+              commentId={reply.id}
+              isReply={true}
+            />
           )}
         </div>
       </div>

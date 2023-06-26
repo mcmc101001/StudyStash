@@ -3,10 +3,11 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { CommentReportType } from "@prisma/client";
+import { CommentReportEnum } from "@/lib/content";
 import z from "zod";
 
 const addCommentReportSchema = z.object({
-  category: z.string(),
+  category: CommentReportEnum,
   reporterId: z.string(),
   commentId: z.string(),
   reportType: z.nativeEnum(CommentReportType),
