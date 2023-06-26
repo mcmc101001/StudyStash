@@ -282,7 +282,7 @@ export async function UserAchievementsSection({
       : "-";
 
   return (
-    <div className="flex w-full flex-col gap-y-5 overflow-hidden rounded-2xl bg-slate-300 p-6 px-10 text-center text-xl dark:bg-slate-700">
+    <div className="flex w-full flex-col overflow-hidden rounded-2xl bg-slate-300 text-center text-xl dark:bg-slate-700">
       <div className="flex w-full items-center justify-between">
         <TooltipProvider delayDuration={200}>
           <Tooltip>
@@ -328,7 +328,7 @@ export async function UserAchievementsSection({
           <Tooltip>
             <TooltipTrigger className="cursor-default">
               <Achievement
-                description="Comments uploaded"
+                description="Comments posted"
                 value={commentsPosted}
                 icon={"MessageSquare"}
               />

@@ -28,9 +28,9 @@ export default async function ProfilePageUser({
   }
 
   return (
-    <div className="flex w-full p-20 text-slate-800 dark:text-slate-200">
-      <div className="flex w-1/3 flex-col pr-5">
-        <section className="relative h-full flex-1 rounded-xl bg-slate-300 p-6 dark:bg-slate-700">
+    <div className="flex w-full px-14 text-slate-800 dark:text-slate-200">
+      <div className="flex h-screen w-1/3 flex-col justify-between gap-y-6 py-14 pr-5">
+        <section className="relative rounded-xl bg-slate-300 p-6 dark:bg-slate-700">
           <div className="flex">
             <Image
               src={profileUser.image!}
@@ -52,14 +52,14 @@ export default async function ProfilePageUser({
             {profileUser.name}
           </h1>
           <p
-            className="max-h-40 overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-600 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 
+            className="h-52 overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-600 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 
           scrollbar-track-rounded-md scrollbar-thumb-rounded-md dark:text-slate-400 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900"
           >
             {profileUser.bio ||
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."}
           </p>
         </section>
-        <section className="mt-6">
+        <section>
           {/* @ts-expect-error Server Component */}
           <UserAchievementsSection userId={profileUser.id} />
         </section>
@@ -68,7 +68,7 @@ export default async function ProfilePageUser({
         className="h-[100vw-10rem] bg-slate-200 dark:bg-slate-800"
         orientation="vertical"
       />
-      <section className="w-2/3 pl-5">
+      <section className="h-screen w-2/3 py-14 pl-5">
         <h1 className="mb-4 text-3xl font-semibold text-slate-800 dark:text-white">
           My resources
         </h1>
