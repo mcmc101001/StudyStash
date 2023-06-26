@@ -247,3 +247,15 @@ export const resolvedOptions: { value: string; label: string }[] = [
   { value: "Unresolved", label: "Unresolved" },
   { value: "Resolved", label: "Resolved" },
 ];
+
+export const CommentReportEnum = z.enum([
+  "cheatsheetCommentReport",
+  "questionPaperCommentReport",
+  "notesCommentReport",
+  "solutionCommentReport",
+  "cheatsheetReplyReport",
+  "questionPaperReplyReport",
+  "notesReplyReport",
+  "solutionReplyReport",
+]);
+export type CommentReportCategory = z.infer<typeof CommentReportEnum>;

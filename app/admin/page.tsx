@@ -12,7 +12,6 @@ import {
   CommentReportHeaderType,
 } from "@/components/admin/ReportTableColumns";
 import { getModuleCodeOptions } from "@/lib/nusmods";
-import useQueryParams from "@/hooks/useQueryParams";
 import { reportSectionOptions } from "@/lib/content";
 
 // Function to convert Date type to string
@@ -299,6 +298,7 @@ export default async function AdminPage({
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
+        content: report.comment.content,
       });
     });
   }
@@ -307,7 +307,7 @@ export default async function AdminPage({
       commentData.push({
         reportId: report.id,
         type: report.type,
-        category: "cheatsheetCommentReport",
+        category: "questionPaperCommentReport",
         createdAt: dateString(report.createdAt),
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
@@ -315,6 +315,7 @@ export default async function AdminPage({
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
+        content: report.comment.content,
       });
     });
   }
@@ -323,7 +324,7 @@ export default async function AdminPage({
       commentData.push({
         reportId: report.id,
         type: report.type,
-        category: "cheatsheetCommentReport",
+        category: "notesCommentReport",
         createdAt: dateString(report.createdAt),
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
@@ -331,6 +332,7 @@ export default async function AdminPage({
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
+        content: report.comment.content,
       });
     });
   }
@@ -339,7 +341,7 @@ export default async function AdminPage({
       commentData.push({
         reportId: report.id,
         type: report.type,
-        category: "cheatsheetCommentReport",
+        category: "solutionCommentReport",
         createdAt: dateString(report.createdAt),
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
@@ -347,6 +349,7 @@ export default async function AdminPage({
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
+        content: report.comment.content,
       });
     });
   }
@@ -355,7 +358,7 @@ export default async function AdminPage({
       commentData.push({
         reportId: report.id,
         type: report.type,
-        category: "cheatsheetCommentReport",
+        category: "cheatsheetReplyReport",
         createdAt: dateString(report.createdAt),
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
@@ -363,6 +366,7 @@ export default async function AdminPage({
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
+        content: report.comment.content,
       });
     });
   }
@@ -371,7 +375,7 @@ export default async function AdminPage({
       commentData.push({
         reportId: report.id,
         type: report.type,
-        category: "cheatsheetCommentReport",
+        category: "questionPaperReplyReport",
         createdAt: dateString(report.createdAt),
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
@@ -379,6 +383,7 @@ export default async function AdminPage({
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
+        content: report.comment.content,
       });
     });
   }
@@ -387,7 +392,7 @@ export default async function AdminPage({
       commentData.push({
         reportId: report.id,
         type: report.type,
-        category: "cheatsheetCommentReport",
+        category: "notesReplyReport",
         createdAt: dateString(report.createdAt),
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
@@ -395,6 +400,7 @@ export default async function AdminPage({
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
+        content: report.comment.content,
       });
     });
   }
@@ -403,7 +409,7 @@ export default async function AdminPage({
       commentData.push({
         reportId: report.id,
         type: report.type,
-        category: "cheatsheetCommentReport",
+        category: "solutionReplyReport",
         createdAt: dateString(report.createdAt),
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
@@ -411,6 +417,7 @@ export default async function AdminPage({
         reporterId: report.userId,
         resolved: report.resolved,
         reporterName: report.user.name!,
+        content: report.comment.content,
       });
     });
   }
