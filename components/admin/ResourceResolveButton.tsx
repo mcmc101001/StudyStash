@@ -103,7 +103,7 @@ export default function ResourceResolveButton({
           </div>
         ) : report.type === "inappropriateUsername" ? (
           <div className="flex flex-col gap-1">
-            <label>Reported for Inappropriate Filename</label>
+            <label>Reported for Inappropriate Username</label>
             <Input type="text" defaultValue={report.uploaderName} />
           </div>
         ) : report.type === "incorrectModule" ? (

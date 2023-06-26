@@ -9,11 +9,18 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { ResourceType } from "@/lib/content";
+import { CommentReportCategory, ResourceType } from "@/lib/content";
 import ResourceResolveButton from "./ResourceResolveButton";
 import SolutionResolveButton from "./SolutionResolveButton";
+import CommentResolveButton from "@/components/admin/CommentResolveButton";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -51,7 +58,7 @@ export type SolutionReportHeaderType = {
 export type CommentReportHeaderType = {
   reportId: string;
   type: CommentReportType;
-  category: string;
+  category: CommentReportCategory;
   createdAt: string;
   // filename: string;
   authorId: string;
@@ -60,6 +67,7 @@ export type CommentReportHeaderType = {
   reporterId: string;
   resolved: boolean;
   reporterName: string;
+  content: string;
 };
 
 export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
@@ -320,10 +328,24 @@ export const commentColumns: ColumnDef<CommentReportHeaderType>[] = [
     accessorKey: "type",
     header: "Reason",
   },
-  // {
-  //   accessorKey: "category",
-  //   header: "Category",
-  // },
+  {
+    accessorKey: "category",
+    header: "Comment",
+    cell: ({ row }) => {
+      const report = row.original;
+
+      return (
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger>{report.category}</TooltipTrigger>
+            <TooltipContent className="max-w-md whitespace-normal">
+              {report.content}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
+  },
   {
     accessorKey: "createdAt",
     header: ({ column }) => {
@@ -377,13 +399,7 @@ export const commentColumns: ColumnDef<CommentReportHeaderType>[] = [
     cell: ({ row }) => {
       const report = row.original;
 
-      return (
-        <Button
-        // report={report}
-        >
-          blah
-        </Button>
-      );
+      return <CommentResolveButton report={report} />;
     },
   },
 ];
