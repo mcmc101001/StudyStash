@@ -10,7 +10,6 @@ import {
 import {
   commentReportOptions,
   CommentReportCategory,
-  categoryOptions,
   ResourceSolutionType,
 } from "@/lib/content";
 import { addCommentReportType } from "@/pages/api/addCommentReport";
@@ -90,6 +89,7 @@ export default function ReportCommentIcon({
         {commentReportOptions.map((option) => {
           return (
             <DropdownMenuItem
+              key={option.label}
               onClick={() => handleCommentReport(option.value)}
               className="rounded hover:bg-slate-100 dark:hover:bg-slate-900"
             >

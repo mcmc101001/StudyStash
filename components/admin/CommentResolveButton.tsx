@@ -1,29 +1,14 @@
 "use client";
 
 import { CommentReportHeaderType } from "./ReportTableColumns";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { useState } from "react";
 import axios from "axios";
-import { editResourceResolvedType } from "@/pages/api/editResourceResolve";
 import { toast } from "react-hot-toast";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
-import {
-  CommentReportCategory,
-  categoryOptions,
-  examTypeOptions,
-  semesterOptions,
-} from "@/lib/content";
+import { CommentReportCategory } from "@/lib/content";
 import Button from "@/components/ui/Button";
-import StyledSelect, { Option } from "@/components//ui/StyledSelect";
-import { CommentReportType } from "@prisma/client";
 import { editCommentResolvedType } from "@/pages/api/editCommentResolve";
 
 export default function CommentResolveButton({
