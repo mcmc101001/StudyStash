@@ -3,6 +3,13 @@ import Button from "@/components/ui/Button";
 import { IFrame } from "@/components/ui/IFrame";
 import * as motion from "@/lib/motion";
 import Link from "next/link";
+import localFont from "next/font/local";
+
+const CalSansFont = localFont({
+  src: "../assets/fonts/CalSans-Semibold.woff2",
+  weight: "600",
+  display: "swap",
+});
 
 const SLIDE_IN_ANIMATION_VARIANTS = {
   left: { opacity: 0, x: "-20vw" },
@@ -33,7 +40,7 @@ export default async function Home() {
           whileInView="center"
           viewport={{ once: true }}
           variants={SLIDE_IN_ANIMATION_VARIANTS}
-          className="text-7xl font-bold"
+          className={`text-7xl font-bold ${CalSansFont.className}`}
         >
           Redefining Revision
         </motion.h1>
