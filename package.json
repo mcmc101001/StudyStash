@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.347.1",
-    "@aws-sdk/s3-request-presigner": "^3.345.0",
+    "@aws-sdk/s3-request-presigner": "^3.359.0",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@next/bundle-analyzer": "^13.4.3",
     "@prisma/client": "^4.15.0",
