@@ -294,7 +294,7 @@ export default async function ResourceItem({
         >
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">
-              <span className="max-w-[18rem] overflow-scroll whitespace-nowrap scrollbar-none">
+              <span className="max-w-xl overflow-scroll text-ellipsis whitespace-nowrap scrollbar-none">
                 {/* @2xl:max-w-xs @3xl:max-w-xl */}
                 {name}
               </span>
@@ -317,12 +317,15 @@ export default async function ResourceItem({
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">
               {displayCode ? (
-                <Link
-                  className="hover:text-blue-700 dark:hover:text-blue-500"
-                  href={`/database/${moduleCode}`}
-                >
-                  {moduleCode}
-                </Link>
+                <>
+                  <Link
+                    className="hover:text-blue-700 dark:hover:text-blue-500"
+                    href={`/database/${moduleCode}`}
+                  >
+                    {moduleCode}
+                  </Link>
+                  {", "}
+                </>
               ) : (
                 ""
               )}

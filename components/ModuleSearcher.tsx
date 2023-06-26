@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import ModuleList from "@/components/ModuleList";
 import { startsWithNumbers } from "@/lib/utils";
 import { ResourceType, ResourceTypeURL } from "@/lib/content";
-import { usePathname, useSelectedLayoutSegments } from "next/navigation";
+import {
+  usePathname,
+  useSearchParams,
+  useSelectedLayoutSegments,
+} from "next/navigation";
 
 interface ModuleSearcherProps {
   moduleCodes: Array<string>;
@@ -28,6 +32,8 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
   if (segments.length > 0 && segments[0]) {
     selectedModule = segments[0];
   }
+
+  const searchParams = useSearchParams();
 
   const [query, setQuery] = useState("");
 
@@ -78,6 +84,7 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
       ></Input>
       <hr className="border bg-slate-700 dark:bg-slate-300"></hr>
       <ModuleList
+        searchQuery={searchParams?.toString()}
         moduleCodes={filterMods}
         selectedModule={selectedModule}
         selectedResourceType={selectedResourceType}

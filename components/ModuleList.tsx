@@ -5,6 +5,7 @@ interface ModuleListProps {
   moduleCodes: Array<string>;
   selectedResourceType: ResourceType | null;
   selectedModule: string | null;
+  searchQuery: string | undefined;
 }
 
 export default function ModuleList(props: ModuleListProps) {
@@ -33,7 +34,7 @@ export default function ModuleList(props: ModuleListProps) {
                   ? "cursor-default border border-slate-800 dark:border-slate-200 "
                   : "hover:text-blue-700 dark:hover:text-blue-500 ")
               }
-              href={`/database/${mod}/${linkExtension}`}
+              href={`/database/${mod}/${linkExtension}?${props.searchQuery}`}
             >
               {mod}
             </Link>
