@@ -317,12 +317,15 @@ export default async function ResourceItem({
           <div className="ml-auto flex h-full flex-col gap-y-2">
             <p className="whitespace-nowrap text-end">
               {displayCode ? (
-                <Link
-                  className="hover:text-blue-700 dark:hover:text-blue-500"
-                  href={`/database/${moduleCode}`}
-                >
-                  {moduleCode}
-                </Link>
+                <>
+                  <Link
+                    className="hover:text-blue-700 dark:hover:text-blue-500"
+                    href={`/database/${moduleCode}`}
+                  >
+                    {moduleCode}
+                  </Link>
+                  {", "}
+                </>
               ) : (
                 ""
               )}
