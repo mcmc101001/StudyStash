@@ -41,7 +41,7 @@ export default async function Home() {
           whileInView="center"
           viewport={{ once: true }}
           variants={SLIDE_IN_ANIMATION_VARIANTS}
-          className="font-heading text-7xl font-bold"
+          className={`font-heading text-7xl font-bold ${CalSansFont.className}`}
         >
           Redefining Revision
         </motion.h1>
