@@ -39,11 +39,6 @@ export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
     href: "/admin",
     icon: "TowerControl",
   },
-  {
-    name: "Under development",
-    href: "/pdf",
-    icon: "Construction",
-  },
 ];
 
 export default async function Navbar() {
