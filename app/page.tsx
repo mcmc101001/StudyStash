@@ -6,9 +6,10 @@ import Link from "next/link";
 import localFont from "next/font/local";
 
 const CalSansFont = localFont({
-  src: "../public/fonts/CalSans-Semibold.woff",
+  src: "../public/fonts/CalSans-SemiBold.woff2",
   weight: "600",
   display: "swap",
+  variable: "--font-heading",
 });
 
 const SLIDE_IN_ANIMATION_VARIANTS = {
@@ -40,7 +41,7 @@ export default async function Home() {
           whileInView="center"
           viewport={{ once: true }}
           variants={SLIDE_IN_ANIMATION_VARIANTS}
-          className={`text-7xl font-bold ${CalSansFont.className}`}
+          className="font-heading text-7xl font-bold"
         >
           Redefining Revision
         </motion.h1>
