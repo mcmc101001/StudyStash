@@ -6,7 +6,7 @@ import Link from "next/link";
 import localFont from "next/font/local";
 
 const CalSansFont = localFont({
-  src: "../assets/fonts/CalSans-Semibold.woff2",
+  src: "../public/fonts/CalSans-Semibold.woff2",
   weight: "600",
   display: "swap",
 });
