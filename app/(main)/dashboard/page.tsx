@@ -26,14 +26,6 @@ export default async function DashboardPage({
     },
   });
 
-  // IMPT: REMOVE THIS LATER
-  // await prisma.user.updateMany({
-  //   data: {
-  //     visitedData:
-  //       '{"visitedCheatsheets":[],"visitedPastPapers":[],"visitedNotes":[],"visitedSolutions":[]}',
-  //   },
-  // });
-
   let visitedDataObject: VisitedDataType | undefined = undefined;
   if (searchParams.filterStatus === "Visited") {
     visitedDataObject = await prisma.user
