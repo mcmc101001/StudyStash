@@ -91,7 +91,7 @@ export default function ReportCommentIcon({
             <DropdownMenuItem
               key={option.label}
               onClick={() => handleCommentReport(option.value)}
-              className="rounded hover:bg-slate-100 dark:hover:bg-slate-900"
+              className="cursor-pointer rounded hover:bg-slate-100 dark:hover:bg-slate-900"
             >
               {option.label}
             </DropdownMenuItem>
