@@ -45,6 +45,23 @@ export default async function AdminPage({
     redirect("/401");
   }
 
+  // DELETE afterwards
+  await prisma.cheatsheetReport.deleteMany({
+    where: {
+      type: "incorrectCategory",
+    },
+  });
+  await prisma.questionPaperReport.deleteMany({
+    where: {
+      type: "incorrectCategory",
+    },
+  });
+  await prisma.notesReport.deleteMany({
+    where: {
+      type: "incorrectCategory",
+    },
+  });
+
   const section = searchParams.section;
   if (
     !section ||
