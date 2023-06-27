@@ -85,7 +85,7 @@ export default function ReportCommentIcon({
           </span>
         </span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="dark:bg-slate-800">
+      <DropdownMenuContent className="dark:bg-slate-800" align="start">
         {commentReportOptions.map((option) => {
           return (
             <DropdownMenuItem
