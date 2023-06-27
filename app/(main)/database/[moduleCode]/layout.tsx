@@ -5,7 +5,6 @@ import { getCurrentUser } from "@/lib/session";
 import ModuleStar from "@/components/ModuleStar";
 import { prisma } from "@/lib/prisma";
 import ContributeButton from "@/components/ContributeButton";
-import { Suspense } from "react";
 
 // export const generateStaticParams = async () => {
 //   const moduleList = await getModuleList();
@@ -62,16 +61,9 @@ export default async function Layout({
             {moduleInfo ? moduleInfo.title : "Module Title cannot be found"}
           </h2>
         </div>
-        <Suspense>
-          <ContributeButton userId={user?.id} />
-        </Suspense>
+        <ContributeButton userId={user?.id} />
       </div>
-      <Suspense>
-        <ResourceTab
-          moduleCode={moduleCode}
-          resourceOptions={ResourceOptions}
-        />
-      </Suspense>
+      <ResourceTab moduleCode={moduleCode} resourceOptions={ResourceOptions} />
       {children}
     </div>
   );
