@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import NavOptions from "@/components/nav/NavOptions";
 import Link from "next/link";
 import { Icon, Icons } from "@/components/Icons";
@@ -39,11 +38,6 @@ export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
     href: "/admin",
     icon: "TowerControl",
   },
-  {
-    name: "Under development",
-    href: "/pdf",
-    icon: "Construction",
-  },
 ];
 
 export default async function Navbar() {
@@ -79,33 +73,20 @@ export default async function Navbar() {
             if (!user && option.name === "Profile") return null; // Don't show profile tab if not signed in
             if (!verified && option.name === "Admin") return null; // Don't show admin tab if not verified
             return (
-              <Suspense
+              <NavOptions
                 key={option.name}
-                fallback={
-                  <Loader2 className="h-7 w-7 animate-spin text-slate-800 dark:text-slate-200" />
-                }
-              >
-                <NavOptions
-                  key={option.name}
-                  userId={user?.id || null}
-                  name={option.name}
-                  href={option.href}
-                  icon={option.icon}
-                />
-              </Suspense>
+                userId={user?.id || null}
+                name={option.name}
+                href={option.href}
+                icon={option.icon}
+              />
             );
           })}
           <div className="mb-2 mt-auto">
             <DarkModeTogglerNoSSR />
             <div className="mt-10">
-              <Suspense
-                fallback={
-                  <Loader2 className="h-10 w-10 animate-spin text-slate-800 dark:text-slate-200" />
-                }
-              >
-                {/* @ts-expect-error Server Component */}
-                <UserProfilePic user={user} />
-              </Suspense>
+              {/* @ts-expect-error Server Component */}
+              <UserProfilePic user={user} />
             </div>
           </div>
         </ul>

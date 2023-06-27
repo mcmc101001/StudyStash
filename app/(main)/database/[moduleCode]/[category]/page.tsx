@@ -9,7 +9,6 @@ import { redirect } from "next/navigation";
 import ResourceItem from "@/components/resource/ResourceItem";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import ResourceFilters from "@/components/resource/ResourceFilters";
-import { Suspense } from "react";
 import {
   CheatsheetWithPosts,
   QuestionPaperWithPosts,
@@ -177,14 +176,12 @@ export default async function Page({
         </div>
       )}
       <div className="w-1/5">
-        <Suspense>
-          <ResourceFilters
-            acadYearOptions={acadYearOptions}
-            category={category}
-            currentUserId={currentUser?.id}
-            statusOptions={statusOptions}
-          />
-        </Suspense>
+        <ResourceFilters
+          acadYearOptions={acadYearOptions}
+          category={category}
+          currentUserId={currentUser?.id}
+          statusOptions={statusOptions}
+        />
       </div>
     </div>
   );

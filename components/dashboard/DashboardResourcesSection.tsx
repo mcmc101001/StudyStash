@@ -16,7 +16,6 @@ import {
   getQuestionPapersWithPosts,
   getRating,
 } from "@/lib/dataFetching";
-import { Suspense } from "react";
 import { getSolutionsWithPosts } from "@/lib/dataFetching";
 import { ResourceSolutionType } from "@/lib/content";
 import SideTabCategoryFilter from "@/components/dashboard/SideTabCategoryFilter";
@@ -140,9 +139,7 @@ export default async function DashboardResourcesSection({
 
   return (
     <>
-      <Suspense>
-        <DashboardResourceTab tabsArr={DashboardStatusArr} />
-      </Suspense>
+      <DashboardResourceTab tabsArr={DashboardStatusArr} />
       <div className="flex w-full flex-row justify-between">
         {filterStatus === undefined ? (
           <div className="flex h-[50vh] w-full items-center justify-center text-3xl">
@@ -240,14 +237,12 @@ export default async function DashboardResourcesSection({
               </SideTabCategoryFilter>
             </div>
             <div className="w-1/5 pl-4">
-              <Suspense>
-                <ResourceFilters
-                  acadYearOptions={acadYearOptions}
-                  category={category}
-                  moduleCodeOptions={moduleCodeOptions}
-                  currentUserId={currentUserId}
-                />
-              </Suspense>
+              <ResourceFilters
+                acadYearOptions={acadYearOptions}
+                category={category}
+                moduleCodeOptions={moduleCodeOptions}
+                currentUserId={currentUserId}
+              />
             </div>
           </>
         )}

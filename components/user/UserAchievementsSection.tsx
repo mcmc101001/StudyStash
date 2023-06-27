@@ -282,8 +282,8 @@ export async function UserAchievementsSection({
       : "-";
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-2xl bg-slate-300 text-center text-xl dark:bg-slate-700">
-      <div className="flex w-full items-center justify-between">
+    <div className="flex w-full flex-col justify-evenly overflow-hidden rounded-2xl bg-slate-300 text-center text-xl dark:bg-slate-700">
+      <div className="flex w-full items-center justify-evenly">
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger className="cursor-default">
@@ -323,7 +323,7 @@ export async function UserAchievementsSection({
         </TooltipProvider>
       </div>
 
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-evenly">
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger className="cursor-default">

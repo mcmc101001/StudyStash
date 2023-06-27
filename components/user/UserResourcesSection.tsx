@@ -17,7 +17,6 @@ import {
   getQuestionPapersWithPosts,
   getRating,
 } from "@/lib/dataFetching";
-import { Suspense } from "react";
 import { getSolutionsWithPosts } from "@/lib/dataFetching";
 
 interface UserResourcesSectionProps {
@@ -135,9 +134,7 @@ export default async function UserResourcesSection({
 
   return (
     <>
-      <Suspense>
-        <UserResourceTab resourceOptions={ResourceSolutionOptions} />
-      </Suspense>
+      <UserResourceTab resourceOptions={ResourceSolutionOptions} />
       <div className="flex h-[72vh] w-full flex-row justify-between gap-x-4">
         {filterCategory === undefined ? (
           <div className="flex h-1/2 w-full items-center justify-center text-3xl">
@@ -224,13 +221,11 @@ export default async function UserResourcesSection({
               )}
             </div>
             <div className="w-1/5">
-              <Suspense>
-                <ResourceFilters
-                  acadYearOptions={acadYearOptions}
-                  category={category}
-                  moduleCodeOptions={moduleCodeOptions}
-                />
-              </Suspense>
+              <ResourceFilters
+                acadYearOptions={acadYearOptions}
+                category={category}
+                moduleCodeOptions={moduleCodeOptions}
+              />
             </div>
           </>
         )}
