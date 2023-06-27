@@ -3,6 +3,14 @@ import Button from "@/components/ui/Button";
 import { IFrame } from "@/components/ui/IFrame";
 import * as motion from "@/lib/motion";
 import Link from "next/link";
+import localFont from "next/font/local";
+
+const CalSansFont = localFont({
+  src: "../public/fonts/CalSans-SemiBold.woff2",
+  weight: "600",
+  display: "swap",
+  variable: "--font-heading",
+});
 
 const SLIDE_IN_ANIMATION_VARIANTS = {
   left: { opacity: 0, x: "-20vw" },
@@ -22,7 +30,7 @@ const FADE_DOWN_ANIMATION_VARIANTS = {
 export default async function Home() {
   return (
     <main
-      className="h-screen overflow-x-hidden overflow-y-scroll scroll-smooth text-slate-800
+      className="h-screen w-screen overflow-y-scroll scroll-smooth text-slate-800
           scrollbar-track-transparent scrollbar-thumb-slate-300 hover:scrollbar-thumb-slate-400 
           dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
       style={{ scrollbarGutter: "stable" }}
@@ -33,7 +41,7 @@ export default async function Home() {
           whileInView="center"
           viewport={{ once: true }}
           variants={SLIDE_IN_ANIMATION_VARIANTS}
-          className="text-7xl font-bold"
+          className={`font-heading text-7xl font-bold ${CalSansFont.className}`}
         >
           Redefining Revision
         </motion.h1>
@@ -42,7 +50,7 @@ export default async function Home() {
           whileInView="center"
           viewport={{ once: true }}
           variants={SLIDE_IN_ANIMATION_VARIANTS}
-          className="text-lg leading-normal text-slate-600 dark:text-slate-400"
+          className="text-xl leading-normal text-slate-600 dark:text-slate-400"
         >
           A one stop solution for all your revision needs, StudyStash is home to
           all the resources you would need, powered by users such as you.
@@ -54,20 +62,20 @@ export default async function Home() {
           variants={FADE_DOWN_ANIMATION_VARIANTS}
           className="flex gap-6"
         >
-          <Button size="lg" className="h-14 w-full text-xl font-semibold">
-            <Link className="w-full" href="/database">
+          <Link className="w-full" href="/database">
+            <Button size="lg" className="h-14 w-full text-xl font-semibold">
               Try it now
-            </Link>
-          </Button>
-          <Button
-            size="lg"
-            variant={"ghost"}
-            className="h-14 w-full border-2 border-slate-500 text-xl font-semibold"
-          >
-            <Link className="w-full whitespace-nowrap" href="#video">
+            </Button>
+          </Link>
+          <Link className="w-full whitespace-nowrap" href="#video">
+            <Button
+              size="lg"
+              variant={"ghost"}
+              className="h-14 w-full border-2 border-slate-500 text-xl font-semibold"
+            >
               Learn more
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </motion.div>
       </section>
       <section

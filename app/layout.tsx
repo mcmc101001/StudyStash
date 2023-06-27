@@ -1,8 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import NavBar from "@/components/nav/NavBar";
-import { Suspense } from "react";
 import { ThemeProvider } from "@/components/nav/ThemeProvider";
 // import Script from "next/script";
 
@@ -28,9 +26,7 @@ export default async function RootLayout({
         >
           <Toaster />
           <main className="hidden w-full min-w-fit flex-row bg-white transition-colors duration-500 dark:bg-slate-950 lg:flex">
-            {/* @ts-expect-error Server component */}
-            <NavBar />
-            <div className="h-screen w-[calc(100vw-8rem)]">{children}</div>
+            {children}
           </main>
           <main className="flex h-screen w-screen flex-col items-center justify-center p-10 text-center lg:hidden">
             <h1 className="font-bold">

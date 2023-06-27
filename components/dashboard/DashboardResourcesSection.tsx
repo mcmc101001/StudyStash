@@ -16,7 +16,6 @@ import {
   getQuestionPapersWithPosts,
   getRating,
 } from "@/lib/dataFetching";
-import { Suspense } from "react";
 import { getSolutionsWithPosts } from "@/lib/dataFetching";
 import { ResourceSolutionType } from "@/lib/content";
 import SideTabCategoryFilter from "@/components/dashboard/SideTabCategoryFilter";
@@ -140,9 +139,7 @@ export default async function DashboardResourcesSection({
 
   return (
     <>
-      <Suspense>
-        <DashboardResourceTab tabsArr={DashboardStatusArr} />
-      </Suspense>
+      <DashboardResourceTab tabsArr={DashboardStatusArr} />
       <div className="flex w-full flex-row justify-between">
         {filterStatus === undefined ? (
           <div className="flex h-[50vh] w-full items-center justify-center text-3xl">
@@ -152,7 +149,7 @@ export default async function DashboardResourcesSection({
           <>
             <div className="flex w-4/5 flex-col">
               <SideTabCategoryFilter>
-                <div className="inline-flex h-[80vh] w-[94%] border border-slate-800 border-l-transparent  bg-slate-100 p-4 pr-2 dark:border-slate-200 dark:bg-slate-900">
+                <div className="inline-flex h-[80vh] w-[94%] rounded-r-xl border border-slate-800 border-l-transparent bg-slate-100 p-4 pr-2 dark:border-slate-200 dark:border-l-transparent dark:bg-slate-900">
                   <div
                     className="flex h-full w-full flex-col gap-y-6 overflow-y-auto scroll-smooth pr-2 scrollbar-thin
                   scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md hover:scrollbar-thumb-slate-300 
@@ -240,14 +237,12 @@ export default async function DashboardResourcesSection({
               </SideTabCategoryFilter>
             </div>
             <div className="w-1/5 pl-4">
-              <Suspense>
-                <ResourceFilters
-                  acadYearOptions={acadYearOptions}
-                  category={category}
-                  moduleCodeOptions={moduleCodeOptions}
-                  currentUserId={currentUserId}
-                />
-              </Suspense>
+              <ResourceFilters
+                acadYearOptions={acadYearOptions}
+                category={category}
+                moduleCodeOptions={moduleCodeOptions}
+                currentUserId={currentUserId}
+              />
             </div>
           </>
         )}
