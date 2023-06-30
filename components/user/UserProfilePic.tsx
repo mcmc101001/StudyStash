@@ -1,5 +1,4 @@
 import { getCurrentUser } from "@/lib/session";
-import { User } from "lucide-react";
 import Image from "next/image";
 import LogoutButton from "@/components/nav/LogoutButton";
 import LoginButton from "@/components/nav/LoginButton";
@@ -21,10 +20,7 @@ async function UserProfilePic() {
           <LogoutButton />
         </>
       ) : (
-        <>
-          <User className="h-16 w-16 text-slate-800 dark:text-slate-200" />
-          <LoginButton />
-        </>
+        <LoginButton />
       )}
     </div>
   );
