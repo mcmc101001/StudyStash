@@ -34,7 +34,6 @@ export type ResourceReportHeaderType = {
   uploaderName: string;
   resourceId: string;
   reporterId: string;
-  resolved: boolean;
   reporterName: string;
   acadYear: string;
   semester: string;
@@ -51,7 +50,6 @@ export type SolutionReportHeaderType = {
   uploaderName: string;
   resourceId: string;
   reporterId: string;
-  resolved: boolean;
   reporterName: string;
 };
 
@@ -60,35 +58,15 @@ export type CommentReportHeaderType = {
   type: CommentReportType;
   category: CommentReportCategory;
   createdAt: string;
-  // filename: string;
   authorId: string;
   authorName: string;
   commentId: string;
   reporterId: string;
-  resolved: boolean;
   reporterName: string;
   content: string;
 };
 
 export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
-  {
-    accessorKey: "resolved",
-    header: "Resolved?",
-    cell: ({ row }) => {
-      const report = row.original;
-
-      let className = "font-semibold";
-      let text = "No";
-      if (report.resolved) {
-        text = "Yes";
-        className += " text-green-500";
-      } else {
-        className += " text-red-500";
-      }
-
-      return <p className={className}>{text}</p>;
-    },
-  },
   {
     accessorKey: "type",
     header: "Reason",
@@ -209,24 +187,6 @@ export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
 
 export const solutionColumns: ColumnDef<SolutionReportHeaderType>[] = [
   {
-    accessorKey: "resolved",
-    header: "Resolved?",
-    cell: ({ row }) => {
-      const report = row.original;
-
-      let className = "font-semibold";
-      let text = "No";
-      if (report.resolved) {
-        text = "Yes";
-        className += " text-green-500";
-      } else {
-        className += " text-red-500";
-      }
-
-      return <p className={className}>{text}</p>;
-    },
-  },
-  {
     accessorKey: "type",
     header: "Reason",
   },
@@ -307,44 +267,12 @@ export const solutionColumns: ColumnDef<SolutionReportHeaderType>[] = [
 
 export const commentColumns: ColumnDef<CommentReportHeaderType>[] = [
   {
-    accessorKey: "resolved",
-    header: "Resolved?",
-    cell: ({ row }) => {
-      const report = row.original;
-
-      let className = "font-semibold";
-      let text = "No";
-      if (report.resolved) {
-        text = "Yes";
-        className += " text-green-500";
-      } else {
-        className += " text-red-500";
-      }
-
-      return <p className={className}>{text}</p>;
-    },
-  },
-  {
     accessorKey: "type",
     header: "Reason",
   },
   {
     accessorKey: "category",
     header: "Comment",
-    cell: ({ row }) => {
-      const report = row.original;
-
-      return (
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger>{report.category}</TooltipTrigger>
-            <TooltipContent className="max-w-md whitespace-normal">
-              {report.content}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      );
-    },
   },
   {
     accessorKey: "createdAt",

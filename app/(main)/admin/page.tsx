@@ -45,23 +45,6 @@ export default async function AdminPage({
     redirect("/401");
   }
 
-  // DELETE afterwards
-  await prisma.cheatsheetReport.deleteMany({
-    where: {
-      type: "incorrectCategory",
-    },
-  });
-  await prisma.questionPaperReport.deleteMany({
-    where: {
-      type: "incorrectCategory",
-    },
-  });
-  await prisma.notesReport.deleteMany({
-    where: {
-      type: "incorrectCategory",
-    },
-  });
-
   const section = searchParams.section;
   if (
     !section ||
@@ -237,7 +220,6 @@ export default async function AdminPage({
         uploaderName: report.resource.userSubmitted.name!,
         resourceId: report.resourceId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         acadYear: report.resource.acadYear,
         semester: report.resource.semester,
@@ -257,7 +239,6 @@ export default async function AdminPage({
         uploaderName: report.resource.userSubmitted.name!,
         resourceId: report.resourceId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         acadYear: report.resource.acadYear,
         semester: report.resource.semester,
@@ -278,7 +259,6 @@ export default async function AdminPage({
         uploaderName: report.resource.userSubmitted.name!,
         resourceId: report.resourceId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         acadYear: report.resource.acadYear,
         semester: report.resource.semester,
@@ -297,7 +277,6 @@ export default async function AdminPage({
         uploaderName: report.resource.userSubmitted.name!,
         resourceId: report.resourceId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
       });
     });
@@ -313,7 +292,6 @@ export default async function AdminPage({
         authorName: report.comment.user.name!,
         commentId: report.commentId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         content: report.comment.content,
       });
@@ -330,7 +308,6 @@ export default async function AdminPage({
         authorName: report.comment.user.name!,
         commentId: report.commentId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         content: report.comment.content,
       });
@@ -347,7 +324,6 @@ export default async function AdminPage({
         authorName: report.comment.user.name!,
         commentId: report.commentId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         content: report.comment.content,
       });
@@ -364,7 +340,6 @@ export default async function AdminPage({
         authorName: report.comment.user.name!,
         commentId: report.commentId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         content: report.comment.content,
       });
@@ -381,7 +356,6 @@ export default async function AdminPage({
         authorName: report.comment.user.name!,
         commentId: report.commentId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         content: report.comment.content,
       });
@@ -398,7 +372,6 @@ export default async function AdminPage({
         authorName: report.comment.user.name!,
         commentId: report.commentId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         content: report.comment.content,
       });
@@ -415,7 +388,6 @@ export default async function AdminPage({
         authorName: report.comment.user.name!,
         commentId: report.commentId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         content: report.comment.content,
       });
@@ -432,7 +404,6 @@ export default async function AdminPage({
         authorName: report.comment.user.name!,
         commentId: report.commentId,
         reporterId: report.userId,
-        resolved: report.resolved,
         reporterName: report.user.name!,
         content: report.comment.content,
       });

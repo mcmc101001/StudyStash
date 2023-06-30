@@ -44,7 +44,6 @@ export default async function addSolutionReport(
       userId: req.body.reporterId,
       resourceId: req.body.resourceId,
       type: req.body.reportType,
-      resolved: false,
     },
   });
   if (checkRepeat !== null) {

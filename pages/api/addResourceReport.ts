@@ -54,7 +54,6 @@ export default async function addResourceReport(
         userId: req.body.reporterId,
         resourceId: req.body.resourceId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "Past Papers") {
@@ -63,7 +62,6 @@ export default async function addResourceReport(
         userId: req.body.reporterId,
         resourceId: req.body.resourceId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "Notes") {
@@ -72,7 +70,6 @@ export default async function addResourceReport(
         userId: req.body.reporterId,
         resourceId: req.body.resourceId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else {

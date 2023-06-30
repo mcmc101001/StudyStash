@@ -48,7 +48,6 @@ export default async function addCommentReport(
         userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "questionPaperCommentReport") {
@@ -57,7 +56,6 @@ export default async function addCommentReport(
         userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "notesCommentReport") {
@@ -66,7 +64,6 @@ export default async function addCommentReport(
         userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "solutionCommentReport") {
@@ -75,7 +72,6 @@ export default async function addCommentReport(
         userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "cheatsheetReplyReport") {
@@ -84,7 +80,6 @@ export default async function addCommentReport(
         userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "questionPaperReplyReport") {
@@ -93,7 +88,6 @@ export default async function addCommentReport(
         userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "notesReplyReport") {
@@ -102,7 +96,6 @@ export default async function addCommentReport(
         userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else if (req.body.category === "solutionReplyReport") {
@@ -111,7 +104,6 @@ export default async function addCommentReport(
         userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
-        resolved: false,
       },
     });
   } else {

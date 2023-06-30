@@ -2,26 +2,22 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import { SolutionReportType, SolutionReport } from "@prisma/client";
-import { ResourceEnum, ResourceType } from "@/lib/content";
 import z from "zod";
 
-const editSolutionResolvedSchema = z.object({
-  // userId: z.string(),
+const deleteSolutionReportSchema = z.object({
   reportId: z.string(),
-  setResolved: z.boolean(),
 });
 
-export type editSolutionResolvedType = z.infer<
-  typeof editSolutionResolvedSchema
+export type deleteSolutionReportType = z.infer<
+  typeof deleteSolutionReportSchema
 >;
 
-function isValidBody(body: any): body is editSolutionResolvedType {
-  const { success } = editSolutionResolvedSchema.safeParse(body);
+function isValidBody(body: any): body is deleteSolutionReportType {
+  const { success } = deleteSolutionReportSchema.safeParse(body);
   return success;
 }
 
-export default async function addReport(
+export default async function deleteSolutionReport(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -47,23 +43,15 @@ export default async function addReport(
   if (!isValidBody(req.body)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
-  // if (session.user.id !== req.body.userId) {
-  //   res.status(401).json({ message: "You are not authorized." });
-  //   return;
-  // }
 
   try {
-    let { reportId, setResolved } = req.body;
-    let report = await prisma.solutionReport.update({
+    let report = await prisma.solutionReport.delete({
       where: {
-        id: reportId,
-      },
-      data: {
-        resolved: setResolved,
+        id: req.body.reportId,
       },
     });
     res.status(200).json({ report });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ message: "Report deletion failed" });
   }
 }
