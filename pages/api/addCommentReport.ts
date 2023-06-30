@@ -45,7 +45,6 @@ export default async function addCommentReport(
   if (req.body.category === "cheatsheetCommentReport") {
     checkRepeat = await prisma.cheatsheetCommentReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
       },
@@ -53,7 +52,6 @@ export default async function addCommentReport(
   } else if (req.body.category === "questionPaperCommentReport") {
     checkRepeat = await prisma.questionPaperCommentReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
       },
@@ -61,7 +59,6 @@ export default async function addCommentReport(
   } else if (req.body.category === "notesCommentReport") {
     checkRepeat = await prisma.notesCommentReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
       },
@@ -69,7 +66,6 @@ export default async function addCommentReport(
   } else if (req.body.category === "solutionCommentReport") {
     checkRepeat = await prisma.solutionCommentReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
       },
@@ -77,7 +73,6 @@ export default async function addCommentReport(
   } else if (req.body.category === "cheatsheetReplyReport") {
     checkRepeat = await prisma.cheatsheetReplyReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
       },
@@ -85,7 +80,6 @@ export default async function addCommentReport(
   } else if (req.body.category === "questionPaperReplyReport") {
     checkRepeat = await prisma.questionPaperReplyReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
       },
@@ -93,7 +87,6 @@ export default async function addCommentReport(
   } else if (req.body.category === "notesReplyReport") {
     checkRepeat = await prisma.notesReplyReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
       },
@@ -101,7 +94,6 @@ export default async function addCommentReport(
   } else if (req.body.category === "solutionReplyReport") {
     checkRepeat = await prisma.solutionReplyReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         commentId: req.body.commentId,
         type: req.body.reportType,
       },
@@ -110,7 +102,7 @@ export default async function addCommentReport(
     return res.status(400).json({ message: "Invalid category" });
   }
   if (checkRepeat !== null) {
-    return res.status(419).json({ message: "Repeated report." });
+    return res.status(200).json({ message: "Repeated report." });
   }
 
   try {

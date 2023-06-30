@@ -30,7 +30,7 @@ export default function CommentResolveButton({
       setDisabled(report.type === "inappropriateUsername");
       router.refresh();
     }
-  }, [open]);
+  }, [open, report.type, router]);
 
   const resolveCommentReport = async (isEdit: boolean) => {
     try {

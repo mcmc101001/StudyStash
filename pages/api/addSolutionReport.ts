@@ -41,13 +41,12 @@ export default async function addSolutionReport(
 
   let checkRepeat = await prisma.solutionReport.findFirst({
     where: {
-      userId: req.body.reporterId,
       resourceId: req.body.resourceId,
       type: req.body.reportType,
     },
   });
   if (checkRepeat !== null) {
-    return res.status(419).json({ message: "Repeated report." });
+    return res.status(200).json({ message: "Repeated report." });
   }
 
   try {

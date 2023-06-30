@@ -63,15 +63,8 @@ export default function ReportCommentIcon({
     try {
       const req = await axios.post("/api/addCommentReport", body);
       toast.success("Reported successfully!");
-    } catch (e: unknown) {
-      if (
-        e instanceof Error &&
-        e.message === "Request failed with status code 419"
-      ) {
-        toast.success("Repeated report.");
-      } else {
-        toast.error("Something went wrong, please try again.");
-      }
+    } catch {
+      toast.error("Something went wrong, please try again.");
     }
   };
 

@@ -34,7 +34,7 @@ export default function ResourceResolveButton({
       setDisabled(true);
       router.refresh();
     }
-  }, [open]);
+  }, [open, router]);
 
   const acadYearOptions = getAcadYearOptions();
 

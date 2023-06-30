@@ -30,7 +30,7 @@ export default function SolutionResolveButton({
       setDisabled(report.type !== "incorrectQuestionPaper");
       router.refresh();
     }
-  }, [open]);
+  }, [open, report.type, router]);
 
   const resolveSolutionReport = async (isEdit: boolean) => {
     try {

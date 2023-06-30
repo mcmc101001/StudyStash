@@ -51,7 +51,6 @@ export default async function addResourceReport(
   if (req.body.category === "Cheatsheets") {
     checkRepeat = await prisma.cheatsheetReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         resourceId: req.body.resourceId,
         type: req.body.reportType,
       },
@@ -59,7 +58,6 @@ export default async function addResourceReport(
   } else if (req.body.category === "Past Papers") {
     checkRepeat = await prisma.questionPaperReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         resourceId: req.body.resourceId,
         type: req.body.reportType,
       },
@@ -67,7 +65,6 @@ export default async function addResourceReport(
   } else if (req.body.category === "Notes") {
     checkRepeat = await prisma.notesReport.findFirst({
       where: {
-        userId: req.body.reporterId,
         resourceId: req.body.resourceId,
         type: req.body.reportType,
       },
@@ -76,7 +73,7 @@ export default async function addResourceReport(
     return res.status(400).json({ message: "Invalid category" });
   }
   if (checkRepeat !== null) {
-    return res.status(419).json({ message: "Repeated report." });
+    return res.status(200).json({ message: "Repeated report." });
   }
 
   try {
