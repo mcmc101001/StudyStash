@@ -1,31 +1,19 @@
 "use client";
 
 import { ResourceReportHeaderType } from "./ReportTableColumns";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
-import { useState } from "react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { editResourceResolvedType } from "@/pages/api/editResourceResolve";
+import { deleteResourceReportType } from "@/pages/api/deleteResourceReport";
 import { toast } from "react-hot-toast";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
-import {
-  ResourceType,
-  categoryOptions,
-  examTypeOptions,
-  semesterOptions,
-} from "@/lib/content";
+import { examTypeOptions, semesterOptions } from "@/lib/content";
 import Button from "@/components/ui/Button";
 import StyledSelect, { Option } from "@/components//ui/StyledSelect";
-import { ResourceReportType } from "@prisma/client";
 import { getAcadYearOptions } from "@/lib/nusmods";
 import { startsWithNumbers, trimUntilNumber } from "@/lib/utils";
+import { updateResourceDataType } from "@/pages/api/updateResourceData";
 
 export default function ResourceResolveButton({
   report,
@@ -34,83 +22,100 @@ export default function ResourceResolveButton({
   report: ResourceReportHeaderType;
   moduleCodeOptions: Option[];
 }) {
-  const editResourceResolve = async (
-    // userId: string,
-    category: ResourceType,
-    reportId: string,
-    setResolved: boolean
-  ) => {
-    let body: editResourceResolvedType = {
-      // userId: userId,
-      category: category,
-      reportId: reportId,
-      setResolved: setResolved,
-    };
-
-    try {
-      let req = await axios.post("/api/editResourceResolve", body);
-      if (setResolved) {
-        toast.success("Successfully resolved!");
-      } else {
-        toast.success("Successfully reopened!");
-      }
-    } catch (e) {
-      // if (e instanceof Error) toast.error(e.message);
-      toast.error("Something went wrong, please try again.");
-    }
-  };
-
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [data, setData] = useState<string | undefined>(undefined);
 
-  const exitDialog = () => {
-    setOpen(false);
-    setLoading(false);
-    router.refresh();
-  };
-
-  const handleResolveOrReopen = async (report: ResourceReportHeaderType) => {
-    if (report.resolved) {
-      await editResourceResolve(report.category, report.reportId, false);
+  useEffect(() => {
+    if (!open) {
+      setLoading(false);
+      setDisabled(true);
       router.refresh();
-    } else {
-      setOpen(true);
     }
-  };
+  }, [open, router]);
 
   const acadYearOptions = getAcadYearOptions();
 
+  const resolveResourceReport = async (isEdit: boolean) => {
+    try {
+      if (isEdit) {
+        let updateBody: updateResourceDataType = {
+          type: report.type,
+          category: report.category,
+          uploaderId: report.uploaderId,
+          resourceId: report.resourceId,
+          newData: data,
+        };
+        let update = await axios.post("/api/updateResourceData", updateBody);
+      }
+
+      let deleteBody: deleteResourceReportType = {
+        category: report.category,
+        reportId: report.reportId,
+      };
+      let deleteReport = await axios.post(
+        "/api/deleteResourceReport",
+        deleteBody
+      );
+      toast.success("Successfully resolved!");
+    } catch (e) {
+      toast.error("Failed to resolve.");
+    }
+  };
+
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
           className="border border-slate-800 py-0 dark:border-slate-200"
-          onClick={() => handleResolveOrReopen(report)}
+          onClick={() => setOpen(true)}
         >
-          {!report.resolved ? "Resolve" : "Reopen"}
+          Resolve
         </Button>
       </DialogTrigger>
       <DialogContent
-        onInteractOutside={exitDialog}
-        onEscapeKeyDown={exitDialog}
+        onInteractOutside={() => setOpen(false)}
+        onEscapeKeyDown={() => setOpen(false)}
       >
         {report.type === "inappropriateFilename" ? (
           <div className="flex flex-col gap-1">
-            <label>Reported for Inappropriate Filename</label>
-            <Input type="text" defaultValue={report.filename} />
+            <label>Reported for inappropriate filename</label>
+            <Input
+              type="text"
+              defaultValue={report.filename}
+              onChange={({ target }) => {
+                setData(target.value);
+                setDisabled(false);
+              }}
+            />
           </div>
         ) : report.type === "inappropriateUsername" ? (
           <div className="flex flex-col gap-1">
-            <label>Reported for Inappropriate Username</label>
-            <Input type="text" defaultValue={report.uploaderName} />
+            <label>Reported for inappropriate username</label>
+            <Input
+              type="text"
+              defaultValue={report.uploaderName}
+              onChange={({ target }) => {
+                setData(target.value);
+                setDisabled(false);
+              }}
+            />
           </div>
         ) : report.type === "incorrectModule" ? (
           <StyledSelect
             label="Module Code"
             placeholderText="Select Module Code"
-            onChange={() => console.log("handle change")}
+            onChange={(option) => {
+              if (option) {
+                setData(option.value);
+                setDisabled(false);
+              } else {
+                setDisabled(true);
+              }
+            }}
             options={moduleCodeOptions}
             noOptionsMessage={({ inputValue }) =>
               inputValue.trimStart().length < 1
@@ -147,20 +152,18 @@ export default function ResourceResolveButton({
               return option.label === report.moduleCode;
             })}
           />
-        ) : report.type === "incorrectCategory" ? (
-          <StyledSelect
-            label="Reported for incorrect category"
-            options={categoryOptions}
-            onChange={() => console.log("handlechange")}
-            defaultValue={categoryOptions.find((option) => {
-              return option.label === report.category;
-            })}
-          />
         ) : report.type === "incorrectAcadYear" ? (
           <StyledSelect
-            label="Reported for incorrect AY"
+            label="Reported for incorrect acad year"
             options={acadYearOptions}
-            onChange={() => console.log("handlechange")}
+            onChange={(option) => {
+              if (option) {
+                setData(option.value);
+                setDisabled(false);
+              } else {
+                setDisabled(true);
+              }
+            }}
             defaultValue={acadYearOptions.find((option) => {
               return option.value === report.acadYear;
             })}
@@ -169,7 +172,14 @@ export default function ResourceResolveButton({
           <StyledSelect
             label="Reported for incorrect semester"
             options={semesterOptions}
-            onChange={() => console.log("handlechange")}
+            onChange={(option) => {
+              if (option) {
+                setData(option.value);
+                setDisabled(false);
+              } else {
+                setDisabled(true);
+              }
+            }}
             defaultValue={semesterOptions.find((option) => {
               return option.value === report.semester;
             })}
@@ -178,7 +188,14 @@ export default function ResourceResolveButton({
           <StyledSelect
             label="Reported for incorrect exam type"
             options={examTypeOptions}
-            onChange={() => console.log("handlechange")}
+            onChange={(option) => {
+              if (option) {
+                setData(option.value);
+                setDisabled(false);
+              } else {
+                setDisabled(true);
+              }
+            }}
             defaultValue={examTypeOptions.find((option) => {
               return option.value === report.examType;
             })}
@@ -191,8 +208,8 @@ export default function ResourceResolveButton({
             className="w-1/2"
             onClick={async () => {
               setLoading(true);
-              await editResourceResolve(report.category, report.reportId, true);
-              exitDialog();
+              await resolveResourceReport(false);
+              setOpen(false);
             }}
             disabled={loading}
           >
@@ -202,9 +219,10 @@ export default function ResourceResolveButton({
             className="w-1/2"
             onClick={async () => {
               setLoading(true);
-              await editResourceResolve(report.category, report.reportId, true);
-              exitDialog();
+              await resolveResourceReport(true);
+              setOpen(false);
             }}
+            disabled={loading || disabled}
           >
             Edit & resolve
           </Button>

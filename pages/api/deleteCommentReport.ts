@@ -5,20 +5,19 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
 
-const editCommentResolvedSchema = z.object({
+const deleteCommentReportSchema = z.object({
   category: CommentReportEnum,
   reportId: z.string(),
-  setResolved: z.boolean(),
 });
 
-export type editCommentResolvedType = z.infer<typeof editCommentResolvedSchema>;
+export type deleteCommentReportType = z.infer<typeof deleteCommentReportSchema>;
 
-function isValidBody(body: any): body is editCommentResolvedType {
-  const { success } = editCommentResolvedSchema.safeParse(body);
+function isValidBody(body: any): body is deleteCommentReportType {
+  const { success } = deleteCommentReportSchema.safeParse(body);
   return success;
 }
 
-export default async function addReport(
+export default async function deleteCommentReport(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -46,79 +45,55 @@ export default async function addReport(
   }
 
   try {
-    let { category, reportId, setResolved } = req.body;
+    let { category, reportId } = req.body;
 
     let report;
     if (category === "cheatsheetCommentReport") {
-      report = await prisma.cheatsheetCommentReport.update({
+      report = await prisma.cheatsheetCommentReport.delete({
         where: {
           id: reportId,
-        },
-        data: {
-          resolved: setResolved,
         },
       });
     } else if (category === "questionPaperCommentReport") {
-      report = await prisma.questionPaperCommentReport.update({
+      report = await prisma.questionPaperCommentReport.delete({
         where: {
           id: reportId,
-        },
-        data: {
-          resolved: setResolved,
         },
       });
     } else if (category === "notesCommentReport") {
-      report = await prisma.notesCommentReport.update({
+      report = await prisma.notesCommentReport.delete({
         where: {
           id: reportId,
-        },
-        data: {
-          resolved: setResolved,
         },
       });
     } else if (category === "solutionCommentReport") {
-      report = await prisma.solutionCommentReport.update({
+      report = await prisma.solutionCommentReport.delete({
         where: {
           id: reportId,
-        },
-        data: {
-          resolved: setResolved,
         },
       });
     } else if (category === "cheatsheetReplyReport") {
-      report = await prisma.cheatsheetReplyReport.update({
+      report = await prisma.cheatsheetReplyReport.delete({
         where: {
           id: reportId,
-        },
-        data: {
-          resolved: setResolved,
         },
       });
     } else if (category === "questionPaperReplyReport") {
-      report = await prisma.questionPaperReplyReport.update({
+      report = await prisma.questionPaperReplyReport.delete({
         where: {
           id: reportId,
-        },
-        data: {
-          resolved: setResolved,
         },
       });
     } else if (category === "notesReplyReport") {
-      report = await prisma.notesReplyReport.update({
+      report = await prisma.notesReplyReport.delete({
         where: {
           id: reportId,
-        },
-        data: {
-          resolved: setResolved,
         },
       });
     } else if (category === "solutionReplyReport") {
-      report = await prisma.solutionReplyReport.update({
+      report = await prisma.solutionReplyReport.delete({
         where: {
           id: reportId,
-        },
-        data: {
-          resolved: setResolved,
         },
       });
     } else {
@@ -127,6 +102,6 @@ export default async function addReport(
 
     res.status(200).json({ report });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ message: "Report deletion failed" });
   }
 }

@@ -215,7 +215,6 @@ export const resourceReportOptions: {
   { value: "inappropriateFilename", label: "Inappropriate filename" },
   { value: "inappropriateUsername", label: "Inappropriate username" },
   { value: "incorrectModule", label: "Incorrect module" },
-  { value: "incorrectCategory", label: "Incorrect category" },
   { value: "incorrectSemester", label: "Incorrect semester" },
   { value: "incorrectAcadYear", label: "Incorrect academic year" },
 ];

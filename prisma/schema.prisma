@@ -299,7 +299,6 @@ model CheatsheetReport {
   user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   type       ResourceReportType
-  resolved   Boolean            @default(false)
   resource   Cheatsheet         @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
@@ -313,7 +312,6 @@ model QuestionPaperReport {
   user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   type       ResourceReportType
-  resolved   Boolean            @default(false)
   resource   QuestionPaper      @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
@@ -327,7 +325,6 @@ model NotesReport {
   user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   type       ResourceReportType
-  resolved   Boolean            @default(false)
   resource   Notes              @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
 
@@ -343,7 +340,6 @@ model SolutionReport {
   type       SolutionReportType
   resource   Solution           @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   resourceId String
-  resolved   Boolean            @default(false)
 
   @@index([userId])
   @@index([resourceId])
@@ -599,7 +595,6 @@ model CheatsheetCommentReport {
   user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   type      CommentReportType
-  resolved  Boolean           @default(false)
   comment   CheatsheetComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 
@@ -613,7 +608,6 @@ model QuestionPaperCommentReport {
   user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   type      CommentReportType
-  resolved  Boolean              @default(false)
   comment   QuestionPaperComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 
@@ -627,7 +621,6 @@ model NotesCommentReport {
   user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   type      CommentReportType
-  resolved  Boolean           @default(false)
   comment   NotesComment      @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 
@@ -641,7 +634,6 @@ model SolutionCommentReport {
   user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   type      CommentReportType
-  resolved  Boolean           @default(false)
   comment   SolutionComment   @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 
@@ -655,7 +647,6 @@ model CheatsheetReplyReport {
   user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   type      CommentReportType
-  resolved  Boolean           @default(false)
   comment   CheatsheetReply   @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 
@@ -669,7 +660,6 @@ model QuestionPaperReplyReport {
   user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   type      CommentReportType
-  resolved  Boolean            @default(false)
   comment   QuestionPaperReply @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 
@@ -683,7 +673,6 @@ model NotesReplyReport {
   user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   type      CommentReportType
-  resolved  Boolean           @default(false)
   comment   NotesReply        @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 
@@ -697,7 +686,6 @@ model SolutionReplyReport {
   user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   type      CommentReportType
-  resolved  Boolean           @default(false)
   comment   SolutionReply     @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
 
@@ -732,7 +720,6 @@ enum ResourceReportType {
   inappropriateFilename
   inappropriateUsername
   incorrectModule
-  incorrectCategory
   incorrectAcadYear
   incorrectSemester
   incorrectExamType

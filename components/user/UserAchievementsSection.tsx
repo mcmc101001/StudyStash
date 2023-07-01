@@ -349,7 +349,7 @@ export async function UserAchievementsSection({
           <Tooltip>
             <TooltipTrigger className="cursor-default">
               <Achievement
-                description="Total resource rating"
+                description="Total comment rating"
                 value={commentUpvotes - commentDownvotes}
                 icon={"MessageSquarePlus"}
               />

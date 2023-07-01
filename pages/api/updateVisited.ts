@@ -26,27 +26,6 @@ function isValidBody(body: any): body is updateVisitedType {
   return success;
 }
 
-// const stringify = (array: VisitedElementType[]): string => {
-//   let str = "";
-//   array.forEach((element) => {
-//     str += element.resourceId + "|" + element.category + "$";
-//   });
-//   return str;
-// };
-
-// export const parse = (str: string): VisitedElementType[] => {
-//   let array: VisitedElementType[] = [];
-//   while (str.indexOf("$") !== -1) {
-//     let index = str.indexOf("|");
-//     array.push({
-//       resourceId: str.substring(0, index),
-//       category: str.slice(index + 1, str.indexOf("$")) as ResourceSolutionType,
-//     });
-//     str = str.slice(str.indexOf("$") + 1);
-//   }
-//   return array;
-// };
-
 export default async function updateVisited(
   req: NextApiRequest,
   res: NextApiResponse
@@ -67,14 +46,6 @@ export default async function updateVisited(
     res.status(401).json({ message: "You are not authorized." });
     return;
   }
-
-  // IMPT: REMOVE THIS LATER
-  // prisma.user.updateMany({
-  //   data: {
-  //     visitedData:
-  //       '{"visitedCheatsheets":[],"visitedPastPapers":[],"visitedNotes":[],"visitedSolutions":[]}',
-  //   },
-  // });
 
   try {
     let { userId, resourceId, category } = req.body;
