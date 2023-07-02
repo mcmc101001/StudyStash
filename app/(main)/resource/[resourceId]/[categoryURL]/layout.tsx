@@ -28,13 +28,55 @@ import {
 import ResourceRatingProvider from "@/components/resource/ResourceRatingProvider";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
-import { ChevronLeft } from "lucide-react";
 import SolutionTab from "@/components/resource/SolutionTab";
 import { solutionTabOptions } from "@/lib/content";
 import SolutionIncludedIndicator from "@/components/resource/SolutionIncludedIndicator";
 import { IFrame } from "@/components/ui/IFrame";
 import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
 import DraggableResizableDiv from "@/components/ui/DraggableResizableDiv";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { resourceId: string; categoryURL: ResourceTypeURL };
+}) {
+  let resource: Notes | Cheatsheet | QuestionPaper | null;
+  if (params.categoryURL === "cheatsheets") {
+    try {
+      resource = await prisma.cheatsheet.findUnique({
+        where: { id: params.resourceId },
+      });
+    } catch (error) {
+      redirect("/404");
+    }
+  } else if (params.categoryURL === "past_papers") {
+    try {
+      resource = await prisma.questionPaper.findUnique({
+        where: { id: params.resourceId },
+      });
+    } catch (error) {
+      redirect("/404");
+    }
+  } else if (params.categoryURL === "notes") {
+    try {
+      resource = await prisma.notes.findUnique({
+        where: { id: params.resourceId },
+      });
+    } catch (error) {
+      redirect("/404");
+    }
+  } else {
+    redirect("/404");
+  }
+  if (!resource) {
+    redirect("/404");
+  }
+
+  return {
+    title: `${resource.name} (resizable view)`,
+    description: `View ${resource.name} on StudyStash!`,
+  };
+}
 
 export default async function ResourcePage({
   params: { resourceId, categoryURL },

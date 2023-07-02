@@ -83,7 +83,7 @@ export default async function SpecificSolutionPage({
               currentUserId={currentUser?.id || null}
               totalRating={totalRating}
               userRating={userRating}
-              resourceId={resourceId}
+              resourceId={solutionId}
             />
             <div className="flex overflow-scroll scrollbar-none">
               {solution.name}
@@ -92,7 +92,7 @@ export default async function SpecificSolutionPage({
               {currentUser && (
                 <ResourceStatusProvider
                   category={"Solutions"}
-                  resourceId={resourceId}
+                  resourceId={solutionId}
                   currentUserId={currentUser.id}
                   userStatus={userStatusValue}
                 />

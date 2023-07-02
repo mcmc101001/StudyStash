@@ -1,6 +1,6 @@
 "use client";
 
-import { Lightbulb } from "lucide-react";
+import { Award } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -13,7 +13,7 @@ export default function SolutionIncludedIndicator() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Lightbulb className="ml-1 cursor-auto fill-yellow-200 text-slate-950 dark:fill-yellow-400 dark:text-white" />
+          <Award className="cursor-auto text-blue-600 dark:text-blue-400" />
         </TooltipTrigger>
         <TooltipContent>
           <p className="font-normal">Solution included</p>
