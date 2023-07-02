@@ -210,6 +210,12 @@ export default async function UserResourcesSection({
                               resource.questionPaperId
                             : undefined
                         }
+                        solutionIncluded={
+                          category === "Past Papers"
+                            ? // @ts-expect-error wrong type inference
+                              resource.solutionIncluded
+                            : undefined
+                        }
                       />
                     );
                   })}
