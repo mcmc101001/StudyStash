@@ -21,6 +21,28 @@ import {
 } from "@/lib/dataFetching";
 import { getCurrentUser } from "@/lib/session";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { moduleCode: string; category: ResourceTypeURL };
+}) {
+  let category: ResourceType;
+  if (params.category === "cheatsheets") {
+    category = "Cheatsheets";
+  } else if (params.category === "notes") {
+    category = "Notes";
+  } else if (params.category === "past_papers") {
+    category = "Past Papers";
+  } else {
+    redirect("/404");
+  }
+  return {
+    title: `${category} for ${params.moduleCode}`,
+    description:
+      "The database page of the StudyStash app, allowing you to view all the resources in the database!",
+  };
+}
+
 export const revalidate = 60;
 
 export default async function Page({

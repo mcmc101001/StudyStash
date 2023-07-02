@@ -1,3 +1,11 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Database",
+  description:
+    "The database page of the StudyStash app, allowing you to view all the resources in the database!",
+};
+
 export default async function Database() {
   return (
     <div className="flex h-full w-full items-center justify-center">

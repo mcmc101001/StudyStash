@@ -4,6 +4,13 @@ import { IFrame } from "@/components/ui/IFrame";
 import * as motion from "@/lib/motion";
 import Link from "next/link";
 import localFont from "next/font/local";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "StudyStash",
+  description:
+    "Studystash is a one stop solution for all your revision needs. Gain access to user contributed cheatsheets, notes, as well as past papers and solutions!",
+};
 
 const CalSansFont = localFont({
   src: "../public/fonts/CalSans-SemiBold.woff2",

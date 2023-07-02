@@ -9,8 +9,12 @@ import {
   ResourceType,
   ResourceTypeURL,
 } from "@/lib/content";
+import { Metadata } from "next";
 
-export const revalidate = 10;
+export const metadata: Metadata = {
+  title: "Contribute",
+  description: "Contribute resources to the StudyStash database!",
+};
 
 export default async function Page({
   params,
