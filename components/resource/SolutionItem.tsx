@@ -135,7 +135,7 @@ export default async function SolutionItem({
             </p>
           </div>
           <div className="ml-auto flex h-full flex-col gap-y-2">
-            <p className="whitespace-nowrap text-end">idk what to put here</p>
+            <p className="whitespace-nowrap text-end">&#8203;</p>
             <div className="ml-auto flex w-max whitespace-nowrap text-end">
               <Link
                 href={`/profile/${resourceUser?.id}`}
