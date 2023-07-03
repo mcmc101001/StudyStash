@@ -11,6 +11,12 @@ import { authOptions } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contribute",
+  description: "Contribute resources to the StudyStash database!",
+};
 
 export default async function addPDFPage() {
   const user = await getCurrentUser();

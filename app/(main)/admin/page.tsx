@@ -13,6 +13,13 @@ import {
 } from "@/components/admin/ReportTableColumns";
 import { getModuleCodeOptions } from "@/lib/nusmods";
 import { reportSectionOptions } from "@/lib/content";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin",
+  description:
+    "The admin page for StudyStash, where you can manage reports against resources and comments",
+};
 
 // Function to convert Date type to string
 const dateString = (datetime: Date) => {

@@ -101,8 +101,6 @@ export default function BookmarkedModules({
                 <ModuleCodeSearcher
                   moduleCodeOptions={moduleCodeOptions}
                   addItem={addItem}
-                  inputIsOpen={inputIsOpen}
-                  modules={modules}
                 />
               )}
             </AnimatePresence>
@@ -149,7 +147,7 @@ function BookmarkModule({
   return (
     <motion.li
       layout
-      className="flex w-full items-center justify-between border-b py-2"
+      className="flex w-full items-center border-b py-2"
       initial={{
         opacity: 0.2,
       }}
@@ -167,14 +165,12 @@ function BookmarkModule({
         type: "spring",
       }}
     >
-      <span>
-        <Link
-          className="text-slate-800 transition-colors hover:text-slate-600 dark:text-slate-200 dark:hover:text-slate-400"
-          href={`/database/${moduleCode}/cheatsheets`}
-        >
-          {moduleCode}
-        </Link>
-      </span>
+      <Link
+        className="w-full text-slate-800 transition-colors hover:text-blue-700 dark:text-slate-200 dark:hover:text-blue-500"
+        href={`/database/${moduleCode}/cheatsheets`}
+      >
+        {moduleCode}
+      </Link>
       <button
         aria-label={`Delete ${moduleCode}`}
         className="group flex h-10 w-10 items-center justify-center rounded border-2 border-slate-400 p-2 transition-colors 
@@ -190,12 +186,9 @@ function BookmarkModule({
 function ModuleCodeSearcher({
   moduleCodeOptions,
   addItem,
-  modules,
 }: {
   moduleCodeOptions: Option[];
   addItem: (option: Option | null) => void;
-  inputIsOpen: boolean;
-  modules: string[];
 }) {
   let isPresent = useIsPresent();
 

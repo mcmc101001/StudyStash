@@ -166,7 +166,7 @@ export default async function ResourceItem({
   isProfile,
   moduleCode,
   questionPaperId,
-  isVisited,
+  isVisited = false,
   displayCode,
 }: ResourceItemProps) {
   const resourceUser = await prisma.user.findUnique({

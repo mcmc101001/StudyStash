@@ -7,8 +7,13 @@ import { getModuleCodeOptions } from "@/lib/nusmods";
 import DashboardResourcesSection from "@/components/dashboard/DashboardResourcesSection";
 import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 import { VisitedDataType } from "@/pages/api/updateVisited";
+import { Metadata } from "next";
 
-export const revalidate = 10;
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description:
+    "The dashboard page of the StudyStash app, allowing you to gain easy access to your bookmarked modules and saved resources!",
+};
 
 export default async function DashboardPage({
   searchParams,

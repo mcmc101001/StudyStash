@@ -8,6 +8,26 @@ import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 import { Separator } from "@/components/ui/Separator";
 import { UserAchievementsSection } from "@/components/user/UserAchievementsSection";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { userId: string };
+}) {
+  const profileUser = await prisma.user.findUnique({
+    where: {
+      id: params.userId,
+    },
+  });
+  if (!profileUser) {
+    redirect("/404");
+  }
+
+  return {
+    title: `${profileUser.name}'s profile`,
+    description: profileUser.bio,
+  };
+}
+
 export default async function ProfilePageUser({
   params,
   searchParams,
