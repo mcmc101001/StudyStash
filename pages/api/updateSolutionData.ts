@@ -59,12 +59,9 @@ export default async function updateSolutionData(
         },
       });
     } else if (report.type === "incorrectQuestionPaper") {
-      solution = await prisma.solution.update({
+      solution = await prisma.solution.delete({
         where: {
           id: report.resourceId,
-        },
-        data: {
-          questionPaperId: report.newData,
         },
       });
     } else {
