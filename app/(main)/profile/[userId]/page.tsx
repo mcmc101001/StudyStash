@@ -47,9 +47,18 @@ export default async function ProfilePageUser({
     redirect("/404");
   }
 
+  let affirmation: string;
+  try {
+    const response = await fetch("https://www.affirmations.dev/");
+    const data = await response.json();
+    affirmation = data.affirmation;
+  } catch {
+    affirmation = "I am enough.";
+  }
+
   return (
     <div className="flex w-full px-14 text-slate-800 dark:text-slate-200">
-      <div className="flex h-screen w-1/3 flex-col justify-between gap-y-6 py-14 pr-5">
+      <div className="flex h-screen w-1/3 flex-col gap-y-6 py-14 pr-5">
         <section className="relative rounded-xl bg-slate-300 p-6 dark:bg-slate-700">
           <div className="flex">
             <Image
@@ -68,15 +77,14 @@ export default async function ProfilePageUser({
               </div>
             )}
           </div>
-          <h1 className="mt-3 overflow-x-scroll whitespace-nowrap text-2xl font-bold scrollbar-none">
+          <h1 className="mt-2 overflow-x-scroll whitespace-nowrap text-2xl font-bold scrollbar-none">
             {profileUser.name}
           </h1>
           <p
-            className="h-52 overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-600 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 
+            className="mt-1 h-fit max-h-52 overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-600 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 
           scrollbar-track-rounded-md scrollbar-thumb-rounded-md dark:text-slate-400 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900"
           >
-            {profileUser.bio ||
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."}
+            {profileUser.bio || affirmation}
           </p>
         </section>
         <section>

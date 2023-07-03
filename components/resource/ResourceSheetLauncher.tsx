@@ -82,7 +82,7 @@ export default function ResourceSheetLauncher({
     try {
       const res = await axios.post("/api/updateVisited", body);
     } catch {
-      toast.error("Something went wrong, please try again.");
+      toast.error("Failed to update view history.");
     }
   };
 
