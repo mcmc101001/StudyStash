@@ -159,7 +159,7 @@ export default function ResourceSheetLauncher({
         className="flex flex-col"
       >
         <SheetHeader>
-          <SheetTitle className="flex flex-row items-center gap-x-4">
+          <SheetTitle className="flex flex-row items-center">
             <ResourceRating
               category={category}
               currentUserId={currentUserId}
@@ -167,13 +167,13 @@ export default function ResourceSheetLauncher({
               userRatingAtom={userRatingAtom}
               resourceId={resourceId}
             />
-            <div className="flex overflow-scroll scrollbar-none xl:max-w-3xl">
+            <div className="ml-4 flex gap-x-2 overflow-scroll scrollbar-none xl:max-w-3xl">
               {title}
               {category === "Past Papers" && solutionIncluded && (
                 <SolutionIncludedIndicator />
               )}
             </div>
-            <div>
+            <div className="ml-2">
               {currentUserId && (
                 <ResourceStatusProvider
                   category={category}
