@@ -9,6 +9,7 @@ import ClientDateTime from "@/components/ClientDateTime";
 import ProfileVerifiedIndicator from "@/components/user/ProfileVerifiedIndicator";
 import ResourceContextMenu from "@/components/resource/ResourceContextMenu";
 import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
+import SolutionItemLink from "./SolutionItemLink";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({
@@ -103,11 +104,11 @@ export default async function SolutionItem({
       isSolution={true}
     >
       <div className="relative flex h-full w-full items-center overflow-hidden py-3">
-        {/* positioned as such to prevent nesting anchor tags (use z-index to make internal link clickable) */}
-        <Link
-          href={`/resource/${questionPaperId}/past_papers/solutions/${solutionId}`}
-          className="absolute inset-0 z-10"
-        ></Link>
+        <SolutionItemLink
+          solutionId={solutionId}
+          questionPaperId={questionPaperId}
+          currentUserId={currentUser?.id}
+        />
         <div className="flex w-full items-center">
           <ResourceRatingProvider
             category="Solutions"
