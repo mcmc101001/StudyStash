@@ -167,6 +167,21 @@ describe("Login to dashboard", () => {
     cy.get("[data-cy='resourceItem']").should("have.length", 0);
   });
 
+  it("should be able to rate resources", () => {
+    cy.visit("/database/CP2106/past_papers");
+
+    // Check intiial rating
+    cy.get("[data-cy='resourceRating']").should("exist").contains("0");
+
+    // Check upvote downvote
+    cy.get("[data-cy='upvote']").should("exist").click();
+    cy.get("[data-cy='resourceRating']").should("exist").contains("1");
+    cy.get("[data-cy='downvote']").should("exist").click();
+    cy.get("[data-cy='resourceRating']").should("exist").contains("-1");
+    cy.get("[data-cy='downvote']").should("exist").click();
+    cy.get("[data-cy='resourceRating']").should("exist").contains("0");
+  });
+
   it("should be able to bookmark modules", () => {
     cy.visit("/dashboard");
     cy.get("h1").should("contain", "Bookmarked Modules");
