@@ -60,7 +60,7 @@ export default async function Navbar() {
     <div className="flex h-[100dvh] w-24 flex-col gap-y-5 overflow-hidden border-r border-gray-700 bg-slate-100 px-1 pt-4 transition-colors duration-500 dark:border-gray-300 dark:bg-slate-900">
       <Link
         href="/"
-        className="flex h-16 shrink-0 items-center justify-center"
+        className="flex h-16 shrink-0 items-center justify-center fill-slate-800 dark:fill-slate-200"
         aria-label="Logo"
       >
         <Icons.Logo className="h-8 w-8 fill-current text-slate-800 dark:text-slate-200" />

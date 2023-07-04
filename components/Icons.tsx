@@ -25,7 +25,7 @@ export const Icons = {
       height="60px"
       viewBox="0 0 280.000000 251.000000"
       preserveAspectRatio="xMidYMid meet"
-      className="fill-slate-800 dark:fill-slate-200"
+      className="fill-inherit"
     >
       <g transform="translate(0.000000,251.000000) scale(0.100000,-0.100000)">
         <path
