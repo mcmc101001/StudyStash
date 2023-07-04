@@ -14,8 +14,8 @@ async function UserProfilePic() {
             src={user.image!}
             alt={user.name ?? "profile image"}
             referrerPolicy="no-referrer"
-            width={65}
-            height={65}
+            width={60}
+            height={60}
           />
           <LogoutButton />
         </>
