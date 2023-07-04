@@ -5,12 +5,6 @@ import UserProfilePic from "@/components/user/UserProfilePic";
 import dynamic from "next/dynamic";
 import { getCurrentUser } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/Tooltip";
 
 const DarkModeTogglerNoSSR = dynamic(
   () => import("@/components/nav/DarkModeToggler"),
@@ -63,20 +57,13 @@ export default async function Navbar() {
   }
 
   return (
-    <div className="flex h-[100dvh] flex-col gap-y-5 overflow-hidden border-r border-gray-700 bg-slate-100 pt-4 transition-colors duration-500 dark:border-gray-300 dark:bg-slate-900">
+    <div className="flex h-[100dvh] w-24 flex-col gap-y-5 overflow-hidden border-r border-gray-700 bg-slate-100 px-1 pt-4 transition-colors duration-500 dark:border-gray-300 dark:bg-slate-900">
       <Link
         href="/"
         className="flex h-16 shrink-0 items-center justify-center"
         aria-label="Logo"
       >
-        <TooltipProvider delayDuration={100}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Icons.Logo className="h-8 w-8 fill-current text-slate-800 dark:text-slate-200" />
-            </TooltipTrigger>
-            <TooltipContent side="right">Landing page</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Icons.Logo className="h-8 w-8 fill-current text-slate-800 dark:text-slate-200" />
       </Link>
 
       <nav className="flex flex-1 flex-col">
@@ -96,8 +83,10 @@ export default async function Navbar() {
           })}
           <div className="mb-2 mt-auto">
             <DarkModeTogglerNoSSR />
-            {/* @ts-expect-error Server Component */}
-            <UserProfilePic user={user} />
+            <div className="mt-8">
+              {/* @ts-expect-error Server Component */}
+              <UserProfilePic user={user} />
+            </div>
           </div>
         </ul>
       </nav>

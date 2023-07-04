@@ -76,6 +76,7 @@ export default function ResourceStatusComponent({
 
   return (
     <motion.div
+      data-cy="resourceStatusComponent"
       className="group z-10 w-max cursor-pointer rounded-full bg-slate-300 px-2 py-1 dark:bg-slate-600"
       onHoverEnd={() => setIsOpen(false)}
       onClick={(e) => e.stopPropagation()}
@@ -83,7 +84,12 @@ export default function ResourceStatusComponent({
       transition={{ duration: 0.1 }}
     >
       {!isOpen ? (
-        <StatusIcon selected={true} handleClick={handleClick} status={status} />
+        <StatusIcon
+          data-cy="addResourceStatus"
+          selected={true}
+          handleClick={handleClick}
+          status={status}
+        />
       ) : (
         <div className="flex justify-between gap-x-2">
           <StatusIcon
@@ -120,6 +126,7 @@ function StatusIcon({
   if (status === "Completed") {
     icon = (
       <CheckCircle
+        data-cy="resourceStatusCompleted"
         onClick={(e) => handleClick(e, status)}
         className={
           "h-5 w-5 " +
@@ -132,6 +139,7 @@ function StatusIcon({
   } else if (status === "Todo") {
     icon = (
       <Calendar
+        data-cy="resourceStatusTodo"
         onClick={(e) => handleClick(e, status)}
         className={
           "h-5 w-5 " +
@@ -144,6 +152,7 @@ function StatusIcon({
   } else if (status === "Saved") {
     icon = (
       <Bookmark
+        data-cy="resourceStatusSaved"
         onClick={(e) => handleClick(e, status)}
         className={
           "h-5 w-5 " +
@@ -156,6 +165,7 @@ function StatusIcon({
   } else {
     icon = (
       <MoreHorizontal
+        data-cy="addResourceStatus"
         onClick={(e) => handleClick(e, status)}
         className="h-5 w-5 text-gray-500 dark:text-gray-400"
       />

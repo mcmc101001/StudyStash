@@ -9,7 +9,7 @@ export default async function Layout({
     <>
       {/* @ts-expect-error Server component */}
       <Navbar />
-      <div className="h-screen w-[calc(100vw-8rem)]">{children}</div>
+      <div className="h-screen w-[calc(100vw-6rem)]">{children}</div>
     </>
   );
 }
