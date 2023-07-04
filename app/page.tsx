@@ -121,7 +121,7 @@ export default async function Home() {
         >
           <motion.h1
             variants={FADE_DOWN_ANIMATION_VARIANTS}
-            className="mb-6 text-7xl font-bold"
+            className={`mb-6 text-7xl font-bold ${CalSansFont.className}`}
           >
             Features
           </motion.h1>
@@ -137,7 +137,13 @@ export default async function Home() {
               variants={FADE_DOWN_ANIMATION_VARIANTS}
               className="mt-4 text-left text-lg leading-normal text-slate-600 dark:text-slate-400"
             >
-              Contribute resources and discussion!
+              Contribute by uploading resources or engaging in discussion!
+            </motion.li>
+            <motion.li
+              variants={FADE_DOWN_ANIMATION_VARIANTS}
+              className="mt-4 text-left text-lg leading-normal text-slate-600 dark:text-slate-400"
+            >
+              Save resources to easily come back to them later!
             </motion.li>
           </ul>
         </motion.div>
@@ -159,7 +165,7 @@ export default async function Home() {
         >
           <motion.h1
             variants={FADE_DOWN_ANIMATION_VARIANTS}
-            className="mb-6 text-4xl font-semibold underline underline-offset-8"
+            className={`mb-6 text-4xl font-semibold underline underline-offset-8 ${CalSansFont.className}`}
           >
             Frequently Asked Questions
           </motion.h1>
