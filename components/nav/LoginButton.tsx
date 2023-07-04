@@ -26,12 +26,17 @@ export default function LoginButton() {
         className="h-16 w-16 text-slate-800 hover:cursor-pointer dark:text-slate-200"
         onClick={handleLogin}
       />
-      <Button id="loginButton" variant="ghost" onClick={handleLogin}>
+      <Button
+        id="loginButton"
+        variant="ghost"
+        onClick={handleLogin}
+        className="w-20 px-0"
+      >
         Login
         {isSigningIn ? (
           <Loader2 className="ml-1 h-4 w-4 animate-spin" />
         ) : (
-          <LogIn className="ml-1 h-6 w-6" />
+          <LogIn className="ml-1 h-5 w-5" />
         )}
       </Button>
     </div>

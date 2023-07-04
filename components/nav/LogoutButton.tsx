@@ -24,12 +24,13 @@ export default function LogoutButton() {
           setIsSigningOut(false);
         }
       }}
+      className="w-20 px-0"
     >
       Logout
       {isSigningOut ? (
         <Loader2 className="ml-1 h-4 w-4 animate-spin" />
       ) : (
-        <LogOut className="ml-1 h-6 w-6" />
+        <LogOut className="ml-1 h-5 w-5" />
       )}
     </Button>
   );
