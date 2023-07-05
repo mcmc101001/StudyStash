@@ -2,6 +2,7 @@
 
 import { useScroll, useMotionValueEvent } from "framer-motion";
 import { useRef, useState } from "react";
+import * as motion from "@/lib/motion";
 
 const DEFAULT_SCALE = 450;
 
@@ -17,15 +18,15 @@ export default function LandingOverlay({
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setScale(DEFAULT_SCALE * (1 + 2.5 * scrollYProgress.get()));
+    setScale(DEFAULT_SCALE * (1 + 3.1 * scrollYProgress.get()));
   });
 
   return (
     <main
       ref={targetRef}
-      className="h-screen w-screen overflow-y-scroll scroll-smooth text-slate-800
-          scrollbar-track-transparent scrollbar-thumb-slate-300 hover:scrollbar-thumb-slate-400 
-          dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
+      className="h-screen w-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth text-slate-800
+          scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-300 
+          hover:scrollbar-thumb-slate-400 dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
       style={{ scrollbarGutter: "stable" }}
     >
       <div className="pointer-events-none absolute z-10 flex h-full w-full items-center justify-center">
@@ -36,7 +37,7 @@ export default function LandingOverlay({
           height={scale + "vh"}
           viewBox="0 0 280.000000 251.000000"
           preserveAspectRatio="xMidYMid meet"
-          className="absolute fill-blue-300 opacity-10"
+          className="absolute fill-fuchsia-800 opacity-10 dark:fill-blue-300"
         >
           <g transform="translate(0.000000,251.000000) scale(0.100000,-0.100000)">
             <path
