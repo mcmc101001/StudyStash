@@ -52,14 +52,6 @@ export default async function deleteComment(
       | NotesComment
       | SolutionComment;
     if (category === "Cheatsheets") {
-      // comment = await prisma.cheatsheetComment.update({
-      //   where: {
-      //     id: commentId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
       let validateComment = await prisma.cheatsheetComment.findUnique({
         where: {
           id: commentId,
@@ -69,20 +61,15 @@ export default async function deleteComment(
         return res.status(401).json({ message: "You are not authorized." });
       }
 
-      comment = await prisma.cheatsheetComment.delete({
+      comment = await prisma.cheatsheetComment.update({
         where: {
           id: commentId,
         },
+        data: {
+          isDeleted: true,
+        },
       });
     } else if (category === "Past Papers") {
-      // comment = await prisma.questionPaperComment.update({
-      //   where: {
-      //     id: commentId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
       let validateComment = await prisma.questionPaperComment.findUnique({
         where: {
           id: commentId,
@@ -91,20 +78,15 @@ export default async function deleteComment(
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.questionPaperComment.delete({
+      comment = await prisma.questionPaperComment.update({
         where: {
           id: commentId,
         },
+        data: {
+          isDeleted: true,
+        },
       });
     } else if (category === "Notes") {
-      // comment = await prisma.notesComment.update({
-      //   where: {
-      //     id: commentId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
       let validateComment = await prisma.notesComment.findUnique({
         where: {
           id: commentId,
@@ -113,20 +95,15 @@ export default async function deleteComment(
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.notesComment.delete({
+      comment = await prisma.notesComment.update({
         where: {
           id: commentId,
         },
+        data: {
+          isDeleted: true,
+        },
       });
     } else if (category === "Solutions") {
-      // comment = await prisma.solutionComment.update({
-      //   where: {
-      //     id: commentId,
-      //   },
-      //   data: {
-      //     content: "This comment has been deleted.",
-      //   },
-      // });
       let validateComment = await prisma.solutionComment.findUnique({
         where: {
           id: commentId,
@@ -135,9 +112,12 @@ export default async function deleteComment(
       if (validateComment?.userId !== userId) {
         return res.status(401).json({ message: "You are not authorized." });
       }
-      comment = await prisma.solutionComment.delete({
+      comment = await prisma.solutionComment.update({
         where: {
           id: commentId,
+        },
+        data: {
+          isDeleted: true,
         },
       });
     } else {

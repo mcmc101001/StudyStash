@@ -20,7 +20,7 @@ import {
   User,
 } from "@prisma/client";
 import Image from "next/image";
-import { Edit, MessageCircle, Reply, Trash2 } from "lucide-react";
+import { Edit, MessageCircle, Reply, Trash2, UserIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { setInputHeight } from "@/components/comments/AddCommentSection";
 import { toast } from "react-hot-toast";
@@ -221,27 +221,41 @@ export default function CommentItem({
     router.refresh();
   }
 
+  if (comment.isDeleted && comment.replies.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <div className="flex w-full flex-col overflow-hidden p-3 text-slate-800 dark:text-slate-200">
         <div className="flex w-full items-center gap-3">
-          <Image
-            loading="lazy"
-            src={comment.user.image!}
-            alt={comment.user.name ?? "profile image"}
-            referrerPolicy="no-referrer"
-            className="h-12 w-12 rounded-full"
-            width={40}
-            height={40}
-          />
+          {comment.isDeleted ? (
+            <UserIcon className="h-12 w-12 rounded-full" />
+          ) : (
+            <Image
+              loading="lazy"
+              src={comment.user.image!}
+              alt={comment.user.name ?? "profile image"}
+              referrerPolicy="no-referrer"
+              className="h-12 w-12 rounded-full"
+              width={40}
+              height={40}
+            />
+          )}
           <div className="flex items-center overflow-x-hidden">
-            <Link
-              href={`/profile/${comment.user.id}`}
-              className="truncate text-lg font-medium hover:text-blue-700 dark:hover:text-blue-500"
-            >
-              {comment.user.name}
-            </Link>
-            {comment.user.verified && <ProfileVerifiedIndicator />}
+            {comment.isDeleted ? (
+              <span>deleted</span>
+            ) : (
+              <>
+                <Link
+                  href={`/profile/${comment.user.id}`}
+                  className="truncate text-lg font-medium hover:text-blue-700 dark:hover:text-blue-500"
+                >
+                  {comment.user.name}
+                </Link>
+                {comment.user.verified && <ProfileVerifiedIndicator />}
+              </>
+            )}
           </div>
           <div className="flex w-full min-w-fit flex-1 justify-end text-left text-sm font-light text-slate-700 scrollbar-none hover:underline dark:text-slate-400">
             <TooltipProvider delayDuration={50}>
@@ -294,7 +308,11 @@ export default function CommentItem({
             />
           ) : (
             <p className="whitespace-break-spaces break-words">
-              {comment.content}
+              {comment.isDeleted ? (
+                <span className="italic">This comment is deleted</span>
+              ) : (
+                comment.content
+              )}
             </p>
           )}
           {isEditMode && (
@@ -320,13 +338,15 @@ export default function CommentItem({
           )}
         </div>
         <div className="mt-3 flex w-full gap-x-3 text-slate-500 @container dark:text-slate-400">
-          <CommentRating
-            commentId={comment.id}
-            category={category}
-            currentUserId={currentUser?.id ?? null}
-            rating={comment.rating}
-            userRating={comment.userRating}
-          />
+          {comment.isDeleted === false && (
+            <CommentRating
+              commentId={comment.id}
+              category={category}
+              currentUserId={currentUser?.id ?? null}
+              rating={comment.rating}
+              userRating={comment.userRating}
+            />
+          )}
           {comment.replies.length !== 0 && (
             <div
               className="flex select-none items-center gap-x-1 hover:text-slate-700 dark:hover:text-slate-300"
@@ -337,7 +357,10 @@ export default function CommentItem({
               <span className="hidden overflow-clip text-sm @md:inline @lg:text-base">
                 {showReplies
                   ? "Hide replies"
-                  : `Show replies (${comment.replies.length})`}
+                  : `Show replies (${
+                      comment.replies.filter((comment) => !comment.isDeleted)
+                        .length
+                    })`}
               </span>
             </div>
           )}
@@ -362,44 +385,47 @@ export default function CommentItem({
               Reply
             </span>
           </div>
-          {currentUser?.id === comment.user.id ? (
-            <>
-              <DeleteDialog
-                isDeleteDialogOpen={isDeleteDialogOpen}
-                setIsDeleteDialogOpen={setIsDeleteDialogOpen}
-                isDeleteLoading={isDeleteLoading}
-                handleDelete={handleDelete}
-              />
-              <div
-                className={
-                  "flex select-none items-center gap-x-1 " +
-                  (isEditMode
-                    ? "text-green-600 dark:text-green-400"
-                    : "hover:text-slate-700 dark:hover:text-slate-300")
-                }
-                role="button"
-                onClick={() => {
-                  if (!currentUser) {
-                    toast.error("Please log in first!");
-                  } else {
-                    setIsEditMode(!isEditMode);
+          {currentUser?.id === comment.user.id &&
+            comment.isDeleted === false && (
+              <>
+                <DeleteDialog
+                  isDeleteDialogOpen={isDeleteDialogOpen}
+                  setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+                  isDeleteLoading={isDeleteLoading}
+                  handleDelete={handleDelete}
+                />
+                <div
+                  className={
+                    "flex select-none items-center gap-x-1 " +
+                    (isEditMode
+                      ? "text-green-600 dark:text-green-400"
+                      : "hover:text-slate-700 dark:hover:text-slate-300")
                   }
-                }}
-              >
-                <Edit />{" "}
-                <span className="hidden text-sm @md:inline @lg:text-base">
-                  Edit
-                </span>
-              </div>
-            </>
-          ) : (
-            <ReportCommentIcon
-              resourceCategory={category}
-              reporterId={currentUser?.id}
-              commentId={comment.id}
-              isReply={false}
-            />
-          )}
+                  role="button"
+                  onClick={() => {
+                    if (!currentUser) {
+                      toast.error("Please log in first!");
+                    } else {
+                      setIsEditMode(!isEditMode);
+                    }
+                  }}
+                >
+                  <Edit />{" "}
+                  <span className="hidden text-sm @md:inline @lg:text-base">
+                    Edit
+                  </span>
+                </div>
+              </>
+            )}{" "}
+          {currentUser?.id !== comment.user.id &&
+            comment.isDeleted === false && (
+              <ReportCommentIcon
+                resourceCategory={category}
+                reporterId={currentUser?.id}
+                commentId={comment.id}
+                isReply={false}
+              />
+            )}
         </div>
       </div>
       {showOwnReply && (
@@ -553,6 +579,10 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
     router.refresh();
     setIsEditLoading(false);
     setIsEditMode(false);
+  }
+
+  if (reply.isDeleted) {
+    return null;
   }
 
   return (
