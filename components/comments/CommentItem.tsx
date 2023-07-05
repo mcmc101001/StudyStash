@@ -357,7 +357,10 @@ export default function CommentItem({
               <span className="hidden overflow-clip text-sm @md:inline @lg:text-base">
                 {showReplies
                   ? "Hide replies"
-                  : `Show replies (${comment.replies.length})`}
+                  : `Show replies (${
+                      comment.replies.filter((comment) => !comment.isDeleted)
+                        .length
+                    })`}
               </span>
             </div>
           )}
@@ -511,6 +514,10 @@ interface ReplyItemProps {
 }
 
 function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
+  if (reply.isDeleted) {
+    return null;
+  }
+
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
