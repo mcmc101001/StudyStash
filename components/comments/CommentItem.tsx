@@ -514,10 +514,6 @@ interface ReplyItemProps {
 }
 
 function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
-  if (reply.isDeleted) {
-    return null;
-  }
-
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -583,6 +579,10 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
     router.refresh();
     setIsEditLoading(false);
     setIsEditMode(false);
+  }
+
+  if (reply.isDeleted) {
+    return null;
   }
 
   return (
