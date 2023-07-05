@@ -2,7 +2,6 @@ import NavOptions from "@/components/nav/NavOptions";
 import Link from "next/link";
 import { Icon, Icons } from "@/components/Icons";
 import UserProfilePic from "@/components/user/UserProfilePic";
-import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { getCurrentUser } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
@@ -19,7 +18,7 @@ export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
     icon: "LayoutDashboard",
   },
   {
-    name: "Cheatsheets and papers",
+    name: "Database",
     href: "/database",
     icon: "Files",
   },
@@ -58,10 +57,10 @@ export default async function Navbar() {
   }
 
   return (
-    <div className="flex h-[100dvh] w-32 flex-col gap-y-5 overflow-hidden border-r border-gray-700 bg-slate-100 px-1 pt-4 transition-colors duration-500 dark:border-gray-300 dark:bg-slate-900">
+    <div className="flex h-[100dvh] w-24 flex-col gap-y-5 overflow-hidden border-r border-gray-700 bg-slate-100 px-1 pt-4 transition-colors duration-500 dark:border-gray-300 dark:bg-slate-900">
       <Link
         href="/"
-        className="flex h-16 shrink-0 items-center justify-center"
+        className="flex h-16 shrink-0 items-center justify-center fill-slate-800 dark:fill-slate-200"
         aria-label="Logo"
       >
         <Icons.Logo className="h-8 w-8 fill-current text-slate-800 dark:text-slate-200" />
@@ -84,7 +83,7 @@ export default async function Navbar() {
           })}
           <div className="mb-2 mt-auto">
             <DarkModeTogglerNoSSR />
-            <div className="mt-10">
+            <div className="mt-8">
               {/* @ts-expect-error Server Component */}
               <UserProfilePic user={user} />
             </div>

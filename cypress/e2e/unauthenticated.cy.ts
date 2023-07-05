@@ -41,7 +41,7 @@ describe("Filter and sort database", () => {
       .click()
       .type("{selectall}{backspace}{esc}");
     // sort
-    cy.get("[aria-labelledby='Sort']").click();
+    cy.get("[aria-labelledby='Sort by']").click();
     cy.get(".Sort__menu").find(".Sort__option").contains("Most recent").click();
     cy.get("[data-cy='resourceItem']").should("have.length", 3);
     cy.get("[data-cy='resourceItem']").each((item, index) => {
@@ -64,7 +64,7 @@ describe("Filter and sort database", () => {
         );
       }
     });
-    cy.get("[aria-labelledby='Sort']")
+    cy.get("[aria-labelledby='Sort by']")
       .click()
       .type("{selectall}{backspace}{esc}");
   });

@@ -1,35 +1,10 @@
-import {
-  LucideProps,
-  Files,
-  FileUp,
-  FilePlus,
-  FileSignature,
-  LayoutDashboard,
-  Calculator,
-  User,
-  CheckCircle,
-  Calendar,
-  Bookmark,
-  TowerControl,
-  MessageSquare,
-  MessageSquarePlus,
-  MessageCircle,
-} from "lucide-react";
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="280.000000pt" height="251.000000pt" viewBox="0 0 280.000000 251.000000"
+ preserveAspectRatio="xMidYMid meet">
 
-export const Icons = {
-  Logo: (props: LucideProps) => (
-    <svg
-      version="1.0"
-      xmlns="http://www.w3.org/2000/svg"
-      width="60px"
-      height="60px"
-      viewBox="0 0 280.000000 251.000000"
-      preserveAspectRatio="xMidYMid meet"
-      className="fill-inherit"
-    >
-      <g transform="translate(0.000000,251.000000) scale(0.100000,-0.100000)">
-        <path
-          d="M1284 2437 c-49 -30 -179 -112 -289 -185 -110 -72 -285 -186 -390
+<g transform="translate(0.000000,251.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="#FFFFFF" stroke-width="5px">
+<path d="M1284 2437 c-49 -30 -179 -112 -289 -185 -110 -72 -285 -186 -390
 -253 -586 -380 -595 -386 -595 -418 0 -27 10 -37 91 -91 49 -34 88 -67 86 -73
 -2 -7 -28 -29 -58 -50 -153 -105 -154 -115 -30 -198 47 -31 87 -61 89 -67 2
 -6 -18 -25 -43 -44 -25 -18 -65 -47 -88 -63 -47 -35 -59 -72 -30 -97 10 -8
@@ -59,25 +34,6 @@ export const Icons = {
 347 30 0 130 -65 130 -84 0 -7 -57 -51 -128 -98 -127 -86 -216 -143 -692 -449
 -140 -90 -284 -183 -320 -206 -36 -24 -72 -43 -80 -43 -8 0 -79 42 -157 93
 -78 50 -285 184 -460 297 -550 355 -598 388 -601 404 -4 19 115 99 139 93 8
--2 171 -105 360 -229z"
-        />
-      </g>
-    </svg>
-  ),
-  Files,
-  FilePlus,
-  Calculator,
-  LayoutDashboard,
-  FileSignature,
-  User,
-  FileUp,
-  CheckCircle,
-  Calendar,
-  Bookmark,
-  TowerControl,
-  MessageSquare,
-  MessageSquarePlus,
-  MessageCircle,
-};
-
-export type Icon = keyof typeof Icons;
+-2 171 -105 360 -229z"/>
+</g>
+</svg>

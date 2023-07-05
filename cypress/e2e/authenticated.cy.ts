@@ -6,8 +6,8 @@ describe("Login to dashboard", () => {
     cy.log("Logging out.");
     cy.visit("/api/auth/signout");
     cy.get("form").submit();
-    cy.log("Visiting http://localhost:3000");
-    cy.visit("/");
+    cy.log("Visiting http://localhost:3000/database");
+    cy.visit("/database");
     const username = Cypress.env("GOOGLE_USER");
     const password = Cypress.env("GOOGLE_PW");
     const loginUrl = Cypress.env("SITE_NAME");
@@ -129,12 +129,66 @@ describe("Login to dashboard", () => {
     cy.contains("Please work, I am begging you!").should("not.exist");
   });
 
+  it("should be able to status resources and find them on dashboard", () => {
+    cy.visit("/database/CP2106/past_papers");
+
+    // Open status component
+    cy.get("[data-cy='resourceStatusComponent']")
+      .should("exist")
+      .trigger("mouseover");
+    cy.get("[data-cy='addResourceStatus']").should("exist").click();
+
+    // Set status Saved
+    cy.get("[data-cy='resourceStatusSaved']").should("exist").click();
+
+    cy.visit("/dashboard?filterStatus=Saved&filterCategory=past_papers");
+    cy.reload();
+    cy.get("[data-cy='resourceItem']").should("have.length", 1);
+
+    // Set status to be Todo and assert change in dashboard
+    cy.get("[data-cy='resourceStatusComponent']")
+      .should("exist")
+      .trigger("mouseover");
+    cy.get("[data-cy='resourceStatusSaved']").should("exist").click();
+    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
+    cy.reload();
+    cy.get("[data-cy='resourceItem']").should("have.length", 0);
+    cy.visit("/dashboard?filterStatus=Todo&filterCategory=past_papers");
+    cy.reload();
+    cy.get("[data-cy='resourceItem']").should("have.length", 1);
+
+    // Remove status
+    cy.get("[data-cy='resourceStatusComponent']")
+      .should("exist")
+      .trigger("mouseover");
+    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
+    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
+    cy.reload();
+    cy.get("[data-cy='resourceItem']").should("have.length", 0);
+  });
+
+  it("should be able to rate resources", () => {
+    cy.visit("/database/CP2106/past_papers");
+
+    // Check intiial rating
+    cy.get("[data-cy='resourceRating']").should("exist").contains("0");
+
+    // Check upvote downvote
+    cy.get("[data-cy='upvote']").should("exist").click();
+    cy.get("[data-cy='resourceRating']").should("exist").contains("1");
+    cy.get("[data-cy='downvote']").should("exist").click();
+    cy.get("[data-cy='resourceRating']").should("exist").contains("-1");
+    cy.get("[data-cy='downvote']").should("exist").click();
+    cy.get("[data-cy='resourceRating']").should("exist").contains("0");
+  });
+
   it("should be able to bookmark modules", () => {
     cy.visit("/dashboard");
     cy.get("h1").should("contain", "Bookmarked Modules");
 
     // Add module
     cy.get("[aria-label='Add bookmarked module']").should("exist").click();
+    cy.wait(1000);
     cy.get("[aria-labelledby='Search module code']").should("exist").type("CP");
     cy.get(".Code__menu").find(".Code__option").contains("CP2106").click();
     cy.contains("a", "CP2106").should("exist").click();

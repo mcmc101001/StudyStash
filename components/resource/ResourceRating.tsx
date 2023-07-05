@@ -114,14 +114,18 @@ export default function ResourceRating({
   };
 
   return (
-    <div className="flex flex-row items-center">
+    <div data-cy="resourceRating" className="flex flex-row items-center">
       <div
         className={
           "flex items-center " +
           (orientation === "vertical" ? "flex-col" : "gap-x-1")
         }
       >
-        <div className="cursor-pointer" onClick={(e) => handleUpvote(e)}>
+        <div
+          data-cy="upvote"
+          className="cursor-pointer"
+          onClick={(e) => handleUpvote(e)}
+        >
           <ArrowBigUp
             className={
               " " +
@@ -135,7 +139,11 @@ export default function ResourceRating({
         {Intl.NumberFormat("en-GB", { notation: "compact" }).format(
           ratingState
         )}
-        <div className="cursor-pointer" onClick={(e) => handleDownvote(e)}>
+        <div
+          data-cy="downvote"
+          className="cursor-pointer"
+          onClick={(e) => handleDownvote(e)}
+        >
           <ArrowBigDown
             className={
               " " +
