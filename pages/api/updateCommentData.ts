@@ -53,51 +53,75 @@ export default async function updateCommentData(
       });
     } else if (report.type === "spam" || report.type === "harassment") {
       if (report.category === "cheatsheetCommentReport") {
-        comment = await prisma.cheatsheetComment.delete({
+        comment = await prisma.cheatsheetComment.update({
           where: {
             id: report.commentId,
+          },
+          data: {
+            isDeleted: true,
           },
         });
       } else if (report.category === "questionPaperCommentReport") {
-        comment = await prisma.questionPaperComment.delete({
+        comment = await prisma.questionPaperComment.update({
           where: {
             id: report.commentId,
+          },
+          data: {
+            isDeleted: true,
           },
         });
       } else if (report.category === "notesCommentReport") {
-        comment = await prisma.notesComment.delete({
+        comment = await prisma.notesComment.update({
           where: {
             id: report.commentId,
+          },
+          data: {
+            isDeleted: true,
           },
         });
       } else if (report.category === "solutionCommentReport") {
-        comment = await prisma.solutionComment.delete({
+        comment = await prisma.solutionComment.update({
           where: {
             id: report.commentId,
+          },
+          data: {
+            isDeleted: true,
           },
         });
       } else if (report.category === "cheatsheetReplyReport") {
-        comment = await prisma.cheatsheetReply.delete({
+        comment = await prisma.cheatsheetReply.update({
           where: {
             id: report.commentId,
+          },
+          data: {
+            isDeleted: true,
           },
         });
       } else if (report.category === "questionPaperReplyReport") {
-        comment = await prisma.questionPaperReply.delete({
+        comment = await prisma.questionPaperReply.update({
           where: {
             id: report.commentId,
+          },
+          data: {
+            isDeleted: true,
           },
         });
       } else if (report.category === "notesReplyReport") {
-        comment = await prisma.notesReply.delete({
+        comment = await prisma.notesReply.update({
           where: {
             id: report.commentId,
           },
+          data: {
+            isDeleted: true,
+          },
         });
       } else if (report.category === "solutionReplyReport") {
-        comment = await prisma.solutionReply.delete({
+        comment = await prisma.solutionReply.update({
           where: {
             id: report.commentId,
+          },
+          data: {
+            isDeleted: true,
           },
         });
       } else {
