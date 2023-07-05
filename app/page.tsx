@@ -5,6 +5,7 @@ import * as motion from "@/lib/motion";
 import Link from "next/link";
 import localFont from "next/font/local";
 import { Metadata } from "next";
+import LandingOverlay from "@/components/LandingOverlay";
 
 export const metadata: Metadata = {
   title: "StudyStash",
@@ -36,12 +37,7 @@ const FADE_DOWN_ANIMATION_VARIANTS = {
 
 export default async function Home() {
   return (
-    <main
-      className="h-screen w-screen overflow-y-scroll scroll-smooth text-slate-800
-          scrollbar-track-transparent scrollbar-thumb-slate-300 hover:scrollbar-thumb-slate-400 
-          dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
-      style={{ scrollbarGutter: "stable" }}
-    >
+    <LandingOverlay>
       <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 text-center">
         <motion.h1
           initial="left"
@@ -174,6 +170,6 @@ export default async function Home() {
           </motion.div>
         </motion.div>
       </section>
-    </main>
+    </LandingOverlay>
   );
 }
