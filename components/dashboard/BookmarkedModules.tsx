@@ -80,8 +80,8 @@ export default function BookmarkedModules({
   }
 
   return (
-    <div className="h-full w-full overflow-hidden rounded-xl border-2 border-slate-300 py-4 dark:border-slate-700">
-      <div className="flex items-center justify-between gap-x-4 px-4">
+    <div className="h-full w-full overflow-hidden rounded-xl py-4">
+      <div className="flex items-center justify-between gap-x-4 pl-4 pr-6">
         <h1 className="text-xl font-medium">Bookmarked Modules</h1>
         <motion.button
           className={
@@ -107,7 +107,7 @@ export default function BookmarkedModules({
       </div>
       <div className="pr-2">
         <div
-          className="h-80 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md
+          className="h-[80vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md
             hover:scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
           style={{ scrollbarGutter: "stable" }}
         >
@@ -129,7 +129,7 @@ export default function BookmarkedModules({
               }}
               layout
             >
-              <Separator className="mx-auto mb-4 mt-4 h-[2px] w-[92%] bg-slate-300 dark:bg-slate-700" />
+              <Separator className="mb-4 ml-4 mt-4 h-[2px] w-[93%] bg-slate-300 dark:bg-slate-700" />
             </motion.div>
           </AnimatePresence>
           <div className="pl-4 pr-2">
@@ -163,7 +163,7 @@ function BookmarkModule({
   return (
     <motion.li
       layout
-      className="flex w-full items-center border-b border-slate-300 py-2 dark:border-slate-700"
+      className="flex w-full items-center border-b border-slate-300 py-2 first:pt-0 dark:border-slate-700"
       initial={{
         opacity: 0.2,
       }}

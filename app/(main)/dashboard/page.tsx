@@ -50,16 +50,16 @@ export default async function DashboardPage({
   const moduleCodeOptions = await getModuleCodeOptions();
 
   return (
-    <div className="mx-14 my-10 text-slate-800 dark:text-slate-200">
+    <div className="my-10 ml-10 mr-14 text-slate-800 dark:text-slate-200">
       <div className="flex h-full w-full">
-        <section className="h-full w-1/4 pr-8">
+        <section className="h-full w-[23%]">
           <BookmarkedModules
             userId={user.id}
             starredModules={starredModules}
             moduleCodeOptions={moduleCodeOptions}
           />
         </section>
-        <section className="h-full w-3/4">
+        <section className="h-full w-[77%] border-l-2 border-slate-300 pl-6 dark:border-slate-700">
           {/* @ts-expect-error Server components */}
           <DashboardResourcesSection
             filterModuleCode={searchParams.filterModuleCode}
