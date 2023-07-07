@@ -16,7 +16,7 @@ import { reportSectionOptions } from "@/lib/content";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Admin",
+  title: "StudyStash | Admin",
   description:
     "The admin page for StudyStash, where you can manage reports against resources and comments",
 };

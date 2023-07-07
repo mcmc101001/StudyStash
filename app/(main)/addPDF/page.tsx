@@ -14,7 +14,7 @@ import { redirect } from "next/navigation";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contribute",
+  title: "StudyStash | Contribute",
   description: "Contribute resources to the StudyStash database!",
 };
 
