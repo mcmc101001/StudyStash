@@ -59,7 +59,7 @@ export function FrequentlyAskedQuestions() {
             target="_blank"
             rel="noreferrer noopener"
             href="https://github.com/mcmc101001/Orbital2023/issues"
-            className="text-blue-800 opacity-100 hover:underline dark:text-blue-500"
+            className="text-violet-700 opacity-100 hover:underline dark:text-violet-500"
           >
             Github
           </a>
