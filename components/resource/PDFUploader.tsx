@@ -14,7 +14,7 @@ export default function PDFUploader(props: PDFUploaderProps) {
   return (
     <div
       aria-label="PDF drop area"
-      className="flex h-full min-h-[16rem] w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-indigo-600 py-10 dark:border-indigo-500"
+      className="flex h-full min-h-[16rem] w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-violet-600 py-10 dark:border-violet-500"
       onClick={() => props.inputRef.current?.click()}
       onDrop={(e) => props.fileDropHandler(e)}
       onDragOver={(e) => e.preventDefault()}
@@ -26,8 +26,8 @@ export default function PDFUploader(props: PDFUploaderProps) {
         onChange={(e) => props.fileSelectedHandler(e)}
         hidden={true}
       ></input>
-      <UploadCloud className="text-indigo-600 dark:text-indigo-500" size={70} />
-      <span className="mt-2 max-w-[70%] truncate text-center text-xl text-indigo-600 dark:text-indigo-500">
+      <UploadCloud className="text-violet-600 dark:text-violet-500" size={70} />
+      <span className="mt-2 max-w-[70%] truncate text-center text-xl text-violet-600 dark:text-violet-500">
         {props.fileName || props.label}
       </span>
     </div>

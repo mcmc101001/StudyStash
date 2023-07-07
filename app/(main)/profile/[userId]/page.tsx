@@ -66,6 +66,7 @@ export default async function ProfilePageUser({
               width={75}
               height={75}
               alt="Profile pic"
+              className="rounded-xl"
             ></Image>
             {isProfile && (
               <div className="ml-auto">

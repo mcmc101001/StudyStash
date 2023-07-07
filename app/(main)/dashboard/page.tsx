@@ -50,7 +50,7 @@ export default async function DashboardPage({
   const moduleCodeOptions = await getModuleCodeOptions();
 
   return (
-    <div className="m-14 text-slate-800 dark:text-slate-200">
+    <div className="mx-14 my-10 text-slate-800 dark:text-slate-200">
       <div className="flex h-full w-full">
         <section className="h-full w-1/4 pr-8">
           <BookmarkedModules

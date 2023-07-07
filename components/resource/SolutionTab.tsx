@@ -32,7 +32,7 @@ export default function SolutionTab({ solutionTabOptions }: SolutionTabProps) {
 
   return (
     <div className="mx-auto mt-5 w-5/6">
-      <div className="mb-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
+      <div className="mb-4 flex flex-row items-center justify-center rounded-md bg-slate-200 p-2 dark:bg-slate-900">
         {solutionTabOptions.map((option) => {
           if (
             option.assignedCategory.includes("Solutions") &&
@@ -58,7 +58,7 @@ export default function SolutionTab({ solutionTabOptions }: SolutionTabProps) {
                 <motion.div
                   layout
                   layoutId="active-solution-pill"
-                  className="absolute inset-0 z-10 rounded-lg bg-white dark:bg-slate-950"
+                  className="absolute inset-0 z-10 rounded-lg bg-slate-100 dark:bg-slate-950"
                   transition={{ type: "spring", duration: 0.5 }}
                   initial={false}
                 />

@@ -57,13 +57,13 @@ export default function StyledSelect({
             `${
               state.isFocused
                 ? "bg-slate-200 dark:bg-slate-800 "
-                : "bg-white dark:bg-slate-950 "
+                : "bg-slate-100 dark:bg-slate-950 "
             }` +
             `${state.isSelected ? "font-bold" : ""}`,
           menuList: () =>
-            "p-0 border dark:border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950",
+            "p-0 border dark:border-2 border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-950",
           control: () =>
-            "border border-slate-700 dark:border-slate-300 bg-white dark:bg-slate-950", // border colour does not apply for some reason (most likely clashing styles)
+            "border border-slate-700 dark:border-slate-300 bg-slate-100 dark:bg-slate-950", // border colour does not apply for some reason (most likely clashing styles)
           placeholder: () => "text-slate-500 dark:text-slate-400",
           input: () => "text-slate-800 dark:text-slate-200",
           singleValue: () => "text-slate-800 dark:text-slate-200",
@@ -96,6 +96,10 @@ export default function StyledSelect({
           menu: (base) => ({
             ...base,
             zIndex: 100,
+          }),
+          control: (base) => ({
+            ...base,
+            backgroundColor: "#f1f5f9", // slate-100
           }),
         }}
         placeholder={placeholderText}

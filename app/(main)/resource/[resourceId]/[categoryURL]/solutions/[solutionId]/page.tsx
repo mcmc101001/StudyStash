@@ -59,17 +59,6 @@ export default async function SpecificSolutionPage({
 
   return (
     <>
-      {/* <Link
-        href={`/resource/${resourceId}/past_papers/solutions`}
-        className="absolute left-10 top-10 w-max"
-      >
-        <Button variant="default">
-          <span>
-            <ChevronLeft className="-ml-1" size={20} />
-          </span>
-          <span>View all solutions</span>
-        </Button>
-      </Link> */}
       <div className="h-full w-full pr-5">
         <div
           className="flex h-[calc(100vh-2.5rem)] w-full flex-col overflow-y-auto pl-10 pr-5

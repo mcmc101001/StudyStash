@@ -22,10 +22,10 @@ export default function SideTabCategoryFilter({
               aria-label={option.href}
               onClick={() => setQueryParams({ filterCategory: option.href })}
               className={
-                "flex flex-1 cursor-pointer items-center justify-center rounded-l-xl border-b-[0.5px] border-l border-t-[0.5px] border-slate-800 first:border-t last:border-b dark:border-slate-200 " +
+                "flex flex-1 cursor-pointer items-center justify-center rounded-l-xl border-b border-l-2 border-t border-slate-300 first:border-t-2 last:border-b-2 dark:border-slate-700 " +
                 (queryParams?.get("filterCategory") === option.href
-                  ? "bg-slate-100 dark:bg-slate-900 "
-                  : "border-r ")
+                  ? "bg-slate-150 dark:bg-slate-900 "
+                  : "border-r-2 ")
               }
             >
               <span className="-rotate-90 whitespace-nowrap ">

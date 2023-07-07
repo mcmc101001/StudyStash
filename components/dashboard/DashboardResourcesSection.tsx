@@ -149,7 +149,7 @@ export default async function DashboardResourcesSection({
           <>
             <div className="flex w-4/5 flex-col">
               <SideTabCategoryFilter>
-                <div className="inline-flex h-[80vh] w-[94%] rounded-r-xl border border-slate-800 border-l-transparent bg-slate-100 p-4 pr-2 dark:border-slate-200 dark:border-l-transparent dark:bg-slate-900">
+                <div className="inline-flex h-[80vh] w-[94%] rounded-r-xl border-2 border-l-0 border-slate-300 bg-slate-150 p-4 pr-2 dark:border-slate-700 dark:border-l-transparent dark:bg-slate-900">
                   <div
                     className="flex h-full w-full flex-col gap-y-6 overflow-y-auto scroll-smooth pr-2 scrollbar-thin
                   scrollbar-track-transparent scrollbar-thumb-slate-200 scrollbar-thumb-rounded-md hover:scrollbar-thumb-slate-300 

@@ -19,6 +19,11 @@ interface BookmarkedModulesProps {
   starredModules: StarredModules[];
 }
 
+const variants = {
+  rotated: { rotate: 135 },
+  normal: { rotate: 0 },
+};
+
 export default function BookmarkedModules({
   userId,
   moduleCodeOptions,
@@ -67,10 +72,10 @@ export default function BookmarkedModules({
   }
 
   return (
-    <div className="h-full w-full overflow-hidden border-2 border-slate-300 py-4 dark:border-slate-700">
+    <div className="h-full w-full overflow-hidden rounded-xl border-2 border-slate-300 py-4 dark:border-slate-700">
       <div className="flex items-center justify-between gap-x-4 px-4">
         <h1 className="text-xl font-medium">Bookmarked Modules</h1>
-        <button
+        <motion.button
           className={
             "group flex h-9 w-9 items-center justify-center rounded-full border-2 p-2 transition-colors " +
             (inputIsOpen
@@ -79,6 +84,9 @@ export default function BookmarkedModules({
           }
           onClick={() => setInputIsOpen(!inputIsOpen)}
           aria-label="Add bookmarked module"
+          variants={variants}
+          animate={inputIsOpen ? "rotated" : "normal"}
+          transition={{ duration: 0.3 }}
         >
           <Plus
             className={
@@ -87,7 +95,7 @@ export default function BookmarkedModules({
                 : "text-slate-400 transition-colors group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300"
             }
           />
-        </button>
+        </motion.button>
       </div>
       <div className="pr-2">
         <div
@@ -113,7 +121,7 @@ export default function BookmarkedModules({
               }}
               layout
             >
-              <Separator className="mx-auto mb-4 mt-4 h-[2px] w-[92%] bg-slate-800 dark:bg-slate-200" />
+              <Separator className="mx-auto mb-4 mt-4 h-[2px] w-[92%] bg-slate-300 dark:bg-slate-700" />
             </motion.div>
           </AnimatePresence>
           <div className="pl-4 pr-2">
@@ -166,7 +174,7 @@ function BookmarkModule({
       }}
     >
       <Link
-        className="w-full text-slate-800 transition-colors hover:text-blue-700 dark:text-slate-200 dark:hover:text-blue-500"
+        className="w-full text-slate-800 transition-colors hover:text-violet-700 dark:text-slate-200 dark:hover:text-violet-500"
         href={`/database/${moduleCode}/cheatsheets`}
       >
         {moduleCode}
