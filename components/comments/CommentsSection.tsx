@@ -206,7 +206,9 @@ export default async function CommentsSection({
       >
         {showLabel && (
           <h1 className="mb-4 text-xl font-bold text-slate-800 dark:text-slate-200">
-            {`Comments (${comments.length})`}
+            {`Comments (${
+              comments.filter((comment) => comment.isDeleted!).length
+            })`}
           </h1>
         )}
         <AddCommentSection
