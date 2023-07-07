@@ -63,7 +63,7 @@ export default function ModuleSearcher(props: ModuleSearcherProps) {
       .sort((a, b) => {
         return a.indexOf(queryModified) < b.indexOf(queryModified) ? -1 : 1;
       })
-      .slice(0, 9);
+      .slice(0, 13);
     if (query.trimStart().length >= 1) {
       setFilterMods(filteredModules);
     }

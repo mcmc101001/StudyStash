@@ -1,6 +1,6 @@
 "use client";
 
-import { ResourceReportHeaderType } from "./ReportTableColumns";
+import { ResourceReportHeaderType } from "@/components/admin/ReportTableColumns";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { useState, useEffect } from "react";
 import axios from "axios";

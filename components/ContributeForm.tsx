@@ -544,15 +544,6 @@ const ContributeForm = (props: ContributeFormProps) => {
             </AnimatePresence>
             <section className="flex w-full flex-row items-center justify-between gap-2">
               <Button
-                variant="default"
-                isLoading={isDisabled}
-                type="submit"
-                form="contributeForm"
-                className="w-1/2 gap-1 text-lg"
-              >
-                <Upload size={25} /> <p>Upload</p>
-              </Button>
-              <Button
                 variant="dangerous"
                 type="button"
                 className="w-1/2 gap-1 truncate text-lg"
@@ -574,6 +565,15 @@ const ContributeForm = (props: ContributeFormProps) => {
                   <Trash2 size={25} />
                 </div>
                 <p>Clear PDF</p>
+              </Button>
+              <Button
+                variant="default"
+                isLoading={isDisabled}
+                type="submit"
+                form="contributeForm"
+                className="w-1/2 gap-1 text-lg"
+              >
+                <Upload size={25} /> <p>Upload</p>
               </Button>
             </section>
           </div>

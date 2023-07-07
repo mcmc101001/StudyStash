@@ -1,6 +1,6 @@
 "use client";
 
-import { SolutionReportHeaderType } from "./ReportTableColumns";
+import { SolutionReportHeaderType } from "@/components/admin/ReportTableColumns";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -34,14 +34,19 @@ export default function SolutionResolveButton({
 
   const resolveSolutionReport = async (isEdit: boolean) => {
     try {
-      if (isEdit) {
-        let updateBody: updateSolutionDataType = {
-          type: report.type,
-          uploaderId: report.uploaderId,
-          resourceId: report.resourceId,
-          newData: data,
-        };
-        let update = await axios.post("/api/updateSolutionData", updateBody);
+      try {
+        if (isEdit) {
+          let updateBody: updateSolutionDataType = {
+            type: report.type,
+            uploaderId: report.uploaderId,
+            resourceId: report.resourceId,
+            newData: data,
+          };
+          let update = await axios.post("/api/updateSolutionData", updateBody);
+        }
+      } catch {
+        toast.error("Failed to resolve.");
+        return;
       }
 
       let deleteBody: deleteSolutionReportType = {
@@ -52,7 +57,7 @@ export default function SolutionResolveButton({
         deleteBody
       );
       toast.success("Successfully resolved!");
-    } catch (e) {
+    } catch {
       toast.error("Failed to resolve.");
     }
   };

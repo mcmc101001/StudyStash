@@ -28,7 +28,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import StyledSelect from "../ui/StyledSelect";
+import StyledSelect from "@/components/ui/StyledSelect";
 import {
   resolvedOptions,
   resourceReportOptions,
@@ -40,7 +40,6 @@ import {
 import useQueryParams from "@/hooks/useQueryParams";
 
 interface DataTableProps<TData, TValue> {
-  // params: { section: ReportSectionType };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   moduleCodeOptions?: string;
@@ -48,14 +47,12 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({
-  // params,
   columns,
   data,
   moduleCodeOptions,
   className,
 }: DataTableProps<TData, TValue>) {
   let { queryParams, setQueryParams } = useQueryParams();
-  // const [sectionData, setsectionData] = useState(data);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

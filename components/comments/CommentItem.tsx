@@ -249,7 +249,7 @@ export default function CommentItem({
               <>
                 <Link
                   href={`/profile/${comment.user.id}`}
-                  className="truncate text-lg font-medium hover:text-blue-700 dark:hover:text-blue-500"
+                  className="truncate text-lg font-medium hover:text-violet-700 dark:hover:text-violet-500"
                 >
                   {comment.user.name}
                 </Link>
@@ -601,7 +601,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
           <div className="flex items-center overflow-x-hidden">
             <Link
               href={`/profile/${reply.user.id}`}
-              className="truncate text-lg font-medium hover:text-blue-700 dark:hover:text-blue-500"
+              className="truncate text-lg font-medium hover:text-violet-700 dark:hover:text-violet-500"
             >
               {reply.user.name}
             </Link>

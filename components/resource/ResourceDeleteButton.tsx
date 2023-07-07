@@ -76,7 +76,7 @@ export default function ResourceDeleteButton({
               role="button"
               aria-label="Delete resource"
               animation={trash2}
-              size={50}
+              size={45}
               strokeColor="inherit"
             />
             {/* <Trash2 height={30} width={30} className="cursor-pointer" /> */}

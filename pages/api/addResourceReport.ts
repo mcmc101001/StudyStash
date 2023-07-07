@@ -6,7 +6,6 @@ import {
   CheatsheetReport,
   QuestionPaperReport,
   NotesReport,
-  SolutionReport,
   ResourceReportType,
 } from "@prisma/client";
 import { ResourceEnum } from "@/lib/content";

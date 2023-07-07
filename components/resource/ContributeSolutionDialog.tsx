@@ -168,15 +168,15 @@ export default function ContributeSolutionDialog({
           Submit solution
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex flex-col">
         <DialogHeader>
           <DialogTitle>Submit solution</DialogTitle>
         </DialogHeader>
-        <div className="flex items-center justify-center">
+        <div className="inline-block">
           <form
             id="contributeForm"
             onSubmit={(e) => uploadFile(e)}
-            className="mx-10 flex h-full w-full items-center justify-center"
+            className="flex h-full w-full items-center justify-center"
           >
             <div className="flex h-full w-full flex-col items-center justify-center gap-y-3 pt-7">
               <PDFUploader
@@ -187,15 +187,6 @@ export default function ContributeSolutionDialog({
                 label="Select or drop pdf file"
               />
               <section className="flex w-full flex-row items-center justify-between gap-2">
-                <Button
-                  variant="default"
-                  isLoading={isDisabled}
-                  type="submit"
-                  form="contributeForm"
-                  className="w-1/2 gap-1 text-lg"
-                >
-                  <Upload size={25} /> <p>Upload</p>
-                </Button>
                 <Button
                   variant="dangerous"
                   type="button"
@@ -210,6 +201,15 @@ export default function ContributeSolutionDialog({
                   }}
                 >
                   <Trash2 size={25} /> <p>Clear PDF</p>
+                </Button>
+                <Button
+                  variant="default"
+                  isLoading={isDisabled}
+                  type="submit"
+                  form="contributeForm"
+                  className="w-1/2 gap-1 text-lg"
+                >
+                  <Upload size={25} /> <p>Upload</p>
                 </Button>
               </section>
             </div>

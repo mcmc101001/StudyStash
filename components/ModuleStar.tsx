@@ -23,6 +23,11 @@ export default function ModuleStar({
   const [star, setStar] = useState(starred);
 
   const handleClick = async () => {
+    if (star) {
+      toast.success("Module removed from bookmarks!");
+    } else {
+      toast.success("Module added to bookmarks!");
+    }
     setStar(!star);
     let body: updateStarredModuleType = {
       moduleCode: moduleCode,

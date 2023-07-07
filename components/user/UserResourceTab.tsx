@@ -13,7 +13,7 @@ export default function UserResourceTab({
 }: UserResourceTabProps) {
   let { queryParams, setQueryParams } = useQueryParams();
   return (
-    <div className="mb-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
+    <div className="mb-4 flex flex-row items-center justify-center rounded-md bg-slate-200 p-2 dark:bg-slate-900">
       {resourceOptions.map((option) => {
         return (
           <div
@@ -31,7 +31,7 @@ export default function UserResourceTab({
               <motion.div
                 layout
                 layoutId="active-profile-pill"
-                className="absolute inset-0 z-10 rounded-lg bg-white dark:bg-slate-950"
+                className="absolute inset-0 z-10 rounded-lg bg-slate-100 dark:bg-slate-950"
                 transition={{ type: "spring", duration: 0.5 }}
                 initial={false}
               />

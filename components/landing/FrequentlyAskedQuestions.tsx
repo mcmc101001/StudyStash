@@ -6,21 +6,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/Accordion";
-import motion from "framer-motion";
 
 export function FrequentlyAskedQuestions() {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
-        <AccordionTrigger className="text-lg">
-          What is todo and completed supposed to mean for cheatsheets and notes?
-        </AccordionTrigger>
-        <AccordionContent className="text-base opacity-80">
-          It can be what you want it to be! You could use it to mark notes that
-          you have not studied, or mark cheatsheets that you have not editted.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
         <AccordionTrigger className="text-lg">
           I want to find a module that is not offered this academic year. How do
           I do that?
@@ -32,9 +22,36 @@ export function FrequentlyAskedQuestions() {
           uploading resources for those modules.
         </AccordionContent>
       </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger className="text-lg">
+          What type of files can I upload?
+        </AccordionTrigger>
+        <AccordionContent className="text-base opacity-80">
+          Currently, only PDFs are accepted. You can convert your files or scan
+          physical materials using sites like{" "}
+          <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="https://ilovepdf.com"
+            className="text-violet-700 opacity-100 hover:underline dark:text-violet-500"
+          >
+            ilovepdf
+          </a>
+          !
+        </AccordionContent>
+      </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger className="text-lg">
-          I am facing some bugs, how can I bring them up?
+          What is todo and completed supposed to mean for cheatsheets and notes?
+        </AccordionTrigger>
+        <AccordionContent className="text-base opacity-80">
+          It can be what you want it to be! You could use it to mark notes that
+          you have not studied, or mark cheatsheets that you have not editted.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-4">
+        <AccordionTrigger className="text-lg">
+          How can I submit bug reports, feedback or suggestions?
         </AccordionTrigger>
         <AccordionContent className="text-base opacity-80">
           You can submit a new Issue on{" "}
@@ -42,10 +59,11 @@ export function FrequentlyAskedQuestions() {
             target="_blank"
             rel="noreferrer noopener"
             href="https://github.com/mcmc101001/Orbital2023/issues"
-            className="text-blue-800 opacity-100 hover:underline dark:text-blue-500"
+            className="text-violet-700 opacity-100 hover:underline dark:text-violet-500"
           >
             Github
           </a>
+          , or drop us an email at studystashorbital2023@gmail.com!
         </AccordionContent>
       </AccordionItem>
     </Accordion>

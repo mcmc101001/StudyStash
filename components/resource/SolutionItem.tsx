@@ -9,7 +9,7 @@ import ClientDateTime from "@/components/ClientDateTime";
 import ProfileVerifiedIndicator from "@/components/user/ProfileVerifiedIndicator";
 import ResourceContextMenu from "@/components/resource/ResourceContextMenu";
 import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
-import SolutionItemLink from "./SolutionItemLink";
+import SolutionItemLink from "@/components/resource/SolutionItemLink";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getSolutionVote({

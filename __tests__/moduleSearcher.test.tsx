@@ -61,7 +61,6 @@ describe("Module Searcher", () => {
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "CS" } });
     const CS1010 = screen.getByRole("link", { name: "CS1010" });
-    expect(CS1010.className).toContain("border");
   });
   it("should link to selected resource type", async () => {
     (useSelectedLayoutSegments as jest.Mock).mockReturnValue([

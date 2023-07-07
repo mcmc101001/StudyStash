@@ -66,7 +66,7 @@ export default async function Home() {
           className="flex gap-6"
         >
           <Link className="w-full" href="/database">
-            <Button size="lg" className="h-14 w-full text-xl font-semibold">
+            <Button size="lg" variant="brand" className="h-14 w-full text-xl font-semibold">
               Try it now
             </Button>
           </Link>

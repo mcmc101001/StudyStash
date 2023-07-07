@@ -58,7 +58,7 @@ export default async function ProfilePageUser({
 
   return (
     <div className="flex w-full px-14 text-slate-800 dark:text-slate-200">
-      <div className="flex h-screen w-1/3 flex-col gap-y-6 py-14 pr-5">
+      <div className="flex h-screen w-1/3 flex-col gap-y-6 overflow-y-auto pr-5 pt-14 scrollbar-none">
         <section className="relative rounded-xl bg-slate-300 p-6 dark:bg-slate-700">
           <div className="flex">
             <Image
@@ -66,6 +66,7 @@ export default async function ProfilePageUser({
               width={75}
               height={75}
               alt="Profile pic"
+              className="rounded-xl"
             ></Image>
             {isProfile && (
               <div className="ml-auto">
