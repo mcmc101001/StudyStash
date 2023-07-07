@@ -23,7 +23,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${profileUser.name}'s profile`,
+    title: `StudyStash | ${profileUser.name}'s profile`,
     description: profileUser.bio,
   };
 }

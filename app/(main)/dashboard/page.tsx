@@ -10,7 +10,7 @@ import { VisitedDataType } from "@/pages/api/updateVisited";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
+  title: "StudyStash | Dashboard",
   description:
     "The dashboard page of the StudyStash app, allowing you to gain easy access to your bookmarked modules and saved resources!",
 };
