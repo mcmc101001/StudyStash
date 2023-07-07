@@ -1,7 +1,6 @@
 "use client";
 
 import { ResourceSolutionOptions } from "@/lib/content";
-import { Icons } from "../Icons";
 import useQueryParams from "@/hooks/useQueryParams";
 
 interface SideTabCategoryFilterProps {

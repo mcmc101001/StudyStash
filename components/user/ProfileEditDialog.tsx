@@ -96,9 +96,7 @@ export default function ProfileEditDialog({
         </div>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle asChild className="text-xl font-bold">
-          <p>Edit Profile</p>
-        </DialogTitle>
+        <DialogTitle className="text-xl font-bold">Edit Profile</DialogTitle>
         <div className="flex flex-col">
           <label className="text-lg font-semibold" htmlFor="name">
             Name
@@ -118,9 +116,7 @@ export default function ProfileEditDialog({
             spellCheck={false}
             autoFocus={false}
           />
-          <div className="mt-1">
-            <span className="float-right">{nameCharState}/30</span>
-          </div>
+          <div className="mt-1 text-right">{nameCharState}/30</div>
 
           <label className="text-lg font-semibold" htmlFor="bio">
             Bio
@@ -137,9 +133,7 @@ export default function ProfileEditDialog({
             maxLength={255}
             spellCheck={false}
           />
-          <div className="mt-1">
-            <span className="float-right">{bioCharState}/255</span>
-          </div>
+          <div className="mt-1 text-right">{bioCharState}/255</div>
         </div>
 
         <Button

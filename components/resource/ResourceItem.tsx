@@ -28,7 +28,7 @@ import {
 import ResourceDeleteButton from "@/components/resource/ResourceDeleteButton";
 import CommentsSection from "@/components/comments/CommentsSection";
 import ResourceStatusProvider from "@/components/resource/ResourceStatusProvider";
-import ProfileVerifiedIndicator from "../user/ProfileVerifiedIndicator";
+import ProfileVerifiedIndicator from "@/components/user/ProfileVerifiedIndicator";
 
 /*************** DATA FETCHING CODE ****************/
 export async function getCheatsheetVote(userId: string, resourceId: string) {

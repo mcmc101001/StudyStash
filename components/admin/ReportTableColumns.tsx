@@ -7,20 +7,14 @@ import {
   CommentReportType,
 } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { CommentReportCategory, ResourceType } from "@/lib/content";
-import ResourceResolveButton from "./ResourceResolveButton";
-import SolutionResolveButton from "./SolutionResolveButton";
+import ResourceResolveButton from "@/components/admin/ResourceResolveButton";
+import SolutionResolveButton from "@/components/admin/SolutionResolveButton";
 import CommentResolveButton from "@/components/admin/CommentResolveButton";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/Tooltip";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -104,7 +98,6 @@ export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
 
       return (
         <a
-          // href={`/database/${report.moduleCode}/${categoryURL}/?id=${report.resourceId}`}
           href={`https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${report.resourceId}`}
           rel="noopener noreferrer"
           target="_blank"
@@ -156,7 +149,6 @@ export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
   //   header: "Reporter ID",
   // },
   {
-    // header: "Actions",
     id: "actions",
     cell: ({ row }) => {
       const report = row.original;
