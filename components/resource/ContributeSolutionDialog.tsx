@@ -168,11 +168,11 @@ export default function ContributeSolutionDialog({
           Submit solution
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex flex-col">
         <DialogHeader>
           <DialogTitle>Submit solution</DialogTitle>
         </DialogHeader>
-        <div className="flex items-center justify-center px-10">
+        <div className="inline-block">
           <form
             id="contributeForm"
             onSubmit={(e) => uploadFile(e)}
