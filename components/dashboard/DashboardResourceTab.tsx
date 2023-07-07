@@ -14,7 +14,7 @@ export default function DashboardResourceTab({
   let { queryParams, setQueryParams } = useQueryParams();
 
   return (
-    <div className="mb-4 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
+    <div className="mb-4 flex flex-row items-center justify-center rounded-md bg-slate-200 p-2 dark:bg-slate-900">
       {tabsArr.map((tabName) => {
         return (
           <div
@@ -32,7 +32,7 @@ export default function DashboardResourceTab({
               <motion.div
                 layout
                 layoutId="active-dashboard-pill"
-                className="absolute inset-0 z-10 rounded-lg bg-white dark:bg-slate-950"
+                className="absolute inset-0 z-10 rounded-lg bg-slate-100 dark:bg-slate-950"
                 transition={{ type: "spring", duration: 0.5 }}
                 initial={false}
               />

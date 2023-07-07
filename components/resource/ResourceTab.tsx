@@ -17,7 +17,7 @@ export default function ResourceTab({
   let segment = useSelectedLayoutSegment();
   const queryParams = useSearchParams();
   return (
-    <div className="my-5 flex flex-row items-center justify-center bg-slate-200 p-2 dark:bg-slate-900">
+    <div className="my-5 flex flex-row items-center justify-center rounded-md bg-slate-200 p-2 dark:bg-slate-900">
       {resourceOptions.map((option) => {
         return (
           <Link
@@ -37,7 +37,7 @@ export default function ResourceTab({
               <motion.div
                 layout
                 layoutId="active-pill"
-                className="absolute inset-0 z-10 rounded-lg bg-white dark:bg-slate-950"
+                className="absolute inset-0 z-10 rounded-lg bg-slate-100 dark:bg-slate-950"
                 transition={{ type: "spring", duration: 0.5 }}
                 initial={false}
               />

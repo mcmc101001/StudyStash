@@ -16,6 +16,7 @@ async function UserProfilePic() {
             referrerPolicy="no-referrer"
             width={60}
             height={60}
+            className="rounded-xl"
           />
           <LogoutButton />
         </>

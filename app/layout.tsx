@@ -28,7 +28,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster />
-          <main className="hidden w-full min-w-fit flex-row bg-white transition-colors duration-500 dark:bg-slate-950 lg:flex">
+          <main className="hidden w-full min-w-fit flex-row bg-slate-100 transition-colors duration-500 dark:bg-slate-950 lg:flex">
             {children}
           </main>
           <main className="flex h-screen w-screen flex-col items-center justify-center p-10 text-center lg:hidden">
