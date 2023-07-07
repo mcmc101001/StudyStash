@@ -85,7 +85,7 @@ export default async function Navbar() {
             <DarkModeTogglerNoSSR />
             <div className="mt-8">
               {/* @ts-expect-error Server Component */}
-              <UserProfilePic user={user} />
+              <UserProfilePic />
             </div>
           </div>
         </ul>

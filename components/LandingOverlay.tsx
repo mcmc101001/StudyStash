@@ -2,7 +2,6 @@
 
 import { useScroll, useMotionValueEvent } from "framer-motion";
 import { useRef, useState } from "react";
-import * as motion from "@/lib/motion";
 
 const DEFAULT_SCALE = 450;
 

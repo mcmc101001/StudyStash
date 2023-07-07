@@ -37,6 +37,8 @@ export default async function AdminPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  // await prisma.solutionReport.deleteMany({});
+
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
@@ -432,7 +434,6 @@ export default async function AdminPage({
     <div>
       {section === "resource" ? (
         <DataTable
-          // params={params}
           columns={resourceColumns}
           data={resourceData}
           moduleCodeOptions={JSON.stringify(await getModuleCodeOptions())}
@@ -440,14 +441,12 @@ export default async function AdminPage({
         />
       ) : section === "solution" ? (
         <DataTable
-          // params={params}
           columns={solutionColumns}
           data={solutionData}
           className="h-screen"
         />
       ) : section === "comment" ? (
         <DataTable
-          // params={params}
           columns={commentColumns}
           data={commentData}
           className="h-screen"

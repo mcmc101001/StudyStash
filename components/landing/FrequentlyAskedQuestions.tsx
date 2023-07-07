@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/Accordion";
-import motion from "framer-motion";
 
 export function FrequentlyAskedQuestions() {
   return (
@@ -34,7 +33,7 @@ export function FrequentlyAskedQuestions() {
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger className="text-lg">
-          I am facing some bugs, how can I bring them up?
+          How can I submit bug reports, feedback or suggestions?
         </AccordionTrigger>
         <AccordionContent className="text-base opacity-80">
           You can submit a new Issue on{" "}
@@ -46,6 +45,7 @@ export function FrequentlyAskedQuestions() {
           >
             Github
           </a>
+          , or drop us an email at studystashorbital2023@gmail.com!
         </AccordionContent>
       </AccordionItem>
     </Accordion>

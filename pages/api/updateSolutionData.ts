@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { SolutionReportType } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
+import { deleteS3ObjectLib } from "@/lib/aws_s3_sdk";
 import z from "zod";
 
 const updateSolutionDataSchema = z.object({
@@ -59,11 +60,11 @@ export default async function updateSolutionData(
         },
       });
     } else if (report.type === "incorrectQuestionPaper") {
-      solution = await prisma.solution.delete({
-        where: {
-          id: report.resourceId,
-        },
-      });
+      try {
+        await deleteS3ObjectLib(report.resourceId);
+      } catch {
+        res.status(500).json({ message: "S3 delete failed" });
+      }
     } else {
       res.status(400).json({ message: "Invalid report type" });
     }

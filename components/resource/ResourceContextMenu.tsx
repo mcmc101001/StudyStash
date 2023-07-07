@@ -25,13 +25,6 @@ import fileDownload from "js-file-download";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
-// export class RepeatReportError extends Error {
-//   constructor(message: string) {
-//     super(message);
-//     this.name = "RepeatReportError";
-//   }
-// }
-
 interface ResourceContextMenuProps {
   children: React.ReactNode;
   category: ResourceSolutionType;
