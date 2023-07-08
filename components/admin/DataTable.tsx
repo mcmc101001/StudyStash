@@ -123,19 +123,6 @@ export function DataTable<TData, TValue>({
         <div className="mb-2 flex items-center gap-4">
           <div className="w-1/5">
             <StyledSelect
-              label="Select resolved"
-              labelExists={false}
-              placeholderText="Select status"
-              options={resolvedOptions}
-              onChange={(option) =>
-                table
-                  .getColumn("resolved")
-                  ?.setFilterValue(option ? option.label === "Resolved" : null)
-              }
-            />
-          </div>
-          <div className="w-1/5">
-            <StyledSelect
               label="Select reason"
               labelExists={false}
               placeholderText="Select reason"
