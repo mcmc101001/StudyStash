@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Profile",
+  title: "StudyStash | Profile",
   description:
     "The profile page of the StudyStash app, allowing you to view your profile, uploaded resources and statistics!",
 };

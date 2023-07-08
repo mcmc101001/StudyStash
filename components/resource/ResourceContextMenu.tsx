@@ -202,7 +202,7 @@ ResourceContextMenuProps) {
             Report resource
           </ContextMenuSubTrigger>
           <ContextMenuSubContent>
-            {reportChoices.map((option, isSolution) => {
+            {reportChoices.map((option) => {
               return (
                 <ContextMenuItem
                   key={option.value}

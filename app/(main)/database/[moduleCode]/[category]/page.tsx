@@ -37,7 +37,7 @@ export async function generateMetadata({
     redirect("/404");
   }
   return {
-    title: `${category} for ${params.moduleCode}`,
+    title: `StudyStash | ${category} for ${params.moduleCode}`,
     description:
       "The database page of the StudyStash app, allowing you to view all the resources in the database!",
   };

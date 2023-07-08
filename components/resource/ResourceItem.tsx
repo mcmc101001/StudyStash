@@ -267,7 +267,7 @@ export default async function ResourceItem({
     <li
       data-cy="resourceItem"
       className="min-h-24 flex flex-row items-center rounded-xl border border-slate-400 px-4 transition-colors duration-300 
-      hover:border-violet-500 dark:hover:border-violet-600 hover:bg-slate-200 dark:border-slate-400 dark:hover:bg-slate-800 "
+      hover:border-violet-500 hover:bg-slate-200 dark:border-slate-400 dark:hover:border-violet-600 dark:hover:bg-slate-800 "
     >
       <div className="flex h-full w-full overflow-hidden">
         {/* @container breaks tooltips */}
@@ -320,7 +320,7 @@ export default async function ResourceItem({
               {displayCode ? (
                 <>
                   <Link
-                    className="hover:text-blue-700 dark:hover:text-blue-500"
+                    className="hover:text-violet-700 dark:hover:text-violet-500"
                     href={`/database/${moduleCode}`}
                   >
                     {moduleCode}
@@ -336,7 +336,7 @@ export default async function ResourceItem({
             <div className="ml-auto flex w-max whitespace-nowrap text-end">
               {isProfile ? (
                 <Link
-                  className="truncate hover:text-blue-700 dark:hover:text-blue-500"
+                  className="truncate hover:text-violet-700 dark:hover:text-violet-500"
                   href={`/database/${moduleCode}`}
                 >
                   {moduleCode}

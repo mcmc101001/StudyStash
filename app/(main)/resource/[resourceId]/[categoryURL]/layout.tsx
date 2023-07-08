@@ -73,7 +73,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${resource.name} (resizable view)`,
+    title: `StudyStash | ${resource.name} (resizable view)`,
     description: `View ${resource.name} on StudyStash!`,
   };
 }

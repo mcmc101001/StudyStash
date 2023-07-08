@@ -1,6 +1,6 @@
 "use client";
 
-import { Award } from "lucide-react";
+import { FileKey } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -13,7 +13,7 @@ export default function SolutionIncludedIndicator() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Award className="cursor-auto text-blue-600 dark:text-blue-400" />
+          <FileKey className="cursor-auto text-blue-600 dark:text-blue-400" />
         </TooltipTrigger>
         <TooltipContent>
           <p className="font-normal">Solution included</p>
