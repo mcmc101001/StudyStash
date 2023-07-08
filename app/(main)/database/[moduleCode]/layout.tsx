@@ -48,7 +48,7 @@ export default async function Layout({
           <h1 className="flex flex-row items-center justify-start gap-x-2 text-4xl font-bold text-slate-800 dark:text-slate-200">
             {moduleInfo ? moduleInfo.moduleCode : moduleCode}
             <span>
-              {user && (
+              {user && moduleInfo && (
                 <ModuleStar
                   moduleCode={moduleCode}
                   userId={user.id}
