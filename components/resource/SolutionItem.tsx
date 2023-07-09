@@ -103,7 +103,10 @@ export default async function SolutionItem({
       shareURL={PDFURL}
       isSolution={true}
     >
-      <div className="relative flex h-full w-full items-center overflow-hidden py-3">
+      <div
+        className="relative flex h-full w-full items-center overflow-hidden py-3"
+        data-cy="solutionItem"
+      >
         <SolutionItemLink
           solutionId={solutionId}
           questionPaperId={questionPaperId}

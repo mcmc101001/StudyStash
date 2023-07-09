@@ -62,14 +62,6 @@ export type CommentReportHeaderType = {
 
 export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
   {
-    accessorKey: "type",
-    header: "Reason",
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-  },
-  {
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (
@@ -82,6 +74,18 @@ export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
         </Button>
       );
     },
+  },
+  {
+    accessorKey: "type",
+    header: "Reason",
+  },
+  {
+    accessorKey: "moduleCode",
+    header: "Module",
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
   },
   {
     accessorKey: "filename",
@@ -179,10 +183,6 @@ export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
 
 export const solutionColumns: ColumnDef<SolutionReportHeaderType>[] = [
   {
-    accessorKey: "type",
-    header: "Reason",
-  },
-  {
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (
@@ -195,6 +195,10 @@ export const solutionColumns: ColumnDef<SolutionReportHeaderType>[] = [
         </Button>
       );
     },
+  },
+  {
+    accessorKey: "type",
+    header: "Reason",
   },
   {
     accessorKey: "filename",

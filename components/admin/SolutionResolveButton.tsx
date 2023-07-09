@@ -103,6 +103,8 @@ export default function SolutionResolveButton({
           </div>
         ) : report.type === "incorrectQuestionPaper" ? (
           <div>
+            <label>Reported for incorrect question paper</label>
+            <br />
             Admin should{" "}
             <a
               href={`https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${report.resourceId}`}
