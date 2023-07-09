@@ -82,7 +82,9 @@ export default function RateDifficulty({
             onMouseLeave={() => setHovered(0)}
             onClick={() => handleClick(star)}
             key={star}
-            className={"cursor-pointer p-1 " + (star <= hovered ? "star" : " ")}
+            className={
+              "cursor-pointer p-[2px] " + (star <= hovered ? "star" : " ")
+            }
           >
             {hovered === 0 ? (
               star <= difficulty ? (

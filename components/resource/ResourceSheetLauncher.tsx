@@ -185,7 +185,7 @@ export default function ResourceSheetLauncher({
             </div>
             {category === "Past Papers" && (
               <div className="ml-auto mr-4 flex flex-col items-center">
-                <span>Rate difficulty</span>
+                <span className="text-base">Rate difficulty</span>
                 <DifficultyRating
                   resourceId={resourceId}
                   currentUserId={currentUserId}

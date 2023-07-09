@@ -231,7 +231,7 @@ export default async function ResourcePage({
                 </div>
                 {category === "Past Papers" && (
                   <div className="ml-auto flex flex-col items-center">
-                    <span>Rate difficulty</span>
+                    <span className="text-base">Rate difficulty</span>
                     <DifficultyRating
                       resourceId={resourceId}
                       currentUserId={currentUser?.id || null}
