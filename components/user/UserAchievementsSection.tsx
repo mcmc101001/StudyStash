@@ -82,6 +82,7 @@ export async function UserAchievementsSection({
   const questionPaperCommentsPromise = prisma.questionPaperComment.findMany({
     where: {
       userId: userId,
+      isDeleted: false,
     },
     include: {
       votes: {
@@ -95,6 +96,7 @@ export async function UserAchievementsSection({
   const notesCommentsPromise = prisma.notesComment.findMany({
     where: {
       userId: userId,
+      isDeleted: false,
     },
     include: {
       votes: {
@@ -108,6 +110,7 @@ export async function UserAchievementsSection({
   const solutionCommentsPromise = prisma.solutionComment.findMany({
     where: {
       userId: userId,
+      isDeleted: false,
     },
     include: {
       votes: {
