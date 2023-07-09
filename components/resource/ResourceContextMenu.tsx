@@ -198,13 +198,17 @@ ResourceContextMenuProps) {
 
         <ContextMenuSeparator />
         <ContextMenuSub>
-          <ContextMenuSubTrigger disabled={resourceUserId === currentUserId}>
+          <ContextMenuSubTrigger
+            data-cy="report-resource"
+            disabled={resourceUserId === currentUserId}
+          >
             Report resource
           </ContextMenuSubTrigger>
           <ContextMenuSubContent>
             {reportChoices.map((option) => {
               return (
                 <ContextMenuItem
+                  data-cy={option.value}
                   key={option.value}
                   onClick={() => handleReportClick(option.value)}
                 >

@@ -71,7 +71,10 @@ export default function ReportCommentIcon({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <span className="flex cursor-pointer flex-row items-center gap-x-1">
+        <span
+          className="flex cursor-pointer flex-row items-center gap-x-1"
+          data-cy="reportCommentIcon"
+        >
           <Flag size={20} />
           <span className="hidden text-sm @md:inline @lg:text-base">
             Report
@@ -82,6 +85,7 @@ export default function ReportCommentIcon({
         {commentReportOptions.map((option) => {
           return (
             <DropdownMenuItem
+              data-cy={option.value}
               key={option.label}
               onClick={() => handleCommentReport(option.value)}
               className="cursor-pointer rounded hover:bg-slate-100 dark:hover:bg-slate-900"

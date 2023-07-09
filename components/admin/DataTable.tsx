@@ -214,7 +214,7 @@ export function DataTable<TData, TValue>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="whitespace-nowrap py-2.5"
+                        className="max-w-[10rem] overflow-x-auto whitespace-nowrap py-1.5 scrollbar-none"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
