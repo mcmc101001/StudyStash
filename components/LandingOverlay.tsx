@@ -23,7 +23,7 @@ export default function LandingOverlay({
   return (
     <main
       ref={targetRef}
-      className="h-screen w-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth text-slate-800
+      className="h-screen w-screen overflow-y-scroll scroll-smooth text-slate-800
           scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-300 scrollbar-thumb-rounded-full 
           hover:scrollbar-thumb-slate-400 dark:text-slate-200 dark:scrollbar-thumb-slate-800 dark:hover:scrollbar-thumb-slate-700"
       style={{ scrollbarGutter: "stable" }}

@@ -38,7 +38,7 @@ const FADE_DOWN_ANIMATION_VARIANTS = {
 export default async function Home() {
   return (
     <LandingOverlay>
-      <section className="mx-auto flex h-screen max-w-4xl snap-center flex-col items-center justify-center gap-y-8 text-center">
+      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 text-center">
         <motion.h1
           initial="left"
           whileInView="center"
@@ -66,7 +66,11 @@ export default async function Home() {
           className="flex gap-6"
         >
           <Link className="w-full" href="/database">
-            <Button size="lg" variant="brand" className="h-14 w-full text-xl font-semibold">
+            <Button
+              size="lg"
+              variant="brand"
+              className="h-14 w-full text-xl font-semibold"
+            >
               Try it now
             </Button>
           </Link>
@@ -83,7 +87,7 @@ export default async function Home() {
       </section>
       <section
         id="video"
-        className="mx-auto flex h-screen snap-center flex-col items-center justify-center gap-y-6 text-center"
+        className="mx-auto flex h-screen flex-col items-center justify-center gap-y-6 text-center"
       >
         <motion.div
           initial="hidden"
@@ -100,7 +104,7 @@ export default async function Home() {
           />
         </motion.div>
       </section>
-      <section className="mx-auto flex h-screen max-w-6xl snap-center flex-col items-center justify-center text-center">
+      <section className="mx-auto flex h-screen max-w-6xl flex-col items-center justify-center text-center">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -144,7 +148,7 @@ export default async function Home() {
           </ul>
         </motion.div>
       </section>
-      <section className="mx-auto flex h-screen max-w-6xl snap-center flex-col justify-center text-left">
+      <section className="mx-auto flex h-screen max-w-6xl flex-col justify-center text-left">
         <motion.div
           initial="hidden"
           whileInView="show"
