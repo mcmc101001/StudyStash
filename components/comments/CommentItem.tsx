@@ -764,7 +764,10 @@ function DeleteDialog({
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>This action cannot be undone.</DialogDescription>
-          <div className="flex w-full gap-x-2 pt-5">
+          <div
+            data-cy="deleteCommentButtons"
+            className="flex w-full gap-x-2 pt-5"
+          >
             <div
               onClick={() => setIsDeleteDialogOpen(false)}
               className="flex-1"

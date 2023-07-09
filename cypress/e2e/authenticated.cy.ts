@@ -288,14 +288,16 @@ describe("Login to dashboard", () => {
     cy.get("textarea")
       .contains("Test_comment_1")
       .type("{selectall}{backspace}Test_comment_2");
-    cy.get("button").contains("Confirm").click();
+    cy.get("button").contains("Confirm").click({ force: true });
     cy.wait(2000);
     cy.get("p").contains("Test_comment_2").should("exist");
 
     // Deleting comment
     cy.get("[class='lucide lucide-trash2']").should("exist").click();
     cy.contains("Are you absolutely sure?").should("exist");
-    cy.contains("[data-cy='redDelete']").should("exist").click();
+    cy.get("[data-cy='deleteCommentButtons']")
+      .contains("button", "Delete")
+      .click();
     cy.contains("Comment deleted successfully!").should("exist");
     cy.get("p").contains("Test_comment_2").should("not.exist");
   });
