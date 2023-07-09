@@ -221,7 +221,10 @@ export default function CommentItem({
     router.refresh();
   }
 
-  if (comment.isDeleted && comment.replies.length === 0) {
+  if (
+    comment.isDeleted &&
+    comment.replies.filter((reply) => !reply.isDeleted).length === 0
+  ) {
     return null;
   }
 
