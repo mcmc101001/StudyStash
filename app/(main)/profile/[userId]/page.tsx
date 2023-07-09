@@ -51,7 +51,7 @@ export default async function ProfilePageUser({
   try {
     const response = await fetch("https://www.affirmations.dev/");
     const data = await response.json();
-    affirmation = data.affirmation;
+    affirmation = `${data.affirmation}!`;
   } catch {
     affirmation = "I am enough.";
   }

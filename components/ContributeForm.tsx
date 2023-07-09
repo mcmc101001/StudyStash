@@ -400,6 +400,7 @@ const ContributeForm = (props: ContributeFormProps) => {
     <AnimatePresence mode="wait">
       <motion.div
         key="ContributeForm"
+        className="flex h-full w-full items-center justify-center pb-10"
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.5, opacity: 0 }}

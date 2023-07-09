@@ -124,6 +124,7 @@ export async function UserAchievementsSection({
   const cheatsheetRepliesPromise = prisma.cheatsheetReply.findMany({
     where: {
       userId: userId,
+      isDeleted: false,
     },
     include: {
       votes: {
@@ -137,6 +138,7 @@ export async function UserAchievementsSection({
   const questionPaperRepliesPromise = prisma.questionPaperReply.findMany({
     where: {
       userId: userId,
+      isDeleted: false,
     },
     include: {
       votes: {
@@ -150,6 +152,7 @@ export async function UserAchievementsSection({
   const notesRepliesPromise = prisma.notesReply.findMany({
     where: {
       userId: userId,
+      isDeleted: false,
     },
     include: {
       votes: {
@@ -163,6 +166,7 @@ export async function UserAchievementsSection({
   const solutionRepliesPromise = prisma.solutionReply.findMany({
     where: {
       userId: userId,
+      isDeleted: false,
     },
     include: {
       votes: {
@@ -185,7 +189,7 @@ export async function UserAchievementsSection({
     cheatsheetReplies,
     questionPaperReplies,
     notesReplies,
-    solutionCReplies,
+    solutionReplies,
   ] = await Promise.all([
     cheatsheetsPromise,
     questionPapersPromise,
@@ -243,7 +247,7 @@ export async function UserAchievementsSection({
     cheatsheetReplies.length +
     questionPaperReplies.length +
     notesReplies.length +
-    solutionCReplies.length;
+    solutionReplies.length;
 
   // Comment votes
   let commentUpvotes = 0;
@@ -272,7 +276,7 @@ export async function UserAchievementsSection({
   for (const noteComment of notesReplies) {
     noteComment.votes.forEach(addCommentKarma);
   }
-  for (const solutionComment of solutionCReplies) {
+  for (const solutionComment of solutionReplies) {
     solutionComment.votes.forEach(addCommentKarma);
   }
   const commentUpvotesPercentage =
@@ -337,13 +341,16 @@ export async function UserAchievementsSection({
               />
             </TooltipTrigger>
             <TooltipContent side="top">
-              Cheatsheets comments: {cheatsheetComments.length}
+              Cheatsheets comments:{" "}
+              {cheatsheetComments.length + cheatsheetReplies.length}
               <br />
-              Past papers comments: {questionPaperComments.length}
+              Past papers comments:{" "}
+              {questionPaperComments.length + questionPaperReplies.length}
               <br />
-              Notes comments: {notesComments.length}
+              Notes comments: {notesComments.length + notesReplies.length}
               <br />
-              Solutions comments: {solutionComments.length}
+              Solutions comments:{" "}
+              {solutionComments.length + solutionReplies.length}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

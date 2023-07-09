@@ -59,7 +59,7 @@ export default async function Navbar() {
   return (
     <div className="flex h-[100dvh] w-24 flex-col gap-y-5 overflow-hidden border-r border-gray-700 bg-slate-100 px-1 pt-4 transition-colors duration-500 dark:border-gray-300 dark:bg-slate-900">
       <Link
-        href="/dashboard?filterStatus=Todo&filterCategory=cheatsheets"
+        href="/"
         className="flex h-16 shrink-0 items-center justify-center fill-violet-500 dark:fill-violet-500"
         aria-label="Logo"
       >
