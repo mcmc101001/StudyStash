@@ -109,7 +109,6 @@ export default async function ProfilePageUser({
           filterAcadYear={searchParams.filterAcadYear}
           filterExamType={searchParams.filterExamType}
           sort={searchParams.sort as sortValue | undefined}
-          isProfile={isProfile}
           profileUserId={profileUser.id}
         />
       </section>

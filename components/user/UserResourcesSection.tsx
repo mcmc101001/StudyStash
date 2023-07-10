@@ -27,7 +27,6 @@ interface UserResourcesSectionProps {
   filterAcadYear: string | undefined;
   filterExamType: ExamType | undefined;
   sort: sortValue | undefined;
-  isProfile: boolean;
 }
 
 export default async function UserResourcesSection({
@@ -38,7 +37,6 @@ export default async function UserResourcesSection({
   filterAcadYear,
   filterExamType,
   sort,
-  isProfile,
 }: UserResourcesSectionProps) {
   let category: ResourceSolutionType = "Cheatsheets";
   let resources;
@@ -196,7 +194,7 @@ export default async function UserResourcesSection({
                             : null
                         }
                         category={category}
-                        isProfile={isProfile}
+                        isProfilePage={true}
                         moduleCode={
                           category === "Solutions"
                             ? // @ts-expect-error wrong type inference
