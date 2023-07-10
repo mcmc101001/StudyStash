@@ -62,7 +62,7 @@ describe("Module Searcher", () => {
   });
   it("should link to selected resource type", async () => {
     (useSelectedLayoutSegments as jest.Mock).mockReturnValue([
-      "CS1010",
+      "CS2113",
       "past_papers",
     ]);
     (usePathname as jest.Mock).mockReturnValue("/database");
