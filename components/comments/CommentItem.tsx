@@ -273,7 +273,7 @@ export default function CommentItem({
                   </p>
                   {comment.isEdited && comment.editedAt && (
                     <p>
-                      Last Editted:{" "}
+                      Last Edited:{" "}
                       <ClientDateTime datetime={comment.editedAt} />
                     </p>
                   )}
@@ -623,7 +623,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
                   </p>
                   {reply.isEdited && reply.editedAt && (
                     <p>
-                      Last Editted: <ClientDateTime datetime={reply.editedAt} />
+                      Last Edited: <ClientDateTime datetime={reply.editedAt} />
                     </p>
                   )}
                 </TooltipContent>
