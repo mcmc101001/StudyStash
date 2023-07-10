@@ -43,6 +43,7 @@ export const createPresignedUploadUrl = async (params: {
 };
 
 // Generate presigned URL where a PUT request can be used to share a file from S3
+// deprecated, currently we use AWS CloudFront to serve the files
 export const createPresignedShareUrl = async (params: {
   region: string;
   bucket: string;

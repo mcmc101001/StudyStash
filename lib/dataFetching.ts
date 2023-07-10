@@ -5,7 +5,6 @@ import {
   QuestionPaper,
   QuestionPaperDifficulty,
   QuestionPaperVote,
-  ResourceStatus,
   SemesterType,
 } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
