@@ -101,6 +101,12 @@ export default function StyledSelect({
             ...base,
             backgroundColor: "#f1f5f9", // slate-100
           }),
+          option: (base, state) => ({
+            // text-sm
+            ...base,
+            lineHeight: "1.25rem",
+            fontSize: "0.875rem",
+          }),
         }}
         placeholder={placeholderText}
         closeMenuOnSelect={true}
