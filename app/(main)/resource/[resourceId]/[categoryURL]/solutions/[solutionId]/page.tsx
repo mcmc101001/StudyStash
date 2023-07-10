@@ -106,13 +106,13 @@ export default async function SpecificSolutionPage({
             width="100%"
             height="100%"
           ></IFrame>
-          <SolutionCommentAccordian commentCount={solution.comments.length}>
+          <SolutionCommentAccordian
+            commentCount={
+              solution.comments.filter((comment) => !comment.isDeleted).length
+            }
+          >
             {/* @ts-expect-error Server component */}
-            <CommentsSection
-              showLabel={false}
-              resourceId={solutionId}
-              category="Solutions"
-            />
+            <CommentsSection resourceId={solutionId} category="Solutions" />
           </SolutionCommentAccordian>
         </div>
       </div>

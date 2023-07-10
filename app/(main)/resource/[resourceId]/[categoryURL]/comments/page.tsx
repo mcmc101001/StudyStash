@@ -22,6 +22,7 @@ export default async function SolutionCommentsPage({
     <div className="h-full w-full">
       {/* @ts-expect-error Server Component */}
       <CommentsSection
+        label="Question paper comments"
         className="h-[85vh]"
         category={category}
         resourceId={resourceId}
