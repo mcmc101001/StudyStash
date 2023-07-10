@@ -1,6 +1,6 @@
 describe("Filter and sort database", () => {
   beforeEach(() => {
-    cy.viewport("macbook-13");
+    cy.viewport("macbook-11");
   });
   it("should have working sorts and filters", () => {
     cy.visit("/");

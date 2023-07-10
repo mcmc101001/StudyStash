@@ -2,7 +2,7 @@ import { Cookie } from "next-auth/core/lib/cookie";
 
 describe("Login to dashboard", () => {
   beforeEach(() => {
-    cy.viewport("macbook-13");
+    cy.viewport("macbook-11");
     cy.log("Logging out.");
     cy.visit("/api/auth/signout");
     cy.get("form").submit();
