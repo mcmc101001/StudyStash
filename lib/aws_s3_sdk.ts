@@ -5,6 +5,7 @@ import { parseUrl } from "@aws-sdk/url-parser";
 import { formatUrl } from "@aws-sdk/util-format-url";
 import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
+// Instantiate an S3 client
 const s3 = new S3Client({
   region: process.env.AWS_REGION as string,
   credentials: {

@@ -4,7 +4,7 @@ import {
   sortValue,
   DashboardTabType,
 } from "@/lib/content";
-import { ExamType, ResourceStatus, SemesterType } from "@prisma/client";
+import { ExamType, SemesterType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import ResourceItem from "@/components/resource/ResourceItem";
 import ResourceFilters from "@/components/resource/ResourceFilters";
