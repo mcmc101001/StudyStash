@@ -16,8 +16,8 @@ import {
   getNotesWithPosts,
   getQuestionPapersWithPosts,
   getRating,
+  getSolutionsWithPosts,
 } from "@/lib/dataFetching";
-import { getSolutionsWithPosts } from "@/lib/dataFetching";
 
 interface UserResourcesSectionProps {
   profileUserId: string;
