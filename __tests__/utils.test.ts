@@ -7,6 +7,7 @@ describe("utils", () => {
     expect(startsWithNumbers("CS1010")).toBe(false);
     expect(startsWithNumbers("Programming Methodology")).toBe(false);
     expect(startsWithNumbers("CS")).toBe(false);
+    expect(startsWithNumbers("")).toBe(false);
   });
 
   it("trim until number function should trim until number", () => {
