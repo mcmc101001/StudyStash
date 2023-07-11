@@ -67,7 +67,6 @@ export default function ResourceSheetLauncher({
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
-  // const resourceStatusAtom = atom<ResourceStatus | null>(resourceStatus);
 
   const { queryParams, setQueryParams } = useQueryParams();
   const router = useRouter();
@@ -137,7 +136,6 @@ export default function ResourceSheetLauncher({
         shareURL={PDFURL}
         className="h-full w-full"
         disabled={disabledContext}
-        // resourceStatus={resourceStatus}
       >
         <SheetTrigger className="h-full w-full py-3 focus:outline-none">
           <div className="flex items-center">
