@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CarouselProps {
-  data: any[];
+  data: { src: string; text: string }[];
 }
 
 export default function Carousel({ data }: CarouselProps) {
@@ -41,7 +41,7 @@ export default function Carousel({ data }: CarouselProps) {
       </Button>
       <div
         ref={ref}
-        className="relative flex aspect-square w-1/2 items-center justify-center overflow-hidden bg-red-500"
+        className="relative flex aspect-square w-1/2 items-center justify-center overflow-hidden bg-slate-800"
       >
         <AnimatePresence custom={{ direction, width }}>
           <motion.div
@@ -52,9 +52,10 @@ export default function Carousel({ data }: CarouselProps) {
             exit="exit"
             custom={{ direction, width }}
             transition={{ type: "spring", ease: "easeInOut", duration: 0.3 }}
-            className={`absolute flex h-full w-full items-center justify-center p-10`}
+            className={`absolute flex h-full w-full flex-col items-center justify-center gap-y-6 p-10`}
           >
-            <img key={currentSlide} src={data[currentSlide - 1]} />
+            <img key={currentSlide} src={data[currentSlide - 1].src} />
+            <p className="text-white">{data[currentSlide - 1].text}</p>
           </motion.div>
         </AnimatePresence>
       </div>

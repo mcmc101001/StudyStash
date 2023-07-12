@@ -36,10 +36,21 @@ const FADE_DOWN_ANIMATION_VARIANTS = {
   show: { opacity: 1, y: 0, transition: { type: "spring", duration: 1 } },
 };
 
+const carouselData = [
+  {
+    src: "/gifs/resourceStatus.gif",
+    text: "Step 1: Sign up for an account",
+  },
+  {
+    src: "https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    text: "Step 2: Search for resources",
+  },
+];
+
 export default async function Home() {
   return (
     <LandingOverlay>
-      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 text-center">
+      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 text-center xl:max-w-6xl">
         <motion.h1
           initial="left"
           whileInView="center"
@@ -105,7 +116,7 @@ export default async function Home() {
           />
         </motion.div>
       </section>
-      <section className="mx-auto flex h-screen max-w-6xl flex-col items-center justify-center text-center">
+      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -149,24 +160,15 @@ export default async function Home() {
           </ul>
         </motion.div>
       </section>
-      <section className="mx-auto flex h-screen max-w-6xl flex-col items-center justify-center text-center">
+      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl">
         <h1 className={`mb-6 text-7xl font-bold ${CalSansFont.className}`}>
           How to use?
         </h1>
         <div className="w-full">
-          <Carousel
-            data={[
-              "https://images.pexels.com/photos/169647/pexels-photo-169647.jpeg?auto=compress&cs=tinysrgb&w=600",
-              "https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-              "https://images.pexels.com/photos/773471/pexels-photo-773471.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-              "https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-              "https://images.pexels.com/photos/632522/pexels-photo-632522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-              "https://images.pexels.com/photos/777059/pexels-photo-777059.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            ]}
-          />
+          <Carousel data={carouselData} />
         </div>
       </section>
-      <section className="mx-auto flex h-screen max-w-6xl flex-col justify-center text-left">
+      <section className="mx-auto flex h-screen max-w-4xl flex-col justify-center text-left xl:max-w-6xl">
         <motion.div
           initial="hidden"
           whileInView="show"
