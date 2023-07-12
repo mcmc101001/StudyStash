@@ -54,7 +54,11 @@ export default function Carousel({ data }: CarouselProps) {
             transition={{ type: "spring", ease: "easeInOut", duration: 0.3 }}
             className={`absolute flex h-full w-full flex-col items-center justify-center gap-y-6 p-10`}
           >
-            <img key={currentSlide} src={data[currentSlide - 1].src} />
+            <img
+              key={currentSlide}
+              src={data[currentSlide - 1].src}
+              alt={data[currentSlide - 1].text}
+            />
             <p className="text-white">{data[currentSlide - 1].text}</p>
           </motion.div>
         </AnimatePresence>
