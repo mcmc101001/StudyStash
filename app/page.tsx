@@ -6,6 +6,7 @@ import Link from "next/link";
 import localFont from "next/font/local";
 import { Metadata } from "next";
 import LandingOverlay from "@/components/LandingOverlay";
+import Carousel from "@/components/landing/Carousel";
 
 export const metadata: Metadata = {
   title: "StudyStash",
@@ -147,6 +148,23 @@ export default async function Home() {
             </motion.li>
           </ul>
         </motion.div>
+      </section>
+      <section className="mx-auto flex h-screen max-w-6xl flex-col items-center justify-center text-center">
+        <h1 className={`mb-6 text-7xl font-bold ${CalSansFont.className}`}>
+          How to use?
+        </h1>
+        <div className="w-full">
+          <Carousel
+            data={[
+              "https://images.pexels.com/photos/169647/pexels-photo-169647.jpeg?auto=compress&cs=tinysrgb&w=600",
+              "https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "https://images.pexels.com/photos/773471/pexels-photo-773471.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "https://images.pexels.com/photos/632522/pexels-photo-632522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "https://images.pexels.com/photos/777059/pexels-photo-777059.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            ]}
+          />
+        </div>
       </section>
       <section className="mx-auto flex h-screen max-w-6xl flex-col justify-center text-left">
         <motion.div
