@@ -10,23 +10,23 @@
 }
 
 .dark .gutter {
-  background-color: #1e293b; /*slate-800*/
+  background-color: theme("colors.slate.800");
   background-repeat: no-repeat;
   background-position: 50%;
 }
 
 .gutter {
-  background-color: #cbd5e1; /*slate-300*/
+  background-color: theme("colors.slate.300");
   background-repeat: no-repeat;
   background-position: 50%;
 }
 
 .dark .gutter:hover {
-  background-color: #1d4ed8; /*blue-700*/
+  background-color: theme("colors.blue.700");
 }
 
 .gutter:hover {
-  background-color: #3b82f6; /*blue-500*/
+  background-color: theme("colors.blue.500");
 }
 
 .gutter.gutter-horizontal {
