@@ -38,12 +38,28 @@ const FADE_DOWN_ANIMATION_VARIANTS = {
 
 const carouselData = [
   {
-    src: "/gifs/resourceStatus.gif",
-    text: "Step 1: Sign up for an account",
+    src: "/gifs/databaseSearch.gif",
+    text: "To find resources, navigate to the database page and type in the module code!",
   },
   {
-    src: "https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    text: "Step 2: Search for resources",
+    src: "/gifs/databaseFilters.gif",
+    text: "Use the various sorts and filters to find the resources you want!",
+  },
+  {
+    src: "/gifs/sheetClosing.gif",
+    text: "You can close the sheet by using the close button, clicking outside the sheet or pressing the ESC key!",
+  },
+  {
+    src: "/gifs/contribute.gif",
+    text: "To upload a resource, navigate to the upload page via the navbar!",
+  },
+  {
+    src: "/gifs/contributePrefill.gif",
+    text: "You can also upload a resource, from the database page, which would autofill the various filters!",
+  },
+  {
+    src: "/gifs/resourceStatus.gif",
+    text: "You can label resources to better categorize them!",
   },
 ];
 
