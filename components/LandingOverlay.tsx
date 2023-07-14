@@ -1,6 +1,6 @@
 "use client";
 
-import { useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { ChevronsDown } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -12,6 +12,8 @@ export default function LandingOverlay({
   children: React.ReactNode;
 }) {
   const [scale, setScale] = useState(DEFAULT_SCALE);
+  const [scrollPrompterTransparency, setScrollPrompterTransparency] =
+    useState(100);
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
     container: targetRef,
@@ -19,6 +21,10 @@ export default function LandingOverlay({
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     setScale(DEFAULT_SCALE * (1 + 3.1 * scrollYProgress.get()));
+    setScrollPrompterTransparency(
+      Math.round(Math.max(100 - 3000 * scrollYProgress.get(), 0))
+    );
+    console.log(scrollPrompterTransparency);
   });
 
   return (
@@ -76,7 +82,11 @@ export default function LandingOverlay({
           </g>
         </svg>
       </div>
-      <ChevronsDown className="absolute bottom-10 left-0 right-0 mx-auto h-20 w-20 animate-bounce text-slate-800 dark:text-slate-200" />
+      <motion.div style={{ opacity: scrollPrompterTransparency }}>
+        <ChevronsDown
+          className={`absolute bottom-10 left-0 right-0 mx-auto h-20 w-20 animate-bounce text-slate-800 dark:text-slate-200`}
+        />
+      </motion.div>
       {children}
     </main>
   );
