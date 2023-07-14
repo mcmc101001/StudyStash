@@ -2,7 +2,7 @@ import { Cookie } from "next-auth/core/lib/cookie";
 
 describe("Login to dashboard", () => {
   beforeEach(() => {
-    cy.viewport("macbook-13");
+    cy.viewport("macbook-11");
     cy.log("Logging out.");
     cy.visit("/api/auth/signout");
     cy.get("form").submit();
@@ -43,10 +43,6 @@ describe("Login to dashboard", () => {
             path: cookie.path,
             secure: cookie.secure,
           });
-
-          // cy.session({
-          //   preserve: cookieName,
-          // });
         }
       });
   });
@@ -209,5 +205,92 @@ describe("Login to dashboard", () => {
     cy.contains("CP2106").should("exist");
     cy.get("[aria-label='Delete CP2106']").click();
     cy.contains("CP2106").should("not.exist");
+  });
+
+  it("should be able to post, edit and delete comments", () => {
+    cy.visit("/database/CP2106/notes");
+
+    // Posting comment
+    cy.get("[data-cy='resourceItem']").first().should("exist").click();
+    cy.get("button").contains("View comments").should("exist").click();
+    cy.get("textarea").should("exist").type("Test_comment_1");
+    cy.get("button").contains("Comment").click();
+    cy.get("p").contains("Test_comment_1").should("exist");
+
+    // Editing comment
+    cy.get("[class='lucide lucide-edit']").first().should("exist").click();
+    cy.get("textarea")
+      .contains("Test_comment_1")
+      .type("{selectall}{backspace}Test_comment_2");
+    cy.get("button").contains("Confirm").click({ force: true });
+    cy.get("p").contains("Test_comment_2").should("exist");
+
+    // Deleting comment
+    cy.get("[class='lucide lucide-trash2']").should("exist").click();
+    cy.contains("Are you absolutely sure?").should("exist");
+    cy.get("[data-cy='deleteCommentButtons']")
+      .contains("button", "Delete")
+      .click();
+    cy.contains("Comment deleted successfully!").should("exist");
+    cy.get("p").contains("Test_comment_2").should("not.exist");
+  });
+
+  it("should be able to report resources", () => {
+    cy.visit("/database/CP2106/past_papers");
+
+    // Reporting resource
+    cy.get("[data-cy='resourceItem']").should("exist").rightclick();
+    cy.get("[data-cy='report-resource']").should("exist").click();
+    cy.get("[data-cy='incorrectSemester']").should("exist").click();
+    cy.contains("Reported successfully!").should("exist");
+
+    // Checking report on admin page
+    cy.visit("/admin?section=resource");
+    cy.contains("cypress data seed").should("exist");
+    cy.get("button").last().contains("Resolve").click();
+    cy.contains("Reported for incorrect semester").should("exist");
+    cy.get("button").contains("Ignore & resolve").click();
+    cy.wait(1000);
+    cy.contains("cypress data seed").should("not.exist");
+  });
+
+  it("should be able to report solutions", () => {
+    cy.visit("/resource/cljnx5gdn00016udckf1q0kf6/past_papers/solutions");
+
+    // Reporting solution
+    cy.get("[data-cy='solutionItem']").should("exist").rightclick();
+    cy.get("[data-cy='report-resource']").should("exist").click();
+    cy.get("[data-cy='incorrectQuestionPaper']").should("exist").click();
+    cy.contains("Reported successfully!").should("exist");
+
+    // Checking report on admin page
+    cy.visit("/admin?section=solution");
+    cy.contains("cypress data seed").should("exist");
+    cy.get("button").last().contains("Resolve").click();
+    cy.contains("Reported for incorrect question paper").should("exist");
+    cy.get("button").contains("Ignore & resolve").click();
+    cy.wait(1000);
+    cy.contains("cypress data seed").should("not.exist");
+  });
+
+  it("should be able to report comments", () => {
+    cy.visit("/database/CP2106/past_papers");
+
+    // Reporting comment
+    cy.get("[data-cy='resourceItem']").should("exist").click();
+    cy.wait(2000);
+    cy.get("button").contains("View comments").should("exist").click();
+    cy.get("[data-cy='reportCommentIcon']").should("exist").click();
+    cy.get("[data-cy='harassment']").should("exist").click();
+    cy.contains("Reported successfully!").should("exist");
+
+    // Checking report on admin page
+    cy.visit("/admin?section=comment");
+    cy.get("button").last().contains("Resolve").click();
+    cy.contains("Reported for harassment").should("exist");
+    cy.contains("cypress data seed").should("exist");
+    cy.get("button").contains("Ignore & resolve").click();
+    cy.wait(2000);
+    cy.contains("StudyStash").should("not.exist");
   });
 });

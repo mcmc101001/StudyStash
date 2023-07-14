@@ -17,6 +17,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
+import { useRouter } from "next/navigation";
 
 const MAX_FILE_SIZE = 10485760; // 10Mb
 
@@ -34,6 +35,8 @@ export default function ContributeSolutionDialog({
   const [isDisabled, setIsDisabled] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  let router = useRouter();
 
   const fileSelectedHandler = (e: React.FormEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
@@ -154,6 +157,7 @@ export default function ContributeSolutionDialog({
     setFile(null);
     setIsOpen(false);
     setIsDisabled(false);
+    router.refresh();
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -163,7 +167,7 @@ export default function ContributeSolutionDialog({
       <DialogTrigger asChild>
         <Button
           variant="default"
-          className="truncate border border-slate-800 dark:border-slate-200"
+          className="border border-slate-800 dark:border-slate-200"
         >
           Submit solution
         </Button>

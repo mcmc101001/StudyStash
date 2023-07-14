@@ -123,19 +123,6 @@ export function DataTable<TData, TValue>({
         <div className="mb-2 flex items-center gap-4">
           <div className="w-1/5">
             <StyledSelect
-              label="Select resolved"
-              labelExists={false}
-              placeholderText="Select status"
-              options={resolvedOptions}
-              onChange={(option) =>
-                table
-                  .getColumn("resolved")
-                  ?.setFilterValue(option ? option.label === "Resolved" : null)
-              }
-            />
-          </div>
-          <div className="w-1/5">
-            <StyledSelect
               label="Select reason"
               labelExists={false}
               placeholderText="Select reason"
@@ -227,7 +214,7 @@ export function DataTable<TData, TValue>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="whitespace-nowrap py-2.5"
+                        className="max-w-[10rem] overflow-x-auto whitespace-nowrap py-1.5 scrollbar-none"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

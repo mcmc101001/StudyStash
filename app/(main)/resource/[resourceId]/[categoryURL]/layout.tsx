@@ -213,7 +213,7 @@ export default async function ResourcePage({
                   userRating={userRating}
                   resourceId={resourceId}
                 />
-                <div className="flex overflow-scroll scrollbar-none">
+                <div className="flex overflow-scroll whitespace-nowrap scrollbar-none">
                   {resource.name}
                   {category === "Past Papers" && solutionIncluded && (
                     <SolutionIncludedIndicator />
@@ -231,7 +231,7 @@ export default async function ResourcePage({
                 </div>
                 {category === "Past Papers" && (
                   <div className="ml-auto flex flex-col items-center">
-                    <span>Rate difficulty</span>
+                    <span className="text-base">Rate difficulty</span>
                     <DifficultyRating
                       resourceId={resourceId}
                       currentUserId={currentUser?.id || null}

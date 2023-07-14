@@ -31,9 +31,6 @@ export const ResourceSolutionEnumURL = z.enum([
 ]);
 export type ResourceSolutionTypeURL = z.infer<typeof ResourceSolutionEnumURL>;
 
-// export const ReportSectionEnum = z.enum(["resource", "solution", "comment"]);
-// export type ReportSectionType = z.infer<typeof ReportSectionEnum>;
-
 export interface ResourceOptionsProps {
   name: ResourceSolutionType;
   href: ResourceSolutionTypeURL;

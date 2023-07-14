@@ -67,7 +67,6 @@ export default function ResourceSheetLauncher({
 }: ResourceSheetLauncherProps) {
   const ratingAtom = atom<number>(totalRating);
   const userRatingAtom = atom<boolean | null>(userRating);
-  // const resourceStatusAtom = atom<ResourceStatus | null>(resourceStatus);
 
   const { queryParams, setQueryParams } = useQueryParams();
   const router = useRouter();
@@ -137,7 +136,6 @@ export default function ResourceSheetLauncher({
         shareURL={PDFURL}
         className="h-full w-full"
         disabled={disabledContext}
-        // resourceStatus={resourceStatus}
       >
         <SheetTrigger className="h-full w-full py-3 focus:outline-none">
           <div className="flex items-center">
@@ -185,7 +183,7 @@ export default function ResourceSheetLauncher({
             </div>
             {category === "Past Papers" && (
               <div className="ml-auto mr-4 flex flex-col items-center">
-                <span>Rate difficulty</span>
+                <span className="text-base">Rate difficulty</span>
                 <DifficultyRating
                   resourceId={resourceId}
                   currentUserId={currentUserId}

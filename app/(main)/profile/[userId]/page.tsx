@@ -51,14 +51,14 @@ export default async function ProfilePageUser({
   try {
     const response = await fetch("https://www.affirmations.dev/");
     const data = await response.json();
-    affirmation = data.affirmation;
+    affirmation = `${data.affirmation}!`;
   } catch {
     affirmation = "I am enough.";
   }
 
   return (
     <div className="flex w-full px-14 text-slate-800 dark:text-slate-200">
-      <div className="flex h-screen w-1/3 flex-col gap-y-6 overflow-y-auto pr-5 pt-14 scrollbar-none">
+      <div className="flex h-screen w-1/3 flex-col gap-y-6 overflow-y-auto pr-5 pt-10 scrollbar-none">
         <section className="relative rounded-xl bg-slate-300 p-6 dark:bg-slate-700">
           <div className="flex">
             <Image
@@ -82,7 +82,7 @@ export default async function ProfilePageUser({
             {profileUser.name}
           </h1>
           <p
-            className="mt-1 h-fit max-h-52 overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-600 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 
+            className="mt-1 h-fit max-h-44 overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-600 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 
           scrollbar-track-rounded-md scrollbar-thumb-rounded-md dark:text-slate-400 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900"
           >
             {profileUser.bio || affirmation}
@@ -97,7 +97,7 @@ export default async function ProfilePageUser({
         className="h-[100vw-10rem] bg-slate-200 dark:bg-slate-800"
         orientation="vertical"
       />
-      <section className="h-screen w-2/3 py-14 pl-5">
+      <section className="h-screen w-2/3 py-10 pl-5">
         <h1 className="mb-4 text-3xl font-semibold text-slate-800 dark:text-white">
           My resources
         </h1>
@@ -109,7 +109,6 @@ export default async function ProfilePageUser({
           filterAcadYear={searchParams.filterAcadYear}
           filterExamType={searchParams.filterExamType}
           sort={searchParams.sort as sortValue | undefined}
-          isProfile={isProfile}
           profileUserId={profileUser.id}
         />
       </section>

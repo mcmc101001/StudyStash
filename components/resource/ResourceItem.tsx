@@ -143,7 +143,7 @@ interface ResourceItemProps {
   examType?: ExamType;
   solutionIncluded?: boolean;
   rating: number;
-  isProfile?: boolean;
+  isProfilePage?: boolean;
   moduleCode?: string;
   questionPaperId?: string;
   isVisited?: boolean;
@@ -163,7 +163,7 @@ export default async function ResourceItem({
   solutionIncluded,
   category,
   rating,
-  isProfile,
+  isProfilePage,
   moduleCode,
   questionPaperId,
   isVisited = false,
@@ -275,6 +275,7 @@ export default async function ResourceItem({
           commentsSection={
             // @ts-expect-error Server component
             <CommentsSection
+              label="Comments"
               className="h-[90vh]"
               resourceId={resourceId}
               category={category}
@@ -321,7 +322,7 @@ export default async function ResourceItem({
                 <>
                   <Link
                     className="hover:text-violet-700 dark:hover:text-violet-500"
-                    href={`/database/${moduleCode}`}
+                    href={`/database/${moduleCode}/cheatsheets`}
                   >
                     {moduleCode}
                   </Link>
@@ -334,10 +335,10 @@ export default async function ResourceItem({
               {`${acadYear} ${semesterString}`}
             </p>
             <div className="ml-auto flex w-max whitespace-nowrap text-end">
-              {isProfile ? (
+              {isProfilePage ? (
                 <Link
                   className="truncate hover:text-violet-700 dark:hover:text-violet-500"
-                  href={`/database/${moduleCode}`}
+                  href={`/database/${moduleCode}/cheatsheets`}
                 >
                   {moduleCode}
                 </Link>
@@ -378,7 +379,7 @@ export default async function ResourceItem({
           />
         </div>
       )}
-      {isProfile && currentUser?.id === userId && (
+      {isProfilePage && currentUser?.id === userId && (
         <div className="flex h-full items-center justify-center">
           <Separator
             className="mx-4 box-border h-3/4 bg-slate-800 dark:bg-slate-200"

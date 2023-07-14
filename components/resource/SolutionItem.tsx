@@ -103,7 +103,10 @@ export default async function SolutionItem({
       shareURL={PDFURL}
       isSolution={true}
     >
-      <div className="relative flex h-full w-full items-center overflow-hidden py-3">
+      <div
+        className="relative flex h-full w-full items-center overflow-hidden py-3"
+        data-cy="solutionItem"
+      >
         <SolutionItemLink
           solutionId={solutionId}
           questionPaperId={questionPaperId}
@@ -140,7 +143,7 @@ export default async function SolutionItem({
             <div className="ml-auto flex w-max whitespace-nowrap text-end">
               <Link
                 href={`/profile/${resourceUser?.id}`}
-                className="group z-10 ml-auto block max-w-[210px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                className="group z-10 ml-auto block max-w-[100px] truncate text-slate-600 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
               >
                 <div className="flex items-center">
                   <span className="truncate">{resourceUser?.name}</span>

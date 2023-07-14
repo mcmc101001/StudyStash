@@ -221,7 +221,10 @@ export default function CommentItem({
     router.refresh();
   }
 
-  if (comment.isDeleted && comment.replies.length === 0) {
+  if (
+    comment.isDeleted &&
+    comment.replies.filter((reply) => !reply.isDeleted).length === 0
+  ) {
     return null;
   }
 
@@ -270,7 +273,7 @@ export default function CommentItem({
                   </p>
                   {comment.isEdited && comment.editedAt && (
                     <p>
-                      Last Editted:{" "}
+                      Last Edited:{" "}
                       <ClientDateTime datetime={comment.editedAt} />
                     </p>
                   )}
@@ -620,7 +623,7 @@ function ReplyItem({ category, currentUser, reply }: ReplyItemProps) {
                   </p>
                   {reply.isEdited && reply.editedAt && (
                     <p>
-                      Last Editted: <ClientDateTime datetime={reply.editedAt} />
+                      Last Edited: <ClientDateTime datetime={reply.editedAt} />
                     </p>
                   )}
                 </TooltipContent>
@@ -761,7 +764,10 @@ function DeleteDialog({
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>This action cannot be undone.</DialogDescription>
-          <div className="flex w-full gap-x-2 pt-5">
+          <div
+            data-cy="deleteCommentButtons"
+            className="flex w-full gap-x-2 pt-5"
+          >
             <div
               onClick={() => setIsDeleteDialogOpen(false)}
               className="flex-1"

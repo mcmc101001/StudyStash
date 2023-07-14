@@ -29,14 +29,14 @@ export interface CommentsSectionProps
   extends React.HTMLAttributes<HTMLDivElement> {
   resourceId: string;
   category: ResourceSolutionType;
-  showLabel?: boolean;
+  label?: string;
 }
 
 export default async function CommentsSection({
   className,
   resourceId,
   category,
-  showLabel = true,
+  label,
 }: CommentsSectionProps) {
   const user = await getCurrentUser();
   let currentUser: User | null = null;
@@ -204,10 +204,10 @@ export default async function CommentsSection({
         )}
         style={{ scrollbarGutter: "stable" }}
       >
-        {showLabel && (
+        {label && (
           <h1 className="mb-4 text-xl font-bold text-slate-800 dark:text-slate-200">
-            {`Comments (${
-              comments.filter((comment) => comment.isDeleted!).length
+            {`${label} (${
+              commentsWithRating.filter((comment) => !comment.isDeleted).length
             })`}
           </h1>
         )}

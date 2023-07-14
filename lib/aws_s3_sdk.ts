@@ -5,6 +5,7 @@ import { parseUrl } from "@aws-sdk/url-parser";
 import { formatUrl } from "@aws-sdk/util-format-url";
 import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
+// Instantiate an S3 client
 const s3 = new S3Client({
   region: process.env.AWS_REGION as string,
   credentials: {
@@ -42,6 +43,7 @@ export const createPresignedUploadUrl = async (params: {
 };
 
 // Generate presigned URL where a PUT request can be used to share a file from S3
+// deprecated, currently we use AWS CloudFront to serve the files
 export const createPresignedShareUrl = async (params: {
   region: string;
   bucket: string;

@@ -6,18 +6,6 @@ import ModuleStar from "@/components/ModuleStar";
 import { prisma } from "@/lib/prisma";
 import ContributeButton from "@/components/ContributeButton";
 
-// export const generateStaticParams = async () => {
-//   const moduleList = await getModuleList();
-//   const paths = moduleList.map((module) => {
-//     moduleCode: module.moduleCode
-//   })
-
-//   return {
-//     paths,
-//     fallback: false,
-//   }
-// };
-
 export default async function Layout({
   params: { moduleCode },
   children,

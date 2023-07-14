@@ -63,9 +63,9 @@ export default function StyledSelect({
           menuList: () =>
             "p-0 border dark:border-2 border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-950",
           control: () =>
-            "border border-slate-700 dark:border-slate-300 bg-slate-100 dark:bg-slate-950", // border colour does not apply for some reason (most likely clashing styles)
+            "border border-slate-700 dark:border-slate-300 bg-slate-100 dark:bg-slate-950 text-sm", // border colour does not apply for some reason (most likely clashing styles)
           placeholder: () => "text-slate-500 dark:text-slate-400",
-          input: () => "text-slate-800 dark:text-slate-200",
+          input: () => "text-slate-800 dark:text-slate-200 whitespace-nowrap",
           singleValue: () => "text-slate-800 dark:text-slate-200",
           indicatorSeparator: () => (inputLike ? " invisible" : ""),
           dropdownIndicator: () =>
@@ -100,6 +100,12 @@ export default function StyledSelect({
           control: (base) => ({
             ...base,
             backgroundColor: "#f1f5f9", // slate-100
+          }),
+          option: (base, state) => ({
+            // text-sm
+            ...base,
+            lineHeight: "1.25rem",
+            fontSize: "0.875rem",
           }),
         }}
         placeholder={placeholderText}

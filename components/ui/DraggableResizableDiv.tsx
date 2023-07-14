@@ -27,8 +27,10 @@ export default function DraggableResizableDiv({
       className="split"
       minSize={0}
       snapOffset={400}
-      onDragEnd={(sizes) => {
+      onDrag={(sizes) => {
         if (typeof window === "undefined") return;
+        // dont save the values if users close the pane
+        if (sizes[0] > 99 || sizes[1] > 99) return;
         window.localStorage.setItem("split-sizes", JSON.stringify(sizes));
       }}
     >

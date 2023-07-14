@@ -22,7 +22,6 @@ import { addSolutionReportType } from "@/pages/api/addSolutionReport";
 import { ResourceReportType, SolutionReportType } from "@prisma/client";
 import axios from "axios";
 import fileDownload from "js-file-download";
-import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 interface ResourceContextMenuProps {
@@ -36,7 +35,6 @@ interface ResourceContextMenuProps {
   className?: string;
   disabled?: boolean;
   isSolution?: boolean;
-  // resourceStatus: ResourceStatus | null;
 }
 
 export default function ResourceContextMenu({
@@ -50,54 +48,7 @@ export default function ResourceContextMenu({
   className,
   disabled,
   isSolution,
-}: // resourceStatus,
-ResourceContextMenuProps) {
-  // const [status, setStatus] = useState<ResourceStatus | null>(resourceStatus);
-
-  let router = useRouter();
-
-  // const handleStatusChange = async (
-  //   e: React.MouseEvent,
-  //   clickedStatus: ResourceStatus
-  // ) => {
-  //   e.preventDefault();
-
-  //   if (!currentUserId) {
-  //     toast.error("Login required.");
-  //     return;
-  //   }
-  //   if (clickedStatus === status) {
-  //     setStatus(null);
-  //     let body: updateStatusType = {
-  //       category: category,
-  //       userId: currentUserId,
-  //       resourceId: resourceId,
-  //       status: null,
-  //     };
-
-  //     try {
-  //       let req = await axios.post("/api/updateStatus", body);
-  //     } catch {
-  //       toast.error("Something went wrong, please try again.");
-  //     }
-  //   } else {
-  //     setStatus(clickedStatus);
-  //     let body: updateStatusType = {
-  //       category: category,
-  //       userId: currentUserId,
-  //       resourceId: resourceId,
-  //       status: clickedStatus,
-  //     };
-
-  //     try {
-  //       let req = await axios.post("/api/updateStatus", body);
-  //     } catch {
-  //       toast.error("Something went wrong, please try again.");
-  //     }
-  //     router.refresh();
-  //   }
-  // };
-
+}: ResourceContextMenuProps) {
   const handleReportClick = async (
     type: ResourceReportType | SolutionReportType
   ) => {
@@ -198,13 +149,17 @@ ResourceContextMenuProps) {
 
         <ContextMenuSeparator />
         <ContextMenuSub>
-          <ContextMenuSubTrigger disabled={resourceUserId === currentUserId}>
+          <ContextMenuSubTrigger
+            data-cy="report-resource"
+            disabled={resourceUserId === currentUserId}
+          >
             Report resource
           </ContextMenuSubTrigger>
           <ContextMenuSubContent>
             {reportChoices.map((option) => {
               return (
                 <ContextMenuItem
+                  data-cy={option.value}
                   key={option.value}
                   onClick={() => handleReportClick(option.value)}
                 >
