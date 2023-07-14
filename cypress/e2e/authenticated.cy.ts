@@ -207,6 +207,34 @@ describe("Login to dashboard", () => {
     cy.contains("CP2106").should("not.exist");
   });
 
+  it("should be able to post, edit and delete comments", () => {
+    cy.visit("/database/CP2106/notes");
+
+    // Posting comment
+    cy.get("[data-cy='resourceItem']").first().should("exist").click();
+    cy.get("button").contains("View comments").should("exist").click();
+    cy.get("textarea").should("exist").type("Test_comment_1");
+    cy.get("button").contains("Comment").click();
+    cy.get("p").contains("Test_comment_1").should("exist");
+
+    // Editing comment
+    cy.get("[class='lucide lucide-edit']").first().should("exist").click();
+    cy.get("textarea")
+      .contains("Test_comment_1")
+      .type("{selectall}{backspace}Test_comment_2");
+    cy.get("button").contains("Confirm").click({ force: true });
+    cy.get("p").contains("Test_comment_2").should("exist");
+
+    // Deleting comment
+    cy.get("[class='lucide lucide-trash2']").should("exist").click();
+    cy.contains("Are you absolutely sure?").should("exist");
+    cy.get("[data-cy='deleteCommentButtons']")
+      .contains("button", "Delete")
+      .click();
+    cy.contains("Comment deleted successfully!").should("exist");
+    cy.get("p").contains("Test_comment_2").should("not.exist");
+  });
+
   it("should be able to report resources", () => {
     cy.visit("/database/CP2106/past_papers");
 
@@ -264,37 +292,5 @@ describe("Login to dashboard", () => {
     cy.get("button").contains("Ignore & resolve").click();
     cy.wait(2000);
     cy.contains("StudyStash").should("not.exist");
-  });
-
-  it("should be able to post, edit and delete comments", () => {
-    cy.visit("/database/CP2106/notes");
-
-    // Posting comment
-    cy.get("[data-cy='resourceItem']").first().should("exist").click();
-    cy.wait(2000);
-    cy.get("button").contains("View comments").should("exist").click();
-    cy.wait(500);
-    cy.get("textarea").type("Test_comment_1");
-    cy.get("button").contains("Comment").click();
-    cy.wait(2000);
-    cy.get("p").contains("Test_comment_1").should("exist");
-
-    // Editing comment
-    cy.get("[class='lucide lucide-edit']").first().should("exist").click();
-    cy.get("textarea")
-      .contains("Test_comment_1")
-      .type("{selectall}{backspace}Test_comment_2");
-    cy.get("button").contains("Confirm").click({ force: true });
-    cy.wait(2000);
-    cy.get("p").contains("Test_comment_2").should("exist");
-
-    // Deleting comment
-    cy.get("[class='lucide lucide-trash2']").should("exist").click();
-    cy.contains("Are you absolutely sure?").should("exist");
-    cy.get("[data-cy='deleteCommentButtons']")
-      .contains("button", "Delete")
-      .click();
-    cy.contains("Comment deleted successfully!").should("exist");
-    cy.get("p").contains("Test_comment_2").should("not.exist");
   });
 });
