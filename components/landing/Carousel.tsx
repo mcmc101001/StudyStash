@@ -58,7 +58,7 @@ export default function Carousel({ data }: CarouselProps) {
               className="min-h-0 flex-1"
               key={currentSlide}
               src={data[currentSlide - 1].src}
-              alt={data[currentSlide - 1].text}
+              alt={"Demo image"}
             />
             <p className="pt-6 text-white">{data[currentSlide - 1].text}</p>
           </motion.div>
