@@ -3,6 +3,8 @@ name: Run Unit Tests and Lint Files
 jobs:
   unit_test-lint:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

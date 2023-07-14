@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     "Studystash is a one stop solution for all your revision needs. Gain access to user contributed cheatsheets, notes, as well as past papers and solutions!",
 };
 
+export const revalidate = 120;
+
 const CalSansFont = localFont({
   src: "../public/fonts/CalSans-SemiBold.woff2",
   weight: "600",
@@ -56,6 +58,10 @@ const carouselData = [
     text: "You can close the sheet by using the close button, clicking outside the sheet or pressing the ESC key!",
   },
   {
+    src: "/gifs/comments.gif",
+    text: "You can also comment on resources!",
+  },
+  {
     src: "/gifs/contribute.gif",
     text: "To upload a resource, navigate to the upload page via the navbar!",
   },
@@ -66,6 +72,14 @@ const carouselData = [
   {
     src: "/gifs/resourceStatus.gif",
     text: "You can label resources to better categorize them!",
+  },
+  {
+    src: "/gifs/dashboardResources.gif",
+    text: "View your labelled resources in the dashboard!",
+  },
+  {
+    src: "/gifs/bookmarkedModules.gif",
+    text: "Bookmark modules from the dashboard for quick access!",
   },
 ];
 
@@ -93,7 +107,7 @@ export default async function Home() {
             whileInView="center"
             viewport={{ once: true }}
             variants={SLIDE_IN_ANIMATION_VARIANTS}
-            className="mb-3 w-fit rounded-full bg-fuchsia-100 px-2 text-sm font-semibold leading-normal text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+            className="mb-3 w-fit rounded-full bg-fuchsia-100 px-3 py-1 text-sm font-semibold leading-normal text-slate-700 dark:bg-slate-800 dark:text-slate-300"
           >
             {totalResourceCount + " resources uploaded and counting!"}
           </motion.p>
@@ -102,7 +116,7 @@ export default async function Home() {
             whileInView="center"
             viewport={{ once: true }}
             variants={SLIDE_IN_ANIMATION_VARIANTS}
-            className={`font-heading text-7xl font-bold ${CalSansFont.className}`}
+            className={`font-heading mt-2 text-7xl font-bold ${CalSansFont.className}`}
           >
             Redefining Revision
           </motion.h1>
@@ -112,7 +126,7 @@ export default async function Home() {
           whileInView="center"
           viewport={{ once: true }}
           variants={SLIDE_IN_ANIMATION_VARIANTS}
-          className="balanc text-xl leading-normal text-slate-600 dark:text-slate-400"
+          className="text-xl leading-normal text-slate-600 dark:text-slate-400"
         >
           <Balancer>
             Home to a wealth of comprehensive resources, StudyStash is the
