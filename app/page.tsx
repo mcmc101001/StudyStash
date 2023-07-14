@@ -6,6 +6,7 @@ import Link from "next/link";
 import localFont from "next/font/local";
 import { Metadata } from "next";
 import LandingOverlay from "@/components/LandingOverlay";
+import Carousel from "@/components/landing/Carousel";
 
 export const metadata: Metadata = {
   title: "StudyStash",
@@ -35,10 +36,37 @@ const FADE_DOWN_ANIMATION_VARIANTS = {
   show: { opacity: 1, y: 0, transition: { type: "spring", duration: 1 } },
 };
 
+const carouselData = [
+  {
+    src: "/gifs/databaseSearch.gif",
+    text: "To find resources, navigate to the database page and type in the module code!",
+  },
+  {
+    src: "/gifs/databaseFilters.gif",
+    text: "Use the various sorts and filters to find the resources you want!",
+  },
+  {
+    src: "/gifs/sheetClosing.gif",
+    text: "You can close the sheet by using the close button, clicking outside the sheet or pressing the ESC key!",
+  },
+  {
+    src: "/gifs/contribute.gif",
+    text: "To upload a resource, navigate to the upload page via the navbar!",
+  },
+  {
+    src: "/gifs/contributePrefill.gif",
+    text: "You can also upload a resource, from the database page, which would autofill the various filters!",
+  },
+  {
+    src: "/gifs/resourceStatus.gif",
+    text: "You can label resources to better categorize them!",
+  },
+];
+
 export default async function Home() {
   return (
     <LandingOverlay>
-      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 text-center">
+      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 text-center xl:max-w-6xl">
         <motion.h1
           initial="left"
           whileInView="center"
@@ -104,7 +132,7 @@ export default async function Home() {
           />
         </motion.div>
       </section>
-      <section className="mx-auto flex h-screen max-w-6xl flex-col items-center justify-center text-center">
+      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -148,7 +176,15 @@ export default async function Home() {
           </ul>
         </motion.div>
       </section>
-      <section className="mx-auto flex h-screen max-w-6xl flex-col justify-center text-left">
+      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl">
+        <h1 className={`mb-6 text-7xl font-bold ${CalSansFont.className}`}>
+          How to use?
+        </h1>
+        <div className="w-full">
+          <Carousel data={carouselData} />
+        </div>
+      </section>
+      <section className="mx-auto flex h-screen max-w-4xl flex-col justify-center text-left xl:max-w-6xl">
         <motion.div
           initial="hidden"
           whileInView="show"

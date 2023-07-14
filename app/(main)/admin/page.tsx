@@ -37,8 +37,7 @@ export default async function AdminPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  // await prisma.solutionReport.deleteMany({});
-
+  
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
