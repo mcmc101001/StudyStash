@@ -7,7 +7,6 @@ import localFont from "next/font/local";
 import { Metadata } from "next";
 import LandingOverlay from "@/components/LandingOverlay";
 import Carousel from "@/components/landing/Carousel";
-import ScrollPrompter from "@/components/landing/ScrollPrompter";
 import { Balancer } from "react-wrap-balancer";
 
 export const metadata: Metadata = {
@@ -72,7 +71,6 @@ const carouselData = [
 export default async function Home() {
   return (
     <LandingOverlay>
-      <ScrollPrompter />
       <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 text-center xl:max-w-6xl">
         <motion.h1
           initial="left"

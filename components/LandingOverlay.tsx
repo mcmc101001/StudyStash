@@ -1,6 +1,7 @@
 "use client";
 
 import { useScroll, useMotionValueEvent } from "framer-motion";
+import { ChevronsDown } from "lucide-react";
 import { useRef, useState } from "react";
 
 const DEFAULT_SCALE = 450;
@@ -75,6 +76,7 @@ export default function LandingOverlay({
           </g>
         </svg>
       </div>
+      <ChevronsDown className="absolute bottom-10 left-0 right-0 mx-auto h-20 w-20 animate-bounce text-slate-800 dark:text-slate-200" />
       {children}
     </main>
   );
