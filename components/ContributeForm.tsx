@@ -523,7 +523,11 @@ const ContributeForm = (props: ContributeFormProps) => {
               fileSelectedHandler={fileSelectedHandler}
               fileName={fileName}
               inputRef={inputRef}
-              label="Select or drop pdf file"
+              label={
+                solutionIncluded === "Included in separate file"
+                  ? "Select or drop question pdf file"
+                  : "Select or drop pdf file"
+              }
             />
             <AnimatePresence>
               {solutionIncluded === "Included in separate file" && (
