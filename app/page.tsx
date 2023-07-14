@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "Studystash is a one stop solution for all your revision needs. Gain access to user contributed cheatsheets, notes, as well as past papers and solutions!",
 };
 
-export const revalidate = 60;
+export const revalidate = 120;
 
 const CalSansFont = localFont({
   src: "../public/fonts/CalSans-SemiBold.woff2",
