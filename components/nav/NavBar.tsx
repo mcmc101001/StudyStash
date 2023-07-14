@@ -11,10 +11,16 @@ const DarkModeTogglerNoSSR = dynamic(
   { ssr: false }
 );
 
-export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
+export const navOptions: Array<{
+  name: string;
+  href: string;
+  linkExtension?: string;
+  icon: Icon;
+}> = [
   {
     name: "Dashboard",
     href: "/dashboard",
+    linkExtension: "?filterStatus=Saved&filterCategory=cheatsheets",
     icon: "LayoutDashboard",
   },
   {
@@ -35,6 +41,7 @@ export const navOptions: Array<{ name: string; href: string; icon: Icon }> = [
   {
     name: "Admin",
     href: "/admin",
+    linkExtension: "?section=resource",
     icon: "TowerControl",
   },
 ];
@@ -78,6 +85,7 @@ export default async function Navbar() {
                 name={option.name}
                 href={option.href}
                 icon={option.icon}
+                linkExtension={option.linkExtension}
               />
             );
           })}

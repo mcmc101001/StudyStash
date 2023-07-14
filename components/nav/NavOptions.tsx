@@ -15,6 +15,7 @@ export interface NavOptionsProps {
   userId: string | null;
   name: string;
   href: string;
+  linkExtension?: string;
   icon: Icon;
 }
 
@@ -22,6 +23,7 @@ export default function NavOptions({
   userId,
   name,
   href,
+  linkExtension,
   icon,
 }: NavOptionsProps) {
   let segment = useSelectedLayoutSegment();
@@ -50,13 +52,7 @@ export default function NavOptions({
                 <Link
                   aria-label={href}
                   className="p-2"
-                  href={
-                    href === "/dashboard"
-                      ? href + "?filterStatus=Todo&filterCategory=cheatsheets"
-                      : href === "/admin"
-                      ? href + "?section=resource"
-                      : href
-                  }
+                  href={linkExtension ? `${href}/${linkExtension}` : href}
                 >
                   <Icon className="h-7 w-7" />
                 </Link>
