@@ -8,6 +8,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "latest"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - run: |
           npm ci
           npm run build
