@@ -7,6 +7,7 @@ import localFont from "next/font/local";
 import { Metadata } from "next";
 import LandingOverlay from "@/components/LandingOverlay";
 import Carousel from "@/components/landing/Carousel";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "StudyStash",
@@ -68,18 +69,43 @@ const carouselData = [
 ];
 
 export default async function Home() {
+  const cheatsheetCountPromise = prisma.cheatsheet.count();
+  const questionPaperCountPromise = prisma.questionPaper.count();
+  const notesCountPromise = prisma.notes.count();
+  const solutionCountPromise = prisma.solution.count();
+  const [cheatsheetCount, questionPaperCount, notesCount, solutionCount] =
+    await Promise.all([
+      cheatsheetCountPromise,
+      questionPaperCountPromise,
+      notesCountPromise,
+      solutionCountPromise,
+    ]);
+  let totalResourceCount =
+    cheatsheetCount + questionPaperCount + notesCount + solutionCount;
+
   return (
     <LandingOverlay>
-      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-8 text-center xl:max-w-6xl">
-        <motion.h1
-          initial="left"
-          whileInView="center"
-          viewport={{ once: true }}
-          variants={SLIDE_IN_ANIMATION_VARIANTS}
-          className={`font-heading text-7xl font-bold ${CalSansFont.className}`}
-        >
-          Redefining Revision
-        </motion.h1>
+      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center gap-y-5 text-center xl:max-w-6xl">
+        <div className="flex flex-col items-center">
+          <motion.p
+            initial="right"
+            whileInView="center"
+            viewport={{ once: true }}
+            variants={SLIDE_IN_ANIMATION_VARIANTS}
+            className="mb-3 w-fit rounded-full bg-fuchsia-100 px-2 text-sm font-semibold leading-normal text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+          >
+            {totalResourceCount + " resources uploaded and counting!"}
+          </motion.p>
+          <motion.h1
+            initial="left"
+            whileInView="center"
+            viewport={{ once: true }}
+            variants={SLIDE_IN_ANIMATION_VARIANTS}
+            className={`font-heading text-7xl font-bold ${CalSansFont.className}`}
+          >
+            Redefining Revision
+          </motion.h1>
+        </div>
         <motion.p
           initial="right"
           whileInView="center"
@@ -95,7 +121,7 @@ export default async function Home() {
           whileInView="show"
           viewport={{ once: true }}
           variants={FADE_DOWN_ANIMATION_VARIANTS}
-          className="flex gap-6"
+          className="mt-3 flex gap-6"
         >
           <Link className="w-full" href="/database">
             <Button
