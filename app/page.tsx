@@ -46,6 +46,10 @@ const carouselData = [
     text: "Use the various sorts and filters to find the resources you want!",
   },
   {
+    src: "/gifs/contextMenu.gif",
+    text: "Right click on a resource for more features!",
+  },
+  {
     src: "/gifs/sheetClosing.gif",
     text: "You can close the sheet by using the close button, clicking outside the sheet or pressing the ESC key!",
   },
