@@ -52,7 +52,7 @@ export default function NavOptions({
                   className="p-2"
                   href={
                     href === "/dashboard"
-                      ? href + "?filterStatus=Todo&filterCategory=cheatsheets"
+                      ? href + "?filterStatus=Saved&filterCategory=cheatsheets"
                       : href === "/admin"
                       ? href + "?section=resource"
                       : href
