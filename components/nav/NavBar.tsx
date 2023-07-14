@@ -20,7 +20,7 @@ export const navOptions: Array<{
   {
     name: "Dashboard",
     href: "/dashboard",
-    linkExtension: "?filterStatus=Todo&filterCategory=cheatsheets",
+    linkExtension: "?filterStatus=Saved&filterCategory=cheatsheets",
     icon: "LayoutDashboard",
   },
   {
