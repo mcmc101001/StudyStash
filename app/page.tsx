@@ -88,7 +88,7 @@ export default async function Home() {
           className="text-xl leading-normal text-slate-600 dark:text-slate-400"
         >
           A one stop solution for all your revision needs, StudyStash is home to
-          all the resources you would need, powered by users such as you.
+          all the resources you <br /> would need, powered by users such as you.
         </motion.p>
         <motion.div
           initial="hidden"
@@ -157,7 +157,7 @@ export default async function Home() {
           >
             Features
           </motion.h1>
-          <ul className="mb-2 list-disc">
+          {/* <ul className="mb-2 list-disc">
             <motion.li
               variants={FADE_DOWN_ANIMATION_VARIANTS}
               className="mt-4 text-left text-lg leading-normal text-slate-600 dark:text-slate-400"
@@ -177,14 +177,14 @@ export default async function Home() {
             >
               Save resources to easily come back to them later!
             </motion.li>
-          </ul>
+        </ul> */}
         </motion.div>
-      </section>
+        {/* </section>
       <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl">
         <h1 className={`mb-6 text-7xl font-bold ${CalSansFont.className}`}>
           How to use?
-        </h1>
-        <div className="w-full">
+        </h1> */}
+        <div className="w-full select-none">
           <Carousel data={carouselData} />
         </div>
       </section>
