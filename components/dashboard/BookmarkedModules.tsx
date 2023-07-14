@@ -232,6 +232,7 @@ function ModuleCodeSearcher({
       className="mt-2 w-full"
     >
       <StyledSelect
+        value={null}
         label="Module Code"
         labelExists={false}
         inputLike={true}
