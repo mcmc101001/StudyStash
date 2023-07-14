@@ -58,6 +58,10 @@ const carouselData = [
     text: "You can close the sheet by using the close button, clicking outside the sheet or pressing the ESC key!",
   },
   {
+    src: "/gifs/comments.gif",
+    text: "You can also comment on resources!",
+  },
+  {
     src: "/gifs/contribute.gif",
     text: "To upload a resource, navigate to the upload page via the navbar!",
   },
@@ -68,6 +72,14 @@ const carouselData = [
   {
     src: "/gifs/resourceStatus.gif",
     text: "You can label resources to better categorize them!",
+  },
+  {
+    src: "/gifs/dashboardResources.gif",
+    text: "View your labelled resources in the dashboard!",
+  },
+  {
+    src: "/gifs/bookmarkedModules.gif",
+    text: "Bookmark modules from the dashboard for quick access!",
   },
 ];
 
