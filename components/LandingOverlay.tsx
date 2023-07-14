@@ -83,7 +83,7 @@ export default function LandingOverlay({
       </div>
       <motion.div style={{ opacity: scrollPrompterTransparency }}>
         <ChevronsDown
-          className={`absolute bottom-10 left-0 right-0 mx-auto h-20 w-20 animate-bounce text-slate-800 dark:text-slate-200`}
+          className={`absolute bottom-2 left-0 right-0 mx-auto h-20 w-20 animate-bounce text-violet-600 dark:text-slate-400`}
         />
       </motion.div>
       {children}

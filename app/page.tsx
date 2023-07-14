@@ -115,8 +115,9 @@ export default async function Home() {
           className="balanc text-xl leading-normal text-slate-600 dark:text-slate-400"
         >
           <Balancer>
-            A one stop solution for all your revision needs, StudyStash is home
-            to all the resources you would need, powered by users such as you.
+            Home to a wealth of comprehensive resources, StudyStash is the
+            ultimate hub for all your revision needs, powered by a community of
+            dedicated learners like yourself.
           </Balancer>
         </motion.p>
         <motion.div
