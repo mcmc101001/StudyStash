@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import LandingOverlay from "@/components/LandingOverlay";
 import Carousel from "@/components/landing/Carousel";
 import { prisma } from "@/lib/prisma";
+import { Balancer } from "react-wrap-balancer";
 
 export const metadata: Metadata = {
   title: "StudyStash",
@@ -111,10 +112,12 @@ export default async function Home() {
           whileInView="center"
           viewport={{ once: true }}
           variants={SLIDE_IN_ANIMATION_VARIANTS}
-          className="text-xl leading-normal text-slate-600 dark:text-slate-400"
+          className="balanc text-xl leading-normal text-slate-600 dark:text-slate-400"
         >
-          A one stop solution for all your revision needs, StudyStash is home to
-          all the resources you <br /> would need, powered by users such as you.
+          <Balancer>
+            A one stop solution for all your revision needs, StudyStash is home
+            to all the resources you would need, powered by users such as you.
+          </Balancer>
         </motion.p>
         <motion.div
           initial="hidden"
@@ -183,33 +186,7 @@ export default async function Home() {
           >
             Features
           </motion.h1>
-          {/* <ul className="mb-2 list-disc">
-            <motion.li
-              variants={FADE_DOWN_ANIMATION_VARIANTS}
-              className="mt-4 text-left text-lg leading-normal text-slate-600 dark:text-slate-400"
-            >
-              Gain access to all your revision needs, be it cheatsheets, notes,
-              or past papers and solutions!
-            </motion.li>
-            <motion.li
-              variants={FADE_DOWN_ANIMATION_VARIANTS}
-              className="mt-4 text-left text-lg leading-normal text-slate-600 dark:text-slate-400"
-            >
-              Contribute by uploading resources or engaging in discussion!
-            </motion.li>
-            <motion.li
-              variants={FADE_DOWN_ANIMATION_VARIANTS}
-              className="mt-4 text-left text-lg leading-normal text-slate-600 dark:text-slate-400"
-            >
-              Save resources to easily come back to them later!
-            </motion.li>
-        </ul> */}
         </motion.div>
-        {/* </section>
-      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl">
-        <h1 className={`mb-6 text-7xl font-bold ${CalSansFont.className}`}>
-          How to use?
-        </h1> */}
         <div className="w-full select-none">
           <Carousel data={carouselData} />
         </div>
