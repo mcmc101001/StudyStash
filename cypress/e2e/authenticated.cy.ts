@@ -55,6 +55,7 @@ describe("Login to dashboard", () => {
       .should("exist")
       .trigger("mouseover");
     cy.get("[data-cy='addResourceStatus']").should("exist").click();
+    cy.wait(2000);
 
     // Set status Saved
     cy.get("[data-cy='resourceStatusSaved']").should("exist").click();
@@ -68,6 +69,7 @@ describe("Login to dashboard", () => {
       .should("exist")
       .trigger("mouseover");
     cy.get("[data-cy='resourceStatusSaved']").should("exist").click();
+    cy.wait(2000);
     cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
     cy.reload();
     cy.get("[data-cy='resourceItem']").should("have.length", 0);
@@ -80,9 +82,86 @@ describe("Login to dashboard", () => {
       .should("exist")
       .trigger("mouseover");
     cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
+    cy.wait(2000);
     cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
     cy.reload();
     cy.get("[data-cy='resourceItem']").should("have.length", 0);
+  });
+
+  it("should be able to rate resources", () => {
+    cy.visit("/database/CP2106/past_papers");
+
+    // Check intiial rating
+    cy.get("[data-cy='resourceRating']").should("exist").contains("0");
+
+    // Check upvote downvote
+    cy.get("[data-cy='upvote']").should("exist").click();
+    cy.wait(2000);
+    cy.get("[data-cy='resourceRating']").should("exist").contains("1");
+    cy.get("[data-cy='downvote']").should("exist").click();
+    cy.wait(2000);
+    cy.get("[data-cy='resourceRating']").should("exist").contains("-1");
+    cy.get("[data-cy='downvote']").should("exist").click();
+    cy.wait(2000);
+    cy.get("[data-cy='resourceRating']").should("exist").contains("0");
+  });
+
+  it("should be able to bookmark modules", () => {
+    cy.visit("/dashboard");
+    cy.get("h1").should("contain", "Bookmarked Modules");
+
+    // Add module
+    cy.get("[aria-label='Add bookmarked module']").should("exist").click();
+    cy.wait(2000);
+    cy.get("[aria-labelledby='Search module code']").should("exist").type("CP");
+    cy.get(".Code__menu").find(".Code__option").contains("CP2106").click();
+    cy.contains("a", "CP2106").should("exist").click();
+
+    // Navigate and unstar
+    cy.get("[aria-label='Bookmark module']").click();
+    cy.visit("/dashboard");
+    cy.contains("CP2106").should("not.exist");
+
+    // Navigate to database page and star
+    cy.get("a[href='/database']").click();
+    cy.get("input").type("CP");
+    cy.contains("CP2106").click();
+    cy.get("[aria-label='Bookmark module']").click();
+
+    // Navigate to dashboard and unstar
+    cy.visit("/dashboard");
+    cy.contains("CP2106").should("exist");
+    cy.get("[aria-label='Delete CP2106']").click();
+    cy.contains("CP2106").should("not.exist");
+  });
+
+  it("should be able to post, edit and delete comments", () => {
+    cy.visit("/database/CP2106/notes");
+
+    // Posting comment
+    cy.get("[data-cy='resourceItem']").first().should("exist").click();
+    cy.wait(10000);
+    cy.get("button").contains("View comments").should("exist").click();
+    cy.get("textarea").should("exist").type("Test_comment_1");
+    cy.get("button").contains("Comment").click();
+    cy.get("p").contains("Test_comment_1").should("exist");
+
+    // Editing comment
+    cy.get("[class='lucide lucide-edit']").first().should("exist").click();
+    cy.get("textarea")
+      .contains("Test_comment_1")
+      .type("{selectall}{backspace}Test_comment_2");
+    cy.get("button").contains("Confirm").click({ force: true });
+    cy.get("p").contains("Test_comment_2").should("exist");
+
+    // Deleting comment
+    cy.get("[class='lucide lucide-trash2']").should("exist").click();
+    cy.contains("Are you absolutely sure?").should("exist");
+    cy.get("[data-cy='deleteCommentButtons']")
+      .contains("button", "Delete")
+      .click();
+    cy.contains("Comment deleted successfully!").should("exist");
+    cy.get("p").contains("Test_comment_2").should("not.exist");
   });
 
   it("should be able to upload and delete PDFs", () => {
@@ -163,78 +242,6 @@ describe("Login to dashboard", () => {
     cy.get("[aria-label='Edit Profile']").click();
     cy.contains("Test").should("not.exist");
     cy.contains("Please work, I am begging you!").should("not.exist");
-  });
-
-  it("should be able to rate resources", () => {
-    cy.visit("/database/CP2106/past_papers");
-
-    // Check intiial rating
-    cy.get("[data-cy='resourceRating']").should("exist").contains("0");
-
-    // Check upvote downvote
-    cy.get("[data-cy='upvote']").should("exist").click();
-    cy.get("[data-cy='resourceRating']").should("exist").contains("1");
-    cy.get("[data-cy='downvote']").should("exist").click();
-    cy.get("[data-cy='resourceRating']").should("exist").contains("-1");
-    cy.get("[data-cy='downvote']").should("exist").click();
-    cy.get("[data-cy='resourceRating']").should("exist").contains("0");
-  });
-
-  it("should be able to bookmark modules", () => {
-    cy.visit("/dashboard");
-    cy.get("h1").should("contain", "Bookmarked Modules");
-
-    // Add module
-    cy.get("[aria-label='Add bookmarked module']").should("exist").click();
-    cy.get("[aria-labelledby='Search module code']").should("exist").type("CP");
-    cy.get(".Code__menu").find(".Code__option").contains("CP2106").click();
-    cy.contains("a", "CP2106").should("exist").click();
-
-    // Navigate and unstar
-    cy.get("[aria-label='Bookmark module']").click();
-    cy.visit("/dashboard");
-    cy.contains("CP2106").should("not.exist");
-
-    // Navigate to database page and star
-    cy.get("a[href='/database']").click();
-    cy.get("input").type("CP");
-    cy.contains("CP2106").click();
-    cy.get("[aria-label='Bookmark module']").click();
-
-    // Navigate to dashboard and unstar
-    cy.visit("/dashboard");
-    cy.contains("CP2106").should("exist");
-    cy.get("[aria-label='Delete CP2106']").click();
-    cy.contains("CP2106").should("not.exist");
-  });
-
-  it("should be able to post, edit and delete comments", () => {
-    cy.visit("/database/CP2106/notes");
-
-    // Posting comment
-    cy.get("[data-cy='resourceItem']").first().should("exist").click();
-    cy.wait(10000);
-    cy.get("button").contains("View comments").should("exist").click();
-    cy.get("textarea").should("exist").type("Test_comment_1");
-    cy.get("button").contains("Comment").click();
-    cy.get("p").contains("Test_comment_1").should("exist");
-
-    // Editing comment
-    cy.get("[class='lucide lucide-edit']").first().should("exist").click();
-    cy.get("textarea")
-      .contains("Test_comment_1")
-      .type("{selectall}{backspace}Test_comment_2");
-    cy.get("button").contains("Confirm").click({ force: true });
-    cy.get("p").contains("Test_comment_2").should("exist");
-
-    // Deleting comment
-    cy.get("[class='lucide lucide-trash2']").should("exist").click();
-    cy.contains("Are you absolutely sure?").should("exist");
-    cy.get("[data-cy='deleteCommentButtons']")
-      .contains("button", "Delete")
-      .click();
-    cy.contains("Comment deleted successfully!").should("exist");
-    cy.get("p").contains("Test_comment_2").should("not.exist");
   });
 
   it("should be able to report resources", () => {
