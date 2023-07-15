@@ -47,6 +47,44 @@ describe("Login to dashboard", () => {
       });
   });
 
+  it("should be able to status resources and find them on dashboard", () => {
+    cy.visit("/database/CP2106/past_papers");
+
+    // Open status component
+    cy.get("[data-cy='resourceStatusComponent']")
+      .should("exist")
+      .trigger("mouseover");
+    cy.get("[data-cy='addResourceStatus']").should("exist").click();
+
+    // Set status Saved
+    cy.get("[data-cy='resourceStatusSaved']").should("exist").click();
+
+    cy.visit("/dashboard?filterStatus=Saved&filterCategory=past_papers");
+    cy.reload();
+    cy.get("[data-cy='resourceItem']").should("have.length", 1);
+
+    // Set status to be Todo and assert change in dashboard
+    cy.get("[data-cy='resourceStatusComponent']")
+      .should("exist")
+      .trigger("mouseover");
+    cy.get("[data-cy='resourceStatusSaved']").should("exist").click();
+    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
+    cy.reload();
+    cy.get("[data-cy='resourceItem']").should("have.length", 0);
+    cy.visit("/dashboard?filterStatus=Todo&filterCategory=past_papers");
+    cy.reload();
+    cy.get("[data-cy='resourceItem']").should("have.length", 1);
+
+    // Remove status
+    cy.get("[data-cy='resourceStatusComponent']")
+      .should("exist")
+      .trigger("mouseover");
+    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
+    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
+    cy.reload();
+    cy.get("[data-cy='resourceItem']").should("have.length", 0);
+  });
+
   it("should be able to upload and delete PDFs", () => {
     cy.visit("/addPDF");
     cy.get("a[href='/addPDF/past_papers']").click();
@@ -87,6 +125,7 @@ describe("Login to dashboard", () => {
     // Check on profile page and delete
     cy.visit("/profile");
     cy.get("[aria-label='past_papers']").click();
+    cy.wait(2000);
     cy.contains("samplePDF").should("exist");
     cy.get("[aria-label='Delete resource']").click();
     cy.contains("Are you sure you want to delete this?").should("exist");
@@ -101,6 +140,7 @@ describe("Login to dashboard", () => {
       .contains("Edit Profile")
       .should("exist")
       .click();
+    cy.wait(2000);
     cy.get("div[role='dialog']").should("exist");
     cy.get("#name", { timeout: 10000 })
       .click()
@@ -125,44 +165,6 @@ describe("Login to dashboard", () => {
     cy.contains("Please work, I am begging you!").should("not.exist");
   });
 
-  it("should be able to status resources and find them on dashboard", () => {
-    cy.visit("/database/CP2106/past_papers");
-
-    // Open status component
-    cy.get("[data-cy='resourceStatusComponent']")
-      .should("exist")
-      .trigger("mouseover");
-    cy.get("[data-cy='addResourceStatus']").should("exist").click();
-
-    // Set status Saved
-    cy.get("[data-cy='resourceStatusSaved']").should("exist").click();
-
-    cy.visit("/dashboard?filterStatus=Saved&filterCategory=past_papers");
-    cy.reload();
-    cy.get("[data-cy='resourceItem']").should("have.length", 1);
-
-    // Set status to be Todo and assert change in dashboard
-    cy.get("[data-cy='resourceStatusComponent']")
-      .should("exist")
-      .trigger("mouseover");
-    cy.get("[data-cy='resourceStatusSaved']").should("exist").click();
-    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
-    cy.reload();
-    cy.get("[data-cy='resourceItem']").should("have.length", 0);
-    cy.visit("/dashboard?filterStatus=Todo&filterCategory=past_papers");
-    cy.reload();
-    cy.get("[data-cy='resourceItem']").should("have.length", 1);
-
-    // Remove status
-    cy.get("[data-cy='resourceStatusComponent']")
-      .should("exist")
-      .trigger("mouseover");
-    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
-    cy.get("[data-cy='resourceStatusTodo']").should("exist").click();
-    cy.reload();
-    cy.get("[data-cy='resourceItem']").should("have.length", 0);
-  });
-
   it("should be able to rate resources", () => {
     cy.visit("/database/CP2106/past_papers");
 
@@ -184,7 +186,6 @@ describe("Login to dashboard", () => {
 
     // Add module
     cy.get("[aria-label='Add bookmarked module']").should("exist").click();
-    cy.wait(1000);
     cy.get("[aria-labelledby='Search module code']").should("exist").type("CP");
     cy.get(".Code__menu").find(".Code__option").contains("CP2106").click();
     cy.contains("a", "CP2106").should("exist").click();
@@ -212,6 +213,7 @@ describe("Login to dashboard", () => {
 
     // Posting comment
     cy.get("[data-cy='resourceItem']").first().should("exist").click();
+    cy.wait(10000);
     cy.get("button").contains("View comments").should("exist").click();
     cy.get("textarea").should("exist").type("Test_comment_1");
     cy.get("button").contains("Comment").click();
@@ -240,6 +242,7 @@ describe("Login to dashboard", () => {
 
     // Reporting resource
     cy.get("[data-cy='resourceItem']").should("exist").rightclick();
+    cy.wait(10000);
     cy.get("[data-cy='report-resource']").should("exist").click();
     cy.get("[data-cy='incorrectSemester']").should("exist").click();
     cy.contains("Reported successfully!").should("exist");
@@ -259,6 +262,7 @@ describe("Login to dashboard", () => {
 
     // Reporting solution
     cy.get("[data-cy='solutionItem']").should("exist").rightclick();
+    cy.wait(1000);
     cy.get("[data-cy='report-resource']").should("exist").click();
     cy.get("[data-cy='incorrectQuestionPaper']").should("exist").click();
     cy.contains("Reported successfully!").should("exist");
@@ -278,7 +282,7 @@ describe("Login to dashboard", () => {
 
     // Reporting comment
     cy.get("[data-cy='resourceItem']").should("exist").click();
-    cy.wait(2000);
+    cy.wait(5000);
     cy.get("button").contains("View comments").should("exist").click();
     cy.get("[data-cy='reportCommentIcon']").should("exist").click();
     cy.get("[data-cy='harassment']").should("exist").click();
