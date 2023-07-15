@@ -31,6 +31,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { useState } from "react";
+import Button from "../ui/Button";
+import { useRouter } from "next/navigation";
 
 interface ResourceContextMenuProps {
   children: React.ReactNode;
@@ -57,6 +61,8 @@ export default function ResourceContextMenu({
   disabled,
   isSolution,
 }: ResourceContextMenuProps) {
+  const [open, setOpen] = useState(false);
+
   const handleReportClick = async (
     type: ResourceReportType | SolutionReportType
   ) => {
@@ -113,8 +119,10 @@ export default function ResourceContextMenu({
     }
   };
 
+  let router = useRouter();
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <ContextMenu>
         <ContextMenuTrigger disabled={disabled} className={className}>
           {children}
@@ -190,6 +198,17 @@ export default function ResourceContextMenu({
             This action cannot be undone. This will permanently delete your
             account and remove your data from our servers.
           </DialogDescription>
+          <Button
+            onClick={() => {
+              router.refresh();
+              setOpen(false);
+            }}
+            className="flex-1"
+          >
+            <div className="inline-flex h-full w-full items-center justify-center rounded-md bg-slate-900 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-100 dark:text-slate-700 dark:hover:bg-slate-300">
+              Cancel
+            </div>
+          </Button>
         </DialogHeader>
       </DialogContent>
     </Dialog>
