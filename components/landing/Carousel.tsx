@@ -41,7 +41,7 @@ export default function Carousel({ data }: CarouselProps) {
       </Button>
       <div
         ref={ref}
-        className="relative flex aspect-square w-1/2 flex-col items-center justify-center overflow-hidden bg-slate-800"
+        className="relative flex aspect-video w-3/4 flex-col items-center justify-center overflow-hidden bg-slate-800"
       >
         <AnimatePresence custom={{ direction, width }}>
           <motion.div
