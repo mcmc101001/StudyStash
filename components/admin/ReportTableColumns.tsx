@@ -15,6 +15,7 @@ import SolutionResolveButton from "@/components/admin/SolutionResolveButton";
 import CommentResolveButton from "@/components/admin/CommentResolveButton";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import ClientDateTime from "../ClientDateTime";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -22,7 +23,7 @@ export type ResourceReportHeaderType = {
   reportId: string;
   type: ResourceReportType;
   category: ResourceType;
-  createdAt: string;
+  createdAt: Date;
   filename: string;
   uploaderId: string;
   uploaderName: string;
@@ -38,7 +39,7 @@ export type ResourceReportHeaderType = {
 export type SolutionReportHeaderType = {
   reportId: string;
   type: SolutionReportType;
-  createdAt: string;
+  createdAt: Date;
   filename: string;
   uploaderId: string;
   uploaderName: string;
@@ -51,7 +52,7 @@ export type CommentReportHeaderType = {
   reportId: string;
   type: CommentReportType;
   category: CommentReportCategory;
-  createdAt: string;
+  createdAt: Date;
   authorId: string;
   authorName: string;
   commentId: string;
@@ -73,6 +74,11 @@ export const resourceColumns: ColumnDef<ResourceReportHeaderType>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const report = row.original;
+
+      return <ClientDateTime datetime={report.createdAt} />;
     },
   },
   {
@@ -195,6 +201,11 @@ export const solutionColumns: ColumnDef<SolutionReportHeaderType>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const report = row.original;
+
+      return <ClientDateTime datetime={report.createdAt} />;
+    },
   },
   {
     accessorKey: "type",
@@ -263,14 +274,6 @@ export const solutionColumns: ColumnDef<SolutionReportHeaderType>[] = [
 
 export const commentColumns: ColumnDef<CommentReportHeaderType>[] = [
   {
-    accessorKey: "type",
-    header: "Reason",
-  },
-  {
-    accessorKey: "category",
-    header: "Comment",
-  },
-  {
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (
@@ -283,6 +286,19 @@ export const commentColumns: ColumnDef<CommentReportHeaderType>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const report = row.original;
+
+      return <ClientDateTime datetime={report.createdAt} />;
+    },
+  },
+  {
+    accessorKey: "type",
+    header: "Reason",
+  },
+  {
+    accessorKey: "category",
+    header: "Comment",
   },
   {
     accessorKey: "authorName",

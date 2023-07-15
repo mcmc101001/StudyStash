@@ -121,32 +121,6 @@ export default function ResourceContextMenu({
             Open in new tab
           </a>
         </ContextMenuItem>
-
-        {/* <ContextMenuSeparator />
-
-        <ContextMenuCheckboxItem
-          checked={status === "Saved"}
-          onClick={(e) => handleStatusChange(e, ResourceStatus.Saved)}
-        >
-          Bookmark
-        </ContextMenuCheckboxItem>
-        {category === "Past Papers" && (
-          <ContextMenuCheckboxItem
-            checked={status === "Todo"}
-            onClick={(e) => handleStatusChange(e, ResourceStatus.Todo)}
-          >
-            Todo
-          </ContextMenuCheckboxItem>
-        )}
-        {category === "Past Papers" && (
-          <ContextMenuCheckboxItem
-            checked={status === "Completed"}
-            onClick={(e) => handleStatusChange(e, ResourceStatus.Completed)}
-          >
-            Completed
-          </ContextMenuCheckboxItem>
-        )} */}
-
         <ContextMenuSeparator />
         <ContextMenuSub>
           <ContextMenuSubTrigger

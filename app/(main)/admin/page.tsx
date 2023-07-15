@@ -21,23 +21,11 @@ export const metadata: Metadata = {
     "The admin page for StudyStash, where you can manage reports against resources and comments",
 };
 
-// Function to convert Date type to string
-const dateString = (datetime: Date) => {
-  return datetime.toLocaleString("en-SG", {
-    minute: "2-digit",
-    hour: "numeric",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-};
-
 export default async function AdminPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  
   const user = await getCurrentUser();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
@@ -222,7 +210,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "Cheatsheets",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         filename: report.resource.name,
         uploaderId: report.resource.userSubmitted.id,
         uploaderName: report.resource.userSubmitted.name!,
@@ -241,7 +229,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "Past Papers",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         filename: report.resource.name,
         uploaderId: report.resource.userSubmitted.id,
         uploaderName: report.resource.userSubmitted.name!,
@@ -261,7 +249,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "Notes",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         filename: report.resource.name,
         uploaderId: report.resource.userSubmitted.id,
         uploaderName: report.resource.userSubmitted.name!,
@@ -279,7 +267,7 @@ export default async function AdminPage({
       solutionData.push({
         reportId: report.id,
         type: report.type,
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         filename: report.resource.name,
         uploaderId: report.resource.userSubmitted.id,
         uploaderName: report.resource.userSubmitted.name!,
@@ -295,7 +283,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "cheatsheetCommentReport",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
         commentId: report.commentId,
@@ -311,7 +299,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "questionPaperCommentReport",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
         commentId: report.commentId,
@@ -327,7 +315,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "notesCommentReport",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
         commentId: report.commentId,
@@ -343,7 +331,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "solutionCommentReport",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
         commentId: report.commentId,
@@ -359,7 +347,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "cheatsheetReplyReport",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
         commentId: report.commentId,
@@ -375,7 +363,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "questionPaperReplyReport",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
         commentId: report.commentId,
@@ -391,7 +379,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "notesReplyReport",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
         commentId: report.commentId,
@@ -407,7 +395,7 @@ export default async function AdminPage({
         reportId: report.id,
         type: report.type,
         category: "solutionReplyReport",
-        createdAt: dateString(report.createdAt),
+        createdAt: report.createdAt,
         authorId: report.comment.user.id,
         authorName: report.comment.user.name!,
         commentId: report.commentId,
