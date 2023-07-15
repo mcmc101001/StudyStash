@@ -23,6 +23,14 @@ import { ResourceReportType, SolutionReportType } from "@prisma/client";
 import axios from "axios";
 import fileDownload from "js-file-download";
 import { toast } from "react-hot-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
 
 interface ResourceContextMenuProps {
   children: React.ReactNode;
@@ -106,23 +114,27 @@ export default function ResourceContextMenu({
   };
 
   return (
-    <ContextMenu>
-      <ContextMenuTrigger disabled={disabled} className={className}>
-        {children}
-      </ContextMenuTrigger>
-      <ContextMenuContent className="border border-slate-300 dark:border-slate-600">
-        <ContextMenuItem asChild>
-          <button onClick={handleDownloadClick} className="h-full w-full">
-            Download
-          </button>
-        </ContextMenuItem>
-        <ContextMenuItem asChild>
-          <a href={shareURL} rel="noopener noreferrer" target="_blank">
-            Open in new tab
-          </a>
-        </ContextMenuItem>
+    <Dialog>
+      <ContextMenu>
+        <ContextMenuTrigger disabled={disabled} className={className}>
+          {children}
+        </ContextMenuTrigger>
+        <ContextMenuContent className="border border-slate-300 dark:border-slate-600">
+          <ContextMenuItem asChild>
+            <button onClick={handleDownloadClick} className="h-full w-full">
+              Download
+            </button>
+          </ContextMenuItem>
+          <ContextMenuItem asChild>
+            <a href={shareURL} rel="noopener noreferrer" target="_blank">
+              Open in new tab
+            </a>
+          </ContextMenuItem>
+          <ContextMenuItem asChild>
+            <DialogTrigger>Open</DialogTrigger>
+          </ContextMenuItem>
 
-        {/* <ContextMenuSeparator />
+          {/* <ContextMenuSeparator />
 
         <ContextMenuCheckboxItem
           checked={status === "Saved"}
@@ -147,29 +159,39 @@ export default function ResourceContextMenu({
           </ContextMenuCheckboxItem>
         )} */}
 
-        <ContextMenuSeparator />
-        <ContextMenuSub>
-          <ContextMenuSubTrigger
-            data-cy="report-resource"
-            disabled={resourceUserId === currentUserId}
-          >
-            Report resource
-          </ContextMenuSubTrigger>
-          <ContextMenuSubContent>
-            {reportChoices.map((option) => {
-              return (
-                <ContextMenuItem
-                  data-cy={option.value}
-                  key={option.value}
-                  onClick={() => handleReportClick(option.value)}
-                >
-                  {option.label}
-                </ContextMenuItem>
-              );
-            })}
-          </ContextMenuSubContent>
-        </ContextMenuSub>
-      </ContextMenuContent>
-    </ContextMenu>
+          <ContextMenuSeparator />
+          <ContextMenuSub>
+            <ContextMenuSubTrigger
+              data-cy="report-resource"
+              disabled={resourceUserId === currentUserId}
+            >
+              Report resource
+            </ContextMenuSubTrigger>
+            <ContextMenuSubContent>
+              {reportChoices.map((option) => {
+                return (
+                  <ContextMenuItem
+                    data-cy={option.value}
+                    key={option.value}
+                    onClick={() => handleReportClick(option.value)}
+                  >
+                    {option.label}
+                  </ContextMenuItem>
+                );
+              })}
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+        </ContextMenuContent>
+      </ContextMenu>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   );
 }
