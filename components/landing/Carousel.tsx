@@ -6,6 +6,7 @@ import useMeasure from "react-use-measure";
 import Button from "@/components/ui/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 interface CarouselProps {
   data: { src: string; text: string }[];
@@ -54,11 +55,12 @@ export default function Carousel({ data }: CarouselProps) {
             transition={{ type: "spring", ease: "easeInOut", duration: 0.3 }}
             className={`absolute flex max-h-full flex-1 flex-col items-center justify-center p-10`}
           >
-            <img
+            <Image
               className="min-h-0 flex-1"
               key={currentSlide}
               src={data[currentSlide - 1].src}
               alt={"Demo image"}
+              unoptimized={true}
             />
             <p className="pt-6 text-white">{data[currentSlide - 1].text}</p>
           </motion.div>
