@@ -16,7 +16,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import Button from "@/components/ui/Button";
 import UseAnimations from "react-useanimations";
 import trash2 from "react-useanimations/lib/trash2";
@@ -32,10 +31,12 @@ export default function ResourceDeleteButton({
   resourceId,
   category,
 }: ResourceDeleteButtonProps) {
+  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleDelete = async function () {
+    setOpen(false);
     setIsLoading(true);
     let body: deleteS3ObjectType = { userId: currentUserId, id: resourceId };
     try {
@@ -67,7 +68,7 @@ export default function ResourceDeleteButton({
       {isLoading ? (
         <Loader2 height={30} width={30} className="animate-spin" />
       ) : (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger
             asChild
             className="-mx-2 stroke-slate-800 dark:stroke-slate-200"
@@ -79,7 +80,6 @@ export default function ResourceDeleteButton({
               size={45}
               strokeColor="inherit"
             />
-            {/* <Trash2 height={30} width={30} className="cursor-pointer" /> */}
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -87,23 +87,19 @@ export default function ResourceDeleteButton({
               <DialogDescription>
                 This action cannot be undone.
               </DialogDescription>
-              <div className="flex w-full gap-x-2 pt-5">
-                <DialogPrimitive.Close className="flex-1">
-                  <div className="inline-flex h-full w-full items-center justify-center rounded-md bg-slate-900 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-100 dark:text-slate-700 dark:hover:bg-slate-300">
-                    Cancel
-                  </div>
-                </DialogPrimitive.Close>
-                <div className="flex-1">
-                  <Button
-                    className="w-full"
-                    variant="dangerous"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </div>
             </DialogHeader>
+            <div className="flex w-full gap-x-2">
+              <Button className="w-1/2" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                className="w-1/2"
+                variant="dangerous"
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            </div>
           </DialogContent>
         </Dialog>
       )}
