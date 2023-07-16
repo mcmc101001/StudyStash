@@ -63,6 +63,7 @@ export default function ResourceContextMenu({
   isSolution,
 }: ResourceContextMenuProps) {
   const [open, setOpen] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const handleReportClick = async (
     type: ResourceReportType | SolutionReportType
@@ -123,10 +124,12 @@ export default function ResourceContextMenu({
   let router = useRouter();
 
   const handleDelete = async function () {
-    setOpen(false);
+    setIsDeleteLoading(true);
 
     if (!currentUserId) {
       toast.error("Unauthorized.");
+      setIsDeleteLoading(false);
+      setOpen(false);
       return;
     }
 
@@ -142,13 +145,19 @@ export default function ResourceContextMenu({
         await axios.post("/api/deletePDF", body);
       } catch (error) {
         toast.error("Error deleting resource, please try again later.");
+        setIsDeleteLoading(false);
+        setOpen(false);
         return;
       }
     } catch (error) {
       toast.error("Error deleting resource, please try again later.");
+      setIsDeleteLoading(false);
+      setOpen(false);
       return;
     }
     router.refresh();
+    setIsDeleteLoading(false);
+    setOpen(false);
     toast.success("Resource deleted successfully!");
   };
 
@@ -209,10 +218,15 @@ export default function ResourceContextMenu({
             <DialogDescription>This action cannot be undone.</DialogDescription>
           </DialogHeader>
           <div className="flex w-full gap-x-2">
-            <Button className="w-1/2" onClick={() => setOpen(false)}>
+            <Button
+              className="w-1/2"
+              disabled={isDeleteLoading}
+              onClick={() => setOpen(false)}
+            >
               Cancel
             </Button>
             <Button
+              isLoading={isDeleteLoading}
               className="w-1/2"
               variant="dangerous"
               onClick={handleDelete}
