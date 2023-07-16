@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CarouselProps {
-  data: { src: string; text: string }[];
+  data: { src: string; text: string; height: number; width: number }[];
 }
 
 export default function Carousel({ data }: CarouselProps) {
@@ -56,6 +56,8 @@ export default function Carousel({ data }: CarouselProps) {
             className={`absolute flex max-h-full flex-1 flex-col items-center justify-center p-10`}
           >
             <img
+              // width={data[currentSlide - 1].width}
+              // height={data[currentSlide - 1].height}
               className="min-h-0 flex-1"
               key={currentSlide}
               src={data[currentSlide - 1].src}
