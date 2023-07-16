@@ -74,7 +74,7 @@ export default async function Navbar() {
       </Link>
 
       <nav className="flex flex-1 flex-col">
-        <ul role="list" className="flex flex-1 flex-col gap-y-7">
+        <ul className="flex flex-1 flex-col gap-y-7">
           {navOptions.map((option) => {
             if (!user && option.name === "Profile") return null; // Don't show profile tab if not signed in
             if (!verified && option.name === "Admin") return null; // Don't show admin tab if not verified
