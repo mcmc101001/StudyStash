@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CarouselProps {
-  data: { src: string; text: string }[];
+  data: { src: string; text: string; height: number; width: number }[];
 }
 
 export default function Carousel({ data }: CarouselProps) {
@@ -31,6 +31,7 @@ export default function Carousel({ data }: CarouselProps) {
   return (
     <div className="flex w-full items-center justify-center gap-x-10">
       <Button
+        aria-label="Previous slide"
         disabled={currentSlide === 1}
         onClick={() => {
           if (currentSlide === 1) return;
@@ -41,7 +42,7 @@ export default function Carousel({ data }: CarouselProps) {
       </Button>
       <div
         ref={ref}
-        className="relative flex aspect-video w-3/4 flex-col items-center justify-center overflow-hidden bg-slate-800"
+        className="relative flex aspect-video w-full flex-col items-center justify-center overflow-hidden bg-slate-800"
       >
         <AnimatePresence custom={{ direction, width }}>
           <motion.div
@@ -55,6 +56,8 @@ export default function Carousel({ data }: CarouselProps) {
             className={`absolute flex max-h-full flex-1 flex-col items-center justify-center p-10`}
           >
             <img
+              // width={data[currentSlide - 1].width}
+              // height={data[currentSlide - 1].height}
               className="min-h-0 flex-1"
               key={currentSlide}
               src={data[currentSlide - 1].src}
@@ -65,6 +68,7 @@ export default function Carousel({ data }: CarouselProps) {
         </AnimatePresence>
       </div>
       <Button
+        aria-label="Next slide"
         disabled={currentSlide === data.length}
         onClick={() => {
           if (currentSlide === data.length) return;

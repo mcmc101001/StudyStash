@@ -44,42 +44,62 @@ const carouselData = [
   {
     src: "/gifs/databaseSearch.gif",
     text: "To find resources, navigate to the database page and type in the module code!",
+    height: 645,
+    width: 476,
   },
   {
     src: "/gifs/databaseFilters.gif",
     text: "Use the various sorts and filters to find the resources you want!",
+    height: 415,
+    width: 405,
   },
   {
     src: "/gifs/contextMenu.gif",
     text: "Right click on a resource for more features!",
+    height: 514,
+    width: 1526,
   },
   {
     src: "/gifs/sheetClosing.gif",
     text: "You can close the sheet by using the close button, clicking outside the sheet or pressing the ESC key!",
+    height: 1317,
+    width: 2073,
   },
   {
     src: "/gifs/comments.gif",
     text: "You can also comment on resources!",
+    height: 1330,
+    width: 2552,
   },
   {
     src: "/gifs/contribute.gif",
     text: "To upload a resource, navigate to the upload page via the navbar!",
+    height: 666,
+    width: 246,
   },
   {
     src: "/gifs/contributePrefill.gif",
     text: "You can also upload a resource, from the database page, which would autofill the various filters!",
+    height: 758,
+    width: 488,
   },
   {
     src: "/gifs/resourceStatus.gif",
     text: "You can label resources to better categorize them!",
+    height: 167,
+    width: 1132,
   },
   {
     src: "/gifs/dashboardResources.gif",
     text: "View your labelled resources in the dashboard!",
+    height: 1244,
+    width: 1478,
   },
   {
     src: "/gifs/bookmarkedModules.gif",
     text: "Bookmark modules from the dashboard for quick access!",
+    height: 552,
+    width: 527,
   },
 ];
 
@@ -173,6 +193,7 @@ export default async function Home() {
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
           <IFrame
+            title="StudyStash Video"
             height={"100%"}
             width={"100%"}
             allowFullScreen={true}
@@ -195,16 +216,19 @@ export default async function Home() {
             },
           }}
         >
-          <motion.h1
+          <motion.h2
             variants={FADE_DOWN_ANIMATION_VARIANTS}
             className={`mb-6 text-7xl font-bold ${CalSansFont.className}`}
           >
             Features
-          </motion.h1>
+          </motion.h2>
         </motion.div>
-        <div className="w-full select-none">
+        <motion.div
+          variants={FADE_DOWN_ANIMATION_VARIANTS}
+          className="w-full select-none"
+        >
           <Carousel data={carouselData} />
-        </div>
+        </motion.div>
       </section>
       <section className="mx-auto flex h-screen max-w-4xl flex-col justify-center text-left xl:max-w-6xl">
         <motion.div
@@ -221,12 +245,12 @@ export default async function Home() {
             },
           }}
         >
-          <motion.h1
+          <motion.h2
             variants={FADE_DOWN_ANIMATION_VARIANTS}
             className={`mb-6 text-4xl font-semibold underline underline-offset-8 ${CalSansFont.className}`}
           >
             Frequently Asked Questions
-          </motion.h1>
+          </motion.h2>
           <motion.div variants={FADE_DOWN_ANIMATION_VARIANTS}>
             <FrequentlyAskedQuestions />
           </motion.div>
