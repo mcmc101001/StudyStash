@@ -47,13 +47,15 @@ export default async function ProfilePageUser({
     redirect("/404");
   }
 
-  let affirmation: string;
-  try {
-    const response = await fetch("https://www.affirmations.dev/");
-    const data = await response.json();
-    affirmation = `${data.affirmation}!`;
-  } catch {
-    affirmation = "I am enough.";
+  let affirmation = "I am enough!";
+  if (!profileUser.bio) {
+    try {
+      const response = await fetch("https://www.affirmations.dev/");
+      const data = await response.json();
+      affirmation = `${data.affirmation}!`;
+    } catch {
+      affirmation = "I am enough.";
+    }
   }
 
   return (
