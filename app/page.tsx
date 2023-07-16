@@ -173,6 +173,7 @@ export default async function Home() {
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
           <IFrame
+            title="StudyStash Video"
             height={"100%"}
             width={"100%"}
             allowFullScreen={true}
@@ -195,12 +196,12 @@ export default async function Home() {
             },
           }}
         >
-          <motion.h1
+          <motion.h2
             variants={FADE_DOWN_ANIMATION_VARIANTS}
             className={`mb-6 text-7xl font-bold ${CalSansFont.className}`}
           >
             Features
-          </motion.h1>
+          </motion.h2>
         </motion.div>
         <motion.div
           variants={FADE_DOWN_ANIMATION_VARIANTS}
@@ -224,12 +225,12 @@ export default async function Home() {
             },
           }}
         >
-          <motion.h1
+          <motion.h2
             variants={FADE_DOWN_ANIMATION_VARIANTS}
             className={`mb-6 text-4xl font-semibold underline underline-offset-8 ${CalSansFont.className}`}
           >
             Frequently Asked Questions
-          </motion.h1>
+          </motion.h2>
           <motion.div variants={FADE_DOWN_ANIMATION_VARIANTS}>
             <FrequentlyAskedQuestions />
           </motion.div>

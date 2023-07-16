@@ -31,6 +31,7 @@ export default function Carousel({ data }: CarouselProps) {
   return (
     <div className="flex w-full items-center justify-center gap-x-10">
       <Button
+        aria-label="Previous slide"
         disabled={currentSlide === 1}
         onClick={() => {
           if (currentSlide === 1) return;
@@ -65,6 +66,7 @@ export default function Carousel({ data }: CarouselProps) {
         </AnimatePresence>
       </div>
       <Button
+        aria-label="Next slide"
         disabled={currentSlide === data.length}
         onClick={() => {
           if (currentSlide === data.length) return;
