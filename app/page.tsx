@@ -202,9 +202,12 @@ export default async function Home() {
             Features
           </motion.h1>
         </motion.div>
-        <div className="w-full select-none">
+        <motion.div
+          variants={FADE_DOWN_ANIMATION_VARIANTS}
+          className="w-full select-none"
+        >
           <Carousel data={carouselData} />
-        </div>
+        </motion.div>
       </section>
       <section className="mx-auto flex h-screen max-w-4xl flex-col justify-center text-left xl:max-w-6xl">
         <motion.div
