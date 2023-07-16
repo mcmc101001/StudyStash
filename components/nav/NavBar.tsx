@@ -89,13 +89,13 @@ export default async function Navbar() {
               />
             );
           })}
-          <div className="mb-2 mt-auto">
+          <li className="mb-2 mt-auto">
             <DarkModeTogglerNoSSR />
             <div className="mt-8">
               {/* @ts-expect-error Server Component */}
               <UserProfilePic />
             </div>
-          </div>
+          </li>
         </ul>
       </nav>
     </div>
