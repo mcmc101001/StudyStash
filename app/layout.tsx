@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     type: "website",
     title: "StudyStash",
     description:
-      "Studystash is a one stop solution for all your revision needs. Gain access to user contributed cheatsheets, notes, as well as past papers and solutions!",
+      "StudyStash is a one stop solution for all your revision needs. Gain access to user contributed cheatsheets, notes, as well as past papers and solutions!",
     url: "https://studystash.vercel.app",
     siteName: "StudyStash",
   },

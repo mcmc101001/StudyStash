@@ -183,7 +183,7 @@ export default function ResourceContextMenu({
             <>
               <ContextMenuSeparator />
               <ContextMenuItem asChild>
-                <DialogTrigger className="w-full"> Delete item </DialogTrigger>
+                <DialogTrigger className="w-full"> Delete </DialogTrigger>
               </ContextMenuItem>
             </>
           )}
