@@ -66,10 +66,22 @@ const carouselData = [
     width: 2073,
   },
   {
+    src: "/gifs/rating.gif",
+    text: "You can also rate resources and rate difficulty for past papers!",
+    height: 1316,
+    width: 1694,
+  },
+  {
     src: "/gifs/comments.gif",
     text: "You can also comment on resources!",
     height: 1330,
     width: 2552,
+  },
+  {
+    src: "/gifs/solutions.gif",
+    text: "View solutions with a resizable side-by-side view!",
+    height: 1315,
+    width: 2534,
   },
   {
     src: "/gifs/contribute.gif",
@@ -82,6 +94,12 @@ const carouselData = [
     text: "You can also upload a resource, from the database page, which would autofill the various filters!",
     height: 758,
     width: 488,
+  },
+  {
+    src: "/gifs/deleteResource.gif",
+    text: "To delete resources, navigate to your profile and use the delete button or simply right click!",
+    height: 283,
+    width: 1130,
   },
   {
     src: "/gifs/resourceStatus.gif",
@@ -193,6 +211,7 @@ export default async function Home() {
           variants={FADE_DOWN_ANIMATION_VARIANTS}
         >
           <IFrame
+            loading="lazy"
             title="StudyStash Video"
             height={"100%"}
             width={"100%"}
