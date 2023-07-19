@@ -38,7 +38,7 @@ export default async function Page({
 
   const user = await getCurrentUser();
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
+    redirect("/");
   }
 
   const acadYearOptions = getAcadYearOptions();

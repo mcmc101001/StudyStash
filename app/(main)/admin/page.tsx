@@ -28,7 +28,7 @@ export default async function AdminPage({
 }) {
   const user = await getCurrentUser();
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
+    redirect("/");
   }
   const verified = await prisma.user
     .findUnique({

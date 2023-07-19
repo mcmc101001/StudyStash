@@ -22,7 +22,7 @@ export default async function DashboardPage({
 }) {
   const user = await getCurrentUser();
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
+    redirect("/");
   }
 
   let starredModules = await prisma.starredModules.findMany({

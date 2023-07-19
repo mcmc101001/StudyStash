@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default async function addPDFPage() {
   const user = await getCurrentUser();
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "api/auth/signin/google");
+    redirect("/");
   }
 
   return (
