@@ -90,6 +90,8 @@ export default async function SolutionItem({
     userStatus = null;
   }
 
+  const userRating = userVote?.value ?? null;
+
   const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${solutionId}`;
 
   return (
@@ -118,7 +120,7 @@ export default async function SolutionItem({
             resourceId={solutionId}
             currentUserId={currentUser?.id || null}
             totalRating={rating}
-            userRating={userVote?.value || null}
+            userRating={userRating}
           />
           <div className="ml-3 flex h-full flex-col gap-y-2 overflow-hidden text-ellipsis pr-4">
             <div className="flex items-center gap-x-2 text-left font-semibold">

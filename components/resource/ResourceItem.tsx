@@ -287,7 +287,7 @@ export default async function ResourceItem({
           currentUserId={currentUser ? currentUser.id : null}
           category={category}
           totalRating={rating}
-          userRating={userVote !== null ? userVote.value : null}
+          userRating={userVote?.value ?? null}
           userDifficulty={userDifficulty}
           resourceStatus={userStatus ? userStatus.status : null}
           solutionIncluded={solutionIncluded}

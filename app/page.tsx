@@ -188,7 +188,7 @@ export default async function Home() {
               Try it now
             </Button>
           </Link>
-          <Link className="w-full whitespace-nowrap" href="#video">
+          <Link className="w-full whitespace-nowrap" href="#features">
             <Button
               size="lg"
               variant={"ghost"}
@@ -220,7 +220,10 @@ export default async function Home() {
           />
         </motion.div>
       </section>
-      <section className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl">
+      <section
+        id="features"
+        className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl"
+      >
         <motion.div
           initial="hidden"
           whileInView="show"
