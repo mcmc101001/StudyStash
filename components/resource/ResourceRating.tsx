@@ -114,7 +114,7 @@ export default function ResourceRating({
   };
 
   return (
-    <div data-cy="resourceRating" className="flex flex-row items-center">
+    <div data-cy="resourceRating" className="z-20 flex flex-row items-center">
       <div
         className={
           "flex items-center " +
