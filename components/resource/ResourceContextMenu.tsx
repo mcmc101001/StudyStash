@@ -116,7 +116,15 @@ export default function ResourceContextMenu({
       await axios.get(shareURL, { responseType: "blob" }).then((res) => {
         fileDownload(res.data, resourceTitle + ".pdf");
       });
-    } catch {
+      // await fetch(shareURL)
+      //   .then((res) => res.blob())
+      //   .then((blob) => {
+      //     fileDownload(blob, resourceTitle + ".pdf");
+      //   });
+    } catch (error) {
+      // if (error instanceof Error) {
+      //   toast.error(error.message);
+      // }
       toast.error("Download failed.");
     }
   };

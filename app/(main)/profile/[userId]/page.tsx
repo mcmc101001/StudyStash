@@ -7,6 +7,7 @@ import ProfileEditDialog from "@/components/user/ProfileEditDialog";
 import { ResourceFiltersSorts, sortValue } from "@/lib/content";
 import { Separator } from "@/components/ui/Separator";
 import { UserAchievementsSection } from "@/components/user/UserAchievementsSection";
+import UserBio from "@/components/user/UserBio";
 
 export async function generateMetadata({
   params,
@@ -54,7 +55,7 @@ export default async function ProfilePageUser({
       const data = await response.json();
       affirmation = `${data.affirmation}!`;
     } catch {
-      affirmation = "I am enough.";
+      affirmation = "I am enough!";
     }
   }
 
@@ -83,12 +84,13 @@ export default async function ProfilePageUser({
           <h1 className="mt-2 overflow-x-scroll whitespace-nowrap text-2xl font-bold scrollbar-none">
             {profileUser.name}
           </h1>
-          <p
+          <UserBio
+            profileUserId={profileUser.id}
+            profileUserBio={profileUser.bio}
+            affirmation={affirmation}
             className="mt-1 h-fit max-h-44 overflow-y-auto scroll-smooth whitespace-break-spaces break-words text-slate-600 scrollbar-thin scrollbar-track-slate-400 scrollbar-thumb-slate-100 
           scrollbar-track-rounded-md scrollbar-thumb-rounded-md dark:text-slate-400 dark:scrollbar-track-slate-600 dark:scrollbar-thumb-slate-900"
-          >
-            {profileUser.bio || affirmation}
-          </p>
+          />
         </section>
         <section>
           {/* @ts-expect-error Server Component */}
