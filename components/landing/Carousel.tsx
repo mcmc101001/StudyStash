@@ -1,11 +1,11 @@
 "use client";
 
 import usePrevious from "@/hooks/usePrevious";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import useMeasure from "react-use-measure";
 import Button from "@/components/ui/Button";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 interface CarouselProps {
   data: { src: string; text: string; height: number; width: number }[];
@@ -55,14 +55,18 @@ export default function Carousel({ data }: CarouselProps) {
             transition={{ type: "spring", ease: "easeInOut", duration: 0.3 }}
             className={`absolute flex max-h-full flex-1 flex-col items-center justify-center p-10`}
           >
-            <img
-              // width={data[currentSlide - 1].width}
-              // height={data[currentSlide - 1].height}
-              className="min-h-0 flex-1"
-              key={currentSlide}
-              src={data[currentSlide - 1].src}
-              alt={"Demo image"}
-            />
+            <Suspense
+              fallback={<Loader2 className="2-10 m-10 h-10 animate-spin" />}
+            >
+              <img
+                // width={data[currentSlide - 1].width}
+                // height={data[currentSlide - 1].height}
+                className="min-h-0 flex-1"
+                key={currentSlide}
+                src={data[currentSlide - 1].src}
+                alt={"Demo image"}
+              />
+            </Suspense>
             <p className="pt-6 text-white">{data[currentSlide - 1].text}</p>
           </motion.div>
         </AnimatePresence>
