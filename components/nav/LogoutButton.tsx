@@ -15,9 +15,7 @@ export default function LogoutButton() {
       onClick={async () => {
         setIsSigningOut(true);
         try {
-          await signOut({
-            callbackUrl: "/",
-          });
+          await signOut();
         } catch (error) {
           toast.error("There was an error signing out");
         } finally {

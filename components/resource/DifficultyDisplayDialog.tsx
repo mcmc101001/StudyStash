@@ -22,7 +22,7 @@ export default function DifficultyDisplayDialog({
 }: DifficultyDisplayDialogProps) {
   return (
     <Dialog>
-      <DialogTrigger className="hover:scale-110">
+      <DialogTrigger className="hover:scale-110 focus:outline-none">
         <DifficultyDisplay
           difficulty={difficulty}
           difficultyCount={difficultyCount}
