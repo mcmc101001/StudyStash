@@ -768,12 +768,12 @@ function DeleteDialog({
         <div data-cy="deleteCommentButtons" className="flex w-full gap-x-2">
           <Button
             onClick={() => setIsDeleteDialogOpen(false)}
-            className="w-1/2"
+            className="flex-1"
           >
             Cancel
           </Button>
           <Button
-            className="w-full"
+            className="flex-1"
             variant="dangerous"
             isLoading={isDeleteLoading}
             onClick={handleDelete}

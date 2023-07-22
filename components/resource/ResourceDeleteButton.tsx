@@ -89,11 +89,11 @@ export default function ResourceDeleteButton({
               </DialogDescription>
             </DialogHeader>
             <div className="flex w-full gap-x-2">
-              <Button className="w-1/2" onClick={() => setOpen(false)}>
+              <Button className="flex-1" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button
-                className="w-1/2"
+                className="flex-1"
                 variant="dangerous"
                 onClick={handleDelete}
               >

@@ -116,7 +116,15 @@ export default function ResourceContextMenu({
       await axios.get(shareURL, { responseType: "blob" }).then((res) => {
         fileDownload(res.data, resourceTitle + ".pdf");
       });
-    } catch {
+      // await fetch(shareURL)
+      //   .then((res) => res.blob())
+      //   .then((blob) => {
+      //     fileDownload(blob, resourceTitle + ".pdf");
+      //   });
+    } catch (error) {
+      // if (error instanceof Error) {
+      //   toast.error(error.message);
+      // }
       toast.error("Download failed.");
     }
   };
@@ -219,7 +227,7 @@ export default function ResourceContextMenu({
           </DialogHeader>
           <div className="flex w-full gap-x-2">
             <Button
-              className="w-1/2"
+              className="flex-1"
               disabled={isDeleteLoading}
               onClick={() => setOpen(false)}
             >
@@ -227,7 +235,7 @@ export default function ResourceContextMenu({
             </Button>
             <Button
               isLoading={isDeleteLoading}
-              className="w-1/2"
+              className="flex-1"
               variant="dangerous"
               onClick={handleDelete}
             >
