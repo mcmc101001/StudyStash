@@ -227,7 +227,7 @@ export default function ResourceContextMenu({
           </DialogHeader>
           <div className="flex w-full gap-x-2">
             <Button
-              className="w-1/2"
+              className="flex-1"
               disabled={isDeleteLoading}
               onClick={() => setOpen(false)}
             >
@@ -235,7 +235,7 @@ export default function ResourceContextMenu({
             </Button>
             <Button
               isLoading={isDeleteLoading}
-              className="w-1/2"
+              className="flex-1"
               variant="dangerous"
               onClick={handleDelete}
             >
