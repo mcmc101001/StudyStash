@@ -71,7 +71,7 @@
     "jest-environment-jsdom": "^29.6.1",
     "postcss": "^8.4.23",
     "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.3.0",
+    "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^5.0.0",
     "tailwind-scrollbar": "^3.0.4",
     "tailwindcss": "^3.3.3",
