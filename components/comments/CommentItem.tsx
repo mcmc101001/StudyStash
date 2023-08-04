@@ -443,7 +443,7 @@ export default function CommentItem({
               width={40}
               height={40}
             />
-            <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 shadow-md dark:bg-slate-800 dark:text-slate-200">
+            <div className="ml-2 flex w-full flex-col rounded-md bg-slate-200 p-4 shadow-md dark:bg-slate-800 dark:text-slate-200">
               <textarea
                 placeholder="Type comment here..."
                 spellCheck={false}
@@ -451,7 +451,7 @@ export default function CommentItem({
                 autoComplete="off"
                 value={replyValue}
                 ref={inputRef}
-                className={`min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden rounded-xl bg-slate-200 p-4 text-slate-800 
+                className={`min-h-[${DEFAULT_HEIGHT}px] w-full resize-none overflow-hidden bg-slate-200 text-slate-800 
                 outline-none scrollbar-none dark:bg-slate-800 dark:text-slate-200 dark:caret-white`}
                 onChange={() => {
                   setReplyValue(inputRef.current?.value || "");

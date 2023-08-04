@@ -13,12 +13,14 @@
   background-color: theme("colors.slate.800");
   background-repeat: no-repeat;
   background-position: 50%;
+  transition-duration: 150ms;
 }
 
 .gutter {
   background-color: theme("colors.slate.300");
   background-repeat: no-repeat;
   background-position: 50%;
+  transition-duration: 150ms;
 }
 
 .dark .gutter:hover {

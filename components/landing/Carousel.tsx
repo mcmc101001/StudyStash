@@ -6,10 +6,13 @@ import useMeasure from "react-use-measure";
 import Button from "@/components/ui/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import debounce from "lodash.debounce";
 
 interface CarouselProps {
   data: { src: string; text: string; height: number; width: number }[];
 }
+
+const CAROUSEL_DELAY_SECONDS = 0.2;
 
 export default function Carousel({ data }: CarouselProps) {
   const [currentSlide, setCurrentSlide] = useState(1);
@@ -28,15 +31,34 @@ export default function Carousel({ data }: CarouselProps) {
     }),
   };
 
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const setTimeOutAnimation = debounce(() => {
+    setIsAnimating(false);
+  }, CAROUSEL_DELAY_SECONDS * 1000);
+
+  const setPrevSlide = () => {
+    if (currentSlide === 1) return;
+    if (isAnimating) return;
+    setCurrentSlide(currentSlide - 1);
+    setIsAnimating(true);
+    setTimeOutAnimation();
+  }
+
+  const setNextSlide = () => {
+    if (currentSlide === data.length) return;
+    if (isAnimating) return;
+    setCurrentSlide(currentSlide + 1);
+    setIsAnimating(true);
+    setTimeOutAnimation();
+  }
+
   return (
     <div className="flex w-full items-center justify-center gap-x-10">
       <Button
         aria-label="Previous slide"
         disabled={currentSlide === 1}
-        onClick={() => {
-          if (currentSlide === 1) return;
-          setCurrentSlide(currentSlide - 1);
-        }}
+        onClick={setPrevSlide}
       >
         <ChevronLeft />
       </Button>
@@ -52,7 +74,7 @@ export default function Carousel({ data }: CarouselProps) {
             animate="center"
             exit="exit"
             custom={{ direction, width }}
-            transition={{ type: "spring", ease: "easeInOut", duration: 0.3 }}
+            transition={{ type: "spring", ease: "easeInOut", duration: CAROUSEL_DELAY_SECONDS }}
             className={`absolute flex max-h-full flex-1 flex-col items-center justify-center p-10`}
           >
             <Suspense
@@ -74,10 +96,7 @@ export default function Carousel({ data }: CarouselProps) {
       <Button
         aria-label="Next slide"
         disabled={currentSlide === data.length}
-        onClick={() => {
-          if (currentSlide === data.length) return;
-          setCurrentSlide(currentSlide + 1);
-        }}
+        onClick={setNextSlide}
       >
         <ChevronRight />
       </Button>
