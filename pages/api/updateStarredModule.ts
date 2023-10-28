@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const updateStarredModuleSchema = z.object({
   moduleCode: z.string(),
@@ -11,11 +12,6 @@ const updateStarredModuleSchema = z.object({
 });
 
 export type updateStarredModuleType = z.infer<typeof updateStarredModuleSchema>;
-
-function isValidBody(body: any): body is updateStarredModuleType {
-  const { success } = updateStarredModuleSchema.safeParse(body);
-  return success;
-}
 
 export default async function updateStarredModule(
   req: NextApiRequest,
@@ -30,7 +26,7 @@ export default async function updateStarredModule(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateStarredModuleSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

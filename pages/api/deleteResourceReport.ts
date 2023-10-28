@@ -9,6 +9,7 @@ import {
 } from "@prisma/client";
 import { ResourceEnum } from "@/lib/content";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const deleteResourceReportSchema = z.object({
   category: ResourceEnum,
@@ -18,11 +19,6 @@ const deleteResourceReportSchema = z.object({
 export type deleteResourceReportType = z.infer<
   typeof deleteResourceReportSchema
 >;
-
-function isValidBody(body: any): body is deleteResourceReportType {
-  const { success } = deleteResourceReportSchema.safeParse(body);
-  return success;
-}
 
 export default async function deleteResourceReport(
   req: NextApiRequest,
@@ -47,7 +43,7 @@ export default async function deleteResourceReport(
       return;
     }
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, deleteResourceReportSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 

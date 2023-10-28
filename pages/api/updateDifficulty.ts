@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const updateDifficultySchema = z.object({
   resourceId: z.string(),
@@ -11,11 +12,6 @@ const updateDifficultySchema = z.object({
 });
 
 export type updateDifficultyType = z.infer<typeof updateDifficultySchema>;
-
-function isValidBody(body: any): body is updateDifficultyType {
-  const { success } = updateDifficultySchema.safeParse(body);
-  return success;
-}
 
 export default async function updateDifficulty(
   req: NextApiRequest,
@@ -30,7 +26,7 @@ export default async function updateDifficulty(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateDifficultySchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

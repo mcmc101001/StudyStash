@@ -10,6 +10,7 @@ import {
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const deleteReplySchema = z.object({
   category: ResourceSolutionEnum,
@@ -18,11 +19,6 @@ const deleteReplySchema = z.object({
 });
 
 export type deleteReplyType = z.infer<typeof deleteReplySchema>;
-
-function isValidBody(body: any): body is deleteReplyType {
-  const { success } = deleteReplySchema.safeParse(body);
-  return success;
-}
 
 export default async function deleteReply(
   req: NextApiRequest,
@@ -37,7 +33,7 @@ export default async function deleteReply(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, deleteReplySchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

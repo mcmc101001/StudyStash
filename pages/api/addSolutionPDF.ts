@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const addSolutionPDFSchema = z.object({
   name: z.string(),
@@ -11,11 +12,6 @@ const addSolutionPDFSchema = z.object({
 });
 
 export type addSolutionPDFType = z.infer<typeof addSolutionPDFSchema>;
-
-function isValidBody(body: any): body is addSolutionPDFType {
-  const { success } = addSolutionPDFSchema.safeParse(body);
-  return success;
-}
 
 export default async function addSolutionPDF(
   req: NextApiRequest,
@@ -30,7 +26,7 @@ export default async function addSolutionPDF(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, addSolutionPDFSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

@@ -5,6 +5,7 @@ import { ResourceStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const updateStatusSchema = z.object({
   category: ResourceSolutionEnum,
@@ -14,11 +15,6 @@ const updateStatusSchema = z.object({
 });
 
 export type updateStatusType = z.infer<typeof updateStatusSchema>;
-
-function isValidBody(body: any): body is updateStatusType {
-  const { success } = updateStatusSchema.safeParse(body);
-  return success;
-}
 
 export default async function updateStatus(
   req: NextApiRequest,
@@ -33,7 +29,7 @@ export default async function updateStatus(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateStatusSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

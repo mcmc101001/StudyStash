@@ -5,6 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { CommentReportEnum } from "@/lib/content";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const updateCommentDataSchema = z.object({
   type: z.nativeEnum(CommentReportType),
@@ -15,11 +16,6 @@ const updateCommentDataSchema = z.object({
 });
 
 export type updateCommentDataType = z.infer<typeof updateCommentDataSchema>;
-
-function isValidBody(body: any): body is updateCommentDataType {
-  const { success } = updateCommentDataSchema.safeParse(body);
-  return success;
-}
 
 export default async function updateCommentData(
   req: NextApiRequest,
@@ -34,7 +30,7 @@ export default async function updateCommentData(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateCommentDataSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 

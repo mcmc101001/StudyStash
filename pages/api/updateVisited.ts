@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const MAX_RECENT_ITEMS = 10;
 
@@ -14,16 +15,12 @@ const updateVisitedSchema = z.object({
 });
 
 export type updateVisitedType = z.infer<typeof updateVisitedSchema>;
+
 export interface VisitedDataType {
   visitedCheatsheets: string[];
   visitedPastPapers: string[];
   visitedNotes: string[];
   visitedSolutions: string[];
-}
-
-function isValidBody(body: any): body is updateVisitedType {
-  const { success } = updateVisitedSchema.safeParse(body);
-  return success;
 }
 
 export default async function updateVisited(
@@ -39,7 +36,7 @@ export default async function updateVisited(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateVisitedSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

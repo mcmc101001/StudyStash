@@ -8,9 +8,9 @@ import {
   Notes,
   QuestionPaper,
   SemesterType,
-  Solution,
 } from "@prisma/client";
 import { ResourceEnum } from "@/lib/content";
+import { isValidBody } from "@/lib/utils";
 import z from "zod";
 
 const addPDFSchema = z.object({
@@ -26,11 +26,6 @@ const addPDFSchema = z.object({
 
 export type addPDFType = z.infer<typeof addPDFSchema>;
 
-function isValidBody(body: any): body is addPDFType {
-  const { success } = addPDFSchema.safeParse(body);
-  return success;
-}
-
 export default async function addPDF(
   req: NextApiRequest,
   res: NextApiResponse
@@ -44,7 +39,7 @@ export default async function addPDF(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, addPDFSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

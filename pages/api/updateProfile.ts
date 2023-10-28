@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const updateProfileSchema = z.object({
   userId: z.string(),
@@ -11,11 +12,6 @@ const updateProfileSchema = z.object({
 });
 
 export type updateProfileType = z.infer<typeof updateProfileSchema>;
-
-function isValidBody(body: any): body is updateProfileType {
-  const { success } = updateProfileSchema.safeParse(body);
-  return success;
-}
 
 export default async function updateProfile(
   req: NextApiRequest,
@@ -30,7 +26,7 @@ export default async function updateProfile(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateProfileSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {
