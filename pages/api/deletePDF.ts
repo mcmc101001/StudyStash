@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { ResourceSolutionEnum } from "@/lib/content";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const deletePDFSchema = z.object({
   userId: z.string(),
@@ -12,11 +13,6 @@ const deletePDFSchema = z.object({
 });
 
 export type deletePDFType = z.infer<typeof deletePDFSchema>;
-
-function isValidBody(body: any): body is deletePDFType {
-  const { success } = deletePDFSchema.safeParse(body);
-  return success;
-}
 
 export default async function deletePDF(
   req: NextApiRequest,
@@ -31,7 +27,7 @@ export default async function deletePDF(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, deletePDFSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

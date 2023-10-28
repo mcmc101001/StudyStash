@@ -5,6 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { deleteS3ObjectLib } from "@/lib/aws_s3_sdk";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const updateSolutionDataSchema = z.object({
   type: z.nativeEnum(SolutionReportType),
@@ -14,11 +15,6 @@ const updateSolutionDataSchema = z.object({
 });
 
 export type updateSolutionDataType = z.infer<typeof updateSolutionDataSchema>;
-
-function isValidBody(body: any): body is updateSolutionDataType {
-  const { success } = updateSolutionDataSchema.safeParse(body);
-  return success;
-}
 
 export default async function updateSolutionData(
   req: NextApiRequest,
@@ -33,7 +29,7 @@ export default async function updateSolutionData(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateSolutionDataSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 

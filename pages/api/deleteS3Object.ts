@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { deleteS3ObjectLib } from "@/lib/aws_s3_sdk";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const deleteS3ObjectSchema = z.object({
   userId: z.string(),
@@ -10,11 +11,6 @@ const deleteS3ObjectSchema = z.object({
 });
 
 export type deleteS3ObjectType = z.infer<typeof deleteS3ObjectSchema>;
-
-function isValidBody(body: any): body is deleteS3ObjectType {
-  const { success } = deleteS3ObjectSchema.safeParse(body);
-  return success;
-}
 
 export default async function deleteS3Object(
   req: NextApiRequest,
@@ -29,7 +25,7 @@ export default async function deleteS3Object(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, deleteS3ObjectSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

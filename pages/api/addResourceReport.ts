@@ -10,6 +10,7 @@ import {
 } from "@prisma/client";
 import { ResourceEnum } from "@/lib/content";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const addResourceReportSchema = z.object({
   category: ResourceEnum,
@@ -19,11 +20,6 @@ const addResourceReportSchema = z.object({
 });
 
 export type addResourceReportType = z.infer<typeof addResourceReportSchema>;
-
-function isValidBody(body: any): body is addResourceReportType {
-  const { success } = addResourceReportSchema.safeParse(body);
-  return success;
-}
 
 export default async function addResourceReport(
   req: NextApiRequest,
@@ -38,7 +34,7 @@ export default async function addResourceReport(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, addResourceReportSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.reporterId) {

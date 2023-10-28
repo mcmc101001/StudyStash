@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const updateCommentVoteSchema = z.object({
   commentId: z.string(),
@@ -13,11 +14,6 @@ const updateCommentVoteSchema = z.object({
 });
 
 export type updateCommentVoteType = z.infer<typeof updateCommentVoteSchema>;
-
-function isValidBody(body: any): body is updateCommentVoteType {
-  const { success } = updateCommentVoteSchema.safeParse(body);
-  return success;
-}
 
 export default async function updateCommentVote(
   req: NextApiRequest,
@@ -32,7 +28,7 @@ export default async function updateCommentVote(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateCommentVoteSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

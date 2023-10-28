@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const deleteCommentReportSchema = z.object({
   category: CommentReportEnum,
@@ -11,11 +12,6 @@ const deleteCommentReportSchema = z.object({
 });
 
 export type deleteCommentReportType = z.infer<typeof deleteCommentReportSchema>;
-
-function isValidBody(body: any): body is deleteCommentReportType {
-  const { success } = deleteCommentReportSchema.safeParse(body);
-  return success;
-}
 
 export default async function deleteCommentReport(
   req: NextApiRequest,
@@ -40,7 +36,7 @@ export default async function deleteCommentReport(
       return;
     }
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, deleteCommentReportSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 

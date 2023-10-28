@@ -5,6 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { ResourceEnum } from "@/lib/content";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const updateResourceDataSchema = z.object({
   type: z.nativeEnum(ResourceReportType),
@@ -15,11 +16,6 @@ const updateResourceDataSchema = z.object({
 });
 
 export type updateResourceDataType = z.infer<typeof updateResourceDataSchema>;
-
-function isValidBody(body: any): body is updateResourceDataType {
-  const { success } = updateResourceDataSchema.safeParse(body);
-  return success;
-}
 
 export default async function updateResourceData(
   req: NextApiRequest,
@@ -34,7 +30,7 @@ export default async function updateResourceData(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, updateResourceDataSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 

@@ -10,6 +10,7 @@ import {
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const addCommentSchema = z.object({
   category: ResourceSolutionEnum,
@@ -19,11 +20,6 @@ const addCommentSchema = z.object({
 });
 
 export type addCommentType = z.infer<typeof addCommentSchema>;
-
-function isValidBody(body: any): body is addCommentType {
-  const { success } = addCommentSchema.safeParse(body);
-  return success;
-}
 
 export default async function addComment(
   req: NextApiRequest,
@@ -38,7 +34,7 @@ export default async function addComment(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, addCommentSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

@@ -10,6 +10,7 @@ import {
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const addReplySchema = z.object({
   category: ResourceSolutionEnum,
@@ -19,11 +20,6 @@ const addReplySchema = z.object({
 });
 
 export type addReplyType = z.infer<typeof addReplySchema>;
-
-function isValidBody(body: any): body is addReplyType {
-  const { success } = addReplySchema.safeParse(body);
-  return success;
-}
 
 export default async function addReply(
   req: NextApiRequest,
@@ -38,7 +34,7 @@ export default async function addReply(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, addReplySchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

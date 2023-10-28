@@ -2,18 +2,15 @@ import { authOptions } from "@/lib/auth";
 import { ResourceSolutionEnum } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import {
-  CheatsheetComment,
   CheatsheetReply,
-  NotesComment,
   NotesReply,
-  QuestionPaperComment,
   QuestionPaperReply,
-  SolutionComment,
   SolutionReply,
 } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const editReplySchema = z.object({
   category: ResourceSolutionEnum,
@@ -23,11 +20,6 @@ const editReplySchema = z.object({
 });
 
 export type editReplyType = z.infer<typeof editReplySchema>;
-
-function isValidBody(body: any): body is editReplyType {
-  const { success } = editReplySchema.safeParse(body);
-  return success;
-}
 
 export default async function editReply(
   req: NextApiRequest,
@@ -42,7 +34,7 @@ export default async function editReply(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, editReplySchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.userId) {

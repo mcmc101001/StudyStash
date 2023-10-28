@@ -3,17 +3,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { createPresignedShareUrl } from "@/lib/aws_s3_sdk";
 import z from "zod";
+import { isValidBody } from "@/lib/utils";
 
 const generateS3ShareURLSchema = z.object({
   resourceId: z.string(),
 });
 
 export type generateS3ShareURLType = z.infer<typeof generateS3ShareURLSchema>;
-
-function isValidBody(body: any): body is generateS3ShareURLType {
-  const { success } = generateS3ShareURLSchema.safeParse(body);
-  return success;
-}
 
 export const config = {
   api: {
@@ -32,7 +28,7 @@ export default async function generateS3ShareURL(
   }
 
   const session = await getServerSession(req, res, authOptions);
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, generateS3ShareURLSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 

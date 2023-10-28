@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { CommentReportType } from "@prisma/client";
 import { CommentReportEnum } from "@/lib/content";
+import { isValidBody } from "@/lib/utils";
 import z from "zod";
 
 const addCommentReportSchema = z.object({
@@ -14,11 +15,6 @@ const addCommentReportSchema = z.object({
 });
 
 export type addCommentReportType = z.infer<typeof addCommentReportSchema>;
-
-function isValidBody(body: any): body is addCommentReportType {
-  const { success } = addCommentReportSchema.safeParse(body);
-  return success;
-}
 
 export default async function addCommentReport(
   req: NextApiRequest,
@@ -33,7 +29,7 @@ export default async function addCommentReport(
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
-  if (!isValidBody(req.body)) {
+  if (!isValidBody(req.body, addCommentReportSchema)) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   if (session.user.id !== req.body.reporterId) {
