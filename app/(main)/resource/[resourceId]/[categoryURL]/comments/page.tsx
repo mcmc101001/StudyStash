@@ -20,7 +20,6 @@ export default async function SolutionCommentsPage({
 
   return (
     <div className="h-full w-full">
-      {/* @ts-expect-error Server Component */}
       <CommentsSection
         label={
           category === "Past Papers" ? "Question paper comments" : "Comments"

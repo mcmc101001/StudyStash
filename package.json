@@ -27,10 +27,10 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/react-table": "^8.9.3",
     "@types/node": "20.5.1",
-    "@types/react": "18.2.14",
+    "@types/react": "^18.2.14",
     "@types/react-dom": "18.2.7",
     "@vercel/analytics": "^1.0.2",
-    "axios": "^1.4.0",
+    "axios": "^1.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^1.2.1",
     "cross-env": "^7.0.3",
@@ -65,7 +65,7 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/jest": "^29.5.2",
-    "@types/lodash.debounce": "^4.0.7",
+    "@types/lodash.debounce": "^4.0.8",
     "autoprefixer": "^10.4.16",
     "cypress": "^13.3.3",
     "cypress-social-logins": "^1.14.1",
@@ -74,10 +74,10 @@
     "postcss": "^8.4.31",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.4.1",
-    "prisma": "^5.0.0",
+    "prisma": "^5.5.2",
     "tailwind-scrollbar": "^3.0.4",
     "tailwindcss": "^3.3.3",
     "tailwindcss-animate": "^1.0.6",
-    "typescript": "^5.0.4"
+    "typescript": "^5.2.2"
   }
 }
