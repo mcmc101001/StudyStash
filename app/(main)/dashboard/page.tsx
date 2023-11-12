@@ -60,7 +60,6 @@ export default async function DashboardPage({
           />
         </section>
         <section className="h-full w-[77%] border-l-2 border-slate-300 pl-6 dark:border-slate-700">
-          {/* @ts-expect-error Server components */}
           <DashboardResourcesSection
             filterModuleCode={searchParams.filterModuleCode}
             filterCategory={searchParams.filterCategory}

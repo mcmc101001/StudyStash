@@ -7,7 +7,6 @@ export default async function Layout({
 }) {
   return (
     <>
-      {/* @ts-expect-error Server component */}
       <Navbar />
       <div className="h-screen w-[calc(100vw-6rem)]">{children}</div>
     </>

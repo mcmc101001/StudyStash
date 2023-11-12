@@ -92,7 +92,6 @@ export default async function Navbar() {
           <li className="mb-2 mt-auto">
             <DarkModeTogglerNoSSR />
             <div className="mt-8">
-              {/* @ts-expect-error Server Component */}
               <UserProfilePic />
             </div>
           </li>

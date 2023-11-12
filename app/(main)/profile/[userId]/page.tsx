@@ -93,7 +93,6 @@ export default async function ProfilePageUser({
           />
         </section>
         <section>
-          {/* @ts-expect-error Server Component */}
           <UserAchievementsSection userId={profileUser.id} />
         </section>
       </div>
@@ -105,7 +104,6 @@ export default async function ProfilePageUser({
         <h1 className="mb-4 text-3xl font-semibold text-slate-800 dark:text-white">
           My resources
         </h1>
-        {/* @ts-expect-error Server Component */}
         <UserResourcesSection
           filterModuleCode={searchParams.filterModuleCode}
           filterCategory={searchParams.filterCategory}

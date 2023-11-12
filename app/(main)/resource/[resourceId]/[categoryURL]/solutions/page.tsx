@@ -97,7 +97,6 @@ export default async function SolutionPage({
         >
           {sortedSolutions.map((solution) => {
             return (
-              // @ts-expect-error Server component
               <SolutionItem
                 key={solution.id}
                 questionPaperId={resourceId}

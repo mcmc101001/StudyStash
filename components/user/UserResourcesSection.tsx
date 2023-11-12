@@ -150,7 +150,6 @@ export default async function UserResourcesSection({
                 <ul className="flex flex-col gap-y-6">
                   {resourcesWithRating.map((resource) => {
                     return (
-                      /* @ts-expect-error Server Component */
                       <ResourceItem
                         key={resource.id}
                         resourceId={resource.id}

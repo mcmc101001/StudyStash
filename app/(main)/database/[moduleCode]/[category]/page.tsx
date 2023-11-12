@@ -153,7 +153,6 @@ export default async function Page({
         >
           {sortedResources.map((resource, index) => {
             return (
-              // @ts-expect-error Server component
               <ResourceItem
                 key={resource.id}
                 resourceId={resource.id}

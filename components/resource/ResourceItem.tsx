@@ -273,7 +273,6 @@ export default async function ResourceItem({
         {/* @container breaks tooltips */}
         <ResourceSheetLauncher
           commentsSection={
-            // @ts-expect-error Server component
             <CommentsSection
               label="Comments"
               className="h-[90vh]"

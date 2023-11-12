@@ -111,7 +111,6 @@ export default async function SpecificSolutionPage({
               solution.comments.filter((comment) => !comment.isDeleted).length
             }
           >
-            {/* @ts-expect-error Server component */}
             <CommentsSection resourceId={solutionId} category="Solutions" />
           </SolutionCommentAccordian>
         </div>
