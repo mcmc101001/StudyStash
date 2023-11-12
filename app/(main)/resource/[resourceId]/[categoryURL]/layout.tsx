@@ -213,7 +213,7 @@ export default async function ResourcePage({
                   userRating={userRating}
                   resourceId={resourceId}
                 />
-                <div className="flex overflow-scroll whitespace-nowrap scrollbar-none">
+                <div className="flex gap-x-2 overflow-scroll whitespace-nowrap scrollbar-none">
                   {resource.name}
                   {category === "Past Papers" && solutionIncluded && (
                     <SolutionIncludedIndicator />
