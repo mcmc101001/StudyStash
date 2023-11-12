@@ -219,7 +219,7 @@ export default async function ResourcePage({
                     <SolutionIncludedIndicator />
                   )}
                 </div>
-                <div>
+                <div className="-ml-2">
                   {currentUser && (
                     <ResourceStatusProvider
                       category={category}
