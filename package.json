@@ -27,7 +27,7 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/react-table": "^8.9.3",
     "@types/node": "20.5.1",
-    "@types/react": "^18.2.14",
+    "@types/react": "^18.2.43",
     "@types/react-dom": "18.2.7",
     "@vercel/analytics": "^1.0.2",
     "axios": "^1.6.0",
