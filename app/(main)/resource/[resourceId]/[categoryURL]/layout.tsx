@@ -194,8 +194,20 @@ export default async function ResourcePage({
   const userRating = userVote !== null ? userVote.value : null;
   const userStatusValue = userStatus !== null ? userStatus.status : null;
 
-  // @ts-expect-error Wrong type inference for category past papers
-  const solutionIncluded = resource?.solutionIncluded;
+  function getSolutionIncluded(
+    resource:
+      | (Notes & { votes: NotesVote[] })
+      | (Cheatsheet & { votes: CheatsheetVote[] })
+      | (QuestionPaper & { votes: QuestionPaperVote[] })
+  ): resource is QuestionPaper & { votes: QuestionPaperVote[] } {
+    if ("solutionIncluded" in resource) {
+      return resource.solutionIncluded;
+    } else {
+      return false;
+    }
+  }
+
+  const solutionIncluded = getSolutionIncluded(resource);
 
   const PDFURL = `https://${process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DOMAIN}/${resourceId}`;
 
