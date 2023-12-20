@@ -67,7 +67,6 @@ export default async function Page({
     | CheatsheetWithPosts
     | QuestionPaperWithPosts
     | NotesWithPosts;
-  let sortedResources;
   let category: ResourceType;
   if (params.category === "cheatsheets") {
     category = "Cheatsheets";
@@ -107,7 +106,7 @@ export default async function Page({
   } else {
     redirect("/404");
   }
-  sortedResources = getRating(parsedResources);
+  let sortedResources = getRating(parsedResources);
   if (params.category === "past_papers") {
     // @ts-expect-error Wrong type inference
     sortedResources = getAvgDifficulty(sortedResources);
