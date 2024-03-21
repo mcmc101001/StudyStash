@@ -199,7 +199,7 @@ export default async function Home() {
           </Link>
         </motion.div>
       </section>
-      <section
+      {/* <section
         id="video"
         className="mx-auto flex h-screen flex-col items-center justify-center gap-y-6 text-center"
       >
@@ -219,7 +219,7 @@ export default async function Home() {
             src="https://www.youtube.com/embed/Rdhrr8w43kI?si=PrTcGfHmVIt0QrbL"
           />
         </motion.div>
-      </section>
+      </section> */}
       <section
         id="features"
         className="mx-auto flex h-screen max-w-4xl flex-col items-center justify-center text-center xl:max-w-6xl"
