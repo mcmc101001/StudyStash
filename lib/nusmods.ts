@@ -51,7 +51,7 @@ export function getAcadYearOptions() {
 export function getAcadYear() {
   const currentDate = new Date();
   let acadYear: string;
-  if (currentDate.getMonth() < 6) {
+  if (currentDate.getMonth() < 8) {
     acadYear = `${currentDate.getFullYear() - 1}-${currentDate.getFullYear()}`;
   } else {
     acadYear = `${currentDate.getFullYear()}-${currentDate.getFullYear() + 1}`;
